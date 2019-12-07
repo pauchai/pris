@@ -9,9 +9,18 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'linkAssets' => true,
+        ],
+        'view' => [
+        //    'theme' => 'vova07\themes\site_default\Theme'
+            //'theme' => 'vova07\themes_bs4\sb_admin\Theme'
+        'theme' => 'vova07\themes_bs4\adminlte2\Theme',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -44,6 +53,36 @@ return [
             ],
         ],
         */
+
     ],
+    //"aliases" => [
+    //"@vova07/themes" => "@vendor_local/vova07/yii2-start-themes",
+    //],
+    'bootstrap' => [
+        'log',
+        //'vova07\themes\Bootstrap'
+    ],
+    'extensions' => array_merge(
+        (require __DIR__. '/../../vendor/yiisoft/extensions.php'),
+        [
+            'vova07/themes' => [
+                'name' => 'Application Information Dumper',
+                'version' => '1.0.0',
+                'bootstrap' => 'vova07\themes\Bootstrap',
+                'alias' => ['@vova07/themes' => '@vendor_local/vova07/yii2-start-themes']
+            ],
+            'vova07/themes_bs4' => [
+                'name' => 'Application Information Dumper1',
+                'version' => '1.0.0',
+                'bootstrap' => 'vova07\themes_bs4\Bootstrap',
+                'alias' => ['@vova07/themes_bs4' => '@vendor_local/vova07/yii2-start-themes-bs4']
+            ],
+
+
+
+
+        ]
+
+    ),
     'params' => $params,
 ];

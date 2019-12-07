@@ -1,0 +1,220 @@
+<?php
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Html;
+use vova07\plans\Module;
+/**
+ * @var $this \yii\web\View
+ * @var $program \vova07\plans\models\Program
+ * @var $newParticipant \vova07\plans\models\ProgramPrisoner
+ */
+$this->title = Module::t("default","PROGRAM");
+$this->params['subtitle'] = $program->programDict->title;
+$this->params['breadcrumbs'] = [
+    [
+        'label' => $this->title,
+        'url' => ['index'],
+    ],
+    $this->params['subtitle']
+];
+?>
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
+    [
+        'title' => $this->params['subtitle'],
+        'buttonsTemplate' => '{update}{delete}'
+    ]
+);?>
+
+<?php echo \yii\widgets\DetailView::widget([
+    'model' => $program,
+    'attributes' => [
+        'programDict.title',
+        'prison.company.title',
+        'order_no',
+        'date_start'
+
+    ]
+])?>
+
+<?php $box = \vova07\themes\adminlte2\widgets\Box::end()?>
+
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
+    [
+        'title' => Module::t("default","PROGRAM_PARTICIPANTS"),
+
+    ]
+);?>
+
+<?php echo \yii\grid\GridView::widget(['id' => 'participants','dataProvider' => $dataProvider,
+    'columns' => [
+        ['class' => yii\grid\SerialColumn::class],
+        'prisoner.person.fio',
+
+
+        [
+                'class' => yii\grid\ActionColumn::class,
+            'header' =>Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
+                \yii\jui\DatePicker::widget([
+                    'id' => 'newDateColumnDatePicker',
+                    'dateFormat' => 'yyyy-MM-dd',
+                    'options' => [
+                        'placeholder'=>Module::t('programs','SELECT_DATE')
+                    ]
+                ])
+        ]
+    ]
+])?>
+
+
+<?php \yii\widgets\Pjax::begin()?>
+<?php $form = ActiveForm::begin(
+       [
+    'action' => ['add-participant'],
+    'options' => [
+            'data'=>['pjax'=>true]
+    ]
+    ]);
+?>
+<table >
+    <thead>
+    <tr>
+        <th><?php echo \vova07\plans\Module::t('programs','PROGRAM_LABEL')?></th>
+        <th><?php echo \vova07\plans\Module::t('programs','PRISONER_LABEL')?></th>
+        <th><?php echo \vova07\plans\Module::t('programs','STATUS_LABEL')?></th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr>
+        <td><?=$form->field($newParticipant,'program_id')->label(false)?></td>
+        <td><?=$form->field($newParticipant,'prisoner_id')->label(false)->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\plans\Module::t('programs','SELECT_PRISONER')])?></td>
+        <td><?=$form->field($newParticipant,'status_id')->label(false)->dropDownList(\vova07\plans\models\ProgramPrisoner::getStatusesForCombo(),['prompt'=>\vova07\plans\Module::t('programs','SELECT_STATUS')])?></td>
+    </tr>
+    </tbody>
+</table>
+<script  id="datePickerTemplate" type="text/template" >
+    <?php echo \yii\jui\DatePicker::widget([
+        'id' => 'newDateColumnDatePicker',
+        'options' => [
+            'placeholder'=>Module::t('programs','SELECT_DATE')
+        ]
+    ])?>
+</script>
+<script  id="ProgramVisitTemplate" type="text/template" >
+
+    <?php
+            $programParams = [
+                'program_id' => $newParticipant->program_id,
+                'prisoner_id' => '${prisoner_id}',
+                'date_visit' => '${date_visit}',
+            ];
+            $programVisit = new \vova07\plans\models\ProgramVisit($programParams);
+            $action = [];
+            $action[0] = 'program-visits/create';
+    ?>
+
+    <?php echo Html::Begintag('div',['id'=>'${pjax_container_id}']);?>
+    <?php  $form = ActiveForm::begin(['action' => $action,
+        'options' => [
+             'data'=>['pjax'=>true]
+        ]
+        ]);
+
+    echo $form->field($programVisit,'program_id')->hiddenInput()->label(false);
+    echo $form->field($programVisit,'prisoner_id')->hiddenInput()->label(false);
+    echo $form->field($programVisit,'date_visit')->hiddenInput()->label(false);
+    echo $form->field($programVisit,'status_id')->label(false)->dropDownList(\vova07\plans\models\ProgramVisit::getStatusesForCombo(),['prompt'=>Module::t('programs','SELECT_STATUS')]);
+
+    ActiveForm::end();?>
+    <?php echo Html::endTag('div')?>
+
+</script>
+
+<?php $box->beginFooter()?>
+
+<?php echo \yii\bootstrap\Html::submitButton(Module::t('programs','SUBMIT'))?>
+<?php $box->endFooter()?>
+<?php ActiveForm::end()?>
+
+<?php \yii\widgets\Pjax::end()?>
+<?php $box = \vova07\themes\adminlte2\widgets\Box::end()?>
+
+
+<?php
+    $this->registerJs(
+<<<JS
+    PARTICIPANTS_GRID = {
+        selectedDate:null,
+        getTemplate:function(name){
+            var resultText  = $('#' + name).html() 
+            return  resultText;
+        },
+        showNewRow:function(){
+          var rowTemplate = $('#rowTemplate').html();
+          $('#participants>tbody').append(rowTemplate);  
+        },
+        tokenizeTemplate:function(name){
+            var template = this.getTemplate(name);
+           var tokens = template.split(/\\$\{(.+?)\}/g);
+           return tokens;
+        },
+      
+        renderTemplate(name, params){
+            itemsTpl = this.tokenizeTemplate(name);
+            return itemsTpl.map(
+                    function(tok, i) { return (i % 2) ? params[tok] : tok; }
+                ).join('');
+            },
+        
+        onNewDateColumn:function(){
+                     
+        }
+    }
+    
+   $("#participants>").on('change','td form select', function(e){
+      // alert('test');
+       $(this).parents('form').submit();
+   }) ;
+   $("#participants>table").on('click','#newDateColumnButton',function(e){
+        PARTICIPANTS_GRID.selectedDate = $('#newDateColumnDatePicker').val();
+        $('#newDateColumnDatePicker').val(null)
+       if (!PARTICIPANTS_GRID.selectedDate){
+           alert("SELECT DATE");
+           return;
+           
+       };
+      currentThEl = $(this).parent('th');
+            currIndex = currentThEl.index();
+            
+            td = $('<th></th>').insertBefore(currentThEl);
+            newInput = $('<input/>').val(PARTICIPANTS_GRID.selectedDate)
+            td.append(newInput);
+            $('#participants>table>tbody>tr td:nth-child('+(currIndex+1)+')').each(function(){
+                var td = $('<td></td>').insertBefore($(this));
+                tr = $(this).parent('tr');
+                pjaxContainerId = 'pjax'+ tr.data('key').prisoner_id + '_' + tr.data('key').program_id + '_' + PARTICIPANTS_GRID.selectedDate ;
+                  $(document).on('submit', '#' + pjaxContainerId + '>form', function(event) {
+                              $.pjax.submit(event, '#' + pjaxContainerId)
+                             });
+                td.append(PARTICIPANTS_GRID.renderTemplate('ProgramVisitTemplate',
+                {
+                    prisoner_id:tr.data('key').prisoner_id,
+                    date_visit:PARTICIPANTS_GRID.selectedDate,
+                    pjax_container_id:pjaxContainerId,
+                    
+                }));
+                          
+            });
+
+       
+   })
+    //PARTICIPANTS_GRID.showNewRow();
+   // $("#participants").on('change','#programprisoner-prisoner_id',function(e){
+    //   PARTICIPANTS_GRID.showNewRow(); 
+    //})
+    
+
+JS
+
+    )
+
+?>

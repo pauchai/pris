@@ -1,0 +1,264 @@
+<?php namespace common\tests\unit;
+
+use common\fixtures\IdentFixture;
+use common\fixtures\ItemFixture;
+use common\fixtures\UserFixture;
+use PHPUnit\Framework\TestResult;
+use vova07\base\ModelGenerator\Facade;
+use vova07\base\ModelsFactory;
+use vova07\base\ModelTableGenerator;
+use vova07\prisons\models\Company;
+use vova07\prisons\models\Prison;
+use vova07\users\models\Ident;
+use vova07\base\models\Item;
+use vova07\users\models\Person;
+use vova07\users\models\User;
+
+
+class ActiveMetaDataModelTest extends \Codeception\Test\Unit
+{
+    /**
+     * @var \common\tests\UnitTester
+     */
+    protected $tester;
+
+
+
+    public function _before()
+    {
+        $this->tester->haveFixtures([
+            'users' => [
+                'class' => UserFixture::className(),
+            ],
+            'items' => [
+                'class' => ItemFixture::className(),
+            ],
+            'ident' => [
+                'class' => IdentFixture::className(),
+            ]
+
+
+        ]);
+    }
+
+    protected function _after()
+    {
+    }
+
+
+
+    private function testModelWithExtraFields()
+    {
+        $adminUser = $this->tester->grabFixture('users','admin');
+        \Yii::$app->user->login($adminUser);
+        $userGenerator =   \Faker\Factory::create('ro_RO');
+        $prison = new Prison();
+        $prison->title = $userGenerator->company;
+
+        expect("prison save true",$prison->save())->true();
+        expect("__company_id not null", $prison->__company_id)->notNull();
+
+        $sector = $prison->getSectors()->new(['title' => 'sector 1']);
+
+    }
+     public function testModelsRelation()
+    {
+
+
+        //$adminUser = User::findOne('id=' . 1);
+        $adminUser = $this->tester->grabFixture('users','admin');
+        \Yii::$app->user->login($adminUser);
+        $userGenerator =   \Faker\Factory::create('ro_RO');
+
+
+        $ident = new \vova07\users\models\Ident();
+         expect("ident must save",Facade::store($ident))->true();
+        $saved_ident = Ident::findOne($ident->primaryKey);
+        expect("ident instance of Ident ", $saved_ident )->isInstanceOf(get_class($ident));
+        expect("__ident_id not null", $ident->primaryKey)->notNull();
+        $item = Item::findOne($ident->primaryKey);
+        expect("item instance of item", $item)->isInstanceOf(Item::class);
+
+        expect ("ident->getItem is item",$ident->getItem()->one())->isInstanceOf(Item::class);
+        expect ("ident->getItem and  item is equals",$ident->getItem()->one())->equals($item);
+
+        $user = new User();
+        $user->username = $userGenerator->userName;
+        $user->password_hash = md5($userGenerator->password);
+        $user->email = $userGenerator->email;
+
+        expect ("user save true ", Facade::store($user,false))->true();
+
+        $saved_user = User::findOne($user->id);
+        expect("saved user instance of user", $saved_user)->isInstanceOf(get_class($user));
+        expect("__ident_id not null", $user->primaryKey)->notNull();
+     // expect("user.__ident_id = ident->id", $user->__ident_id)->equals($ident->id);
+        expect("__ownableitem_id not null", $user->__ownableitem_id)->notNull();
+      // expect("user.__item_id not equal ident.__item_id", $user->__item_id)->notEquals($ident->__item_id);
+//
+//
+        $user = new User();
+        $user->username = $userGenerator->userName;
+        $user->password_hash = md5($userGenerator->password);
+        $user->email = $userGenerator->email;
+        $user->linkOne($ident);
+         expect ("user save true ", Facade::store($user,false))->true();
+//        //$user->__ident_id = $ident->id;
+//
+//        $user->link('ident', $ident);
+        $saved_user = User::findOne($user->id);
+        expect("saved user instance of user", $saved_user)->isInstanceOf(get_class($user));
+        expect("__ident_id not null", $user->__ident_id)->notNull();
+        expect("user.__ident_id = ident->id", $user->__ident_id)->equals($ident->primaryKey);
+//        expect("__item_id not null", $user->__item_id)->notNull();
+//        expect("user.__item_id not equal ident.__item_id", $user->__item_id)->notEquals($ident->__item_id);
+//
+//
+        $person = new Person();
+        $person->first_name = $userGenerator->firstNameMale;
+        $person->second_name = $userGenerator->lastName;
+        $person->patronymic = $userGenerator->firstNameMale;
+        //$person->photo_url = $userGenerator->imageUrl(640,480,'people');
+//        //$person->__ident_id = $ident->id;
+        $person->linkOne( $ident);
+         expect ("person save true ", Facade::store($person,false))->true();
+        $saved_person = Person::findOne($person->primaryKey);
+        expect("saved person instance of person", $saved_person)->isInstanceOf(get_class($person));
+
+        expect("person.__ident_id = ident->id", $person->primaryKey)->equals($ident->primaryKey);
+
+         $user->username = $userGenerator->userName;
+         expect ("person save true ", Facade::store($person,false))->true();
+         expect("person.__ident_id = ident->id", $person->primaryKey)->equals($ident->primaryKey);
+
+//        expect("__item_id not null", $person->__item_id)->notNull();
+//        expect("person.__item_id not equal ident.__item_id", $person->__item_id)->notEquals($ident->__item_id);
+//
+//
+//        $person = new Person();
+//        $person->first_name = $userGenerator->firstNameMale;
+//        $person->second_name = $userGenerator->lastName;
+//        $person->patronymic = $userGenerator->firstNameMale;
+//        //$person->photo_url = $userGenerator->imageUrl(640,480,'people');
+//        expect ("person save true ", $person->save(false))->true();
+//        $saved_person = Person::findOne($person->id);
+//        expect("saved person instance of person", $saved_person)->isInstanceOf(get_class($person));
+//        expect("__ident_id not null", $person->__ident_id)->notNull();
+//         expect("__item_id not null", $person->__item_id)->notNull();
+//         expect("person.__item_id not equal ident.__item_id", $person->__item_id)->notEquals($ident->__item_id);
+//        expect("person.__ident_id not equal ident.id", $person->__ident_id)->notEquals($ident->id);
+//
+//        $company = new Company();
+//        $company->title = $userGenerator->company;
+//        expect ("company save true ", $company->save(false))->true();
+//        $saved_company = Company::findOne($company->id);
+//        expect("saved company instance of company", $saved_company)->isInstanceOf(get_class($company));
+//
+//        $prison = new Prison();
+//        $prison->title = $userGenerator->company;
+//
+//        expect("prison save true",$prison->save())->true();
+//        expect("__company_id not null", $prison->__company_id)->notNull();
+//
+//        $sector = $prison->getSectors()->new(['title' => 'sector 1']);
+
+    }
+
+    /**
+     * sketch
+     */
+    private function testModels()
+    {
+        $userGenerator =   \Faker\Factory::create('ro_RO');
+
+
+        $ident = new \vova07\users\models\Ident();
+        Facade::store($ident);
+
+        $user1 = new User();
+        $user1->username = $userGenerator->userName;
+        $user1->password_hash = md5($userGenerator->password);
+        $user1->email = $userGenerator->email;
+
+        $user2 = new User();
+        $user2->username = $userGenerator->userName;
+        $user2->password_hash = md5($userGenerator->password);
+        $user2->email = $userGenerator->email;
+        //$user->__ident_id = $ident->id;
+        $user2->linkOne($ident);
+        Facade::store($user2);
+
+        $person1 = new Person();
+        $person1->first_name = $userGenerator->firstNameMale;
+        $person1->second_name = $userGenerator->lastName;
+        $person1->patronymic = $userGenerator->firstNameMale;
+        //$person->photo_url = $userGenerator->imageUrl(640,480,'people');
+        //$person->__ident_id = $ident->id;
+        $person1->linkOne($ident)->new( $ident);
+        Facade::store($person1);
+
+
+        $person2 = new Person();
+        $person2->first_name = $userGenerator->firstNameMale;
+        $person2->second_name = $userGenerator->lastName;
+        $person2->patronymic = $userGenerator->firstNameMale;
+        Facade::store($person2);
+
+        $company = new Company();
+        $company->title = $userGenerator->company;
+        Facade::store($company);
+
+
+        $prison = new Prison();
+        $prison->linkOne($company);
+
+
+        $prison->getSectors()->new(['title' => 'sector 1']);
+        $prison->getSectors()->new(['title' => 'sector 2']);
+        $prison->getSectors()->new(['title' => 'sector 3']);
+        $prison->getSectors()->new(['title' => 'sector 4']);
+        $prison->getSectors()->new(['title' => 'gosbadari']);
+        $prison->getSectors()->new(['title' => 'gosbadari']);
+
+    }
+
+    public function testModelsAccessInterface()
+    {
+        $faker =   \Faker\Factory::create('ro_RO');
+
+        //$prison = new Prison();
+
+        // prepare and attaches save propagations events
+        $prison = Facade::dispense(Prison::class);
+
+        //$prison->getCompanyOne()->load(\Yii::$app->request->post());
+
+        /**
+         * load is complexly load even for relation
+         * use with form conjunctly
+         */
+
+        $prison->load(\Yii::$app->request->post());
+        expect("", $prison->save())->true();
+
+        /**
+         * Another scenary to use
+         * use
+         *
+         */
+        $prison = new Prison;
+
+        //
+        $prison->dispenseCompany()->title = $faker->company;
+        expect("", $prison->save())->true();
+
+    }
+
+
+
+
+
+
+
+
+}

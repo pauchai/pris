@@ -19,6 +19,7 @@ class LoginCest
      */
     public function _fixtures()
     {
+
         return [
             'user' => [
                 'class' => UserFixture::className(),
@@ -32,13 +33,29 @@ class LoginCest
      */
     public function loginUser(FunctionalTester $I)
     {
-        $I->amOnPage('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
+        $I->amOnRoute('site/default/login');
+        $I->see('SIGN_IN_TO_START_SESSION');
 
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->fillField(['id'=>'loginform-username'], 'admin');
+        $I->fillField(['id'=>'loginform-password'], 'admin12345');
+
+
+        $I->click('LOGIN');
+        $I->dontSee("ERROR_MSG_INVALID_USERNAME_OR_PASSWORD");
+        $I->canSeeInCurrentUrl('/index-test.php?r=site%2Fdefault%2Flogin-info');
+
+    }
+
+    public function wrongPage(FunctionalTester $I)
+    {
+        $I->amOnRoute('site/login');
+       // $I->see('#404');
+        $I->canSeePageNotFound();
+    }
+
+    public function testRedirectPage(FunctionalTester $I)
+    {
+        $I->amOnRoute('site/default/test-redirect-login');
+        $I->canSeeInCurrentUrl('/index-test.php?r=site%2Fdefault%2Flogin');
     }
 }

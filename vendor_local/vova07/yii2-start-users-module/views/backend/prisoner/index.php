@@ -1,0 +1,149 @@
+<?php
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Html;
+use vova07\prisons\Module;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+use vova07\users\models\Prisoner;
+use vova07\users\models\backend\PrisonerSearch;
+/**
+ * @var $this \yii\web\View
+ * @var $model \vova07\prisons\models\Prison
+ * @var $dataProvider \yii\data\ActiveDataProvider
+ */
+$this->title = Module::t("default","PRISONERS");
+$this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
+?>
+
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
+    [
+        'title' => $this->params['subtitle'],
+        'buttonsTemplate' => '{create}'
+    ]
+
+);?>
+
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => yii\grid\SerialColumn::class],
+        [
+            'attribute' => '__person_id',
+            'filter' => Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+
+            //'header' => '',
+           'content' => function($model){return $model->person->fio . ' ' . $model->person->birth_year;},
+           //
+           //  'value' => 'person.fio'
+        ],
+        //'person.fio',
+        //'person.birth_year',
+ /*       [
+            'attribute'  => 'prison_id',
+            'header' => '',
+            'value' => 'prison.company.title',
+            'filter' => \vova07\prisons\models\Prison::getListForCombo(),
+
+        ],*/
+        [
+            'attribute'  => 'sector_id',
+            'header' => '',
+            'value' => 'sector.title',
+            'filter' => \vova07\prisons\models\Sector::getListForCombo(),
+
+        ],
+
+        'person.IDNP',
+        //'person.buletin.seria',
+        //'person.buletin.type',
+        //'prison.company.title',
+
+        //'sector.title',
+        [
+            'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
+            'content' => function($model){
+                if ($buletin = $model->person->buletin){
+                    $content = $buletin->type . '|' . $buletin->seria;
+                    if ($buletin->isExpired()){
+                        $content = Html::tag('span', $buletin->type . '|' . Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>'label label-danger']);
+                    } else {
+                        $content = Html::tag('span', $content,['class'=>'label label-success']);
+                        if ($buletin->isAboutExpiration()){
+                            $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>'label label-warning']);
+
+                        }
+                    };
+                    return $content;
+
+
+                }
+            }
+        ],
+
+        [
+            'header' => '',
+            'value' => 'person.country.iso',
+        ],
+        'person.address',
+
+        'article',
+        [
+            'attribute' => 'termStartJui',
+            'filterType' => GridView::FILTER_DATE,
+        ],
+        [
+            'attribute' => 'termFinishJui',
+            'filterType' => GridView::FILTER_DATE,
+        ],
+
+        [
+            'attribute' => 'termUdoJui',
+            'filterType' => GridView::FILTER_DATE,
+        ],
+
+
+        [
+            'hidden' => $this->context->isPrintVersion,
+
+            'header' => '',
+            'content'=> function($model){return Html::img($model->person->photo_preview_url,['class'=>"img-circle img-sm"]);},
+        ],
+        [
+            'attribute' => 'status_id',
+            'content' => function($model){
+                if ($model->status_id > \vova07\users\models\Prisoner::STATUS_ACTIVE){
+                    $options = ['class'=>'label label-danger'];
+                } else if($model->status_id == \vova07\users\models\Prisoner::STATUS_ACTIVE) {
+                    $options = ['class'=>'label label-success'];
+                } else {
+                    $options = ['class'=>'label label-info'];
+                }
+                return Html::tag('span',  $model->status,$options);
+                },
+            //contentOptions' => ['class' => '.no-print'],
+            'hidden' => $this->context->isPrintVersion,
+            'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => [
+                    'allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' =>  Module::t('default','SELECT_STATUS_FILTER'), 'class'=> 'form-control', 'id' => null],
+
+        ],
+
+
+        ['class' => \kartik\grid\ActionColumn::class,
+            'hidden' => $this->context->isPrintVersion,
+
+        ],
+    ]
+])?>
+<?php \vova07\themes\adminlte2\widgets\Box::end()?>
+
+

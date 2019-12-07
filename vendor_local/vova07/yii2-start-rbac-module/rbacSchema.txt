@@ -1,0 +1,34 @@
+prisons_pertain_prison_access
+prisons_officer_new
+
+prisons_officer_update
+prisons_own_officer_update
+
+
+prisons_officer_delete
+prisons_own_officer_delete
+
+ROLES
+
+REINTEGRIST
+EDUCATOR
+SOCIALOGIST
+PSICHOLOGIST
+
+Отдел соц реинтеграции (Воспитательный отдел)
+
+Начальник ОСР (Отдел Соц Реинтеграции) Петров
+Специалист по реинтеграции (Отрядник)
+Воспитатель (Юсин)
+Психолог
+Социолог
+
+Финансовый отдел
+
+Начальник
+Специалист
+
+Отдел Логистики и администрирования
+
+Начальник
+Специалист

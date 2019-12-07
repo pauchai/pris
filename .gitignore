@@ -41,3 +41,13 @@ phpunit.phar
 /backend/web/index.php
 /backend/web/index-test.php
 /backend/web/robots.txt
+
+
+# ignore other
+/_materials
+/backend/web/assets
+composer.lock
+/statistics/web/persons/photos
+/statistics/web/persons/previews
+/backend/web/statistics
+

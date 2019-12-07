@@ -1,0 +1,39 @@
+<?php
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Html;
+use vova07\prisons\Module;
+/**
+ * @var $this \yii\web\View
+ * @var $model \vova07\prisons\models\Prison
+ * @var $box \vova07\themes\adminlte2\widgets\Box
+  */
+
+?>
+
+
+<?php $form = ActiveForm::begin()?>
+<?php if (!$model->isNewRecord):?>
+    <?=$form->field($model->company,'__ownableitem_id')->hiddenInput()?>
+<?php endif;?>
+<?=$form->field($model->company,'title')?>
+<?=$form->field($model->company,'address')?>
+<?=$form->field($model->company,'address2')?>
+
+<?php $box->beginFooter();?>
+<div class="form-group">
+    <?php if ($model->isNewRecord):?>
+    <?= Html::submitButton(Module::t('default', 'CREATE'), ['class' => 'btn btn-primary']) ?>
+    <?php else: ?>
+
+    <?= Html::submitButton(Module::t('default', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
+    <?php endif ?>
+</div>
+<?php $box->endFooter();?>
+<?php ActiveForm::end()?>
+
+
+
+
+
+
+
