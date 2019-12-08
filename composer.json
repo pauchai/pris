@@ -63,12 +63,18 @@
         {
             "name" : "la-haute-societe/yii2-save-relations-behavior",
             "type" : "vcs",
-            "url" : "/home/pauk/VCS/pauk/yii2-save-relations-behavior.git"
+            "url" : "ssh://git@localhost:2222/srv/git/pauk/yii2-save-relations-behavior.git"
         },
         {
             "name" : "lajax/yii2-translate-manager",
             "type" : "vcs",
-            "url" : "/home/pauk/VCS/pauk/yii2-translate-manager.git"
+            "url" : "ssh://git@localhost:2222/srv/git/pauk/yii2-translate-manager.git"
+        },
+        {
+            "name": "yiisoft/yii2-app-advanced",
+            "type": "vcs",
+            "url" : "ssh://git@localhost:2222/srv/git/pauk/yii2-prisons.git"
+
         }
     ]
 }
