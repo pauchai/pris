@@ -39,6 +39,7 @@ phpunit.phar
 /frontend/web/index-test.php
 /frontend/web/robots.txt
 /backend/web/index.php
+/backend/web/index*.php
 /backend/web/index-test.php
 /backend/web/robots.txt
 
@@ -47,7 +48,7 @@ phpunit.phar
 /_materials
 /backend/web/assets
 composer.lock
-/statistics/web/persons/photos
-/statistics/web/persons/previews
-/backend/web/statistics
+/statics/web/persons/photos
+/statics/web/persons/previews
+/backend/web/statics
 

@@ -27,7 +27,7 @@ class PeopleController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update','upload-photo'],
+                'actions' => ['index','create','view','delete','update','upload-photo','upload-preview-photo'],
                 'roles' => ['@']
             ]
         ];
@@ -41,6 +41,11 @@ class PeopleController extends BackendController
                 'class' => UploadAction::class,
                 'url' => $this->module->personPhotoUrl,
                 'path' => \Yii::getAlias($this->module->personPhotoPath),
+            ],
+            'upload-preview-photo' => [
+                'class' => UploadAction::class,
+                'url' => $this->module->personPreviewUrl,
+                'path' => \Yii::getAlias($this->module->personPreviewPath),
             ]
         ];
     }

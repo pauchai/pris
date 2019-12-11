@@ -12,7 +12,7 @@ use vova07\users\models\Prisoner;
  * Time: 11:30 AM
  */
 
-class PrisonerSearch extends \vova07\users\models\Prisoner
+class PrisonerSearch extends \vova07\users\models\PrisonerView
 {
 
     public function rules()
@@ -20,20 +20,17 @@ class PrisonerSearch extends \vova07\users\models\Prisoner
         return [
             [['article'],'string'],
             [['termStartJui','termFinishJui','termUdoJui'],'date'],
-            [['__person_id','prison_id', 'status_id','sector_id','person.first_name'],'safe'],
+            [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
             [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE]
-            //DateValidator::
         ];
     }
-    public function attributes()
-    {
-        return array_merge(parent::attributes(),['person.first_name']);
-    }
+
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()->joinWith('person')
+            'query' => self::find()
         ]);
+        $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
         //$dataProvider->query->active();
         if ($this->load($params) && $this->validate()){
             $dataProvider->query->andFilterWhere(

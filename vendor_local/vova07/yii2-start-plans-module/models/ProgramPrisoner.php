@@ -18,10 +18,12 @@ use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -59,6 +61,7 @@ class ProgramPrisoner extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
@@ -69,6 +72,7 @@ class ProgramPrisoner extends  Ownableitem
                 'program_id' => Schema::TYPE_INTEGER. '',
                 'mark_id' => Schema::TYPE_TINYINT. ' ',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
+                'planned_by' => $migration->integer(),
             ],
             //'primaries' => [
             //    [self::class,['program_id','prisoner_id']]
@@ -86,6 +90,8 @@ class ProgramPrisoner extends  Ownableitem
                 [self::class, 'prison_id',Prison::class,Prison::primaryKey()],
                 [self::class, 'programdict_id',ProgramDict::class,ProgramDict::primaryKey()],
                 [self::class, 'prisoner_id',Prisoner::class,Prisoner::primaryKey()],
+                [self::class, 'planned_by',Officer::class,Officer::primaryKey()],
+
             ],
 
 
@@ -145,6 +151,11 @@ class ProgramPrisoner extends  Ownableitem
     public function getPrison()
     {
         return $this->hasOne(Prison::class,['__company_id' => 'prison_id']);
+    }
+
+    public function getPlannedBy()
+    {
+        return $this->hasOne(Officer::class,['__person_id' => 'planned_by']);
     }
 
     public static function getListForCombo()
@@ -241,5 +252,11 @@ class ProgramPrisoner extends  Ownableitem
         return ArrayHelper::map(self::find()->select('programdict_id')->with('programDict')->distinct()->asArray()->all(),'programdict_id','programDict.title');
     }
 
+    public function attributeLabels()
+    {
+       return [
+         'plannedBy.person.fio' => Module::t('labels' , 'PLANNED_BY_FIO_LABEL')
+       ];
+    }
 
 }

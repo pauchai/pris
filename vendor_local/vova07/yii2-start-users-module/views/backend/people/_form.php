@@ -18,8 +18,9 @@ use vova07\countries\models\Country;
 <?=$form->field($model,'second_name')?>
 <?=$form->field($model,'patronymic')?>
 <?=$form->field($model,'birth_year')?>
-<?=$form->field($model,'photo_url')->widget(\budyaga\cropper\Widget::className(), [
-    'uploadUrl' => \yii\helpers\Url::toRoute(['upload-photo']),
+
+<?=$form->field($model,'photo_preview_url')->widget(\budyaga\cropper\Widget::className(), [
+    'uploadUrl' => \yii\helpers\Url::toRoute(['upload-preview-photo']),
 ])?>
 
 <?=$form->field($model,'citizen_id')->dropDownList(Country::getListForCombo(),['prompt' => \vova07\site\Module::t('default','SELECT')])?>

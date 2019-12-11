@@ -35,7 +35,7 @@ class PrisonerController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create','view','delete','update','upload-photo','prison-sectors','sector-cells'],
+                'actions' => ['create','view','delete','update','upload-preview-photo','upload-photo','prison-sectors','sector-cells'],
                 'roles' => ['@'],
 
             ],
@@ -56,6 +56,11 @@ class PrisonerController extends BackendController
                 'class' => UploadAction::class,
                 'url' => $this->module->personPhotoUrl,
                 'path' => \Yii::getAlias($this->module->personPhotoPath),
+            ],
+            'upload-preview-photo' => [
+                'class' => UploadAction::class,
+                'url' => $this->module->personPreviewUrl,
+                'path' => \Yii::getAlias($this->module->personPreviewPath),
             ],
             'prison-sectors' => [
                 'class' => \kartik\depdrop\DepDropAction::class,

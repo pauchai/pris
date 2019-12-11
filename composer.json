@@ -75,6 +75,12 @@
             "type": "vcs",
             "url" : "ssh://git@localhost:2222/srv/git/pauk/yii2-prisons.git"
 
+        },
+        {
+            "name": "cetver/yii2-language-selector",
+            "type": "vcs",
+            "url" : "ssh://git@localhost:2222/srv/git/pauk/yii2-language-selector.git"
+
         }
     ]
 }

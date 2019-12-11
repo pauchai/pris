@@ -224,7 +224,10 @@ class Prisoner extends  OwnableItem
 
     public function getFullTitle()
     {
-        return $this->person->fio . ', ' . $this->person->birth_year .', ' . $this->sector->title;
+        $ret =$this->person->fio . ', ' . $this->person->birth_year .', ';
+        if ($this->sector_id)
+            $ret .= ($this->sector->title);
+        return $ret;
     }
 
     public function delete()
@@ -294,6 +297,7 @@ class Prisoner extends  OwnableItem
             'termFinishJui' => Module::t('labels','TERM_FINISH_LABEL'),
             'termUdoJui' => Module::t('labels','TERM_UDO_LABEL'),
             'fullTitle' => Module::t('labels','FULL_TITLE_LABEL'),
+            'status' => Module::t('labels','PRISONER_STATUS_LABEL'),
 
          ];
     }

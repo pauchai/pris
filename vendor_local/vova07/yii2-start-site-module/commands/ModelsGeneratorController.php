@@ -22,6 +22,7 @@ use vova07\jobs\models\JobPaid;
 use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
 use vova07\jobs\models\WorkDay;
+use vova07\rbac\Module;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\PrisonerSecurity;
 use vova07\site\models\Setting;
@@ -90,12 +91,7 @@ class ModelsGeneratorController extends \yii\console\Controller
             BlankPrisoner::class,
             //            Country::class,
             Document::class,
-            ProgramDict::class,
-            ProgramPlan::class,
-            ProgramPrisoner::class,
-            ProgramVisit::class,
-            Program::class,
-            Requirement::class,
+
 
             Event::class,
             EventParticipant::class,
@@ -126,10 +122,17 @@ class ModelsGeneratorController extends \yii\console\Controller
 
             Device::class,
             DeviceAccounting::class,
-*/
+
             JobPaidList::class,
             JobPaid::class,
             DeviceAccounting::class,
+*/
+            //ProgramDict::class,
+            //ProgramPlan::class,
+            ProgramPrisoner::class,
+            ProgramVisit::class,
+           // Program::class,
+            Requirement::class,
         ];
     }
 
@@ -196,13 +199,7 @@ class ModelsGeneratorController extends \yii\console\Controller
                     'repassword' => 'admin12345',
                     'role' => 'superadmin',
             ],$ident);
-        $this->createPerson(
-            [
-                'first_name' => 'Eugen',
-                'second_name' => 'Yusin',
-                'patronymic' => 'Anatol',
-            ], $ident
-        );
+
 
 
     }
@@ -312,6 +309,26 @@ class ModelsGeneratorController extends \yii\console\Controller
             'department_id' => $departmentSocialReintegration->primaryKey,
             'company_id' => $companyPu1->primaryKey
         ],$person);
+
+        $ident = $this->createIdent();
+        $user = $this->createUser([
+            'username'=>'yus',
+            'email' => 'yus@prison.md',
+            'password' => 'yus12345',
+            'repassword' => 'yus12345',
+            'role' => Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,
+        ],$ident);
+        $person = $this->createPerson([
+            'first_name' => 'Eugen',
+            'second_name' => 'Yusin',
+            'patronymic' => 'Anatol',
+
+        ],$ident);
+        $officer = $this->createOfficer([
+            'department_id' => $departmentSocialReintegration->primaryKey,
+            'company_id' => $companyPu1->primaryKey
+        ],$person);
+
 
     }
 

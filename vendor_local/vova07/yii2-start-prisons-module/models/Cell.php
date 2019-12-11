@@ -50,7 +50,7 @@ class Cell extends  OwnableItem
                 'sector_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             ],
             'indexes' => [
-                [self::class, ['number'], true],
+                [self::class, ['sector_id','number'], true],
                 [self::class, ['sector_id']],
             ],
            // 'dependsOn' => [

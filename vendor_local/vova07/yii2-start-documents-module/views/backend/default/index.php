@@ -97,4 +97,3 @@ $this->params['breadcrumbs'] = [
     ]
 ])?>
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
-

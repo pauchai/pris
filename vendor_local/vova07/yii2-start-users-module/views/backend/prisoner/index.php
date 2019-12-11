@@ -29,12 +29,14 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         ['class' => yii\grid\SerialColumn::class],
         [
             'attribute' => '__person_id',
+
             'filter' => Prisoner::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true],
+                'attribute' => '__person_id',
+                'pluginOptions' => ['allowClear' => true ],
             ],
-            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+            'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
 
             //'header' => '',
            'content' => function($model){return $model->person->fio . ' ' . $model->person->birth_year;},
@@ -68,11 +70,12 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
             'content' => function($model){
                 if ($buletin = $model->person->buletin){
-                    $content = $buletin->type . '|' . $buletin->seria;
+                    $content = Html::tag('span', $buletin->type,['class'=>' label label-success ']);
+                    $content .= ' ' . Html::tag('span', $buletin->seria,['class'=>'  label label-success']);
                     if ($buletin->isExpired()){
-                        $content = Html::tag('span', $buletin->type . '|' . Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>'label label-danger']);
+                        $content .= Html::tag( Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>' label label-danger']);
                     } else {
-                        $content = Html::tag('span', $content,['class'=>'label label-success']);
+//                        $content = Html::tag('span', $content,['class'=>'label label-success']);
                         if ($buletin->isAboutExpiration()){
                             $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>'label label-warning']);
 
@@ -144,6 +147,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         ],
     ]
 ])?>
+
+
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 
 

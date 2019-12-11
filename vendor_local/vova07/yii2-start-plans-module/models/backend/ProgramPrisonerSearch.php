@@ -34,20 +34,28 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
         ]);
+        $this->prison_id = \Yii::$app->base->company->primaryKey;
+        $query->andFilterWhere(
+            [
+                'prison_id' => $this->prison_id,
+            ]);
+
+
         if (!($this->load($params, $formName) && $this->validate())) {
             return $dataProvider;
         }
-
+        $this->prison_id = \Yii::$app->base->company->primaryKey();
         $query->andFilterWhere(
             [
                 'programdict_id' => $this->programdict_id,
-                'prison_id' => $this->prison_id,
+
                 'prisoner_id' => $this->prisoner_id,
                 'date_plan' => $this->date_plan,
                 'program_id' => $this->program_id,
 
             ]
         );
+
         //$query->andWhere('program_id is NULL');
 
 

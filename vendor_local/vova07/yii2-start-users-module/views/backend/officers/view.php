@@ -60,7 +60,8 @@ $this->params['breadcrumbs'] = [
 
         ]
     ])?>
-<?php else:?>
-    <a href="<?=\yii\helpers\Url::to(['default/create','__ident_id'=>$model->getPrimaryKey()])?>" type="button" class="btn btn-default btn-block"><?=Module::t('default','CREATE_AUTH_USER')?></a>
+
+
 <?php endif;?>
+    <a href="<?=\yii\helpers\Url::to(['default/create','__ident_id'=>$model->getPrimaryKey()])?>" type="button" class="btn btn-default btn-block"><?=Module::t('default','CREATE_AUTH_USER')?></a>
 <?php Box::end();?>

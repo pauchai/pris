@@ -111,7 +111,12 @@ foreach ($creditCategories as $category){
         ],
         [
             'attribute' => 'prisoner.sector_id',
-            'content' => function($model){return $model->prisoner->sector->title;},
+            'content' => function($model){
+                    if ($model->prisoner->sector_id)
+                    return $model->prisoner->sector->title;
+                    else
+                        return null;
+                    },
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [

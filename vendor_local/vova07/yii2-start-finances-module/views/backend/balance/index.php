@@ -191,12 +191,14 @@ $this->params['breadcrumbs'] = [
             'model' => $newModel,
         'form' => $form,
         'attributes' => [
+
               'prisoner_id' => ['type' => ($searchModel->prisoner_id)?\kartik\builder\Form::INPUT_HIDDEN:\kartik\builder\Form::INPUT_WIDGET,
               'widgetClass' => \kartik\widgets\Select2::class,
                   'options' => [
                       'data'=>\vova07\users\models\Prisoner::getListForCombo(),
                       'pluginOptions' => ['allowClear' => true],
                       'options'=>[
+
                           //   'disabled' => $searchModel->prisoner_id?'disabled':false,
                           'prompt' => \vova07\finances\Module::t('default','SELECT_PRISONER'), 'class'=> 'form-control', 'id' => null,
                         // 'disabled' => ($searchModel->prisoner_id)?'disabled':false

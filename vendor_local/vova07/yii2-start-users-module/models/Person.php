@@ -142,8 +142,13 @@ class Person extends  Ownableitem
         return [
             'IDNP' => Module::t('labels','PERSON_IDNP_LABEL'),
             'address' => Module::t('labels','PERSON_ADDRESS_LABEL'),
-            'fio'  => Module::t('labels','PERSON_FIO_LABEL')
-
+            'fio'  => Module::t('labels','PERSON_FIO_LABEL'),
+            'first_name' => Module::t('labels','PERSON_FIRST_NAME_LABEL'),
+            'second_name' => Module::t('labels','PERSON_SECOND_NAME_LABEL'),
+            'patronymic' => Module::t('labels','PERSON_PATRONYMIC_LABEL'),
+            'birth_year' => Module::t('labels','PERSON_BIRTH_YEAR_LABEL'),
+            'photo_url' => Module::t('labels','PERSON_PHOTO_URL_LABEL'),
+            'preview_url' => Module::t('labels','PERSON_PREVIEW_URL_LABEL'),
 
 
         ];

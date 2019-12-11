@@ -73,14 +73,13 @@ return [
     'SocReintegrationDepartmentHead' => [
         'type' => 1,
         'children' => [
-            'SocReintegrationDepartmentEducator',
             'SocReintegrationDepartmentExpert',
             'BPrisonerListRules',
             'BPermissionEventPlaningList',
-            'BPermissionEventPlaningView',
-            'BPermissionEventPlaningCreate',
-            'BPermissionEventPlaningUpdate',
-            'BPermissionEventPlaningDelete',
+            'BPermissionElectricityCreate',
+            'BPermissionElectricityUpdate',
+            'BPermissionElectricityDelete',
+            'BPermissionElectricityView',
             'BPermissionPrisonerSecurityList',
             'BPermissionPrisonerSecurityView',
             'BPermissionPrisonerSecurityCreate',
@@ -100,6 +99,10 @@ return [
     ],
     'SocReintegrationDepartmentEducator' => [
         'type' => 1,
+        'children' => [
+            'SocReintegrationDepartmentHead',
+            'BPrisonerListRules',
+        ],
     ],
     'SocReintegrationDepartmentExpert' => [
         'type' => 1,
@@ -191,21 +194,21 @@ return [
         'type' => 2,
         'description' => 'BPermissionEventPlaningList_DESCRIPTION',
     ],
-    'BPermissionEventPlaningView' => [
+    'BPermissionElectricityCreate' => [
         'type' => 2,
-        'description' => 'BPermissionEventPlaningView_DESCRIPTION',
+        'description' => 'BPermissionElectricityCreate_DESCRIPTION',
     ],
-    'BPermissionEventPlaningCreate' => [
+    'BPermissionElectricityUpdate' => [
         'type' => 2,
-        'description' => 'BPermissionEventPlaningCreate_DESCRIPTION',
+        'description' => 'BPermissionElectricityUpdate_DESCRIPTION',
     ],
-    'BPermissionEventPlaningUpdate' => [
+    'BPermissionElectricityDelete' => [
         'type' => 2,
-        'description' => 'BPermissionEventPlaningUpdate_DESCRIPTION',
+        'description' => 'BPermissionElectricityDelete_DESCRIPTION',
     ],
-    'BPermissionEventPlaningDelete' => [
+    'BPermissionElectricityView' => [
         'type' => 2,
-        'description' => 'BPermissionEventPlaningDelete_DESCRIPTION',
+        'description' => 'BPermissionElectricityView_DESCRIPTION',
     ],
     'BPermissionPrisonerSecurityList' => [
         'type' => 2,
@@ -365,21 +368,5 @@ return [
     'BPermissionElectricityList' => [
         'type' => 2,
         'description' => 'BPermissionElectricityList_DESCRIPTION',
-    ],
-    'BPermissionElectricityCreate' => [
-        'type' => 2,
-        'description' => 'BPermissionElectricityCreate_DESCRIPTION',
-    ],
-    'BPermissionElectricityUpdate' => [
-        'type' => 2,
-        'description' => 'BPermissionElectricityUpdate_DESCRIPTION',
-    ],
-    'BPermissionElectricityDelete' => [
-        'type' => 2,
-        'description' => 'BPermissionElectricityDelete_DESCRIPTION',
-    ],
-    'BPermissionElectricityView' => [
-        'type' => 2,
-        'description' => 'BPermissionElectricityView_DESCRIPTION',
     ],
 ];

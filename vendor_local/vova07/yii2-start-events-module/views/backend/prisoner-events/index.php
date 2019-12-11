@@ -7,11 +7,11 @@
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
-use vova07\humanitarians\Module;
-use vova07\themes\adminlte2\widgets\Box;
+use vova07\events\Module;
+use \yii\grid\GridView;
 
-$this->title = Module::t("default","HUMANITARIAN_ITEMS");
-$this->params['subtitle'] = 'LIST';
+$this->title = Module::t("default","EVENTS_TITLE");
+$this->params['subtitle'] = 'PRISONER_EVENTS_LIST';
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
-<?php $box = Box::begin(
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
         'buttonsTemplate' => '{create}'
@@ -31,14 +31,11 @@ $this->params['breadcrumbs'] = [
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
-        ['class' => yii\grid\SerialColumn::class],
-        'title',
-        [
-            'class' => yii\grid\ActionColumn::class,
-
-        ]
+      //  ['class' => yii\grid\SerialColumn::class],
+        'prisoner.person.fio',
+        'event.title',
     ]
 ])?>
 
 
-<?php  Box::end()?>
+<?php  \vova07\themes\adminlte2\widgets\Box::end()?>

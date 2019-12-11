@@ -38,7 +38,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index','index-print'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW],
             ]
         ];
@@ -101,6 +101,58 @@ class DefaultController extends BackendController
                'prisonerRequirementsDataProvider' => $prisonerRequirementsDataProvider,
                'prisonerProgramsDataProvider' => $prisonerProgramsDataProvider
            ]);
+    }
+
+    public function actionIndexPrint($prisoner_id)
+    {
+        if (!($prisoner = Prisoner::findOne($prisoner_id))){
+            throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
+        }
+
+
+
+
+
+        $prisonerProgramsDataProvider  = new ActiveDataProvider([
+            'query' =>   $prisoner->getPrisonerPrograms(),
+            'pagination' => ['pageSize' => 0]
+        ]);
+        //if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
+            $prisonerPrograms = $prisoner->getPrisonerPrograms()->all();
+
+        $programsGroupedByRole = [];
+        foreach ($prisonerPrograms as $program)
+        {
+            $roleName = $program->ownableitem->createdBy->user->role;
+            if (!isset($programsGroupedByRole[$roleName]['prog']))
+                $programsGroupedByRole[$roleName]['prog'] = [];
+            $programsGroupedByRole[$roleName]['prog'][] = $program;
+        }
+
+        $prisonerRequirementsDataProvider  = new ActiveDataProvider([
+            'query' =>   $prisoner->getRequirements(),
+            'pagination' => ['pageSize' => 0]
+        ]);
+
+       // if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING))
+            $prisonerRequirements = $prisoner->getRequirements()->all();
+
+
+        foreach ($prisonerRequirements as $requirement)
+        {
+            $roleName = $program->ownableitem->createdBy->user->role;
+            if (!isset($programsGroupedByRole[$roleName]['req']))
+                $programsGroupedByRole[$roleName]['req'] = [];
+
+            $programsGroupedByRole[$roleName]['req'][] = $requirement;
+        }
+
+        return $this->render("index-print", [
+            'prisoner'=>$prisoner ,
+            'programsGroupedByRole' => $programsGroupedByRole,
+        //    'requirementsGroupedByRole' => $requirementsGroupedByRole,
+
+        ]);
     }
 
 

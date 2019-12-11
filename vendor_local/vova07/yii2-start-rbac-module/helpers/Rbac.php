@@ -98,7 +98,7 @@ class Rbac
         $socReintagrationDepartmentExpert = $auth->createRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT);
         $auth->add($socReintagrationDepartmentExpert);
 
-        $auth->addChild($socReintagrationDepartmentHead, $socReintagrationDepartmentEducator);
+        $auth->addChild($socReintagrationDepartmentEducator,$socReintagrationDepartmentHead );
         $auth->addChild($socReintagrationDepartmentHead, $socReintagrationDepartmentExpert);
 
         $socReintagrationDepartmentSociologist = $auth->createRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST);
@@ -109,6 +109,7 @@ class Rbac
         $auth->add($financeDepartmentHead);
         $financeDepartmentExpert = $auth->createRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT);
         $auth->add($financeDepartmentExpert);
+
         $logisticAndAdministrationDepartmentHead = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD);
         $auth->add($logisticAndAdministrationDepartmentHead);
         $logisticAndAdministrationDepartmentExpert = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT);

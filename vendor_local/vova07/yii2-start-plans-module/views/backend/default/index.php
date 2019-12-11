@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->params['breadcrumbs'][] = Module::t('default', 'PLANUL INDIVIDUAL ');;
 $printUrlParams['prisoner_id'] = $prisoner->primaryKey;
-$printUrlParams[0] = '';
-$printUrlParams['print']=true;
+$printUrlParams[0] = 'index-print';
+//$printUrlParams['print']=true;
 ?>
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
