@@ -3,6 +3,7 @@ namespace vova07\plans\controllers\backend;
 use http\Url;
 use vova07\base\components\BackendController;
 use vova07\plans\components\UpdateProgramAction;
+use vova07\plans\models\backend\ProgramPrisonerSearch;
 use vova07\plans\models\backend\ProgramSearch;
 use vova07\plans\models\Program;
 use vova07\plans\Module;
@@ -82,10 +83,14 @@ class ProgramsController extends BackendController
     {
         if (is_null($model = Program::findOne($id)))
         {
-            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+            throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+        $programPrisonerSearch = new ProgramPrisonerSearch();
+        $dataProvider = $programPrisonerSearch->search(['program_id'=>$id],'');
+        $dataProvider->query;
 
-        return $this->render('view', ['model'=>$model]);
+        return $this->render('view', ['model'=>$model,'dataProvider' => $dataProvider]);
     }
     public function actionDelete($id)
     {
@@ -110,7 +115,7 @@ class ProgramsController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 };
             };
         }

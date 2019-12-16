@@ -39,40 +39,7 @@ class ProgramPrisonersController extends BackendController
         return $behaviors;
     }
 
-    public function actionParticipants($program_id)
-    {
-        $program = Program::findOne($program_id);
-//        $dates = ProgramVisit::find()->select(new Expression('DISTINCT date_visit'))->where(['program_id'=>$program_id])->asArray()->all();
-        //$dates=$program->getProgramVisits()->select(new Expression('DISTINCT date_visit'))->asArray()->all();
-        if (is_null($model = Program::findOne($program_id)))
-        {
-            throw new NotFoundHttpException(Module::t('programs',"PROGRAM_NOT_FOUND"));
-        };
-        $programPrisonerSearch = new ProgramPrisonerSearch();
-        $dataProvider = $programPrisonerSearch->search(['program_id'=>$program_id],'');
-        $dataProvider->query->active();
-        $newParticipant  = new ProgramPrisoner();
-        $newParticipant->program_id = $program->primaryKey;
-        $newParticipant->status_id = \vova07\plans\models\ProgramPrisoner::STATUS_ACTIVE;
 
-
-        if (\Yii::$app->request->isPost){
-        $newParticipant->load(\Yii::$app->request->post());
-        if ($newParticipant->validate()){
-            $newParticipant->save(false);
-        }
-        }
-
-
-
-
-      //  if (\Yii::$app->request->isPjax){
-       //     return $this->renderPartial("participants", ['dataProvider'=>$dataProvider, 'program'=>$program, 'newParticipant'=>$newParticipant]);
-       // } else {
-            return $this->render("participants", ['dataProvider'=>$dataProvider, 'program'=>$program, 'newParticipant'=>$newParticipant]);
-       // }
-
-    }
 
     public function actionPrograms($id)
     {
@@ -82,13 +49,6 @@ class ProgramPrisonersController extends BackendController
 
     }
 
-    public function actionAddParticipant()
-    {
-        $programPrisoner = new  ProgramPrisoner;
-        //if (\Yii::$app->request->isPjax){
-
-        $this->runAction('participants',['program_id'=>$programPrisoner->program_id]);
-    }
 
 
 
@@ -99,6 +59,7 @@ class ProgramPrisonersController extends BackendController
         if (!($model = ProgramPrisoner::findOne($id))) {
             throw new NotFoundHttpException(Module::t('programs','PROGRAM_NOT_FOUND'));
         };
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
         return $this->render('view', ['model'=>$model]);
     }
@@ -134,8 +95,7 @@ class ProgramPrisonersController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 };
             };
         }

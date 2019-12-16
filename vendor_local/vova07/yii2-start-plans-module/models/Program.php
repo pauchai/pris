@@ -21,7 +21,11 @@ use vova07\plans\controllers\backend\ProgramVisitsController;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Prisoner;
+use yii\base\Behavior;
+use yii\base\Event;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
 use yii\db\Schema;
@@ -39,6 +43,35 @@ class Program extends  Ownableitem
     const STATUS_FINISHED =12;
 
 
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_BEFORE_UPDATE, function($event) {
+            /**
+             * @var $event Event
+             * @var $program Program
+             *
+             */
+            $program = $event->sender;
+            if ($program->status_id == Program::STATUS_FINISHED) {
+                $programVisits = $program->getProgramVisits()->all();
+                foreach ($programVisits as $visit)
+                {
+                    /**
+                     * @var $visit ProgramVisit
+                     *
+                     */
+                    $programPrisoner =$visit->programPrisoner;
+                    $programPrisoner->mark_id = $programPrisoner->resolveMark();
+                    $programPrisoner->status_id = ProgramPrisoner::STATUS_FINISHED;
+                    $programPrisoner->save();
+                };
+
+
+            }
+        });
+    }
     public static function tableName()
     {
         return 'programs';
@@ -102,7 +135,7 @@ class Program extends  Ownableitem
 
 
                     ],
-                ]
+                ],
 
             ];
         } else {

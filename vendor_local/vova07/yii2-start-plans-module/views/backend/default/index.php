@@ -128,7 +128,7 @@ CSS
         [
             'content' => function($model){
                 if ($model->status_id == programPrisoner::STATUS_FINISHED)
-                    return $model->status;
+                    return $model->status . ' ' . $model->markTitle. ' ' . $model->date_plan  ;
                  elseif ($model->status_id == programPrisoner::STATUS_PLANED)
                     return $model->date_plan;
                 elseif ($model->status_id == programPrisoner::STATUS_ACTIVE)

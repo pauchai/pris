@@ -34,4 +34,6 @@ $this->params['breadcrumbs'] = [
     ]
 ])?>
 
+<?=$this->render('_participants', ['model' => $model,'dataProvider'=>$dataProvider])?>
+
 

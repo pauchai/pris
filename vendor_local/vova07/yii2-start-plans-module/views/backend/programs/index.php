@@ -43,14 +43,14 @@ $this->params['breadcrumbs'] = [
         [
             'class' => yii\grid\ActionColumn::class,
             'template' => '{view} {update} {participants} {delete}',
-            'buttons' => [
+/*            'buttons' => [
                 'participants' => function ($url, $model, $key) {
                     return \yii\bootstrap\Html::a('<span class="fa fa-users"></span>', ['program-prisoners/participants','program_id' => $key], [
                         'title' => \vova07\plans\Module::t('default', 'PROGRAM_PARTICIPANTS'),
                         'data-pjax' => '0',
                     ]);
                 },
-            ],
+            ],*/
         ]
     ]
 ])?>

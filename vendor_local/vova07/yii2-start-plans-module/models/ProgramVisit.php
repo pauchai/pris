@@ -126,8 +126,8 @@ class ProgramVisit extends  Ownableitem
     public function getProgramPrisoner()
     {
         return $this->hasOne(ProgramPrisoner::class, [
-            'program_id' => 'program_id',
-            'prison_id' => 'prison_id',
+            '__ownableitem_id' => 'program_prisoner_id',
+
         ]);
     }
 

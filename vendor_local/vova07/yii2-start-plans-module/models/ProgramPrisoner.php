@@ -55,7 +55,7 @@ class ProgramPrisoner extends  Ownableitem
             [['programdict_id', 'prison_id','prisoner_id','status_id'], 'required'],
 
             [['programdict_id','prison_id','prisoner_id','program_id'],'unique','targetAttribute' => ['programdict_id','prison_id', 'prisoner_id','program_id']],
-            [['date_plan'],'integer']
+            [['date_plan','mark_id'],'integer']
         ];
     }
 
@@ -139,6 +139,20 @@ class ProgramPrisoner extends  Ownableitem
                     }
                 }
 
+            ],
+            'plannedBy' => [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                     ActiveRecord::EVENT_BEFORE_INSERT => 'planned_by',
+                     ActiveRecord::EVENT_BEFORE_UPDATE => 'planned_by',
+                ],
+                'value' => function($event){
+                    if ($event->sender->date_plan)
+                    {
+                        return \Yii::$app->user->id;
+                    }
+                }
+
             ]
         ]);
         return $behaviors;
@@ -192,7 +206,7 @@ class ProgramPrisoner extends  Ownableitem
             self::STATUS_FAILED => Module::t('programs','STATUS_FAILED'),
             self::STATUS_FINISHED => Module::t('programs','STATUS_FINISHED'),
         ];
-        if ($key)
+        if (!is_null($key))
             return $ret[$key];
         else
             return $ret;
@@ -236,17 +250,31 @@ class ProgramPrisoner extends  Ownableitem
     }
 
 
-    public static function getMarksForCombo()
+    public static function getMarksForCombo($key = null)
     {
-        return [
+        $ret = [
             self::MARK_NOT_SATISFACTORY => Module::t('programs','MARK_NOT_SATISFACTORY'),
             self::MARK_SATISFACTORY => Module::t('programs','MARK_SATISFACTORY'),
             self::MARK_GOOD => Module::t('programs','MARK_GOOD'),
         ];
+        if (!is_null($key)){
+            if (key_exists($key,$ret))
+                return $ret[$key];
+            else
+                return null;
+
+        } else {
+            return $ret;
+        }
+
+
     }
     public function getMarkTitle()
     {
-       return self::getMarksForCombo()[$this->mark_id];
+        if ($this->mark_id)
+            return self::getMarksForCombo($this->mark_id);
+        else
+            return null;
     }
     public static function getMarkTitleById($mark_id)
     {
