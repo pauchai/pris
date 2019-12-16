@@ -7,6 +7,7 @@ use vova07\site\Module;
 
         <!-- Sidebar user panel -->
         <div class="user-panel">
+            <?php if (Yii::$app->user->identity->person):?>
             <div class="pull-left image">
                 <img src="<?=Yii::$app->user->identity->person->photo_preview_url ?>" class="img-circle" alt="User Image"/>
             </div>
@@ -15,6 +16,7 @@ use vova07\site\Module;
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
+            <?php endif;?>
         </div>
 
         <!-- search form -->

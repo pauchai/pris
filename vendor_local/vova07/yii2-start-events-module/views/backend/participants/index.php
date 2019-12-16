@@ -52,7 +52,10 @@ $this->params['breadcrumbs'] = [
 
 <?php $gridColumns = [
     ['class' => yii\grid\SerialColumn::class],
-    'prisoner.person.fio',
+    [
+        'attribute' => 'prisoner.fio',
+        'value' => function($model){return $model->prisoner->getFullTitle(true);}
+    ],
 
     ]
 ?>

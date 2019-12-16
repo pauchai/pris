@@ -109,21 +109,28 @@ class DefaultController extends BackendController
             throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
         }
 
-
-
-
-
         $prisonerProgramsDataProvider  = new ActiveDataProvider([
             'query' =>   $prisoner->getPrisonerPrograms(),
             'pagination' => ['pageSize' => 0]
         ]);
         //if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
-            $prisonerPrograms = $prisoner->getPrisonerPrograms()->all();
+            $prisonerPrograms = $prisonerProgramsDataProvider->query->all();
 
-        $programsGroupedByRole = [];
+
+
+
+        $programsGroupedByRole = [
+            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => [] ,
+            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST => [],
+            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST => []
+        ];
+
         foreach ($prisonerPrograms as $program)
         {
             $roleName = $program->ownableitem->createdBy->user->role;
+            if (!isset($programsGroupedByRole[$roleName]))
+                continue;
+
             if (!isset($programsGroupedByRole[$roleName]['prog']))
                 $programsGroupedByRole[$roleName]['prog'] = [];
             $programsGroupedByRole[$roleName]['prog'][] = $program;
@@ -135,17 +142,20 @@ class DefaultController extends BackendController
         ]);
 
        // if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING))
-            $prisonerRequirements = $prisoner->getRequirements()->all();
+            $prisonerRequirements = $prisonerRequirementsDataProvider->query->all();
 
 
         foreach ($prisonerRequirements as $requirement)
         {
-            $roleName = $program->ownableitem->createdBy->user->role;
+            $roleName = $requirement->ownableitem->createdBy->user->role;
+            if (!isset($programsGroupedByRole[$roleName]))
+                continue;
             if (!isset($programsGroupedByRole[$roleName]['req']))
                 $programsGroupedByRole[$roleName]['req'] = [];
 
             $programsGroupedByRole[$roleName]['req'][] = $requirement;
         }
+
 
         return $this->render("index-print", [
             'prisoner'=>$prisoner ,

@@ -14,6 +14,7 @@ use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -71,15 +72,17 @@ class ProgramPlansController extends BackendController
 
                 if ($newProgram->load(\Yii::$app->request->post())){
                     $newProgram->save();
+                    $this->refresh();
                 };
 
             }
 
 
+
         $programProvider = new ActiveDataProvider([
             'query' =>$programQuery
         ]);
-
+        \Yii::$app->user->setReturnUrl(Url::current());
 
         if (\Yii::$app->request->isPjax){
             return $this->renderPartial('index',['dataProvider'=>$dataProvider,'searchModel'=>$searchModel,'programProvider' => $programProvider,'newProgram' => $newProgram]);
@@ -101,14 +104,16 @@ class ProgramPlansController extends BackendController
                 $programPrisoner->save();
             }
         }
+        return $this->goBack();
 
-        return \Yii::createObject([
+/*        return \Yii::createObject([
             'class' => \yii\web\Response::class,
             'format' => \yii\web\Response::FORMAT_JSON,
             'data' => [
                 'code' => 100,
 ],
 ]);
+   */
     }
 
     public function actionChangeYear($id)

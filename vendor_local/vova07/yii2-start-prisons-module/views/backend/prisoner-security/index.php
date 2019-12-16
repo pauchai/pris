@@ -25,13 +25,13 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
-
+<?=\kartik\helpers\Html::a($isLight?Module::t('security','PRISON_SECURITY_FULL'):Module::t('security','PRISON_SECURITY_LIGHT'),['index','isLight' => !$isLight],['class'  => 'btn btn-info no-print'])?>
 
 <?php $columnDefinition = [
     ['class' => yii\grid\SerialColumn::class],
     [
         'attribute' => 'prisoner_id',
-        'value' => 'prisoner.person.fio',
+        'value' => function($model){return $model->prisoner->getFullTitle(true);},
         'filter' => Prisoner::getListForCombo(),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => [
@@ -50,8 +50,13 @@ $this->params['breadcrumbs'] = [
             'pluginOptions' => ['allowClear' => true],
         ],
         'filterInputOptions' => ['prompt' => Module::t('default','SELECT_TYPE'), 'class'=> 'form-control', 'id' => null],
+        'hidden' => $isLight,
     ],
-    'dateStartJui',
+        [
+            'attribute' => 'dateStartJui',
+            'hidden' => $isLight
+        ],
+
 
 
     [
@@ -60,6 +65,7 @@ $this->params['breadcrumbs'] = [
         //'format' => 'date',
         'filterType' => GridView::FILTER_DATE,
         'filterInputOptions' => ['prompt' => Module::t('default','SELECT_DATE_END'), 'class'=> 'form-control', 'id' => null],
+        'hidden' => $isLight
     ],
     [
         'header' => '',
@@ -75,11 +81,12 @@ $this->params['breadcrumbs'] = [
             };
             return $content;
         },
+        'hidden' => $isLight,
     ],
 
     [
         'class' => ActionColumn::class,
-        'hidden' => $this->context->isPrintVersion,
+        'hidden' => $this->context->isPrintVersion &&  $isLight ,
 
     ]
 ];
@@ -87,7 +94,8 @@ $this->params['breadcrumbs'] = [
 <?php $box = Box::begin(
     [
         'title' => Module::t('security',"PRISON_SECURITY_248_TITLE"),
-        'buttonsTemplate' => '{create}'
+        'buttonsTemplate' => '{create}',
+
     ]
 
 );?>

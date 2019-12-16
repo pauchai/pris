@@ -137,6 +137,10 @@ class Person extends  Ownableitem
     {
         return $this->hasOne(Officer::class,['__person_id'=>'__ident_id']);
     }
+    public function getPrisoner()
+    {
+        return $this->hasOne(Prisoner::class,['__person_id'=>'__ident_id']);
+    }
     public function attributeLabels()
     {
         return [

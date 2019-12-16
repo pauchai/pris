@@ -49,11 +49,14 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php if (Yii::$app->user->identity->person):?>
                         <img src="<?=Yii::$app->user->identity->person->photo_preview_url?>" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?=Yii::$app->user->identity->person->fio?></span>
+                        <?php endif;?>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
+                        <?php if (Yii::$app->user->identity->person):?>
                         <li class="user-header">
                             <img src="<?=Yii::$app->user->identity->person->photo_preview_url?>" class="img-circle"
                                  alt="User Image"/>
@@ -66,6 +69,7 @@ use yii\helpers\Html;
 
                             </p>
                         </li>
+                        <?php endif;?>
                         <!-- Menu Body -->
 
                         <!-- Menu Footer-->

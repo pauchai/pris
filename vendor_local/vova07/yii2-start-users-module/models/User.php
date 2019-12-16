@@ -180,6 +180,7 @@ class User extends  Ownableitem implements IdentityInterface
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST => \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD => \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,
+            \vova07\rbac\Module::ROLE_COMPANY_HEAD => \vova07\rbac\Module::ROLE_COMPANY_HEAD,
 
 
         ];

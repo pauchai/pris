@@ -27,7 +27,7 @@ class PrisonerSecurityController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index','index-light'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_LIST]
             ],
             [
@@ -54,7 +54,7 @@ class PrisonerSecurityController extends BackendController
         return $behaviors;
     }
 
-    public function actionIndex()
+    public function actionIndex(bool $isLight = false)
     {
         $searchModel248 = new PrisonerSecurity248Search();
         $searchModel251 = new PrisonerSecurity251Search();
@@ -63,9 +63,10 @@ class PrisonerSecurityController extends BackendController
         $dataProvider251 = $searchModel251->search(\Yii::$app->request->get());
 
 
-        return $this->render("index", ['searchModel248'=>$searchModel248,'dataProvider248'=>$dataProvider248,'searchModel251'=>$searchModel251,'dataProvider251'=>$dataProvider251]);
+        return $this->render("index", ['searchModel248'=>$searchModel248,'dataProvider248'=>$dataProvider248,'searchModel251'=>$searchModel251,'dataProvider251'=>$dataProvider251,'isLight' => $isLight]);
 
     }
+
 
     public function actionCreate()
     {

@@ -44,7 +44,6 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         if (!($this->load($params, $formName) && $this->validate())) {
             return $dataProvider;
         }
-        $this->prison_id = \Yii::$app->base->company->primaryKey();
         $query->andFilterWhere(
             [
                 'programdict_id' => $this->programdict_id,

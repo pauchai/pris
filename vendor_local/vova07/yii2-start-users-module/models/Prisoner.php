@@ -222,11 +222,11 @@ class Prisoner extends  OwnableItem
         return ArrayHelper::map(self::find()->select(['__person_id','fio'=>'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic, "," , person.birth_year)' ])->orderBy('fio asc')->joinWith('person')->asArray()->all(),'__person_id','fio');
     }
 
-    public function getFullTitle()
+    public function getFullTitle($showSector=false)
     {
-        $ret =$this->person->fio . ', ' . $this->person->birth_year .', ';
-        if ($this->sector_id)
-            $ret .= ($this->sector->title);
+        $ret =$this->person->fio . ', ' . $this->person->birth_year ;
+        if ($this->sector_id && $showSector)
+            $ret .= ', ' . ($this->sector->title);
         return $ret;
     }
 

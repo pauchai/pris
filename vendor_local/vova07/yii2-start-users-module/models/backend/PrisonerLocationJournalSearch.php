@@ -18,6 +18,7 @@ class PrisonerLocationJournalSearch extends PrisonerLocationJournal
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
         ]);
+        $dataProvider->query->orderBy(['at' => 'DESC']);
         return $dataProvider;
 
     }

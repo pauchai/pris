@@ -11,6 +11,7 @@ namespace vova07\plans\models;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use vova07\base\components\DateConvertJuiBehavior;
 use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
@@ -47,6 +48,7 @@ class Program extends  Ownableitem
         return [
             [['programdict_id','prison_id','date_start','order_no','status_id'], 'required'],
           //  [['date_start','date_finish'],'date'],
+            [['dateStartJui'],'string'],
             [['order_no'],'string'],
 
 
@@ -106,6 +108,14 @@ class Program extends  Ownableitem
         } else {
             $behaviors = [];
         }
+        $behaviors = ArrayHelper::merge($behaviors,[
+            [
+                'class' => DateConvertJuiBehavior::class,
+                'attribute' => 'date_start',
+                'juiAttribute' => 'dateStartJui'
+
+            ]
+        ]);
         return $behaviors;
     }
 

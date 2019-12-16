@@ -60,7 +60,7 @@ class PrisonerEventsController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
         //$dataProvider->query->planing();
-        return $this->render("index", ['dataProvider'=>$dataProvider]);
+        return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
     }
 
     public function actionCreate()

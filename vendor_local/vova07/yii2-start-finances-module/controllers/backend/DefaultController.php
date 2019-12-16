@@ -5,7 +5,9 @@ use vova07\finances\models\backend\BalanceByPrisonerViewSearch;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\Balance;
-use vova07\rbac\Module;
+use vova07\finances\Module;
+use vova07\users\models\Prisoner;
+use yii\data\ActiveDataProvider;
 
 
 /**
@@ -25,8 +27,8 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index',],
-                'roles' => [Module::PERMISSION_FINANCES_ACCESS]
+                'actions' => ['index', 'view'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS]
             ]
         ];
         return $behaviors;
@@ -39,6 +41,19 @@ class DefaultController extends BackendController
 
 
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
+    }
+
+    public function actionView($id)
+    {
+        if (is_null($model = Prisoner::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t("PRISONER_NOT_FOUND"));
+        };
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getBalances(),
+        ]);
+
+        return $this->render("view", ['dataProvider'=>$dataProvider,'model'=>$model]);
     }
 
     public function actionCreateMultiple()

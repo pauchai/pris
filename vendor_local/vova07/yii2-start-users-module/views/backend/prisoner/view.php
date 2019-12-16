@@ -54,7 +54,7 @@ $this->params['breadcrumbs'] = [
 <?php echo \yii\widgets\DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'person.photo_preview_url:image',
+        'person.photo_url:image',
         'status',
         'person.fio',
         'person.birth_year',

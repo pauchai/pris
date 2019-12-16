@@ -12,7 +12,6 @@ return [
     'basePath' => dirname(__DIR__),
     'defaultRoute' => 'site/dash-board/index',
     'on ' . \yii\base\Application::EVENT_BEFORE_REQUEST => function() {
-        Yii::$app->base->company = \vova07\prisons\models\Company::findOne(['alias' => \vova07\prisons\models\Company::PRISON_PU1]);
        // $languages = [
        //     'ru' => 'ru-RU',
        //     'ro' => 'ro-RO',
@@ -20,6 +19,7 @@ return [
        // ];
         $matches  = [];
         preg_match("#index-(\w+\-\w+)\.php#", $_SERVER['PHP_SELF'], $matches);
+        Yii::$app->base->company = \vova07\prisons\models\Company::findOne(['alias' => \vova07\prisons\models\Company::PRISON_PU1]);
         if (isset($matches[1])){
             Yii::$app->language = $matches[1];
         } else {

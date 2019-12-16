@@ -21,6 +21,7 @@ class Module extends \vova07\base\components\Module
     const ROLE_FINANCE_DEPARTMENT_EXPERT = 'FinanceDepartmentExpert';
     const ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD = 'LogisticAndAdministrationDepartmentHead';
     const ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT = 'LogisticAndAdministrationDepartmentExpert';
+    const ROLE_COMPANY_HEAD = 'CompanyHead';
 
     const PERMISSION_ACCESS_BACKEND = 'accessBackend';
     const PERMISSION_ADMINISTRATE_RBAC = 'administrateRbac';
@@ -103,7 +104,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_ELECTRICITY_DELETE = 'BPermissionElectricityDelete';
     public const PERMISSION_ELECTRICITY_LIST = 'BPermissionElectricityList';
     public const PERMISSION_ELECTRICITY_VIEW = 'BPermissionElectricityView';
-
+    
     /**
      * @inheritdoc
      */

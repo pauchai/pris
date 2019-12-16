@@ -20,10 +20,10 @@ class Rbac
         // Permissions
         $permissions = [
             Module::PERMISSION_EVENT_PLANING_LIST,
-            Module::PERMISSION_ELECTRICITY_CREATE,
-            Module::PERMISSION_ELECTRICITY_UPDATE,
-            Module::PERMISSION_ELECTRICITY_DELETE,
-            Module::PERMISSION_ELECTRICITY_VIEW,
+            Module::PERMISSION_EVENT_PLANING_CREATE,
+            Module::PERMISSION_EVENT_PLANING_UPDATE,
+            Module::PERMISSION_EVENT_PLANING_DELETE,
+            Module::PERMISSION_EVENT_PLANING_VIEW,
 
         ];
 

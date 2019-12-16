@@ -32,7 +32,7 @@ class ProgramPrisonersController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['participants','add-participant','view','update'],
+                'actions' => ['create', 'participants','add-participant','view','update'],
                 'roles' => ['@']
             ]
         ];
@@ -103,6 +103,25 @@ class ProgramPrisonersController extends BackendController
         return $this->render('view', ['model'=>$model]);
     }
 
+    public function actionCreate()
+    {
+
+        $model = new ProgramPrisoner;
+
+
+        if (\Yii::$app->request->isPost){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate()){
+                if ($model->save()){
+                    return $this->redirect(['view', 'id'=>$model->primaryKey]);
+                    //return $this->redirect(['view'],$id);
+                };
+            };
+        }
+
+        return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+
+    }
     public function actionUpdate($id)
     {
 

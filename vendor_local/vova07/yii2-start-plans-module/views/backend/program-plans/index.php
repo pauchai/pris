@@ -108,7 +108,7 @@ $this->params['breadcrumbs'] = [
         [
             'content' =>  $form->field($newProgram,'order_no',['inputOptions' => ['placeholder'=>\vova07\plans\Module::t('default','ORDER_NO_ATTRIBUTE')]])->input('',['class'=>'form-control','autocomplete'=>'off'])
         ],
-        [],
+
         [
             'content' =>  \yii\bootstrap\Html::submitButton('',['class'=>'fa fa-plus'])
         ]

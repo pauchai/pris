@@ -36,7 +36,12 @@ class JobPaid extends  JobAbstract
     {
         return 'jobs_paid';
     }
-
+    public function rules()
+    {
+        return ArrayHelper::merge(parent::rules(),[
+           [['status_id'] ,'default','value' => self::STATUS_PROCESSED]
+        ]);
+    }
 
     /**
      *

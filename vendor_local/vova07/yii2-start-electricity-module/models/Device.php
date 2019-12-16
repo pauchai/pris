@@ -160,15 +160,23 @@ class Device extends  Ownableitem
         return $this->hasOne(Cell::class,['__ownableitem_id'=>'cell_id']);
     }
 
-    public static function getCalculationMethodsListForCombo()
+    public static function getCalculationMethodsListForCombo($key = null)
     {
-        return [
+        $ret =  [
           self::CALCULATION_METHOD_6_AND_8 => Module::t('default','CALCULATION_METHOD_6_AND_8'),
             self::CALCULATION_METHOD_TEE_POT => Module::t('default','CALCULATION_METHOD_TEE_POT'),
             self::CALCULATION_METHOD_FREEDGE => Module::t('default','CALCULATION_METHOD_FREEDGE'),
              self::CALCULATION_METHOD_HOURS1 => Module::t('default','CALCULATION_METHOD_HOURS1'),
             self::CALCULATION_METHOD_HOURS0_5 => Module::t('default','CALCULATION_METHOD_HOURS0_5')
         ];
+        if ($key)
+            return $ret[$key];
+        else
+            return $ret;
+    }
+    public function getCalculationMethod()
+    {
+        return self::getCalculationMethodsListForCombo($this->calculation_method_id);
     }
 
     public function attributeLabels()

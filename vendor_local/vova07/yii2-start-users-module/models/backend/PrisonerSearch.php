@@ -32,7 +32,9 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
         ]);
         $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
         //$dataProvider->query->active();
-        if ($this->load($params) && $this->validate()){
+
+        $this->load($params);
+        $this->validate();
             $dataProvider->query->andFilterWhere(
                 [
                     'prison_id' => $this->prison_id,
@@ -44,7 +46,7 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
                     'term_udo' => $this->term_udo
 
                 ]);
-        }
+
         return $dataProvider;
 
     }

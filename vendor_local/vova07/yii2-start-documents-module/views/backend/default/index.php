@@ -33,7 +33,7 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         [
             'attribute' => 'person_id',
-            'value' => 'person.fio',
+            'value' => function($model){return $model->person->prisoner->getFullTitle(true);},
             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
             'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'] = [
                     $content = Html::tag('span', $model->type,['class'=>' label label-success ']);
                     $content .= ' ' . Html::tag('span', $model->seria,['class'=>'  label label-success']);
                     if ($model->isExpired()){
-                        $content .= Html::tag( Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
+                        $content .= Html::tag( 'span',Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
                     } else {
 //                        $content = Html::tag('span', $content,['class'=>'label label-success']);
                         if ($model->isAboutExpiration()){
@@ -83,7 +83,7 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => \yii\grid\ActionColumn::class,
-
+            'visible' => !$this->context->isPrintVersion,
             'buttons' => [
                 'departments' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-list-alt"></span>', ['company-departments/index','CompanyDepartment[company_id]' => $key], [

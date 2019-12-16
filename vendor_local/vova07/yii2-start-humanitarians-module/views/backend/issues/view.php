@@ -72,7 +72,7 @@ $printUrlParams = \yii\helpers\Url::current(['print' => true]);
 $gridColumns = [
 
     ['class' => yii\grid\SerialColumn::class],
-    'person.fio',
+    'fullTitle',
     [
         'attribute' => 'sector_id',
         'value' => 'sector.title',

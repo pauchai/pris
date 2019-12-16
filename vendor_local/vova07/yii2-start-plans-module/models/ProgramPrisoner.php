@@ -20,7 +20,10 @@ use vova07\plans\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
 use yii\db\Migration;
@@ -73,6 +76,7 @@ class ProgramPrisoner extends  Ownableitem
                 'mark_id' => Schema::TYPE_TINYINT. ' ',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
                 'planned_by' => $migration->integer(),
+                'finished_at' => $migration->integer(),
             ],
             //'primaries' => [
             //    [self::class,['program_id','prisoner_id']]
@@ -121,6 +125,22 @@ class ProgramPrisoner extends  Ownableitem
         } else {
             $behaviors = [];
         }
+        $behaviors = ArrayHelper::merge($behaviors, [
+            'saveFinish' => [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                     ActiveRecord::EVENT_BEFORE_INSERT => 'finished_at',
+                     ActiveRecord::EVENT_BEFORE_UPDATE => 'finished_at',
+                ],
+                'value' => function($event){
+                    if ($event->sender->status_id == self::STATUS_FINISHED)
+                    {
+                        return time();
+                    }
+                }
+
+            ]
+        ]);
         return $behaviors;
     }
 
@@ -163,17 +183,26 @@ class ProgramPrisoner extends  Ownableitem
         return ArrayHelper::map(self::find()->joinWith(['program'=>function($q){$q->joinWith('programDict');}])->asArray()->all(),'__ownableitem_id','program.programDict.title');
     }
 
-    public static function getStatusesForCombo()
+    public static function getStatusesForCombo($key = null)
     {
-        return [
+        $ret = [
             self::STATUS_INIT => Module::t('programs','STATUS_INIT'),
             self::STATUS_PLANED => Module::t('programs','STATUS_PLANED'),
             self::STATUS_ACTIVE => Module::t('programs','STATUS_ACTIVE'),
             self::STATUS_FAILED => Module::t('programs','STATUS_FAILED'),
             self::STATUS_FINISHED => Module::t('programs','STATUS_FINISHED'),
         ];
+        if ($key)
+            return $ret[$key];
+        else
+            return $ret;
+
     }
 
+    public function getStatus()
+    {
+        return self::getStatusesForCombo($this->status_id);
+    }
     /**
      * @return ProgramVisitQuery
      */

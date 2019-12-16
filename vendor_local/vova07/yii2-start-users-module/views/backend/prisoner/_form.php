@@ -75,6 +75,8 @@ use vova07\prisons\Module;
     <?=$form->field($model->person,'patronymic')?>
     <?=$form->field($model->person,'birth_year')?>
     <?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
+
+        <?=$form->field($model->person,'IDNP')?>
     <?=$form->field($model->person,'address')?>
 
 

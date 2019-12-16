@@ -231,7 +231,19 @@ foreach ($creditCategories as $category){
                 return $options;
             },
 
+        ],
+        [
+            'class' => \yii\grid\ActionColumn::class,
+            'template' => '{print}',
+            'buttons' => [
+                'print' => function ($url, $model, $key) {
+                        $urlOptions = ['view','id'=>$model->primaryKey];
+                             return  Html::a('', $urlOptions,['class'=>'fa fa-print']);
+                         },
+            ]
+
         ]
+
 
 
     ]

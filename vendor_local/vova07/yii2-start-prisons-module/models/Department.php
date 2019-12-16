@@ -28,6 +28,7 @@ class Department extends  OwnableItem
     const SPECIAL_SOCIAL_REINTEGRATION = 'social reintegration';
     const SPECIAL_FINANCE = 'finance';
     const SPECIAL_LOGISTIC = 'logistic';
+    const SPECIAL_ADMINISTRATION = 'administration';
 
     public static function tableName()
     {

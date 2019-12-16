@@ -11,6 +11,7 @@ use \kartik\grid\GridView;
 //use yii\grid\GridView;
 use kartik\grid\SerialColumn;
 use yii\helpers\Html;
+use \vova07\plans\models\programPrisoner;
 
 $this->title =  Module::t('default', 'PLANUL INDIVIDUAL DE EXECUTAREA PEDEPSEI');
 $this->params['subtitle'] = '';
@@ -126,22 +127,24 @@ CSS
 
         [
             'content' => function($model){
-                if ($model->status_id == \vova07\plans\models\programPrisoner::STATUS_PLANED):
+                if ($model->status_id == programPrisoner::STATUS_FINISHED)
+                    return $model->status;
+                 elseif ($model->status_id == programPrisoner::STATUS_PLANED)
                     return $model->date_plan;
-                elseif($model->status_id == \vova07\plans\models\programPrisoner::STATUS_ACTIVE):
-                    if ($model->program):
+                elseif ($model->status_id == programPrisoner::STATUS_ACTIVE)
+                    if ($model->program)
                         return $model->program->date_start;
-                    else:
+                    else
                         return \yii\helpers\Html::tag('span','bad',['class'=>'text-danger']);
-                    endif;
-                elseif(Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING)):
+
+                elseif(Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
 
                     return \yii\bootstrap\Html::tag('div',
                         \yii\helpers\Html::input('text','date_plan',null,['class'=>'form-control year-selector', 'autocomplete'=>'off', 'style'=>'width:5em;']),
                         ['data-model'=>$model->toArray(['__ownableitem_id'])]
                     );
 
-                endif;
+
             },
           //  'options' => ['width' => '20em']
         ],
@@ -183,55 +186,7 @@ CSS
 
 
 
-<?php $box = \vova07\themes\adminlte2\widgets\Box::begin([
-    'title' => 'comments',
-])?>
-<?php $box->beginFooter(['class'=>'box-comments'])?>
-<?php $commentDemoUser = Yii::$app->user->identity?>
-<div class="box-comment">
-    <!-- User image -->
-    <img class="img-circle img-sm" src="<?=$commentDemoUser->person->photo_preview_url?>" alt="User Image">
-
-    <div class="comment-text">
-                      <span class="username">
-                        <?php echo $commentDemoUser->person->fio?>
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-        Простить
-    </div>
-    <!-- /.comment-text -->
-</div>
-<!-- /.box-comment -->
-<div class="box-comment">
-    <!-- User image -->
-    <img class="img-circle img-sm" src="<?=$commentDemoUser->person->photo_preview_url?>" alt="User Image">
-
-    <div class="comment-text">
-                      <span class="username">
-                        <?php echo $commentDemoUser->person->fio?>
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-        Понять
-    </div>
-    <!-- /.comment-text -->
-</div>
-    <div class="box-comment">
-        <!-- User image -->
-        <img class="img-circle img-sm" src="<?=$commentDemoUser->person->photo_preview_url?>" alt="User Image">
-
-        <div class="comment-text">
-                      <span class="username">
-                        <?php echo $commentDemoUser->person->fio?>
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-            Принять
-        </div>
-        <!-- /.comment-text -->
-    </div>
-<!-- /.box-comment -->
-<?php $box->endFooter()?>
-
-<?php \vova07\themes\adminlte2\widgets\Box::end()?>
+<?=$this->render('_comments')?>
 <?php
 
     $programPlanUrl =  \yii\helpers\Url::to(['program-plans/change-year']);

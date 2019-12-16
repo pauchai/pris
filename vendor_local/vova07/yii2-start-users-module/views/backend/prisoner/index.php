@@ -73,7 +73,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                     $content = Html::tag('span', $buletin->type,['class'=>' label label-success ']);
                     $content .= ' ' . Html::tag('span', $buletin->seria,['class'=>'  label label-success']);
                     if ($buletin->isExpired()){
-                        $content .= Html::tag( Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>' label label-danger']);
+                        $content .= Html::tag('span', Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>' label label-danger']);
                     } else {
 //                        $content = Html::tag('span', $content,['class'=>'label label-success']);
                         if ($buletin->isAboutExpiration()){

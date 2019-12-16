@@ -38,6 +38,7 @@ $this->params['breadcrumbs'] = [
         'cell.number',
         'power',
         'enable_auto_calculation',
+        'calculationMethod',
         ['class' => \yii\grid\ActionColumn::class]
 
     ]

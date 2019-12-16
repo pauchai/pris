@@ -115,6 +115,9 @@ class Rbac
         $logisticAndAdministrationDepartmentExpert = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT);
         $auth->add($logisticAndAdministrationDepartmentExpert);
 
+        $companyHead = $auth->createRole(Module::ROLE_COMPANY_HEAD);
+        $companyHead->description = 'Company Head';
+        $auth->add($companyHead);
 
         $admin = $auth->createRole(Module::ROLE_ADMIN);
         $admin->description = 'Admin';

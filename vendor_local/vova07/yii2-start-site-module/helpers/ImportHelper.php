@@ -53,6 +53,8 @@ class ImportHelper
     const DOCUMENT_STATUS_INACTIVE = -1;
     const DOCUMENT_STATUS_MAKING = 0;
 
+    const MATERIALS_DIR = '@common/../_materials/';
+
     public static function mapOriginSectorToCompanyNameAndSectorId()
     {
         return [
@@ -265,7 +267,7 @@ class ImportHelper
 
     public static function ImportJobs()
     {
-        $dataDir =  Yii::getAlias('@common/../');
+        $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
         $csvFile = $dataDir . 'prisons_dbo_JobsTable.tsv';
         $fileHandler = fopen($csvFile,'r');
         $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
@@ -291,7 +293,7 @@ class ImportHelper
 
 public static function ImportUserJobs()
 {
-    $dataDir =  Yii::getAlias('@common/../');
+    $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
     $csvFile = $dataDir . 'prisons_dbo_UserJobPaidTable.tsv';
     $fileHandler = fopen($csvFile,'r');
     $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
@@ -326,7 +328,7 @@ public static function ImportUserJobs()
 
     public static function ImportNotPaidJobsTypes()
     {
-        $dataDir =  Yii::getAlias('@common/../');
+        $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
         $csvFile = $dataDir . 'prisons_dbo_JobNotPaidTable.tsv';
         $fileHandler = fopen($csvFile,'r');
         $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
@@ -347,7 +349,7 @@ public static function ImportUserJobs()
 
     public static function ImportBalanceCategories()
     {
-        $dataDir =  Yii::getAlias('@common/../');
+        $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
         $csvFile = $dataDir . 'prisons_dbo_balansTypeCategoryTable.tsv';
         $fileHandler = fopen($csvFile,'r');
         $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
@@ -366,7 +368,9 @@ public static function ImportUserJobs()
 
     public static function ImportBalance()
     {
-        $dataDir =  Yii::getAlias('@common/../');
+        $testDate = (new \DateTime())->format('Y-m-d H:i:s.u');
+
+        $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
         $csvFile = $dataDir . 'prisons_dbo_balansTable.tsv';
         $fileHandler = fopen($csvFile,'r');
         $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
@@ -382,8 +386,9 @@ public static function ImportUserJobs()
             $balance->prisoner_id = $prisoner->primaryKey;
             $balance->reason = $csv->getField('reason');
             $balance->amount = $csv->getField('amount');
+            if ($atDate = \DateTime::createFromFormat('Y-m-d H:i:s.u' ,$csv->getField('at')))
+                $balance->at = $atDate->format('Y-m-d') ;
 
-            $balance->at = $csv->getField('at');
             $balance->save();
         }
 

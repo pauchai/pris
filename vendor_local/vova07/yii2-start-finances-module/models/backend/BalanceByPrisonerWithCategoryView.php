@@ -47,6 +47,12 @@ class BalanceByPrisonerWithCategoryView extends ActiveRecord
         }
         return $attributesArray ;
     }
+    public static function primaryKey()
+    {
+        return ['prisoner_id'];
+    }
+
+
 
 
 }

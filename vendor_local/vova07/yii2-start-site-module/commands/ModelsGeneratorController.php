@@ -22,6 +22,7 @@ use vova07\jobs\models\JobPaid;
 use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
 use vova07\jobs\models\WorkDay;
+use vova07\rbac\helpers\Rbac;
 use vova07\rbac\Module;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\PrisonerSecurity;
@@ -68,7 +69,7 @@ class ModelsGeneratorController extends \yii\console\Controller
     public static function getModelClasses()
     {
         return [
-/*
+
 
             Item::class,
             Ident::class,
@@ -100,13 +101,17 @@ class ModelsGeneratorController extends \yii\console\Controller
             Holiday::class,
             WorkDay::class,
 
-            JobPaidType::class,
-            JobPaid::class,
-            JobNotPaidType::class,
-            JobNotPaid::class,
+
 
             BalanceCategory::class,
             Balance::class,
+
+            JobPaidType::class,
+            JobPaid::class,
+            JobPaidList::class,
+            JobNotPaidType::class,
+            JobNotPaid::class,
+
 
             Device::class,
             DeviceAccounting::class,
@@ -120,18 +125,11 @@ class ModelsGeneratorController extends \yii\console\Controller
 
             PrisonerSecurity::class,
 
-            Device::class,
-            DeviceAccounting::class,
-
-            JobPaidList::class,
-            JobPaid::class,
-            DeviceAccounting::class,
-*/
-            //ProgramDict::class,
-            //ProgramPlan::class,
+            ProgramDict::class,
+            ProgramPlan::class,
             ProgramPrisoner::class,
             ProgramVisit::class,
-           // Program::class,
+            Program::class,
             Requirement::class,
         ];
     }
@@ -211,14 +209,14 @@ class ModelsGeneratorController extends \yii\console\Controller
         $this->doLogin($user->ident);
 
         $companyPu1 = Company::findOne(['alias'=>"pu-1"]);
-        $departmentSocialReintegration = Department::findOne(['title' => 'social reintegration']);
+        $departmentSocialReintegration = Department::findOne(['title' => Department::SPECIAL_SOCIAL_REINTEGRATION]);
 
-        $this->createOfficer(
+       /* $this->createOfficer(
             [
                 'department_id' => $departmentSocialReintegration->primaryKey,
                 'company_id' => $companyPu1->primaryKey
             ], $user->person
-        );
+        );*/
 
     }
 
@@ -229,8 +227,8 @@ class ModelsGeneratorController extends \yii\console\Controller
 
 
         $companyPu1 = Company::findOne(['alias'=>"pu-1"]);
-        $departmentSocialReintegration = Department::findOne(['title' => 'social reintegration']);
-
+        $departmentSocialReintegration = Department::findOne(['title' => Department::SPECIAL_SOCIAL_REINTEGRATION]);
+        $departmentAdministration = Department::findOne(['title' => Department::SPECIAL_ADMINISTRATION]);
 
         $ident = $this->createIdent();
         $user = $this->createUser([
@@ -329,6 +327,25 @@ class ModelsGeneratorController extends \yii\console\Controller
             'company_id' => $companyPu1->primaryKey
         ],$person);
 
+        $ident = $this->createIdent();
+        $user = $this->createUser([
+            'username'=>'bush',
+            'email' => 'bush@prison.md',
+            'password' => 'bush12345',
+            'repassword' => 'bush12345',
+            'role' => Module::ROLE_COMPANY_HEAD,
+        ],$ident);
+        $person = $this->createPerson([
+            'first_name' => 'Andrei',
+            'second_name' => 'Buşmachiu',
+            'patronymic' => 'Ilia',
+
+        ],$ident);
+        $officer = $this->createOfficer([
+            'department_id' => $departmentAdministration->primaryKey,
+            'company_id' => $companyPu1->primaryKey
+        ],$person);
+
 
     }
 
@@ -351,6 +368,19 @@ class ModelsGeneratorController extends \yii\console\Controller
       //  $this->actionGenerateProgramDicts();
         $this->actionGenerateFirstIdentOfficer();
         $this->actionGenerateOfficers();
+        $this->actionGenerateSettings();
+
+    }
+    public function actionGenerateSettings()
+    {
+        $user = User::findOne(['username' => 'admin']);
+        $ident = $user->ident;
+        \Yii::$app->user->setIdentity($ident);
+        $setting = new Setting();
+        $setting->prison_id = Company::findOne(['alias' => Company::PRISON_PU1])->primaryKey;
+        $setting->{Setting::SETTING_FIELD_COMPANY_DIRECTOR} = User::findOne(['role' => Module::ROLE_COMPANY_HEAD])->primaryKey;
+        $setting->{Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE} = 1.95;
+        $setting->save();
     }
 
     public function actionGeneratePrisons()
@@ -358,12 +388,15 @@ class ModelsGeneratorController extends \yii\console\Controller
         $user = User::findOne(['username' => 'admin']);
         $ident = $user->ident;
         \Yii::$app->user->setIdentity($ident);
+
         $department1 = new Department(['title' => Department::SPECIAL_SOCIAL_REINTEGRATION]);
         $department1->save();
         $department2 = new Department(['title' => Department::SPECIAL_FINANCE]);
         $department2->save();
         $department3 = new Department(['title' => Department::SPECIAL_LOGISTIC]);
         $department3->save();
+        $department4 = new Department(['title' => Department::SPECIAL_ADMINISTRATION]);
+        $department4->save();
 
 
         foreach (Company::getList() as $companySlug) {
@@ -372,7 +405,7 @@ class ModelsGeneratorController extends \yii\console\Controller
 
             $prison->save();
             $company = $prison->company;
-            $company->departments = [$department1, $department2, $department3];
+            $company->departments = [$department1, $department2, $department3, $department4];
             $company->save();
         }
 
