@@ -16,7 +16,7 @@ foreach ($files as $file)
     $res =   `cd $fullFile; git status -s`;
     if ($res){
         echo $file . "\n";
-        echo $res;
+        //echo $res;
     }
 
 }
