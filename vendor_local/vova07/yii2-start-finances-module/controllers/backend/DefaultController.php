@@ -52,6 +52,9 @@ class DefaultController extends BackendController
         $dataProvider = new ActiveDataProvider([
             'query' => $model->getBalances(),
         ]);
+        if ($this->isPrintVersion)
+            $dataProvider->pagination->pageSize = false;
+        $dataProvider->query->orderBy('at DESC');
 
         return $this->render("view", ['dataProvider'=>$dataProvider,'model'=>$model]);
     }

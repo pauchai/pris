@@ -21,11 +21,13 @@ use \vova07\finances\components\DataColumnWithButtonAction;
 $this->title = Module::t("default","FINANCES_TITLE");
 $this->params['subtitle'] =  $model->fullTitle . '|' . Module::t("default","DETAIL_VIEW") ;
 $this->params['breadcrumbs'] = [
+
+
     [
-        'label' => $this->title,
-        //      'url' => ['index'],
+        'label' => Module::t("default","FINANCES_TITLE"),
+              'url' => ['index'],
     ],
-    // $this->params['subtitle']
+     $this->params['subtitle']
 ];
 ?>
 
@@ -43,6 +45,7 @@ $this->params['breadcrumbs'] = [
 $columns = [
 
     'atJui',
+    'reason',
 
 
 ];
@@ -84,7 +87,7 @@ foreach($creditCategories as $categoryId=>$categoryTitle)
         [
             'columns' => [
                 [],
-
+                [],
 
                 [
                     'content' => \yii\helpers\Html::tag('span',
@@ -115,9 +118,7 @@ foreach($creditCategories as $categoryId=>$categoryTitle)
                     ]
                 ],
 
-                [
-                    'content' => 'TOTAL'
-                ]
+
             ]
         ]
     ],
@@ -126,24 +127,8 @@ foreach($creditCategories as $categoryId=>$categoryTitle)
             'columns' => [
                 [],
 
-
                 [
-                    'content' => '',
-                    'options' => [
-                        'colspan' => count($debitCategories),
-
-                    ]
-                ],
-                [
-                    'content' => '',
-                    'options' => [
-                        'colspan' => count($creditCategories),
-
-                    ]
-                ],
-
-                [
-                    'content' => $model->getBalances()->debit()->sum('amount') - $model->getBalances()->credit()->sum('amount')
+                    'content' => "ОСТАТОК: " .  Yii::$app->formatter->asDecimal($model->getBalances()->debit()->sum('amount') - $model->getBalances()->credit()->sum('amount'),2)
                 ]
             ]
         ]

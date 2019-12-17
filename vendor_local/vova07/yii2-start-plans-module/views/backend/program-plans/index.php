@@ -132,8 +132,8 @@ $this->params['breadcrumbs'] = [
         [
                 'header'=>\vova07\plans\Module::t('default','PROGRAM_PARTICIPANTS_TITLE'),
             'content' => function($model){
-                $programUrl = ['program_id'=>$model->primaryKey];
-                $programUrl[0]='/plans/program-prisoners/participants';
+                $programUrl = ['id'=>$model->primaryKey];
+                $programUrl[0]='/plans/programs/view';
                 return \yii\bootstrap\Html::a($model->getParticipants()->count(),$programUrl) ;
                 }
         ],

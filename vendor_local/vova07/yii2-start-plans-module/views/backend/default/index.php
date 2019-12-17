@@ -44,7 +44,7 @@ $printUrlParams[0] = 'index-print';
 );?>
 
 <?php $box->beginBody();?>
-<?php echo \vova07\users\widgets\PrisonerInfo::widget(['prisoner'=>$prisoner])?>
+<?php // echo \vova07\users\widgets\PrisonerInfo::widget(['prisoner'=>$prisoner])?>
 
 
     <h3><?= Module::t("default","Palierul asistential") ?></h3>

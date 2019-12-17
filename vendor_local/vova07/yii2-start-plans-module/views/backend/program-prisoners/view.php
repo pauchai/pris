@@ -45,7 +45,7 @@ $this->params['breadcrumbs'] = [
         ],
         'prison.company.title',
         'markTitle',
-        'plannedBy.fio',
+        'plannedBy.person.fio',
         'date_plan',
         'status',
 
