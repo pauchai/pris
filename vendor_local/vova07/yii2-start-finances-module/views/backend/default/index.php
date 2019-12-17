@@ -36,67 +36,10 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
+
+
 <?php
-    $DebitCategories = BalanceCategory::findAll(['type_id'=>\vova07\finances\models\Balance::TYPE_DEBIT]);
-    $debitCreateCategoryItems = [];
-    foreach ($DebitCategories as $category){
-        $debitCreateCategoryItems[] = ['label'=>$category->title, 'url'=>'create'];
-    }
-
-?>
-<?php
-$creditCategories = BalanceCategory::findAll(['type_id'=>\vova07\finances\models\Balance::TYPE_CREDIT]);
-$creditCreateCategoryItems = [];
-foreach ($creditCategories as $category){
-    $creditCreateCategoryItems[] = ['label'=>$category->title, 'url'=>'create'];
-}
-
-?>
-
-<?php echo GridView::widget(['dataProvider' => $dataProvider,
-    'filterModel'=>$searchModel,
-    'pjax'=>true,
-
-    'beforeHeader' => [
-        [
-            'columns' => [
-                [],
-                [],
-                [],
-                [
-                    'content' => \yii\helpers\Html::a(
-                        Module::t('labels','DEBIT_LABEL'),
-                        \yii\helpers\Url::to(['/finances/balance/index',(new \vova07\finances\models\backend\BalanceSearch())->formName().'[type_id]' => \vova07\finances\models\Balance::TYPE_DEBIT]),
-                    [
-                        'class' => 'label-success'
-                        ]
-                    ),
-                    'options' => [
-                        'colspan' => 4,
-                        'style' => 'text-align:center',
-                        'class' => 'label-success'
-                    ]
-                ],
-                [
-                    'content' => \yii\helpers\Html::a(
-                        Module::t('labels','CREDIT_LABEL'),
-                        \yii\helpers\Url::to(['/finances/balance/index',(new \vova07\finances\models\backend\BalanceSearch())->formName().'[type_id]' => \vova07\finances\models\Balance::TYPE_CREDIT]),
-                        [
-                            'class' => 'label-danger'
-                        ]
-                    ),
-                    'options' => [
-                        'colspan' => 4,
-                        'style' => 'text-align:center',
-                        'class' => 'label-danger'
-                    ]
-                ],
-
-                []
-            ]
-        ]
-    ],
-    'columns' => [
+    $gridColumns  = [
         ['class' => SerialColumn::class],
         [
             'attribute' => 'prisoner_id',
@@ -112,11 +55,11 @@ foreach ($creditCategories as $category){
         [
             'attribute' => 'prisoner.sector_id',
             'content' => function($model){
-                    if ($model->prisoner->sector_id)
+                if ($model->prisoner->sector_id)
                     return $model->prisoner->sector->title;
-                    else
-                        return null;
-                    },
+                else
+                    return null;
+            },
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
@@ -126,77 +69,35 @@ foreach ($creditCategories as $category){
 
 
         ],
-        [
+        ];
+$debitColumnNames = ['category1','category2','category3','category4'];
+$debitCnt = 0;
+foreach ($debitColumnNames as $columnName){
+    if (!Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_FINANCES_LIST))
+        continue;
+
+        $debitCnt++;
+    $gridColumns[] = [
+        'class' => DataColumnWithButtonAction::class,
+        'attribute' => $columnName,
+        'options' => ['class' => 'text-success']
+    ];
+};
+$credirColumnNames = ['category5','category6','category7','category8'];
+$creditCnt = 0;
+foreach ($credirColumnNames as $columnName){
+    if (!Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_FINANCES_LIST))
+        continue;
+
+        $creditCnt++;
+        $gridColumns[] = [
             'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category1',
+            'attribute' => $columnName,
             'options' => ['class' => 'text-success']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category2',
-            'options' => ['class' => 'text-success']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category3',
-            'options' => ['class' => 'text-success']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category4',
-            'options' => ['class' => 'text-success']
-        ],
-/*        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'debit',
-            'type_id' => \vova07\finances\models\Balance::TYPE_DEBIT,
-            'label' => 'total',
-            'options' => ['class' => 'text-success','style'=>'font-weight:bolder']
-        ],*/
+        ];
+};
 
-
-
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category5',
-            'options' => ['class' => 'text-danger']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category6',
-            'options' => ['class' => 'text-danger']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category7',
-            'options' => ['class' => 'text-danger']
-        ],
-        [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'category8',
-            'options' => ['class' => 'text-danger']
-        ],
-   /*     [
-            'class' => DataColumnWithButtonAction::class,
-            'attribute' => 'credit',
-            'type_id' => \vova07\finances\models\Balance::TYPE_CREDIT,
-            'label' => 'total',
-            'options' => ['class' => 'text-danger','style'=>'font-weight:bolder']
-        ],*/
-
-
-        /*[
-            'attribute' => 'debit',
-            'class' => DataColumnWithHeaderAction::class,
-            'buttonItems' =>$debitCreateCategoryItems
-        ],
-        [
-            'attribute' => 'credit',
-            'class' => DataColumnWithHeaderAction::class,
-            'buttonItems' =>$creditCreateCategoryItems
-
-        ],*/
-        [
+       $gridColumns[] = [
             'class' => DataColumnWithButtonAction::class,
             'attribute' => 'remain',
             'enableResolveCategoryAndType' => false,
@@ -206,13 +107,11 @@ foreach ($creditCategories as $category){
                 } else {
                     $options = ['class'=>'btn-default'];
                 }
-               // return Html::tag('div',$model->remain,$options);
+                // return Html::tag('div',$model->remain,$options);
                 return $options;
             },
-
-
-        ],
-        [
+        ];
+        $gridColumns[] = [
             'attribute' => 'only_debt',
 
 
@@ -231,22 +130,73 @@ foreach ($creditCategories as $category){
                 return $options;
             },
 
-        ],
-        [
+        ];
+        $gridColumns[] = [
+            'visible' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_FINANCES_LIST),
             'class' => \yii\grid\ActionColumn::class,
             'template' => '{print}',
             'buttons' => [
                 'print' => function ($url, $model, $key) {
-                        $urlOptions = ['view','id'=>$model->primaryKey];
-                             return  Html::a('', $urlOptions,['class'=>'fa fa-print']);
-                         },
+                    $urlOptions = ['view','id'=>$model->primaryKey];
+                    return  Html::a('', $urlOptions,['class'=>'fa fa-print']);
+                },
             ]
 
+        ];
+
+$debitHeader = [
+    'content' => \yii\helpers\Html::a(
+        Module::t('labels','CREDIT_LABEL'),
+        \yii\helpers\Url::to(['/finances/balance/index',(new \vova07\finances\models\backend\BalanceSearch())->formName().'[type_id]' => \vova07\finances\models\Balance::TYPE_DEBIT]),
+        [
+            'class' => 'label-success'
         ]
-
-
-
+    ),
+    'options' => [
+        'colspan' => $debitCnt,
+        'style' => 'text-align:center',
+        'class' => 'label-success'
     ]
+];
+$creditHeader = [
+    'content' => \yii\helpers\Html::a(
+        Module::t('labels','CREDIT_LABEL'),
+        \yii\helpers\Url::to(['/finances/balance/index',(new \vova07\finances\models\backend\BalanceSearch())->formName().'[type_id]' => \vova07\finances\models\Balance::TYPE_CREDIT]),
+        [
+            'class' => 'label-danger'
+        ]
+    ),
+    'options' => [
+        'colspan' => $creditCnt,
+        'style' => 'text-align:center',
+        'class' => 'label-danger'
+    ]
+];
+
+
+
+$gridBeforeHeader = [
+    [
+        'columns' => [
+            [],
+            [],
+            [],
+
+            $debitCnt?$debitHeader:[],
+            $creditCnt?$creditHeader:[],
+
+            []
+        ]
+    ]
+];
+?>
+
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel'=>$searchModel,
+    'pjax'=>true,
+
+    'beforeHeader' => $gridBeforeHeader,
+    'columns' => $gridColumns
 ])?>
 
 

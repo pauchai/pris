@@ -73,7 +73,27 @@ return [
     'SocReintegrationDepartmentHead' => [
         'type' => 1,
         'children' => [
+            'SocReintegrationDepartmentEducator',
+            'BPrisonerListRules',
+            'PrisonerPlanView',
+            'PrisonerPlanRequirementsPlaning',
+            'PrisonerPlanProgramsPlaning',
+            'ProgramPlaningList',
+            'BPermissionFinancesAccess',
+            'BPermissionFinancesListRemainOnly',
+            'BPermissionElectricityAccess',
+        ],
+    ],
+    'SocReintegrationDepartmentEducator' => [
+        'type' => 1,
+        'children' => [
             'SocReintegrationDepartmentExpert',
+            'BPrisonerListRules',
+        ],
+    ],
+    'SocReintegrationDepartmentExpert' => [
+        'type' => 1,
+        'children' => [
             'BPrisonerListRules',
             'BPermissionEventPlaningList',
             'BPermissionEventPlaningCreate',
@@ -94,24 +114,10 @@ return [
             'PrisonerPlanRequirementsPlaning',
             'PrisonerPlanProgramsPlaning',
             'ProgramPlaningList',
-            'BPermissionElectricityAccess',
-        ],
-    ],
-    'SocReintegrationDepartmentEducator' => [
-        'type' => 1,
-        'children' => [
-            'SocReintegrationDepartmentHead',
-            'BPrisonerListRules',
-        ],
-    ],
-    'SocReintegrationDepartmentExpert' => [
-        'type' => 1,
-        'children' => [
-            'BPrisonerListRules',
-            'PrisonerPlanView',
-            'PrisonerPlanRequirementsPlaning',
-            'PrisonerPlanProgramsPlaning',
-            'ProgramPlaningList',
+            'BPermissionDocumentCreate',
+            'BPermissionDocumentUpdate',
+            'BPermissionDocumentDelete',
+            'BPermissionDocumentView',
             'BPermissionHumanitarianList',
             'BPermissionHumanitarianView',
             'BPermissionHumanitarianCreate',
@@ -128,24 +134,38 @@ return [
             'BPermissionNotPaidJobUpdate',
             'BPermissionNotPaidJobDelete',
             'BPermissionNotPaidJobView',
+            'BPermissionFinancesAccess',
+            'BPermissionFinancesListRemainOnly',
         ],
     ],
     'SocReintegrationDepartmentSociologist' => [
         'type' => 1,
         'children' => [
             'BPrisonerListRules',
+            'BPermissionEventPlaningList',
+            'BPermissionEventPlaningCreate',
+            'BPermissionEventPlaningUpdate',
+            'BPermissionEventPlaningDelete',
+            'BPermissionEventPlaningView',
             'PrisonerPlanView',
             'BPermissionDocumentsList',
             'BPermissionDocumentCreate',
             'BPermissionDocumentUpdate',
             'BPermissionDocumentDelete',
             'BPermissionDocumentView',
+            'BPermissionFinancesAccess',
+            'BPermissionFinancesListRemainOnly',
         ],
     ],
     'SocReintegrationDepartmentPsychologist' => [
         'type' => 1,
         'children' => [
             'BPrisonerListRules',
+            'BPermissionEventPlaningList',
+            'BPermissionEventPlaningCreate',
+            'BPermissionEventPlaningUpdate',
+            'BPermissionEventPlaningDelete',
+            'BPermissionEventPlaningView',
             'PrisonerPlanView',
         ],
     ],
@@ -155,7 +175,9 @@ return [
     'FinanceDepartmentExpert' => [
         'type' => 1,
         'children' => [
+            'BPrisonerListRules',
             'BPermissionFinancesAccess',
+            'BPermissionFinancesList',
         ],
     ],
     'LogisticAndAdministrationDepartmentHead' => [
@@ -357,6 +379,17 @@ return [
     'BPermissionFinancesAccess' => [
         'type' => 2,
         'description' => 'BPermissionFinancesAccess_DESCRIPTION',
+    ],
+    'BPermissionFinancesList' => [
+        'type' => 2,
+        'description' => 'BPermissionFinancesList_DESCRIPTION',
+        'children' => [
+            'BPermissionFinancesListRemainOnly',
+        ],
+    ],
+    'BPermissionFinancesListRemainOnly' => [
+        'type' => 2,
+        'description' => 'BPermissionFinancesListRemainOnly_DESCRIPTION',
     ],
     'BPermissionElectricityAccess' => [
         'type' => 2,

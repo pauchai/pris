@@ -32,7 +32,7 @@ class ProgramPrisonersController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create', 'participants','add-participant','view','update'],
+                'actions' => ['create', 'participants','add-participant','view','update','index'],
                 'roles' => ['@']
             ]
         ];
@@ -50,7 +50,13 @@ class ProgramPrisonersController extends BackendController
     }
 
 
-
+    public function actionIndex()
+    {
+        $searchModel = new ProgramPrisonerSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+        return $this->render("index", ['dataProvider'=>$dataProvider]);
+    }
 
 
 

@@ -312,7 +312,14 @@ class ProgramPrisoner extends  Ownableitem
     public function attributeLabels()
     {
        return [
-         'plannedBy.person.fio' => Module::t('labels' , 'PLANNED_BY_FIO_LABEL')
+         'plannedBy.person.fio' => Module::t('labels' , 'PLANNED_BY_FIO_LABEL'),
+           'programdict_id' => Module::t('labels','PROGRAM_INDIVIDUAL_TITLE'),
+           'prison_id' => Module::t('labels','PROGRAM_INDIVIDUAL_PRISON'),
+           'prisoner_id' => Module::t('labels','PROGRAM_INDIVIDUAL_PRISONER'),
+           'date_plan' => Module::t('labels','PROGRAM_INDIVIDUAL_YEAR_PLAN'),
+           'planned_by' => Module::t('labels','PROGRAM_INDIVIDUAL_PLANNED_BY'),
+           'mark_id' => Module::t('labels','PROGRAM_INDIVIDUAL_MARK'),
+           'status_id' => Module::t('labels','PROGRAM_INDIVIDUAL_STATUS'),
        ];
     }
 

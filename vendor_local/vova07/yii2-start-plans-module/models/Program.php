@@ -213,5 +213,16 @@ class Program extends  Ownableitem
         return static::getStatusesForCombo($this->status_id);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'programdict_id' => Module::t('labels', 'PROGRAM_TITLE'),
+            'prison_id' => Module::t('labels', 'PROGRAM_PRISON'),
+            'order_no' => Module::t('labels', 'PROGRAM_ORDER_NO'),
+            'dateStartJui' => Module::t('labels', 'PROGRAM_DATE_START'),
+            'status_id' => Module::t('labels', 'PROGRAM_STATUS'),
 
+        ];
+
+    }
 }

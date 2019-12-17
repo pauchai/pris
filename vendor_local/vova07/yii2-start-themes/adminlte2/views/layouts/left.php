@@ -79,6 +79,7 @@ use vova07\site\Module;
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'TASKS_MENU'),'icon' => 'calendar-check','url' => '#' ,
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
                         'items' => [
                             ['label' => Module::t('menu','COMMITTIES_LIST'),'icon' => 'circle','url'=>['/tasks/committee/index'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
@@ -113,10 +114,13 @@ use vova07\site\Module;
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'ELECTRICITY_MENU'),'icon' => 'tv','url' => '#' ,
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS),
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_ACCESS),
                         'items' => [
-                            ['label' => Module::t('menu','DEVICES_ACCOUNTING_LIST'),'icon' => 'circle','url'=>['/electricity/default/index']],
-                            ['label' => Module::t('menu','DEVICES_LIST'),'icon' => 'circle','url'=>['/electricity/devices/index']],
+                            ['label' => Module::t('menu','DEVICES_ACCOUNTING_LIST'),'icon' => 'circle','url'=>['/electricity/default/index'],
+
+                            ],
+                            ['label' => Module::t('menu','DEVICES_LIST'),'icon' => 'circle','url'=>['/electricity/devices/index'],
+                                ],
                             [
                                     'label' => Module::t('menu','BALANCE_IMPORT'),'icon' => 'circle','url'=>['/electricity/balance-import/index'],
                                     'template' => '<a href="{url}">{icon} {label}' .((\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count()>0)?\yii\helpers\Html::tag('span',
