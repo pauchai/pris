@@ -19,7 +19,7 @@ use vova07\users\models\Prisoner;
 use \vova07\finances\components\DataColumnWithButtonAction;
 
 $this->title = Module::t("default","FINANCES_TITLE");
-$this->params['subtitle'] =  $model->fullTitle . '|' . Module::t("default","DETAIL_VIEW") ;
+$this->params['subtitle'] =  '<b>' . Module::t("default","DETAIL_VIEW") . '</b>' . ' : ' . $model->getFullTitle(true)  ;
 $this->params['breadcrumbs'] = [
 
 

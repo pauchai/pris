@@ -39,8 +39,8 @@ dmstr\web\AdminLteAsset::register($this);
         <?php $this->head() ?>    </head>
     <body >
     <header>
-        <?php echo Html::beginTag('div', ['class' => 'box-tools pull-left']);?>
-        <a href="javascript:print()"><i class="fa fa-print"></i></a>
+        <?php echo Html::beginTag('div', ['class' => 'box-tools pull-left no-print']);?>
+        <a  href="javascript:print()"><i class="fa fa-print"></i></a>
         <?php echo Html::endTag("div");?>
     </header>
     <?php $this->beginBody(); ?>

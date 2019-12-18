@@ -10,8 +10,10 @@ $pageWidth = \vova07\base\helpers\Printer::FORMAT_A6_HEIGHT_INCH;
 $this->registerCss(<<<CSS
     @page {
         size: ${pageWidth}in ${pageHeight}in;
-        margin: 6mm
+        margin: 6mm;
+        
     }
+ 
 CSS
 );
 ?>

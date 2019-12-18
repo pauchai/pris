@@ -1,52 +1,65 @@
 <table width="100%" cellpadding="4" cellspacing="0" border=1>
     <col width="256*">
     <tr>
-        <td width="100%" valign="top" >
-            <p><b>КВИТАНЦИЯ</b> № 1 Тараклия</p>
+        <td width="100%" valign="top" align="center" colspan="2" >
+            <p><b>КВИТАНЦИЯ</b> ПУ №1-Тараклия</p>
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <b>1006601002064</b>
+        <td width="100%" valign="top" colspan="2" >
+           <br/>
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <?=$model->prisoner->person->fio?>
+        <td width="100%" valign="top" colspan="2" >
+            <b>Фискальный код: 1006601002064</b>
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <p>Фио</p>
+        <td width="100%" valign="top" colspan="2">
+            <br/>
+
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <?=$model->reason?>
+        <td width="100%" valign="top" colspan="2" >
+            <b>кому</b>: <?=$model->prisoner->fullTitle?>
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <p>(reason)</p>
+        <td width="100%" valign="top"  colspan="2">
+            <br/>
+
         </td>
     </tr>
     <tr>
-        <td width="100%" valign="top" >
+        <td width="100%" valign="top"  colspan="2">
+            <b>причина</b>: <?=$model->reason?>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%" valign="top"  colspan="2">
+            <br/>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%" valign="top" colspan="2" >
             <table width="100%" cellpadding="4" cellspacing="0" border="1">
                 <col width="85*">
                 <col width="85*">
                 <col width="85*">
                 <tr valign="top">
-                    <td width="33%" >
-                        <b>Вид перевода</b>
-                    </td>
-                    <td width="33%" >
-                        <b>Дата</b>
-                    </td>
-                    <td width="33%" >
-                        <b>(Amount)</b>
-                    </td>
+                    <th width="33%" >
+                        Вид перевода
+                    </th>
+                    <th width="33%" >
+                        Дата
+                    </th>
+                    <th width="33%" >
+                        Сумма, лей
+                    </th>
                 </tr>
+
                 <tr valign="top">
                     <td width="33%" >
                         <?=$model->category->title?>
@@ -64,24 +77,23 @@
             </p>
         </td>
     </tr>
-    <tr>
-        <td width="100%" valign="top" >
-            <p><br/>
 
-            </p>
-        </td>
-    </tr>
-    <tr>
-        <td width="100%" valign="top" >
-            <p><br/>
 
-            </p>
-        </td>
-    </tr>
     <tr>
-        <td width="100%" valign="top" >
-            <p>(остаток)<?php echo $model->prisoner->getBalances()->debit()->sum('amount') -$model->prisoner->getBalances()->credit()->sum('amount') ?></p>
+        <td width="40%" style="padding:3px;" >
+
+                <b>Остаток</b>: <?=Yii::$app->formatter->asDecimal($model->prisoner->getBalances()->debit()->sum('amount') -$model->prisoner->getBalances()->credit()->sum('amount'),2) . ' лей' ?>
+
+
+
         </td>
+        <td width="60%"  style="padding:3px;" >
+
+                <b>Подпись</b>:
+
+
+        </td>
+
     </tr>
 </table>
 <div style="page-break-after: always"> </div>
