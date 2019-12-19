@@ -91,7 +91,11 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
     $gridColumns[] = [
 
         'attribute' => 'markTitle'
-    ]
+    ];
+$gridColumns[] = [
+
+    'attribute' => 'status'
+]
 ?>
 <?php $this->registerCss(
         <<<CSS
