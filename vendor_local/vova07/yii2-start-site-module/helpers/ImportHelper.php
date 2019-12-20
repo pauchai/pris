@@ -163,6 +163,8 @@ class ImportHelper
 
         foreach ($originDocuments as $originDocument) {
             //print_r($originPerson);
+            if ($originDocument['statusId'] != self::DOCUMENT_STATUS_ACTIVE)
+                continue;
 
             if (!array_key_exists( $originDocument['docTypeId'], Document::getTypesForCombo()))
                     continue;
@@ -177,26 +179,21 @@ class ImportHelper
                 $document->seria = $originDocument['seria'];
                 $document->country = Country::findOne(['iso'=>'md']);
 
-                $dateObj = new \DateTime();
-                if (is_null($originDocument['dateIssue']) == false) {
-                    $dateParts = preg_split('/\//', $originDocument['dateIssue']);
-                    $dateObj->setDate($dateParts[2], $dateParts[0], $dateParts[1]);
-                    $document->date_issue = $dateObj->getTimestamp();
-                }
 
-                if (is_null($originDocument['dateExpiration']) == false) {
-                    $dateParts = preg_split('/\//', $originDocument['dateExpiration']);
-                    $dateObj->setDate($dateParts[2], $dateParts[0], $dateParts[1]);
-                    $document->date_expiration = $dateObj->getTimestamp();
-                }
+            if ($objDateIssue = \DateTime::createFromFormat('Y-m-d H:i:s' ,$originDocument['dateIssue']))
+                $document->date_issue = $objDateIssue->getTimestamp();
 
+            if ($objDateExpiration = \DateTime::createFromFormat('Y-m-d H:i:s' ,$originDocument['dateExpiration']))
+                $document->date_expiration = $objDateExpiration->getTimestamp();
 
 
 //                $personDocument->date_expiration = $originDocument['dateExpiration'];
                 //\DateTime::
-                $document->status_id = $originDocument['statusId'];
+                $document->status_id = Document::STATUS_ACTIVE;//$originDocument['statusId'];
 
         try{
+
+
             $document->save();
 
         }
