@@ -229,6 +229,8 @@ class ModelsGeneratorController extends \yii\console\Controller
         $companyPu1 = Company::findOne(['alias'=>"pu-1"]);
         $departmentSocialReintegration = Department::findOne(['title' => Department::SPECIAL_SOCIAL_REINTEGRATION]);
         $departmentAdministration = Department::findOne(['title' => Department::SPECIAL_ADMINISTRATION]);
+        $departmentFinance = Department::findOne(['title' => Department::SPECIAL_FINANCE]);
+        $departmentLogistic = Department::findOne(['title' => Department::SPECIAL_LOGISTIC]);
 
         $ident = $this->createIdent();
         $user = $this->createUser([
@@ -347,6 +349,70 @@ class ModelsGeneratorController extends \yii\console\Controller
         ],$person);
 
 
+
+        ////
+        $ident = $this->createIdent();
+        $user = $this->createUser([
+            'username'=>'nechit',
+            'email' => 'neckit@prison.md',
+            'password' => 'nechit12345',
+            'repassword' => 'nechit12345',
+            'role' => Module::ROLE_FINANCE_DEPARTMENT_EXPERT,
+        ],$ident);
+        $person = $this->createPerson([
+            'first_name' => 'Tatiana',
+            'second_name' => 'Nechit',
+            'patronymic' => 'Piotr',
+
+        ],$ident);
+        $officer = $this->createOfficer([
+            'department_id' => $departmentFinance->primaryKey,
+            'company_id' => $companyPu1->primaryKey
+        ],$person);
+
+        ////
+        $ident = $this->createIdent();
+        $user = $this->createUser([
+            'username'=>'nichif',
+            'email' => 'nichif@prison.md',
+            'password' => 'nichif12345',
+            'repassword' => 'nichif12345',
+            'role' => Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT,
+        ],$ident);
+        $person = $this->createPerson([
+            'first_name' => 'Liudmila',
+            'second_name' => 'Nichiforova',
+            'patronymic' => 'L',
+
+        ],$ident);
+        $officer = $this->createOfficer([
+            'department_id' => $departmentLogistic->primaryKey,
+            'company_id' => $companyPu1->primaryKey
+        ],$person);
+
+        ////
+        $ident = $this->createIdent();
+        $user = $this->createUser([
+            'username'=>'dilgher',
+            'email' => 'dilgher@prison.md',
+            'password' => 'dilgher12345',
+            'repassword' => 'dilgher12345',
+            'role' => Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,
+        ],$ident);
+        $person = $this->createPerson([
+            'first_name' => 'Vitalii',
+            'second_name' => 'Dilgher',
+            'patronymic' => 'Jacovlevici',
+
+        ],$ident);
+        $officer = $this->createOfficer([
+            'department_id' => $departmentSocialReintegration->primaryKey,
+            'company_id' => $companyPu1->primaryKey
+        ],$person);
+
+
+
+
     }
 
     private function createOfficer($attributes, $person)
@@ -430,7 +496,7 @@ class ModelsGeneratorController extends \yii\console\Controller
             new Sector(['title' => 'sector 3']),
             new Sector(['title' => 'sector 4']),
             new Sector(['title' => 'hoz']),
-            new Sector(['title' => 'block 1']),
+            new Sector(['title' => 'bloc 1']),
         ];
         $prison->save();
 

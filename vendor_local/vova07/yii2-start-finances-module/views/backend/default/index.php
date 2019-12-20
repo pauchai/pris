@@ -146,7 +146,7 @@ foreach ($credirColumnNames as $columnName){
 
 $debitHeader = [
     'content' => \yii\helpers\Html::a(
-        Module::t('labels','CREDIT_LABEL'),
+        Module::t('labels','DEBIT_LABEL'),
         \yii\helpers\Url::to(['/finances/balance/index',(new \vova07\finances\models\backend\BalanceSearch())->formName().'[type_id]' => \vova07\finances\models\Balance::TYPE_DEBIT]),
         [
             'class' => 'label-success'

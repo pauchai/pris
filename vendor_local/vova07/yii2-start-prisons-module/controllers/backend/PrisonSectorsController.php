@@ -21,6 +21,7 @@ use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\prisons\Module;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -47,7 +48,7 @@ class PrisonSectorsController extends BackendController
         {
             throw new NotFoundHttpException(Module::t("default","ITEM_NOT_FOUND"));
         };
-
+        \Yii::$app->user->setReturnUrl(Url::current());
         $dataProvider = new ActiveDataProvider(['query' => $prison->getSectors()]);
 
 
@@ -97,7 +98,25 @@ class PrisonSectorsController extends BackendController
             throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
+    public function actionUpdate($id)
+    {
+        if (is_null($model = Sector::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
 
+
+        if (\Yii::$app->request->isPost){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate() && $model->save()){
+                return $this->goBack();
+            }
+        }
+
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+
+    }
 
 
 }

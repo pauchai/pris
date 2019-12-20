@@ -22,7 +22,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
     ]
 
 );?>
-
+<?=\kartik\helpers\Html::a($isLight?\vova07\site\Module::t('default','LIST_VERSION_FULL'):\vova07\site\Module::t('default','LIST_VERSION_LIGHT'),['index','isLight' => !$isLight],['class'  => 'btn btn-info no-print'])?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
@@ -53,6 +53,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         ],*/
         [
+
             'attribute'  => 'sector_id',
             'header' => '',
             'value' => 'sector.title',
@@ -67,6 +68,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         //'sector.title',
         [
+            'visible' => !$isLight,
             'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
             'content' => function($model){
                 if ($buletin = $model->person->buletin){
@@ -96,15 +98,21 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         'article',
         [
+            'visible' => !$isLight,
+
             'attribute' => 'termStartJui',
             'filterType' => GridView::FILTER_DATE,
         ],
         [
+            'visible' => !$isLight,
+
             'attribute' => 'termFinishJui',
             'filterType' => GridView::FILTER_DATE,
         ],
 
         [
+            'visible' => !$isLight,
+
             'attribute' => 'termUdoJui',
             'filterType' => GridView::FILTER_DATE,
         ],
@@ -142,6 +150,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
         ['class' => \kartik\grid\ActionColumn::class,
+            'dropdown' => true,
+            'updateOptions' => ['class' => 'disabled'],
             'hidden' => $this->context->isPrintVersion,
 
         ],

@@ -48,7 +48,7 @@ use vova07\site\Module;
 
 
                     ],
-                    ['label' => Module::t('menu','DASH_BOARD_MENU'),'icon' => 'tachometer','url'=>['/site/dash-board/index']],
+                    ['label' => Module::t('menu','DASH_BOARD_MENU'),'icon' => 'tachometer-alt','url'=>['/site/dash-board/index']],
                     ['label' => Module::t('menu','PRISONERS_LIST'),'icon' => 'users','url'=>['/users/prisoner'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
                     ],
@@ -62,7 +62,7 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','WORKSHOPS_MENU'),'icon' => 'circle','url'=>['']],
                         ]
                     ],*/
-                    ['label' =>  Module::t('menu', 'ACTS_AND_DOCUMENTS_MENU'),'icon' => 'files','url' => '#' ,
+                    ['label' =>  Module::t('menu', 'ACTS_AND_DOCUMENTS_MENU'),'icon' => 'file-alt','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST),
                         'items' => [
                             ['label' => Module::t('menu','DOCUMENTS_LIST'),'icon' => 'circle','url'=>['/documents/default/index']],
@@ -174,7 +174,7 @@ use vova07\site\Module;
                                     'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
                         ]
                     ],
-                    ['label' =>  Module::t('menu', 'PRISONS_MENU'),'icon' => 'bank','url' => '#',
+                    ['label' =>  Module::t('menu', 'PRISONS_MENU'),'icon' => 'cube','url' => '#',
                                     'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC),
                         'items' => [
                             ['label' => Module::t('menu','COMPANIES_LIST'),'icon' => 'circle','url'=>['/prisons/companies'],

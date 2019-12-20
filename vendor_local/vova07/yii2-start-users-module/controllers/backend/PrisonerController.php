@@ -80,7 +80,7 @@ class PrisonerController extends BackendController
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex(bool $isLight=false)
     {
       //  $access = \Yii::$app->authManager->checkAccess(\Yii::$app->user->id,Module::PERMISSION_PRISONERS_LIST);
        // if (!$access) {echo "break";die();}
@@ -96,7 +96,7 @@ class PrisonerController extends BackendController
 
          //   return $this->render("index_print", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
         //} else
-            return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
+            return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel, 'isLight' => $isLight]);
     }
 
     public function actionCreate()

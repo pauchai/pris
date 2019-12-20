@@ -62,7 +62,7 @@ class ImportHelper
             self::PU1_LOCATION_SECTOR2 => ['companyName' => Company::PRISON_PU1, 'sectorName' => 'sector 2'],
             self::PU1_LOCATION_SECTOR3 => ['companyName' => Company::PRISON_PU1, 'sectorName' => 'sector 3'],
             self::PU1_LOCATION_SECTOR4 => ['companyName' => Company::PRISON_PU1, 'sectorName' => 'sector 4'],
-            self::PU1_LOCATION_BLOCK1 =>  ['companyName' => Company::PRISON_PU1, 'sectorName' => 'block 1'],
+            self::PU1_LOCATION_BLOCK1 =>  ['companyName' => Company::PRISON_PU1, 'sectorName' => 'bloc 1'],
             self::PU1_LOCATION_GOSPODARI => ['companyName' => Company::PRISON_PU1, 'sectorName' => 'hoz'],
             self::PU1_LOCATION_ETAP => ['companyName' => Company::PRISON_PU1, 'sectorName' => null],
             self::PU1_LOCATION_ART91 => ['companyName' => Company::PRISON_PU1, 'sectorName' =>  null],

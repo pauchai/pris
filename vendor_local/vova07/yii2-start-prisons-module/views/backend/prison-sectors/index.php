@@ -50,7 +50,7 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{cells}{delete}',
+            'template' => '{cells}{update}{delete}',
             'buttons' => [
 
                 'cells' => function ($url, $model, $key) {
