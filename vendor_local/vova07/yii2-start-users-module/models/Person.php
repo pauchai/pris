@@ -20,6 +20,7 @@ use vova07\users\Module;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
+use yii\validators\FilterValidator;
 
 
 class Person extends  Ownableitem
@@ -37,7 +38,8 @@ class Person extends  Ownableitem
             [['birth_year'],'integer'],
             [['address','photo_url','IDNP'],'string'],
             [['photo_url'],'default', 'value'=>'/statics/persons/NoNamePicture.jpg'],
-            [['photo_preview_url'],'default', 'value'=>'/statics/persons/NoNamePicturePreview.jpg']
+            [['photo_preview_url'],'default', 'value'=>'/statics/persons/NoNamePicturePreview.jpg'],
+            [['second_name','first_name','patronymic'],'filter', 'filter'=>function($value){return trim($value);}],
 
 
 
