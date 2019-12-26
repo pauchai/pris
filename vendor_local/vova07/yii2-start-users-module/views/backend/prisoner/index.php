@@ -24,7 +24,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 );?>
 <?=$this->render('_search',['model' => $searchModel])?>
 
-<?=\kartik\helpers\Html::a($isLight?\vova07\site\Module::t('default','LIST_VERSION_FULL'):\vova07\site\Module::t('default','LIST_VERSION_LIGHT'),['index','isLight' => !$isLight],['class'  => 'btn btn-info no-print'])?>
+<?=\kartik\helpers\Html::a($isLight?\vova07\site\Module::t('default','LIST_VERSION_FULL'):\vova07\site\Module::t('default','LIST_VERSION_LIGHT'),\yii\helpers\Url::current(['isLight' => !$isLight]),['class'  => 'btn btn-info no-print'])?>
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
