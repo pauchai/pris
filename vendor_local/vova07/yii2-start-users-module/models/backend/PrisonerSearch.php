@@ -47,7 +47,10 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
                     '__person_id' => $this->__person_id,
                     'status_id' => $this->status_id,
 
+
                 ]);
+
+        $dataProvider->query->andFilterWhere(['like','article', $this->article ]);
 
 
         $dataProvider->query->andFilterWhere(['>=','term_start',$this->termStartFrom])
