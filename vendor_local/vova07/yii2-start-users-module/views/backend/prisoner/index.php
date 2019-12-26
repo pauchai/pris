@@ -62,7 +62,10 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => '',
             'value' => 'sector.title',
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),
-
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true ],
+            ],
         ],
         [
             'attribute' => 'person.IDNP',
