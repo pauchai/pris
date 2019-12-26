@@ -66,6 +66,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'filterWidgetOptions' => [
                 'pluginOptions' => ['allowClear' => true ],
             ],
+            'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_SECTORS'), 'class'=> 'no-print form-control', 'id' => null],
+
         ],
         [
             'attribute' => 'person.IDNP',
