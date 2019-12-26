@@ -17,6 +17,9 @@ return [
        //     'ro' => 'ro-RO',
        //     'en' => 'en-EN',
        // ];
+        if (Yii::$app->params['maintenanceMode']){
+           Yii::$app->catchAll = ['site/default/maintenance'];
+        }
         $matches  = [];
         preg_match("#index-(\w+\-\w+)\.php#", $_SERVER['PHP_SELF'], $matches);
         Yii::$app->base->company = \vova07\prisons\models\Company::findOne(['alias' => \vova07\prisons\models\Company::PRISON_PU1]);
@@ -128,6 +131,7 @@ return [
         ],
         'base' => [
             'class' => \vova07\base\components\Base::class,
+
         ]
         /*
         'urlManager' => [

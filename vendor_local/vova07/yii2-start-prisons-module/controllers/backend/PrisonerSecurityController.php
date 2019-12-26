@@ -60,8 +60,9 @@ class PrisonerSecurityController extends BackendController
         $searchModel251 = new PrisonerSecurity251Search();
 
         $dataProvider248 = $searchModel248->search(\Yii::$app->request->get());
+        $dataProvider248->pagination = false;
         $dataProvider251 = $searchModel251->search(\Yii::$app->request->get());
-
+        $dataProvider251->pagination = false;
 
         return $this->render("index", ['searchModel248'=>$searchModel248,'dataProvider248'=>$dataProvider248,'searchModel251'=>$searchModel251,'dataProvider251'=>$dataProvider251,'isLight' => $isLight]);
 
@@ -99,7 +100,7 @@ class PrisonerSecurityController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = Document::findOne($id)))
+        if (is_null($model = PrisonerSecurity::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

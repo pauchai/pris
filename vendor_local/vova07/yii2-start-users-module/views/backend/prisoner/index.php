@@ -22,7 +22,11 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
     ]
 
 );?>
+<?=$this->render('_search',['model' => $searchModel])?>
+
 <?=\kartik\helpers\Html::a($isLight?\vova07\site\Module::t('default','LIST_VERSION_FULL'):\vova07\site\Module::t('default','LIST_VERSION_LIGHT'),['index','isLight' => !$isLight],['class'  => 'btn btn-info no-print'])?>
+
+
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
@@ -60,15 +64,18 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),
 
         ],
+        [
+            'attribute' => 'person.IDNP',
+            'visible' => $isLight === false,
+        ],
 
-        'person.IDNP',
         //'person.buletin.seria',
         //'person.buletin.type',
         //'prison.company.title',
 
         //'sector.title',
         [
-            'visible' => !$isLight,
+            'visible' => $isLight === false,
             'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
             'content' => function($model){
                 if ($buletin = $model->person->buletin){
@@ -94,27 +101,34 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => '',
             'value' => 'person.country.iso',
         ],
-        'person.address',
-
-        'article',
         [
-            'visible' => !$isLight,
+            'visible' => $isLight === false,
+            'attribute' => 'person.address',
+        ],
+
+        [
+
+          'attribute' => 'article'
+        ],
+
+        [
+
 
             'attribute' => 'termStartJui',
-            'filterType' => GridView::FILTER_DATE,
+          //  'filterType' => GridView::FILTER_DATE_RANGE,
         ],
         [
-            'visible' => !$isLight,
+
 
             'attribute' => 'termFinishJui',
-            'filterType' => GridView::FILTER_DATE,
+          //  'filterType' => GridView::FILTER_DATE_RANGE,
         ],
 
         [
-            'visible' => !$isLight,
+
 
             'attribute' => 'termUdoJui',
-            'filterType' => GridView::FILTER_DATE,
+           // 'filterType' => GridView::FILTER_DATE_RANGE,
         ],
 
 
@@ -125,6 +139,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'content'=> function($model){return Html::img($model->person->photo_preview_url,['class'=>"img-circle img-sm"]);},
         ],
         [
+            'visible' => $isLight === false,
             'attribute' => 'status_id',
             'content' => function($model){
                 if ($model->status_id > \vova07\users\models\Prisoner::STATUS_ACTIVE){

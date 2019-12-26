@@ -64,4 +64,10 @@ class DefaultController extends \yii\web\Controller
 
     }
 
+    public function actionMaintenance()
+    {
+        $this->layout = '@vova07/themes/adminlte2/views/layouts/blank';
+        return $this->render('maintenance');
+    }
+
 }

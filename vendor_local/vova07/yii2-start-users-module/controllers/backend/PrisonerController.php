@@ -80,7 +80,7 @@ class PrisonerController extends BackendController
         ];
     }
 
-    public function actionIndex(bool $isLight=false)
+    public function actionIndex(bool $isLight=true)
     {
       //  $access = \Yii::$app->authManager->checkAccess(\Yii::$app->user->id,Module::PERMISSION_PRISONERS_LIST);
        // if (!$access) {echo "break";die();}

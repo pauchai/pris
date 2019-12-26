@@ -4,6 +4,7 @@ namespace vova07\users\models\backend;
 use vova07\base\components\DateConvertJuiBehavior;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Prisoner;
+use yii\helpers\ArrayHelper;
 
 /**
  * Created by PhpStorm.
@@ -14,12 +15,16 @@ use vova07\users\models\Prisoner;
 
 class PrisonerSearch extends \vova07\users\models\PrisonerView
 {
+    public $termStartFrom, $termStartTo;
+    public $termFinishFrom, $termFinishTo;
+    public $termUdoFrom, $termUdoTo;
 
     public function rules()
     {
         return [
             [['article'],'string'],
             [['termStartJui','termFinishJui','termUdoJui'],'date'],
+            [['termStartFromJui','termStartToJui','termFinishFromJui','termFinishToJui','termUdoFromJui','termUdoToJui'],'date'],
             [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
             [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE]
         ];
@@ -41,15 +46,60 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
                     'sector_id' => $this->sector_id,
                     '__person_id' => $this->__person_id,
                     'status_id' => $this->status_id,
-                    'term_start' => $this->term_start,
-                    'term_finish' => $this->term_finish,
-                    'term_udo' => $this->term_udo
 
                 ]);
+
+
+        $dataProvider->query->andFilterWhere(['>=','term_start',$this->termStartFrom])
+            ->andFilterWhere(['<=','term_start',$this->termStartTo]);
+
+        $dataProvider->query->andFilterWhere(['>=','term_finish',$this->termFinishFrom])
+            ->andFilterWhere(['<=','term_finish',$this->termFinishTo]);
+
+        $dataProvider->query->andFilterWhere(['>=','term_udo',$this->termUdoFrom])
+            ->andFilterWhere(['<=','term_udo',$this->termUdoTo]);
 
         return $dataProvider;
 
     }
 
+    public function behaviors()
+    {
+        $add =
+            [
+            'termStartFromJui'=>[
+                'class' => DateConvertJuiBehavior::class,
+                'attribute' => 'termStartFrom',
+                'juiAttribute' => 'termStartFromJui'
+            ],
+            'termStartToJui'=>[
+                'class' => DateConvertJuiBehavior::class,
+                'attribute' => 'termStartTo',
+                'juiAttribute' => 'termStartToJui'
+            ],
+                'termFinishFromJui'=>[
+                    'class' => DateConvertJuiBehavior::class,
+                    'attribute' => 'termFinishFrom',
+                    'juiAttribute' => 'termFinishFromJui'
+                ],
+                'termFinishToJui'=>[
+                    'class' => DateConvertJuiBehavior::class,
+                    'attribute' => 'termFinishTo',
+                    'juiAttribute' => 'termFinishToJui'
+                ],
+                'termUdoFromJui'=>[
+                    'class' => DateConvertJuiBehavior::class,
+                    'attribute' => 'termUdoFrom',
+                    'juiAttribute' => 'termUdoFromJui'
+                ],
+                'termUdoToJui'=>[
+                    'class' => DateConvertJuiBehavior::class,
+                    'attribute' => 'termUdoTo',
+                    'juiAttribute' => 'termUdoToJui'
+                ],
+            ];
+
+        return ArrayHelper::merge(parent::behaviors(),$add);
+    }
 
 }

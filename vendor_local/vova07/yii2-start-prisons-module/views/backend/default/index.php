@@ -18,7 +18,6 @@ $this->params['subtitle'] = Module::t('default','PRISONERS_LIST');
     ]
 
 );?>
-
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
