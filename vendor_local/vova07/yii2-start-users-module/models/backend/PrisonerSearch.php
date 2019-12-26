@@ -23,7 +23,7 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
     {
         return [
             [['article'],'string'],
-            [['termStartJui','termFinishJui','termUdoJui'],'date'],
+            //[['termStartJui','termFinishJui','termUdoJui'],'date'],
             [['termStartFromJui','termStartToJui','termFinishFromJui','termFinishToJui','termUdoFromJui','termUdoToJui'],'date'],
             [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
             [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE]
