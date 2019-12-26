@@ -16,7 +16,7 @@ return [
           \yii\validators\DateValidator::class => ['format' => 'dd-MM-yyyy'],
           \vova07\base\components\DateJuiBehavior::class => ['dateFormat' => 'd-m-Y'],
           \kartik\widgets\DatePicker::class => [
-              'defaultOptions' => [
+              'options' => [
                   'class' => 'form-control',
                   'autocomplete' => 'off',
                   'placeholder' => Yii::t('default','SELECT_DATE'),

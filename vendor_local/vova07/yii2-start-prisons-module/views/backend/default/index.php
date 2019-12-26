@@ -41,3 +41,4 @@ $this->params['subtitle'] = Module::t('default','PRISONERS_LIST');
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
+

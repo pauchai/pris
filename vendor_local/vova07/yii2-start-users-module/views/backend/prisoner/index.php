@@ -115,7 +115,10 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
             'attribute' => 'termStartJui',
-          //  'filterType' => GridView::FILTER_DATE_RANGE,
+            'filterType' => GridView::FILTER_DATE_RANGE,
+            'filterWidgetOptions' => [
+
+            ]
         ],
         [
 

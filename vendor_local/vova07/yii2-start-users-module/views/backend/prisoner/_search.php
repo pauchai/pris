@@ -9,28 +9,28 @@
     <div class="row">
 
     <div class = 'col-md-6'>
-    <?php echo $form->field($model,'termStartFromJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termStartFromJui')]]) ?>
+    <?php echo $form->field($model,'termStartFromJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['placeholder' => $model->getAttributeLabel('termStartFromJui')]]) ?>
     </div>
         <div class = 'col-md-6'>
-    <?php echo $form->field($model,'termStartToJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termStartToJui')]]) ?>
-    </div>
-    </div>
-    <div class="row">
-
-        <div class = 'col-md-6'>
-        <?php echo $form->field($model,'termFinishFromJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termFinishFromJui')]]) ?>
-        </div>
-        <div class = 'col-md-6'>
-        <?php echo $form->field($model,'termFinishToJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termFinishToJui')]]) ?>
+    <?php echo $form->field($model,'termStartToJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['placeholder' => $model->getAttributeLabel('termStartToJui')]]) ?>
     </div>
     </div>
     <div class="row">
 
         <div class = 'col-md-6'>
-        <?php echo $form->field($model,'termUdoFromJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termUdoFromJui')]]) ?>
+        <?php echo $form->field($model,'termFinishFromJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['autocomplete' => false,'placeholder' => $model->getAttributeLabel('termFinishFromJui')]]) ?>
         </div>
         <div class = 'col-md-6'>
-        <?php echo $form->field($model,'termUdoToJui')->widget(\kartik\widgets\DatePicker::class,['defaultOptions' => ['placeholder' => $model->getAttributeLabel('termUdoToJui')]]) ?>
+        <?php echo $form->field($model,'termFinishToJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['placeholder' => $model->getAttributeLabel('termFinishToJui')]]) ?>
+    </div>
+    </div>
+    <div class="row">
+
+        <div class = 'col-md-6'>
+        <?php echo $form->field($model,'termUdoFromJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['placeholder' => $model->getAttributeLabel('termUdoFromJui')]]) ?>
+        </div>
+        <div class = 'col-md-6'>
+        <?php echo $form->field($model,'termUdoToJui')->widget(\kartik\widgets\DatePicker::class,['options' => ['placeholder' => $model->getAttributeLabel('termUdoToJui')]]) ?>
     </div>
     </div>
 

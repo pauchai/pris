@@ -88,6 +88,9 @@ use vova07\prisons\Module;
         <?=$form->field($model->person,'photo_preview_url')->widget(\budyaga\cropper\Widget::className(), [
             'uploadUrl' => \yii\helpers\Url::toRoute(['upload-preview-photo']),
         ])?>
+        <?=$form->field($model->person,'photo_url')->widget(\budyaga\cropper\Widget::className(), [
+            'uploadUrl' => \yii\helpers\Url::toRoute(['upload-photo']),
+        ])?>
     </div>
 </div>
 
