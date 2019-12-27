@@ -68,28 +68,52 @@ use vova07\prisons\Module;
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
 
         <?=$form->field($model->person,'first_name')?>
-    <?=$form->field($model->person,'second_name')?>
-    <?=$form->field($model->person,'patronymic')?>
-    <?=$form->field($model->person,'birth_year')?>
-    <?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
 
-        <?=$form->field($model->person,'IDNP')?>
-    <?=$form->field($model->person,'address')?>
+    </div>
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'second_name')?>
 
+    </div>
 
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'patronymic')?>
 
 
     </div>
-    <div class = 'col-md-6'>
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'birth_year')?>
 
+
+    </div>
+</div>
+<div class="row">
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'address')?>
+    </div>
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
+    </div>
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'IDNP')?>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
         <?=$form->field($model->person,'photo_preview_url')->widget(\budyaga\cropper\Widget::className(), [
             'uploadUrl' => \yii\helpers\Url::toRoute(['upload-preview-photo']),
         ])?>
+    </div>
+    <div class="col-md-6">
         <?=$form->field($model->person,'photo_url')->widget(\budyaga\cropper\Widget::className(), [
             'uploadUrl' => \yii\helpers\Url::toRoute(['upload-photo']),
+            'width' => $this->context->module->personPhotoWidth ,
+            'height' => $this->context->module->personPhotoWidth/$this->context->module->personPhotoAspectRatio,
+
+            'aspectRatio' => $this->context->module->personPhotoAspectRatio
         ])?>
     </div>
 </div>
