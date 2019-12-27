@@ -186,4 +186,10 @@ class User extends  Ownableitem implements IdentityInterface
         ];
     }
 
+    public static function getListForCombo()
+    {
+        return ArrayHelper::map(self::find()->select(['__ident_id','username'])->asArray()->all(),'__ident_id','username');
+    }
+
+
 }

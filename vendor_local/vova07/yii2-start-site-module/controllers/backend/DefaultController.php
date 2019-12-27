@@ -1,7 +1,9 @@
 <?php
 namespace vova07\site\controllers\backend;
 
+use MongoDB\Driver\Exception\AuthenticationException;
 use vova07\users\models\LoginForm;
+use vova07\users\models\User;
 
 class DefaultController extends \yii\web\Controller
 {
@@ -68,6 +70,20 @@ class DefaultController extends \yii\web\Controller
     {
         $this->layout = '@vova07/themes/adminlte2/views/layouts/blank';
         return $this->render('maintenance');
+    }
+
+
+    public function actionSwitchUser($id)
+    {
+          $backUrl = \Yii::$app->request->referrer;
+            if (\Yii::$app->params['quickSwitchUser']){
+                $user = User::findOne($id);
+                \Yii::$app->user->switchIdentity($user);
+            } else {
+                throw new AuthenticationException();
+            }
+
+            return $this->redirect($backUrl);
     }
 
 }

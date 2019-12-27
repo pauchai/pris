@@ -19,8 +19,20 @@ use vova07\site\Module;
             <?php endif;?>
         </div>
 
-        <!-- search form -->
+        <?php if (Yii::$app->params['quickSwitchUser']):?>
+        <!-- quit switch form -->
 
+        <form action="#" method="post" class="sidebar-form">
+            <div class="input-group">
+                <?php echo \kartik\select2\Select2::widget(['class'=>'form-control','value'=> Yii::$app->user->id, 'name'=>'id','data' => \vova07\users\models\User::getListForCombo(),'options'=>['prompt'=>'Quick switch user'],
+                    'pluginEvents' => ['change'=>'function(){location="' .\yii\helpers\Url::toRoute(['/site/default/switch-user']) . '" + "&id=" + $(this).val();}']
+                ])?>
+
+
+
+            </div>
+        </form>
+        <?php endif;?>
 
         <form action="#" method="post" class="sidebar-form">
             <div class="input-group">
