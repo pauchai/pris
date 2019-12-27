@@ -18,6 +18,7 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
     public $termStartFrom, $termStartTo;
     public $termFinishFrom, $termFinishTo;
     public $termUdoFrom, $termUdoTo;
+    public $enabledSaveSearch = false;
 
     public function rules()
     {
@@ -26,11 +27,16 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
             [['termStartJui','termFinishJui','termUdoJui'],'date'],
             [['termStartFromJui','termStartToJui','termFinishFromJui','termFinishToJui','termUdoFromJui','termUdoToJui'],'date'],
             [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
-            [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE]
+            [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE],
+            [['enabledSaveSearch'],'boolean'],
         ];
     }
-
-    public function search($params)
+    public function searchFromSession()
+    {
+        $params = \Yii::$app->session->get($this->formName());
+        return $this->search($params, '');
+    }
+    public function search($params, $formName = null)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
@@ -38,7 +44,12 @@ class PrisonerSearch extends \vova07\users\models\PrisonerView
         $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
         //$dataProvider->query->active();
 
-        $this->load($params);
+        $this->load($params, $formName);
+        if ($this->enabledSaveSearch){
+            if ($params[$this->formName()]['enabledSaveSearch'])
+                unset($params[$this->formName()]['enabledSaveSearch']);
+            \Yii::$app->session->set($this->formName(),$params[$this->formName()]);
+        }
         $this->validate();
             $dataProvider->query->andFilterWhere(
                 [

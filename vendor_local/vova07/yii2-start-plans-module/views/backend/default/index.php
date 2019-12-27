@@ -25,6 +25,9 @@ $printUrlParams['prisoner_id'] = $prisoner->primaryKey;
 $printUrlParams[0] = 'index-print';
 //$printUrlParams['print']=true;
 ?>
+
+<?php echo Html::a('prev', \yii\helpers\Url::current(['prisoner_id' => $prevPrisonerId]));?>  |
+<?php echo Html::a('next', \yii\helpers\Url::current(['prisoner_id' => $nextPrisonerId]));?>
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],

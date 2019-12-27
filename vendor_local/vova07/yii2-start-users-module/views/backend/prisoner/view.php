@@ -51,6 +51,10 @@ $this->params['breadcrumbs'] = [
 
 <?php $box->beginBody();?>
 
+
+<?php echo \yii\helpers\Html::a('prev',\yii\helpers\Url::current(['id' => $prevId]));?> |
+<?php echo \yii\helpers\Html::a('next',\yii\helpers\Url::current(['id' => $nextId]));?>
+
 <?php echo \yii\widgets\DetailView::widget([
     'model' => $model,
     'attributes' => [

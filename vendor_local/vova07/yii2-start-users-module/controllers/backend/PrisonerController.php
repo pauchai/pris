@@ -21,6 +21,7 @@ use vova07\users\models\Prisoner;
 use vova07\users\Module;
 use vova07\users\models\Ident;
 use vova07\users\models\Person;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -125,7 +126,18 @@ class PrisonerController extends BackendController
         {
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
         };
-        return $this->render('view', ['model'=>$model]);
+
+        $prisonerSearch = new PrisonerSearch();
+        $dataProvider = $prisonerSearch->searchFromSession();
+        $dataProvider->pagination = false;
+       // $searchModels = $dataProvider->getModels();
+        $searchKeys = $dataProvider->getKeys();
+        $arrayIndex = array_search($id,$searchKeys);
+        $prevId = isset($searchKeys[$arrayIndex-1])?$searchKeys[$arrayIndex-1]:null;
+        $nextId = isset($searchKeys[$arrayIndex+1])?$searchKeys[$arrayIndex+1]:null;
+
+
+        return $this->render('view', ['model'=>$model, 'prevId' => $prevId,'nextId' => $nextId]);
     }
     public function actionDelete($id)
     {

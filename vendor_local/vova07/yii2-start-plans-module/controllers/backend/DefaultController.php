@@ -13,6 +13,7 @@ use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\Requirement;
 use vova07\plans\models\RequirementsQuery;
 use vova07\plans\Module;
+use vova07\users\models\backend\PrisonerSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
@@ -91,6 +92,15 @@ class DefaultController extends BackendController
         }
 
 
+        $prisonerSearch = new PrisonerSearch();
+        $dataProvider = $prisonerSearch->searchFromSession();
+        $dataProvider->pagination = false;
+        // $searchModels = $dataProvider->getModels();
+        $searchKeys = $dataProvider->getKeys();
+        $arrayIndex = array_search($prisoner_id,$searchKeys);
+        $prevId = isset($searchKeys[$arrayIndex-1])?$searchKeys[$arrayIndex-1]:null;
+        $nextId = isset($searchKeys[$arrayIndex+1])?$searchKeys[$arrayIndex+1]:null;
+
            return $this->render("index", [
                'prisoner'=>$prisoner ,
                'newRequirement'=>$newRequirement,
@@ -99,7 +109,10 @@ class DefaultController extends BackendController
                'prisonerRequirements' => $prisonerRequirements,
                'requirementsList' => Requirement::getRequirementsForCombo(),
                'prisonerRequirementsDataProvider' => $prisonerRequirementsDataProvider,
-               'prisonerProgramsDataProvider' => $prisonerProgramsDataProvider
+               'prisonerProgramsDataProvider' => $prisonerProgramsDataProvider,
+               'prevPrisonerId' => $prevId,
+               'nextPrisonerId' => $nextId,
+
            ]);
     }
 
