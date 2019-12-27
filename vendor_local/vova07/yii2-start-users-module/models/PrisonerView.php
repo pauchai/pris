@@ -48,5 +48,8 @@ class PrisonerView extends  Prisoner
     {
         return ['__person_id'];
     }
-
+    public static function find()
+    {
+        return new PrisonerQuery(PrisonerView::class);
+    }
 }

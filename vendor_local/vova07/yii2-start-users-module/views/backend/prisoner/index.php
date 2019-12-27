@@ -57,8 +57,20 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         ],*/
         [
-
+            'class' => kartik\grid\EditableColumn::class,
             'attribute'  => 'sector_id',
+            'editableOptions' => [
+                'header' => 'Buy Amount',
+                'inputType' => \kartik\editable\Editable::INPUT_WIDGET,
+                'widgetClass' =>  \kartik\select2\Select2::class,
+                'formOptions' => [
+                  'action' => ['edit-sector']
+                ],
+                'options' => [
+                    'data' => \vova07\prisons\models\Sector::getListForCombo()
+                   // 'pluginOptions' => ['min' => 0, 'max' => 5000]
+                ]
+            ],
             'header' => '',
             'value' => 'sector.title',
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),

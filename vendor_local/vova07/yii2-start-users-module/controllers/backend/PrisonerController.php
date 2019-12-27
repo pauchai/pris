@@ -10,6 +10,7 @@ namespace vova07\users\controllers\backend;
 
 
 use budyaga\cropper\actions\UploadAction;
+use kartik\grid\EditableColumnAction;
 use lajax\translatemanager\models\Language;
 use vova07\base\components\BackendController;
 use vova07\prisons\models\Sector;
@@ -21,6 +22,7 @@ use vova07\users\models\Prisoner;
 use vova07\users\Module;
 use vova07\users\models\Ident;
 use vova07\users\models\Person;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -36,7 +38,7 @@ class PrisonerController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create','view','delete','update','upload-preview-photo','upload-photo','prison-sectors','sector-cells'],
+                'actions' => ['create','view','delete','update','upload-preview-photo','upload-photo','prison-sectors','sector-cells','edit-sector'],
                 'roles' => ['@'],
 
             ],
@@ -52,7 +54,7 @@ class PrisonerController extends BackendController
 
     public function actions()
     {
-        return [
+        $ret = [
             'upload-photo' => [
                 'class' => UploadAction::class,
                 'url' => $this->module->personPhotoUrl,
@@ -79,6 +81,27 @@ class PrisonerController extends BackendController
             ]
 
         ];
+        return  array_replace_recursive($ret, [
+             'edit-sector' => [                                   // identifier for your editable column action
+                 'class' => EditableColumnAction::class, // action class name
+                 'modelClass' => Prisoner::class,            // the model for the record being edited
+                 'scenario' => Model::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
+                 'outputValue' => function ($model, $attribute, $key, $index) {
+                              return  $model->sector->title ;  // return a calculated output value if desired
+                        },
+                 'outputMessage' => function($model, $attribute, $key, $index) {
+                              return '';                              // any custom error to return after model save
+                        },
+                 'showModelErrors' => true,                    // show model validation errors after save
+                 'errorOptions' => ['header' => ''],            // error summary HTML options
+                 'formName' => 'PrisonerView'
+                    // 'postOnly' => true,
+                 // 'ajaxOnly' => true,
+                 // 'findModel' => function($id, $action) {},
+                 // 'checkAccess' => function($action, $model) {}
+
+             ]
+         ]);
     }
 
     public function actionIndex(bool $isLight=true)
@@ -92,6 +115,14 @@ class PrisonerController extends BackendController
 //            'desc' => ['person.first_name' => SORT_DESC],
 //
 //        ];
+        if (\Yii::$app->request->isPost && \Yii::$app->request->isAjax)
+        {
+            $postParams =  \Yii::$app->request->post();
+            $prisoner = Prisoner::findOne($postParams['editableKey']);
+            $prisoner->load(\Yii::$app->request->post('PrisonerView'));
+            $prisoner->save();
+
+        }
         if ($this->isPrintVersion)
            $dataProvider->pagination->pageSize = false;
 
