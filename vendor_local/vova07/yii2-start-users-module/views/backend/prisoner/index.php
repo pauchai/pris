@@ -22,7 +22,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
     ]
 
 );?>
-<?=$this->render('_search',['model' => $searchModel])?>
+<?php //echo $this->render('_search',['model' => $searchModel])?>
 
 <?=\kartik\helpers\Html::a($isLight?\vova07\site\Module::t('default','LIST_VERSION_FULL'):\vova07\site\Module::t('default','LIST_VERSION_LIGHT'),\yii\helpers\Url::current(['isLight' => !$isLight]),['class'  => 'btn btn-info no-print'])?>
 
@@ -120,23 +120,48 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
             'attribute' => 'termStartJui',
-            'filterType' => GridView::FILTER_DATE_RANGE,
-            'filterWidgetOptions' => [
-
-            ]
+            //'filterType' => GridView::FILTER_DATE,
+            'filter' => \kartik\widgets\DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'termStartFromJui',
+                'attribute2' => 'termStartToJui',
+                'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
+                'separator' => '-',
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'format' => 'dd-mm-yyyy']
+            ])
         ],
         [
 
 
             'attribute' => 'termFinishJui',
-          //  'filterType' => GridView::FILTER_DATE_RANGE,
+            'filter' => \kartik\widgets\DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'termFinishFromJui',
+                'attribute2' => 'termFinishToJui',
+                'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
+                'separator' => '-',
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'format' => 'dd-mm-yyyy']
+            ])
         ],
 
         [
 
 
             'attribute' => 'termUdoJui',
-           // 'filterType' => GridView::FILTER_DATE_RANGE,
+            'filter' => \kartik\widgets\DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'termUdoFromJui',
+                'attribute2' => 'termUdoToJui',
+                'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
+                'separator' => '-',
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'format' => 'dd-mm-yyyy']
+            ])
         ],
 
 

@@ -25,7 +25,7 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?php echo $this->render('_search', ['model' => $searchModel])?>
+<?php //echo $this->render('_search', ['model' => $searchModel])?>
 
 <?php echo \kartik\grid\GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -74,7 +74,16 @@ $this->params['breadcrumbs'] = [
         [
           'attribute' => 'date_issue',
             'format' => 'date',
-            'filterType' => \kartik\grid\GridView::FILTER_DATE_RANGE
+            'filter' => \kartik\widgets\DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'issuedFromJui',
+                'attribute2' => 'issuedToJui',
+                'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
+                'separator' => '-',
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'format' => 'dd-mm-yyyy']
+            ])
         ],
 
         [
