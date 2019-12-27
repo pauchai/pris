@@ -44,7 +44,14 @@ dmstr\web\AdminLteAsset::register($this);
         <?php echo Html::endTag("div");?>
     </header>
     <?php $this->beginBody(); ?>
-
+    <p>
+       <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </p>
     <?= $content ?>
     <?php $this->registerJs(
         <<<JS
