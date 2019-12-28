@@ -29,8 +29,10 @@ use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
 use vova07\users\Module;
+use yii\base\Event;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
 use yii\db\Schema;
@@ -54,9 +56,9 @@ class Prisoner extends  OwnableItem
 
     const STATUS_DELETED = 99;
 
-   // public $termStartJui;
-   // public $termFinishJui;
-  //  public $termUdoJui;
+    // public $termStartJui;
+    // public $termFinishJui;
+    //  public $termUdoJui;
 
     public static function tableName()
     {
@@ -66,13 +68,14 @@ class Prisoner extends  OwnableItem
     public function rules()
     {
         return [
-            [['__person_id','prison_id'],'required'],
-            [['article'],'string'],
-            [['termStartJui','termFinishJui','termUdoJui'],'date'],
-            [['status_id','sector_id','cell_id'],'safe']
+            [['__person_id', 'prison_id'], 'required'],
+            [['article'], 'string'],
+            [['termStartJui', 'termFinishJui', 'termUdoJui'], 'date'],
+            [['status_id', 'sector_id', 'cell_id'], 'safe']
             //DateValidator::
         ];
     }
+
     /**
      *
      */
@@ -82,8 +85,8 @@ class Prisoner extends  OwnableItem
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
                 'prison_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-                'sector_id' => Schema::TYPE_INTEGER ,
-                'cell_id' => Schema::TYPE_INTEGER ,
+                'sector_id' => Schema::TYPE_INTEGER,
+                'cell_id' => Schema::TYPE_INTEGER,
                 'origin_id' => Schema::TYPE_INTEGER,
                 'profession' => Schema::TYPE_STRING,
                 'article' => Schema::TYPE_STRING,
@@ -94,7 +97,7 @@ class Prisoner extends  OwnableItem
 
 
             ],
-            'indexes' =>[
+            'indexes' => [
                 [self::class, 'term_start'],
                 [self::class, 'term_finish'],
                 [self::class, 'term_udo'],
@@ -103,50 +106,37 @@ class Prisoner extends  OwnableItem
                 Person::class
             ],
             'foreignKeys' => [
-                [get_called_class(), 'prison_id',Prison::class,Prison::primaryKey()],
-                [get_called_class(), 'sector_id',Sector::class,Sector::primaryKey()],
-                [get_called_class(), 'cell_id',Cell::class,Cell::primaryKey()]
+                [get_called_class(), 'prison_id', Prison::class, Prison::primaryKey()],
+                [get_called_class(), 'sector_id', Sector::class, Sector::primaryKey()],
+                [get_called_class(), 'cell_id', Cell::class, Cell::primaryKey()]
             ],
 
         ];
-        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
+        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
     }
 
     public function behaviors()
     {
         if (get_called_class() == self::class) {
             $behaviors = [
-                'saveRelations' =>      [
-                'class' => SaveRelationsBehavior::class,
-                'relations' => [
-                    'person'  ,
-                    'ownableitem',
-                    'prison',
-                    'sector'
-                ],
+                'saveRelations' => [
+                    'class' => SaveRelationsBehavior::class,
+                    'relations' => [
+                        'person',
+                        'ownableitem',
+                        'prison',
+                        'sector'
+                    ],
                 ],
 
 
             ];
 
-
-            $behaviors['changeLocation'] = [
-                'class' => AttributeBehavior::class,
-                'preserveNonEmptyValues' => true,
-                'attributes' => [
-                    \yii\db\ActiveRecord::EVENT_AFTER_INSERT => 'value',
-                    \yii\db\ActiveRecord::EVENT_AFTER_UPDATE => 'value',
-                ],
-                'value' => function ($event) {
-                    return $event->sender->resolveChangeLocation();
-
-                },
-            ];
 
         } else {
             $behaviors = [];
         }
-        $behaviors = ArrayHelper::merge($behaviors,[
+        $behaviors = ArrayHelper::merge($behaviors, [
             'termStartJui' => [
                 'class' => DateConvertJuiBehavior::className(),
                 'attribute' => 'term_start',
@@ -175,56 +165,67 @@ class Prisoner extends  OwnableItem
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class,[ '__ident_id'  => '__person_id']);
-    }
-    public function getOwnableitem()
-    {
-        return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
-    }
-    public function getPrison()
-    {
-        return $this->hasOne(Prison::class,['__company_id' => 'prison_id']);
-    }
-    public function getSector()
-    {
-        return $this->hasOne(Sector::class,['__ownableitem_id' => 'sector_id']);
-    }
-    public function getCell()
-    {
-        return $this->hasOne(Cell::class,['__ownableitem_id' => 'cell_id']);
-    }
-    public function getPrisonerPrograms()
-    {
-        return $this->hasMany(ProgramPrisoner::class,['prisoner_id'=>'__person_id']);
-    }
-    public function getPrograms()
-    {
-        return $this->hasMany(Program::class,['__ownableitem_id'=>'program_id'])->via('prisonerPrograms');
-    }
-    public function getEventParticipants()
-    {
-        return $this->hasMany(\vova07\events\models\EventParticipant::class,['prisoner_id' => '__person_id']);
-    }
-    public function getEvents()
-    {
-        return $this->hasMany(\vova07\events\models\Event::class,['__ownableitem_id'=>'event_id'])->via('eventParticipants');
-    }
-    public function getRequirements()
-    {
-        return $this->hasMany(Requirement::class,['prisoner_id'=>'__person_id']);
-    }
-    public function getProgramPlans()
-    {
-        return $this->hasMany(ProgramPlan::class,['prisoner_id'=>'__person_id']);
-    }
-    public static function getListForCombo()
-    {
-        return ArrayHelper::map(self::find()->select(['__person_id','fio'=>'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic, "," , person.birth_year)' ])->orderBy('fio asc')->joinWith('person')->andWhere(['<>', 'status_id', Prisoner::STATUS_DELETED])->asArray()->all(),'__person_id','fio');
+        return $this->hasOne(Person::class, ['__ident_id' => '__person_id']);
     }
 
-    public function getFullTitle($showSector=false)
+    public function getOwnableitem()
     {
-        $ret =$this->person->fio . ', ' . $this->person->birth_year ;
+        return $this->hasOne(Ownableitem::class, ['__item_id' => '__ownableitem_id']);
+    }
+
+    public function getPrison()
+    {
+        return $this->hasOne(Prison::class, ['__company_id' => 'prison_id']);
+    }
+
+    public function getSector()
+    {
+        return $this->hasOne(Sector::class, ['__ownableitem_id' => 'sector_id']);
+    }
+
+    public function getCell()
+    {
+        return $this->hasOne(Cell::class, ['__ownableitem_id' => 'cell_id']);
+    }
+
+    public function getPrisonerPrograms()
+    {
+        return $this->hasMany(ProgramPrisoner::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getPrograms()
+    {
+        return $this->hasMany(Program::class, ['__ownableitem_id' => 'program_id'])->via('prisonerPrograms');
+    }
+
+    public function getEventParticipants()
+    {
+        return $this->hasMany(\vova07\events\models\EventParticipant::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getEvents()
+    {
+        return $this->hasMany(\vova07\events\models\Event::class, ['__ownableitem_id' => 'event_id'])->via('eventParticipants');
+    }
+
+    public function getRequirements()
+    {
+        return $this->hasMany(Requirement::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getProgramPlans()
+    {
+        return $this->hasMany(ProgramPlan::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public static function getListForCombo()
+    {
+        return ArrayHelper::map(self::find()->select(['__person_id', 'fio' => 'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic, "," , person.birth_year)'])->orderBy('fio asc')->joinWith('person')->andWhere(['<>', 'status_id', Prisoner::STATUS_DELETED])->asArray()->all(), '__person_id', 'fio');
+    }
+
+    public function getFullTitle($showSector = false)
+    {
+        $ret = $this->person->fio . ', ' . $this->person->birth_year;
         if ($this->sector_id && $showSector)
             $ret .= ', ' . ($this->sector->title);
         return $ret;
@@ -239,18 +240,18 @@ class Prisoner extends  OwnableItem
 
     public static function getStatusesForCombo($key = null)
     {
-        $ret =  [
-            self::STATUS_NOT_ACTIVE => Module::t('default','STATUS_NOT_ACTIVE'),
-            self::STATUS_ACTIVE => Module::t('default','STATUS_ACTIVE'),
-            self::STATUS_ETAP => Module::t('default','STATUS_ETAP'),
-            self::STATUS_TERM_91 => Module::t('default','STATUS_TERM_91'),
-            self::STATUS_TERM_92 => Module::t('default','STATUS_TERM_92'),
-            self::STATUS_TERM_473 => Module::t('default','STATUS_TERM_473'),
-            self::STATUS_TERM => Module::t('default','STATUS_TERM'),
-            self::STATUS_DELETED => Module::t('default','STATUS_DELETED'),
+        $ret = [
+            self::STATUS_NOT_ACTIVE => Module::t('default', 'STATUS_NOT_ACTIVE'),
+            self::STATUS_ACTIVE => Module::t('default', 'STATUS_ACTIVE'),
+            self::STATUS_ETAP => Module::t('default', 'STATUS_ETAP'),
+            self::STATUS_TERM_91 => Module::t('default', 'STATUS_TERM_91'),
+            self::STATUS_TERM_92 => Module::t('default', 'STATUS_TERM_92'),
+            self::STATUS_TERM_473 => Module::t('default', 'STATUS_TERM_473'),
+            self::STATUS_TERM => Module::t('default', 'STATUS_TERM'),
+            self::STATUS_DELETED => Module::t('default', 'STATUS_DELETED'),
         ];
 
-        if (is_null($key)){
+        if (is_null($key)) {
             return $ret;
         } else {
             return $ret[$key];
@@ -258,6 +259,7 @@ class Prisoner extends  OwnableItem
 
 
     }
+
     public function getStatus()
     {
         return self::getStatusesForCombo($this->status_id);
@@ -266,17 +268,17 @@ class Prisoner extends  OwnableItem
 
     public function getDevices()
     {
-        return $this->hasMany(\vova07\electricity\models\Device::class,['prisoner_id'=>'__person_id']);
+        return $this->hasMany(\vova07\electricity\models\Device::class, ['prisoner_id' => '__person_id']);
     }
 
     public function resolveChangeLocation()
     {
-        if (!PrisonerLocationJournal::findOne([
-            'prisoner_id' => $this->primaryKey,
-            'prison_id' => $this->prison_id,
-            'sector_id' => $this->sector_id,
-            'cell_id' => $this->cell_id,
-        ]))
+        /* if (!PrisonerLocationJournal::findOne([
+             'prisoner_id' => $this->primaryKey,
+             'prison_id' => $this->prison_id,
+             'sector_id' => $this->sector_id,
+             'cell_id' => $this->cell_id,
+         ]))*/
         {
             $locationJournal = new PrisonerLocationJournal();
             $locationJournal->prisoner_id = $this->primaryKey;
@@ -286,25 +288,37 @@ class Prisoner extends  OwnableItem
             $locationJournal->save();
         }
     }
+
     public function attributeLabels()
     {
         return [
-            '__person_id' => Module::t('labels','PERSON_ID_LABEL'),
-            'prison_id' => Module::t('labels','PRISON_LABEL'),
-            'sector_id' => Module::t('labels','SECTOR_LABEL'),
-            'article' => Module::t('labels','ARTICLE_LABEL'),
-            'termStartJui' => Module::t('labels','TERM_START_LABEL'),
-            'termFinishJui' => Module::t('labels','TERM_FINISH_LABEL'),
-            'termUdoJui' => Module::t('labels','TERM_UDO_LABEL'),
-            'fullTitle' => Module::t('labels','FULL_TITLE_LABEL'),
-            'status' => Module::t('labels','PRISONER_STATUS_LABEL'),
+            '__person_id' => Module::t('labels', 'PERSON_ID_LABEL'),
+            'prison_id' => Module::t('labels', 'PRISON_LABEL'),
+            'sector_id' => Module::t('labels', 'SECTOR_LABEL'),
+            'article' => Module::t('labels', 'ARTICLE_LABEL'),
+            'termStartJui' => Module::t('labels', 'TERM_START_LABEL'),
+            'termFinishJui' => Module::t('labels', 'TERM_FINISH_LABEL'),
+            'termUdoJui' => Module::t('labels', 'TERM_UDO_LABEL'),
+            'fullTitle' => Module::t('labels', 'FULL_TITLE_LABEL'),
+            'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
 
-         ];
+        ];
     }
 
     public function getBalances()
     {
-        return $this->hasMany(Balance::class,['prisoner_id' => '__person_id']);
+        return $this->hasMany(Balance::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert,$changedAttributes);
+        if (
+            array_key_exists('sector_id', $changedAttributes) && $changedAttributes['sector_id'] <> $this->sector_id ||
+            array_key_exists('prison_id', $changedAttributes) && $changedAttributes['prison_id'] <> $this->prison_id
+        ){
+            $this->resolveChangeLocation();
+        }
     }
 
 

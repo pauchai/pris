@@ -58,19 +58,45 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         ],*/
         [
             'class' => kartik\grid\EditableColumn::class,
-            'attribute'  => 'sector_id',
-            'editableOptions' => [
-                'header' => 'Buy Amount',
-                'inputType' => \kartik\editable\Editable::INPUT_WIDGET,
-                'widgetClass' =>  \kartik\select2\Select2::class,
-                'formOptions' => [
-                  'action' => ['edit-sector']
-                ],
-                'options' => [
-                    'data' => \vova07\prisons\models\Sector::getListForCombo()
-                   // 'pluginOptions' => ['min' => 0, 'max' => 5000]
-                ]
-            ],
+            'attribute'  => 'prison_id',
+
+
+            'editableOptions' =>  function ($model, $key, $index){
+
+                return [
+
+                    'inputType' => \kartik\editable\Editable::INPUT_SELECT2,
+                    'formOptions' => [
+                        'action' => ['edit-sector']
+                    ],
+
+                    'afterInput' => function ($form, $widget) use ($model, $index) {
+
+                        return $form->field($model, "[$index]sector_id")->widget(\kartik\depdrop\DepDrop::class, [
+                            'data' => \vova07\prisons\models\Sector::getListForCombo($model->prison_id),
+
+                            'type' => \kartik\depdrop\DepDrop::TYPE_SELECT2,
+                            'select2Options'=> ['pluginOptions'=>['allowClear'=>true]],
+                            'options' => [
+                                'id' => 'sector-id' .  $model->primaryKey,
+                                'placeholder' => 'Select sector...'
+                            ],
+                            'pluginOptions'=>[
+                                'depends'=>['prison_id' .  $model->primaryKey],
+                                'url'=>\yii\helpers\Url::to(['prison-sectors'])
+                            ]
+                        ]);
+                    },
+
+                    'options' => [
+
+                        'options'=>['id' => 'prison_id' . $model->primaryKey,'placeholder'=>'Enter Prison...'],
+                        'pluginOptions'=>['allowClear'=>true],
+                        'data' => \vova07\prisons\models\Prison::getListForCombo()
+                    ]
+                ];
+                },
+
             'header' => '',
             'value' => 'sector.title',
             'filter' => \vova07\prisons\models\Sector::getListForCombo(),
