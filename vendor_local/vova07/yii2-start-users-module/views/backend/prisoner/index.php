@@ -58,41 +58,42 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         ],*/
         [
             'class' => kartik\grid\EditableColumn::class,
-            'attribute'  => 'prison_id',
+            'attribute'  => 'sector_id',
 
 
             'editableOptions' =>  function ($model, $key, $index){
 
                 return [
 
-                    'inputType' => \kartik\editable\Editable::INPUT_SELECT2,
+                    'inputType' => \kartik\editable\Editable::INPUT_DEPDROP,
                     'formOptions' => [
                         'action' => ['edit-sector']
                     ],
 
-                    'afterInput' => function ($form, $widget) use ($model, $index) {
+                    'beforeInput' => function ($form, $widget) use ($model, $index) {
 
-                        return $form->field($model, "[$index]sector_id")->widget(\kartik\depdrop\DepDrop::class, [
-                            'data' => \vova07\prisons\models\Sector::getListForCombo($model->prison_id),
+                        return $form->field($model, "[$index]prison_id")->widget(\kartik\widgets\Select2::class, [
+                            'data' => \vova07\prisons\models\Prison::getListForCombo($model->prison_id),
 
-                            'type' => \kartik\depdrop\DepDrop::TYPE_SELECT2,
-                            'select2Options'=> ['pluginOptions'=>['allowClear'=>true]],
+
                             'options' => [
-                                'id' => 'sector-id' .  $model->primaryKey,
-                                'placeholder' => 'Select sector...'
+                                'id' => 'prison_id' .  $model->primaryKey,
+                                'placeholder' => 'Select Prison...'
                             ],
-                            'pluginOptions'=>[
-                                'depends'=>['prison_id' .  $model->primaryKey],
-                                'url'=>\yii\helpers\Url::to(['prison-sectors'])
-                            ]
+
                         ]);
                     },
 
                     'options' => [
 
-                        'options'=>['id' => 'prison_id' . $model->primaryKey,'placeholder'=>'Enter Prison...'],
-                        'pluginOptions'=>['allowClear'=>true],
-                        'data' => \vova07\prisons\models\Prison::getListForCombo()
+                        'type' => \kartik\depdrop\DepDrop::TYPE_SELECT2,
+                        'select2Options'=> ['pluginOptions'=>['allowClear'=>true]],
+                        'options'=>['id' => 'sector_id' . $model->primaryKey,'placeholder'=>'Enter Prison...'],
+                        'pluginOptions'=>[
+                            'depends'=>['prison_id' .  $model->primaryKey],
+                            'url'=>\yii\helpers\Url::to(['prison-sectors'])
+                        ],
+                        'data' => \vova07\prisons\models\Sector::getListForCombo()
                     ]
                 ];
                 },
