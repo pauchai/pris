@@ -74,11 +74,12 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
                         return $form->field($model, "[$index]prison_id")->widget(\kartik\widgets\Select2::class, [
                             'data' => \vova07\prisons\models\Prison::getListForCombo($model->prison_id),
-
+                            'pluginOptions'=>['allowClear'=>true],
 
                             'options' => [
                                 'id' => 'prison_id' .  $model->primaryKey,
                                 'placeholder' => 'Select Prison...'
+
                             ],
 
                         ]);
