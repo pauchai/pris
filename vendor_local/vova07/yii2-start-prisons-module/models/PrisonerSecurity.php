@@ -22,6 +22,7 @@ use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -193,5 +194,10 @@ class PrisonerSecurity extends  Ownableitem
         ];
     }
 
+    // overrids Item::delete
+    public function delete()
+    {
+       return ActiveRecord::delete();
+    }
 
 }
