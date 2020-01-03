@@ -37,8 +37,8 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
             $tf = $this->dateTime($this->from_date);
             $tt = $this->dateTime($this->to_date);
             //$t = $this->dateRange;
-         //   $dataProvider->query->andFilterWhere(['>=','from_date',$this->from_date ]);
-         //   $dataProvider->query->andFilterWhere(['<=','to_date',$this->to_date ]);
+            $dataProvider->query->andFilterWhere(['>=','from_date',$this->from_date ]);
+            $dataProvider->query->andFilterWhere(['<=','to_date',$this->to_date ]);
         }
         return $dataProvider;
 

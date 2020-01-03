@@ -25,24 +25,28 @@ $this->params['breadcrumbs'] = [
 <?=Module::t('labels','KWT_PRICE_LABEL')?>:<a class="" href="<?=\yii\helpers\Url::to(['/site/settings/index'])?>"><?php echo \vova07\site\models\Setting::getValue(\vova07\site\models\Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE)?></a> kwt
 <?php echo $this->render('_search',['model' => $searchModel])?>
 
-<?php $form = ActiveForm::begin([
+
+<?php if ($dataProvider->getCount()):?>
+
+
+    <?php $form = ActiveForm::begin([
         'action' => \yii\helpers\Url::to(['mass-change-statuses'])
-])?>
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
-    'columns' => [
-        ['class' => yii\grid\SerialColumn::class],
-        'prisoner.person.fio',
-        'device.title',
-        'dateRange',
-        'value',
-        [
+    ])?>
+    <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => yii\grid\SerialColumn::class],
+            'prisoner.person.fio',
+            'device.title',
+            'dateRange',
+            'value',
+            [
                 'header' => Module::t('labels','PRICE_ACCOUNTING_VALUE'),
-            'content' => function($model){
-             $ret = $model->getPrice();
-             return  Yii::$app->formatter->asDecimal($ret,2);
-            }
-        ],
-        [
+                'content' => function($model){
+                    $ret = $model->getPrice();
+                    return  Yii::$app->formatter->asDecimal($ret,2);
+                }
+            ],
+            [
                 'content' => function($model)use($form){
                     if ($model->status_id >= \vova07\electricity\models\DeviceAccounting::STATUS_READY_FOR_PROCESSING){
                         return $model->status;
@@ -51,19 +55,32 @@ $this->params['breadcrumbs'] = [
                     }
 
                 }
-        ],
-        'balance.atJui',
+            ],
+            'balance.atJui',
 
-        [
-            'class' => \yii\grid\ActionColumn::class,
+            [
+                'class' => \yii\grid\ActionColumn::class,
+            ]
+
         ]
+    ]);
 
-    ]
-]);
+    ?>
+    <?= Html::submitButton(Module::t('default', 'SUBMIT'), ['class' => 'btn btn-primary']) ?>
+    <?php ActiveForm::end()?>
 
-?>
-<?= Html::submitButton(Module::t('default', 'SUBMIT'), ['class' => 'btn btn-primary']) ?>
-<?php ActiveForm::end()?>
+
+<?php else:?>
+    <?php $formGenerateTabularData = ActiveForm::begin([
+        'action' => \yii\helpers\Url::to(['generate-tabular-data'])
+    ])?>
+    <?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()?>
+    <?php echo \yii\bootstrap\Html::submitButton("GENERATE_TABULAR_DATA")?>
+    <?php ActiveForm::end();?>
+
+<?php endif;?>
+
+
 
 
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>

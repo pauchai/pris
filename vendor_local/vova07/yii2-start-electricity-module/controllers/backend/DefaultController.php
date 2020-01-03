@@ -1,9 +1,11 @@
 <?php
 namespace vova07\electricity\controllers\backend;
 use common\fixtures\DeviceAccountingFixture;
+use DeepCopyTest\Matcher\Y;
 use http\Url;
 use vova07\base\components\BackendController;
 use vova07\electricity\models\backend\DeviceAccountingSearch;
+use vova07\electricity\models\backend\GenerateTabularDataForm;
 use vova07\electricity\models\DeviceAccounting;
 use vova07\electricity\models\DeviceAccountingQuery;
 use vova07\events\models\Event;
@@ -57,7 +59,7 @@ class DefaultController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['prisoner-devices','mass-change-statuses'],
+                'actions' => ['prisoner-devices','mass-change-statuses','generate-tabular-data'],
                 'roles' => ['@']
             ],
         ];
@@ -83,8 +85,11 @@ class DefaultController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         //$dataProvider->query->planing();
         $newModel = new DeviceAccounting();
+        $generateTabularDataFormModel = new GenerateTabularDataForm();
+        $generateTabularDataFormModel->dateRange = $searchModel->dateRange;
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
-        return $this->render("index", ['dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel,'generateTabularDataFormModel' => $generateTabularDataFormModel]);
     }
 
     public function actionCreate()
@@ -156,7 +161,17 @@ class DefaultController extends BackendController
             }
 
         }
-        return $this->redirect(\yii\helpers\Url::to(['index']));
+        return $this->goBack();
+    }
+
+    public function actionGenerateTabularData()
+    {
+        $model = new GenerateTabularDataForm();
+        $model->load(\Yii::$app->request->post());
+        $model->validate();
+        $model->generateDevicesAccounting();
+
+        return $this->goBack();
     }
 
 

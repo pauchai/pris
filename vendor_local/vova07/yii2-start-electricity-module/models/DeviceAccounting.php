@@ -126,7 +126,17 @@ class DeviceAccounting extends  Ownableitem
                         'ownableitem',
                     ],
                 ],
+                'autoCalculation' => [
+                    'class' => AttributeBehavior::class,
+                    'attributes' => [
+                        \yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE => 'value',
+                        //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
+                    ],
+                    'value' => function ($event) {
+                        return $event->sender->autoCalculation();
 
+                    },
+                ],
 
             ];
         } else {
@@ -151,17 +161,7 @@ class DeviceAccounting extends  Ownableitem
 
 
         ];
-        $behaviors['autoCalculate'] = [
-            'class' => AttributeBehavior::class,
-            'attributes' => [
-                \yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE => 'value',
-                //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
-            ],
-            'value' => function ($event) {
-                return $event->sender->autoCalculation();
 
-            },
-        ];
 
         return $behaviors;
     }
