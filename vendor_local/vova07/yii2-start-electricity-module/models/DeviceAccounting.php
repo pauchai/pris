@@ -223,7 +223,11 @@ class DeviceAccounting extends  Ownableitem
     {
         if (!($this->value) && $this->device->enable_auto_calculation) {
 
-            $fromDate = (new \DateTime())->setTimestamp($this->from_date);
+            if ($this->device->assigned_at > $this->from_date)
+                $fromDate = (new \DateTime())->setTimestamp($this->device->assigned_at);
+            else
+                $fromDate = (new \DateTime())->setTimestamp($this->from_date);
+
             $toDate = (new \DateTime())->setTimestamp($this->to_date);
             $dateDiff = date_diff($fromDate, $toDate);
             $value = 0;
