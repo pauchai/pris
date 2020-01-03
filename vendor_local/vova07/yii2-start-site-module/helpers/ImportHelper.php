@@ -383,10 +383,11 @@ public static function ImportUserJobs()
             $balance->prisoner_id = $prisoner->primaryKey;
             $balance->reason = $csv->getField('reason');
             $balance->amount = $csv->getField('amount');
-            if ($atDate = \DateTime::createFromFormat('Y-m-d H:i:s.u' ,$csv->getField('at')))
+            if ($atDate = \DateTime::createFromFormat('Y-m-d H:i:s' ,$csv->getField('at')))
                 $balance->at = $atDate->format('Y-m-d') ;
 
             $balance->save();
+            $t = $balance;
         }
 
     }
