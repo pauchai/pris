@@ -88,6 +88,18 @@ CSS
             'visible' => $this->context->isPrintVersion===false
             ,
         ],
+        [
+                'class' => \yii\grid\ActionColumn::class,
+            'template' => '{delete}',
+            'buttons' => [
+                'delete' => function ($url, $model, $key) {
+
+                    return  Html::a('', ['/plans/requirements-prisoner/delete','id'=>$model->primaryKey],['class' => 'fa fa-trash']);
+                }
+
+            ],
+
+        ]
     ]
 ])?>
 <?php $form=\yii\bootstrap\ActiveForm::begin();?>

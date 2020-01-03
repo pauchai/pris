@@ -45,6 +45,7 @@ class ProgramPlansController extends BackendController
     public function actionIndex()
     {
 
+
         $searchModel = new ProgramPrisonerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->query->planned();
@@ -82,7 +83,6 @@ class ProgramPlansController extends BackendController
         $programProvider = new ActiveDataProvider([
             'query' =>$programQuery
         ]);
-        \Yii::$app->user->setReturnUrl(Url::current());
 
         if (\Yii::$app->request->isPjax){
             return $this->renderPartial('index',['dataProvider'=>$dataProvider,'searchModel'=>$searchModel,'programProvider' => $programProvider,'newProgram' => $newProgram]);

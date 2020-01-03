@@ -1,5 +1,6 @@
 <?php
 namespace vova07\plans\controllers\backend;
+use http\Url;
 use vova07\base\components\BackendController;
 use vova07\plans\models\backend\EventSearch;
 use vova07\plans\models\backend\ProgramDictSearch;
@@ -48,6 +49,8 @@ class DefaultController extends BackendController
 
     public function actionIndex($prisoner_id)
     {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
         if (!($prisoner = Prisoner::findOne($prisoner_id))){
             throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
         }
