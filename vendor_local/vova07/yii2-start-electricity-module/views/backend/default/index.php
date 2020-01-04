@@ -74,7 +74,7 @@ $this->params['breadcrumbs'] = [
     <?php $formGenerateTabularData = ActiveForm::begin([
         'action' => \yii\helpers\Url::to(['generate-tabular-data'])
     ])?>
-    <?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()?>
+    <?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()->label(false)?>
     <?php echo \yii\bootstrap\Html::submitButton("GENERATE_TABULAR_DATA")?>
     <?php ActiveForm::end();?>
 
