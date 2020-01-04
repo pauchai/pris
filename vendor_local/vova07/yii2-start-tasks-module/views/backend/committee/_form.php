@@ -1,5 +1,5 @@
 <?php
-use yii\bootstrap\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\tasks\models\Committee;
 use vova07\tasks\Module;
@@ -16,7 +16,13 @@ use vova07\users\models\Officer;
 
 <?php $form = ActiveForm::begin($params??[]) ?>
 <?= $form->field($model,'subject_id')->dropDownList(Committee::getSubjectsForCombo(),['prompt' => Module::t('default','SELECT_SUBJECT_PROMPT')])?>
-<?= $form->field($model,'prisoner_id')->dropDownList(Prisoner::getListForCombo(),['prompt' => Module::t('default','SELECT_PRISONER_PROMPT')])?>
+<?php //echo $form->field($model,'prisoner_id')->dropDownList(Prisoner::getListForCombo(),['prompt' => Module::t('default','SELECT_PRISONER_PROMPT')])?>
+<?php echo $form->field($model,'prisoner_id')->widget(
+        \kartik\select2\Select2::class,
+        [
+               'data' => Prisoner::getListForCombo(),
+            'options' => ['prompt' => Module::t('default','SELECT_PRISONER_PROMPT')]
+        ])?>
 <?= $form->field($model,'assigned_to')->dropDownList(Officer::getListForCombo(),['prompt' => Module::t('default','SELECT_OFFICER_PROMPT')])?>
 <?= $form->field($model,'dateStartJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?= $form->field($model,'dateFinishJui')->widget(\kartik\widgets\DatePicker::class)?>
