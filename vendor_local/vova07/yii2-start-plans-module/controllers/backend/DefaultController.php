@@ -136,7 +136,8 @@ class DefaultController extends BackendController
         $programsGroupedByRole = [
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => [] ,
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST => [],
-            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST => []
+            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST => [],
+         //   \vova07\rbac\Module::ROLE_SUPERADMIN => []
         ];
 
         foreach ($prisonerPrograms as $program)

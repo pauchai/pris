@@ -67,7 +67,7 @@ CSS
 <?php if(isset($programs['req'])) foreach($programs['req'] as $requirement):?>
 
 <p class="requirements">
-    <i class=" fa fa-circle"> <?=$requirement->content?> </i>
+    <i  class=" fa "> <?=$requirement->content?> </i>
 </p>
 
 
@@ -79,7 +79,7 @@ CSS
     <?php if(isset($programs['prog'])) foreach($programs['prog'] as $program):?>
 
     <p class="programs">
-        <i  class=" fa fa-circle"><?=$program->programDict->title?> (<?=$program->date_plan?>)</i>
+        <i  class=" fa "><?=$program->programDict->title?> (<?=$program->date_plan?>)</i>
     </p>
     <?php endforeach;?>
     <p>
