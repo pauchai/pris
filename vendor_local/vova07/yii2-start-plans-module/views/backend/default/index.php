@@ -102,8 +102,11 @@ CSS
         ]
     ]
 ])?>
-<?php $form=\yii\bootstrap\ActiveForm::begin();?>
+<?php $form=\yii\bootstrap\ActiveForm::begin([
+        'action' => ['/plans/requirements-prisoner/create'],
+]);?>
 <div class="row">
+    <?php echo $form->field($newRequirement, 'prisoner_id')->hiddenInput()->label(false)?>
 <?php echo   Html::tag('div',
     $form->field($newRequirement,'content')->widget(\kartik\widgets\TypeaheadBasic::class, [
         'data' => \vova07\plans\models\Requirement::getRequirementsForCombo(),
@@ -187,8 +190,14 @@ CSS
 ])?>
 
     <div class="row">
-        <?php $form = ActiveForm::begin();?>
+        <?php $form = ActiveForm::begin([
+                'action' => ['/plans/program-prisoners/create']
+        ]);?>
+        <?php echo $form->field($newProgramPrisoner, 'prison_id')->hiddenInput()->label(false)?>
+        <?php echo $form->field($newProgramPrisoner, 'prisoner_id')->hiddenInput()->label(false)?>
+        <?php echo $form->field($newProgramPrisoner, 'status_id')->hiddenInput()->label(false)?>
         <?php echo $form->field($newProgramPrisoner,'programdict_id')->widget(\vova07\themes\adminlte2\widgets\DropdownWithButton::class,['items'=>\vova07\plans\models\ProgramDict::getListForCombo()])->label(false)?>
+
         <?php ActiveForm::end();?>
     </div>
 

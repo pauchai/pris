@@ -33,7 +33,7 @@ class RequirementsPrisonerController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['delete'],
+                'actions' => ['create', 'delete'],
                 'roles' => ['@']
             ]
         ];
@@ -49,6 +49,16 @@ class RequirementsPrisonerController extends BackendController
         };
         $programPrisoner->delete();
         return $this->goBack();
+    }
+
+    public function actionCreate()
+    {
+        $newRequirement = new Requirement();
+        if ($newRequirement->load(\Yii::$app->request->post())){
+            $newRequirement->save();
+        }
+        return $this->goBack();
+
     }
 
 

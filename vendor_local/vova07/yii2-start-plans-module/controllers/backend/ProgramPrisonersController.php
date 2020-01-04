@@ -80,7 +80,8 @@ class ProgramPrisonersController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->primaryKey]);
+                    //return $this->redirect(['view', 'id'=>$model->primaryKey]);
+                    return $this->goBack();
                     //return $this->redirect(['view'],$id);
                 };
             };

@@ -57,9 +57,7 @@ class DefaultController extends BackendController
 
             $newRequirement = new Requirement();
             $newRequirement->prisoner_id = $prisoner_id;
-            if ($newRequirement->load(\Yii::$app->request->post())){
-                $newRequirement->save();
-            }
+
             $newProgramPrisoner = new ProgramPrisoner();
             $newProgramPrisoner->prison_id = $prisoner->prison_id;
             $newProgramPrisoner->prisoner_id = $prisoner_id;
