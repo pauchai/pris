@@ -56,7 +56,7 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => yii\grid\ActionColumn::class,
-            'template' => ' {participants}  {update} ',
+            'template' => ' {participants}  {update} {delete} ',
             'buttons' => [
                 'participants' => function ($url, $model, $key) {
                     return \yii\bootstrap\Html::a('<span class="fa fa-users"></span>', ['participants/index','event_id' => $key], [

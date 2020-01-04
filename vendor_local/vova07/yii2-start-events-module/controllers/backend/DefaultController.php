@@ -91,7 +91,7 @@ class DefaultController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = User::findOne($id)))
+        if (is_null($model = Event::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
