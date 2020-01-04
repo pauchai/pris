@@ -1,0 +1,57 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: pauk
+ * Date: 1/3/20
+ * Time: 9:17 AM
+ */
+
+namespace vova07\electricity\models\backend;
+
+
+use vova07\electricity\models\Device;
+use vova07\electricity\models\DeviceAccounting;
+use yii\base\Model;
+
+class GenerateTabularDataForm extends Model
+{
+    public $from_date;
+    public $to_date;
+
+    public function rules()
+    {
+        return [
+          [['dateRange'],'required'],
+        ];
+    }
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \vova07\base\components\DateRangeBehavior::class,
+                'attribute' => 'dateRange',
+                'dateStartAttribute' => 'from_date',
+                'dateEndAttribute' => 'to_date',
+                'displayFormat' => 'd-m-Y'
+
+
+            ]
+        ];
+    }
+
+    public function generateDevicesAccounting()
+    {
+
+        foreach (Device::find()->all() as $device)
+        {
+            $deviceAccounting  = new DeviceAccounting();
+            $deviceAccounting->prisoner_id = $device->prisoner_id;
+            $deviceAccounting->device_id = $device->primaryKey;
+            $deviceAccounting->from_date = $this->from_date;
+            $deviceAccounting->to_date = $this->to_date;
+            $deviceAccounting->save();
+           // $deviceAccounting->autoCalculation();
+
+        }
+    }
+}

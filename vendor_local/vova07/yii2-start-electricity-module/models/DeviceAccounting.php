@@ -126,7 +126,17 @@ class DeviceAccounting extends  Ownableitem
                         'ownableitem',
                     ],
                 ],
+                'autoCalculation' => [
+                    'class' => AttributeBehavior::class,
+                    'attributes' => [
+                        \yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE => 'value',
+                        //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
+                    ],
+                    'value' => function ($event) {
+                        return $event->sender->autoCalculation();
 
+                    },
+                ],
 
             ];
         } else {
@@ -151,17 +161,7 @@ class DeviceAccounting extends  Ownableitem
 
 
         ];
-        $behaviors['autoCalculate'] = [
-            'class' => AttributeBehavior::class,
-            'attributes' => [
-                \yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE => 'value',
-                //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
-            ],
-            'value' => function ($event) {
-                return $event->sender->autoCalculation();
 
-            },
-        ];
 
         return $behaviors;
     }
@@ -223,7 +223,11 @@ class DeviceAccounting extends  Ownableitem
     {
         if (!($this->value) && $this->device->enable_auto_calculation) {
 
-            $fromDate = (new \DateTime())->setTimestamp($this->from_date);
+            if ($this->device->assigned_at > $this->from_date)
+                $fromDate = (new \DateTime())->setTimestamp($this->device->assigned_at);
+            else
+                $fromDate = (new \DateTime())->setTimestamp($this->from_date);
+
             $toDate = (new \DateTime())->setTimestamp($this->to_date);
             $dateDiff = date_diff($fromDate, $toDate);
             $value = 0;
