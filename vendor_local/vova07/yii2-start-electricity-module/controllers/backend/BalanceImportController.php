@@ -68,7 +68,7 @@ class BalanceImportController extends BackendController
                 $balance->category_id =  BalanceCategory::CATEGORY_CREDIT_OTHER;
                 $balance->prisoner_id = $deviceAccounting->prisoner_id;
                 $balance->amount = $deviceAccounting->getPrice();
-                $balance->reason = $deviceAccounting->device->title;
+                $balance->reason = \vova07\electricity\Module::t('default','ELECTRICITY_FOR_MONTH {0, date, MMM, Y}', $deviceAccounting->to_date) ;
                 $balance->atJui = date('d-m-Y');
                 if ($balance->save())
                 {
