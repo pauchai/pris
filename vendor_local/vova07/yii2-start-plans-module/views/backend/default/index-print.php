@@ -79,7 +79,14 @@ CSS
     <?php if(isset($programs['prog'])) foreach($programs['prog'] as $program):?>
 
     <p class="programs">
-        <i  class=" fa "><?=$program->programDict->title?> (<?=$program->date_plan?>)</i>
+        <i  class=" fa "><?=$program->programDict->title?>
+            (
+            <?=$program->date_plan?>
+            <?php if ($program->status_id === \vova07\plans\models\ProgramPrisoner::STATUS_FINISHED){
+                echo $program->markTitle . ' ' . $program->status;
+            } ?>
+            )
+        </i>
     </p>
     <?php endforeach;?>
     <p>

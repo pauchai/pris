@@ -19,7 +19,7 @@ use vova07\users\models\Prisoner;
 use \vova07\finances\components\DataColumnWithButtonAction;
 
 $this->title = Module::t("default","FINANCES_TITLE");
-$this->params['subtitle'] =  '<b>' . Module::t("default","DETAIL_VIEW") . '</b>' . ' : ' . $model->getFullTitle(true)  ;
+$this->params['subtitle'] =  '<b>' . Module::t("default","DETAIL_VIEW") . '</b>' . ' : ' . '<h3>' . $model->getFullTitle(true) . '</h3>' ;
 $this->params['breadcrumbs'] = [
 
 
@@ -50,33 +50,43 @@ $columns = [
 
 ];
 
-
-foreach($debitCategories as $categoryId=>$categoryTitle)
-{
+$initRemain = 0;
     $columns[] = [
-        'label' => $categoryTitle,
-        'value' => function($model)use($categoryId){
-            if ($model->category_id == $categoryId){
-                return $model->amount;
+        'header' => '',
+        'content' =>function($model)use (&$initRemain){
+            if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
+                $value = $model->amount;
+                //$initRemain += $value;
+                return $value;
             } else {
                 return 0;
             }
         }
     ];
-}
-foreach($creditCategories as $categoryId=>$categoryTitle)
-{
     $columns[] = [
-        'label' => $categoryTitle,
-        'value' => function($model)use($categoryId){
-            if ($model->category_id == $categoryId){
-                return $model->amount;
+        'header' => '',
+        'content' =>function($model)use (&$initRemain){
+            if ($model->type_id == \vova07\finances\models\Balance::TYPE_CREDIT){
+                $value = $model->amount;
+               // $initRemain -= $value;
+                return $value;
             } else {
                 return 0;
             }
         }
     ];
-}
+    $columns[] = [
+        'header' => 'remain',
+        'content' =>function($model)use (&$initRemain){
+            $value = $initRemain;
+            if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
+                $initRemain += $model->amount;
+            } else {
+                $initRemain -= $model->amount;
+            }
+            return $value;
+        }
+    ]
 
 ?>
 
@@ -98,7 +108,7 @@ foreach($creditCategories as $categoryId=>$categoryTitle)
                         ]
                     ),
                     'options' => [
-                        'colspan' => count($debitCategories),
+                        'colspan' => 1,
                         'style' => 'text-align:center',
                         'class' => 'label-success'
                     ]
@@ -112,7 +122,7 @@ foreach($creditCategories as $categoryId=>$categoryTitle)
                         ]
                     ),
                     'options' => [
-                        'colspan' => count($creditCategories),
+                        'colspan' => 1,
                         'style' => 'text-align:center',
                         'class' => 'label-danger'
                     ]

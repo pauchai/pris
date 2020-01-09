@@ -37,7 +37,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query,
         ]);
-
+        $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

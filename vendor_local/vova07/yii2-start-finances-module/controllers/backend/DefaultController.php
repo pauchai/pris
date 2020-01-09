@@ -39,7 +39,9 @@ class DefaultController extends BackendController
         $searchModel = new BalanceByPrisonerWithCategoryViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
-
+        if ($this->isPrintVersion)
+            $dataProvider->pagination->pageSize = false;
+            $dataProvider->sort = false;
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
     }
 
@@ -52,9 +54,11 @@ class DefaultController extends BackendController
         $dataProvider = new ActiveDataProvider([
             'query' => $model->getBalances(),
         ]);
-        if ($this->isPrintVersion)
+       // if ($this->isPrintVersion)
             $dataProvider->pagination->pageSize = false;
-        $dataProvider->query->orderBy('at DESC');
+        $dataProvider->sort = false;
+        $dataProvider->query->orderBy('at ASC');
+
 
         return $this->render("view", ['dataProvider'=>$dataProvider,'model'=>$model]);
     }

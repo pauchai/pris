@@ -178,6 +178,9 @@ $this->params['breadcrumbs'] = [
                // 'pluginOptions'=>['format'=>'yyyy-mm-dd']
             ]
         ],
+        [
+                'class' => \kartik\grid\ActionColumn::class
+        ]
 
     ]
 ])?>

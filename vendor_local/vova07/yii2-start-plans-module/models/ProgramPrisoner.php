@@ -271,7 +271,7 @@ class ProgramPrisoner extends  Ownableitem
     }
     public function getMarkTitle()
     {
-        if ($this->mark_id)
+        if (!is_null($this->mark_id))
             return self::getMarksForCombo($this->mark_id);
         else
             return null;

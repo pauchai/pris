@@ -220,7 +220,8 @@ class Prisoner extends  OwnableItem
 
     public static function getListForCombo()
     {
-        return ArrayHelper::map(self::find()->select(['__person_id', 'fio' => 'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic, "," , person.birth_year)'])->orderBy('fio asc')->joinWith('person')->andWhere(['<>', 'status_id', Prisoner::STATUS_DELETED])->asArray()->all(), '__person_id', 'fio');
+
+        return ArrayHelper::map(self::find()->select(['__person_id', 'fio' => 'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic, "," , CASE WHEN isNull(person.birth_year) THEN 0 Else person.birth_year END)'])->orderBy('fio asc')->joinWith('person')->andWhere(['<>', 'status_id', Prisoner::STATUS_DELETED])->asArray()->all(), '__person_id', 'fio');
     }
 
     public function getFullTitle($showSector = false)

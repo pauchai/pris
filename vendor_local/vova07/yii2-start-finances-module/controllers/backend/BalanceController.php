@@ -7,6 +7,8 @@ use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
 use vova07\rbac\Module;
+use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -26,7 +28,7 @@ class BalanceController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','print-receipt'],
+                'actions' => ['index','print-receipt','delete'],
                 'roles' => [Module::PERMISSION_FINANCES_ACCESS]
             ]
         ];
@@ -39,7 +41,7 @@ class BalanceController extends BackendController
 
         $newModel = new Balance();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-
+        \Yii::$app->user->returnUrl = Url::current();
         if ($newModel->load(\Yii::$app->request->post())) {
             $newModel->save();
         }
@@ -58,6 +60,18 @@ class BalanceController extends BackendController
 
         return $this->render("print_receipt", ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
 
+    }
+
+    public function actionDelete($id)
+    {
+        if (is_null($model = Balance::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        if ($model->delete()){
+            return $this->goBack();
+        };
+        throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
 }

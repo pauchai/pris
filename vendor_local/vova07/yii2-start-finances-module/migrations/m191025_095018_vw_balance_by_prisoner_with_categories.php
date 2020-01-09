@@ -37,6 +37,7 @@ class m191025_095018_vw_balance_by_prisoner_with_categories extends Migration
             'debit' => new \yii\db\Expression('ROUND(SUM(CASE WHEN type_id=' . Balance::TYPE_DEBIT. ' THEN amount END),2)'),
             'credit' => new \yii\db\Expression('ROUND(SUM(CASE WHEN type_id=' . Balance::TYPE_CREDIT. ' THEN amount END),2)'),
             'remain' => new \yii\db\Expression('ROUND(IFNULL(SUM(CASE WHEN type_id=' . Balance::TYPE_DEBIT. ' THEN amount END),0),2) - ROUND(IFNULL(SUM(CASE WHEN type_id=' . Balance::TYPE_CREDIT. ' THEN amount END),0),2)'),
+            'fio' => new \yii\db\Expression("concat(person.second_name,' ', person.first_name,' ', person.patronymic)")
 
         ];
         foreach ($categories as $categoryId=>$categoryTitle)
@@ -47,7 +48,7 @@ class m191025_095018_vw_balance_by_prisoner_with_categories extends Migration
         $this->db->createCommand()->createView(BalanceByPrisonerWithCategoryView::tableName(),
             (new Query())->select(
                 $viewColumns
-            )->from(Balance::tableName())->groupBy(['prisoner_id'])
+            )->leftJoin('person','person.__ident_id = prisoner_id')->from(Balance::tableName())->groupBy(['prisoner_id'])
         )->execute();
         $this->endCommand($time);
     }

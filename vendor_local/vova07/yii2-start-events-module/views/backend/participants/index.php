@@ -56,6 +56,10 @@ $this->params['breadcrumbs'] = [
         'attribute' => 'prisoner.fio',
         'value' => function($model){return $model->prisoner->getFullTitle(true);}
     ],
+    [
+            'class' => \yii\grid\ActionColumn::class,
+            'template' => '{delete}'
+    ]
 
     ]
 ?>
@@ -71,12 +75,13 @@ $this->params['breadcrumbs'] = [
 <?php $form = ActiveForm::begin(
        [
                'id' => 'add-participant',
-   // 'action' => ['add-participant'],
+    'action' => ['create'],
     'options' => [
             'data'=>['pjax'=>true]
     ]
     ]);
 ?>
+<?=$form->field($newParticipant,'event_id')->hiddenInput()->label(false)?>
 <table >
     <thead>
     <tr>
