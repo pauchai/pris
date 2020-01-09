@@ -34,8 +34,24 @@ class Balance extends  Ownableitem
     {
         return [
             [['type_id','category_id','prisoner_id','amount','atJui'], 'required'],
+            [['amount'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             [['reason'],'string']
         ];
+    }
+    public function beforeSave($insert) {
+
+        if (parent::beforeSave($insert)) {
+
+            $this->amount = str_replace(",", ".", $this->amount);
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
     }
 
     /**
