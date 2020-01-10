@@ -21,7 +21,7 @@ use vova07\prisons\models\PrisonerSecurity;
         <?php echo InfoBox::widget(
             [       'title' => \vova07\prisons\Module::t('default','PRISONERS_TITLE'),
                 'infoContent' =>  Html::a(
-                   Prisoner::find()->count(),
+                   Prisoner::find()->active()->count(),
                     ['/users/prisoner']
                 ) ,
                 'icon' => 'users'
@@ -35,7 +35,7 @@ use vova07\prisons\models\PrisonerSecurity;
             [       'title' => \vova07\prisons\Module::t('documents','DOCUMENTS_TITLE'),
                 'infoContent' => Html::a(
                     Document::find()->count(),
-                    ['/prisons/documents']
+                    ['/documents/default/index']
                 ) ,
 
                 'icon' => 'file-alt'
