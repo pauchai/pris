@@ -1,9 +1,11 @@
 <?php
 namespace vova07\site\controllers\backend;
 
-use MongoDB\Driver\Exception\AuthenticationException;
+
 use vova07\users\models\LoginForm;
 use vova07\users\models\User;
+use vova07\users\Module;
+use yii\web\UnauthorizedHttpException;
 
 class DefaultController extends \yii\web\Controller
 {
@@ -76,11 +78,11 @@ class DefaultController extends \yii\web\Controller
     public function actionSwitchUser($id)
     {
           $backUrl = \Yii::$app->request->referrer;
-            if (\Yii::$app->params['quickSwitchUser']){
+            if (\Yii::$app->session->get(Module::QUICK_SWITCH_USER_ENABLED_SESSION_PARAM_NAME)){
                 $user = User::findOne($id);
                 \Yii::$app->user->switchIdentity($user);
             } else {
-                throw new AuthenticationException();
+                throw new UnauthorizedHttpException();
             }
 
             return $this->redirect($backUrl);

@@ -17,6 +17,9 @@ return [
        //     'ro' => 'ro-RO',
        //     'en' => 'en-EN',
        // ];
+        if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_QUICK_SWITCH_USER)){
+            Yii::$app->session->set(\vova07\users\Module::QUICK_SWITCH_USER_ENABLED_SESSION_PARAM_NAME,true);
+        }
         if (Yii::$app->params['maintenanceMode']){
            Yii::$app->catchAll = ['site/default/maintenance'];
         }

@@ -19,7 +19,10 @@ use vova07\site\Module;
             <?php endif;?>
         </div>
 
-        <?php if (Yii::$app->params['quickSwitchUser']):?>
+        <?php // if (Yii::$app->params['quickSwitchUser']):
+            if (Yii::$app->session->get(\vova07\users\Module::QUICK_SWITCH_USER_ENABLED_SESSION_PARAM_NAME, false)):
+        ?>
+
         <!-- quit switch form -->
 
         <form action="#" method="post" class="sidebar-form">

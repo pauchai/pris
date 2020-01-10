@@ -107,7 +107,9 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_ELECTRICITY_DELETE = 'BPermissionElectricityDelete';
     public const PERMISSION_ELECTRICITY_LIST = 'BPermissionElectricityList';
     public const PERMISSION_ELECTRICITY_VIEW = 'BPermissionElectricityView';
-    
+
+
+    public const PERMISSION_QUICK_SWITCH_USER = "BPermissionQuickSwitchUser";
     /**
      * @inheritdoc
      */

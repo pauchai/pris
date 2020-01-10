@@ -32,6 +32,9 @@ class Rbac
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
         }
+
+        \vova07\rbac\helpers\Rbac::addPermission(Module::PERMISSION_QUICK_SWITCH_USER);
+        \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SUPERADMIN,Module::PERMISSION_QUICK_SWITCH_USER);
     }
 
 }
