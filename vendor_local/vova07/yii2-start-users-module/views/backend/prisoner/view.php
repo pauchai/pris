@@ -73,7 +73,9 @@ $this->params['breadcrumbs'] = [
         'termUdoJui',
         'prison.company.title',
         'sector.title',
-        'cell.number'
+        'cell.number',
+        'prisonerSecurity.type'
+
 
     ]
 ])?>

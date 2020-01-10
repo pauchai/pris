@@ -25,6 +25,8 @@ use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\Requirement;
 use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
+use vova07\prisons\models\PrisonerSecurity;
+use vova07\users\models\backend\PrisonerSearch;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
@@ -309,6 +311,10 @@ class Prisoner extends  OwnableItem
     public function getBalances()
     {
         return $this->hasMany(Balance::class, ['prisoner_id' => '__person_id']);
+    }
+    public function getPrisonerSecurity()
+    {
+        return $this->hasOne(PrisonerSecurity::class, ['prisoner_id' => '__person_id']);
     }
 
     public function afterSave($insert, $changedAttributes)
