@@ -68,6 +68,10 @@ use vova07\prisons\models\PrisonerSecurity;
         );?>
     </div>
 
+
+
+</div>
+<div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
         <?php echo InfoBox::widget(
             [       'title' => \vova07\plans\Module::t('default','PRISONER_SECURITY'),
@@ -94,15 +98,6 @@ use vova07\prisons\models\PrisonerSecurity;
             ]
         );?>
     </div>
-
-</div>
-<div class="row">
-    <table >
-        <tr>
-            <td></td>
-            <td> <?= Yii::$app->user->can("") ?></td>
-        </tr>
-    </table>
 </div>
 <div class="row">
 
