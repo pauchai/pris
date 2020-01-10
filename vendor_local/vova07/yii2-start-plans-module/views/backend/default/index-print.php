@@ -82,9 +82,10 @@ CSS
         <i  class=" fa "><?=$program->programDict->title?>
             (
             <?=$program->date_plan?>
-            <?php if ($program->status_id === \vova07\plans\models\ProgramPrisoner::STATUS_FINISHED){
-                echo $program->markTitle . ' ' . $program->status;
-            } ?>
+            <?php if (in_array($program->status_id, [\vova07\plans\models\ProgramPrisoner::STATUS_FINISHED,\vova07\plans\models\ProgramPrisoner::STATUS_FAILED, \vova07\plans\models\ProgramPrisoner::STATUS_ACTIVE])):?>
+               
+                <?=$program->markTitle?>  <?=$program->status?>
+             <?php endif;?>
             )
         </i>
     </p>

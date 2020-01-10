@@ -84,6 +84,9 @@ class ProgramPlansController extends BackendController
             'query' =>$programQuery
         ]);
 
+            if ($this->isPrintVersion)
+                $dataProvider->pagination = false;
+
         if (\Yii::$app->request->isPjax){
             return $this->renderPartial('index',['dataProvider'=>$dataProvider,'searchModel'=>$searchModel,'programProvider' => $programProvider,'newProgram' => $newProgram]);
         } else {

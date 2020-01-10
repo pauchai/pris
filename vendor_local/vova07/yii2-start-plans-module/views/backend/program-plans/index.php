@@ -33,6 +33,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
+            'visible' => false,
             'attribute' => 'prison_id',
             'value' => 'prison.company.title',
             'filter' => \vova07\prisons\models\Prison::getListForCombo(),
@@ -54,8 +55,11 @@ $this->params['breadcrumbs'] = [
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PROGRAM'), 'class'=> 'form-control', 'id' => null],
             'group' => true,
         ],
+        [
+            'attribute' => 'prisoner_id',
+            'value' => function($model) {return $model->prisoner->getFullTitle(true);}
+        ],
 
-        'prisoner.person.fio',
 
         [
             'attribute' => 'date_plan',
@@ -66,13 +70,16 @@ $this->params['breadcrumbs'] = [
             ],
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_YEAR'), 'class'=> 'form-control', 'id' => null]
         ],
-          'plannedBy.person.fio',
-
-
-                   [
-                'class' => \yii\grid\CheckboxColumn::class
-            ],
         [
+          'attribute' => 'plannedBy.person.fio',
+          'visible' => !$this->context->isPrintVersion,
+        ],
+        [
+                'class' => \yii\grid\CheckboxColumn::class
+        ],
+
+        [
+            'visible' => !$this->context->isPrintVersion,
             'class' => yii\grid\ActionColumn::class,
             'buttons' =>  [
             'update' => function ($url, $model, $key) {
