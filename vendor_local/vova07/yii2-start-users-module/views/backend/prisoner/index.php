@@ -146,6 +146,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => '',
             'value' => 'person.country.iso',
         ],
+        'prisonerSecurity.type',
         [
             'visible' => $isLight === false,
             'attribute' => 'person.address',
