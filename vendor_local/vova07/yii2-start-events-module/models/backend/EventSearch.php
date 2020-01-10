@@ -32,7 +32,12 @@ class EventSearch extends Event
         ]);
 
 
+        $dataProvider->sort = [
+            'defaultOrder' => [
+                'date_start' => SORT_ASC,
 
+            ]
+        ];
 
         return $dataProvider;
 

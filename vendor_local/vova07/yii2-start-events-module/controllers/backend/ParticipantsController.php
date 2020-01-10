@@ -41,6 +41,9 @@ class ParticipantsController extends BackendController
             throw new NotFoundHttpException(Module::t('events', 'ITEM_NOT_FOUND'));
         }
 
+
+
+
         $newParticipant = new EventParticipant();
         $newParticipant->event_id = $event->primaryKey;
 

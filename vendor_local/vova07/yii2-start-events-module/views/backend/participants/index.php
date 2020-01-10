@@ -36,6 +36,16 @@ $this->params['breadcrumbs'] = [
 
     ]
 ])?>
+<?php $eventForm = ActiveForm::begin([
+        'action' => ['/events/default/update','id' => $event->primaryKey],
+])?>
+<?=$eventForm->field($event,'status_id' ,['inputOptions' => ['value' =>  \vova07\events\models\Event::STATUS_FINISHED]])->hiddenInput()->label(false)?>
+
+<?php if ($event->status_id <> \vova07\events\models\Event::STATUS_FINISHED ):?>
+<?=\yii\bootstrap\Html::submitButton(Module::t('events','STATUS_SET_FINISHED'))?>
+<?php endif;?>
+
+<?php ActiveForm::end()?>
 
 
 <?php $box = \vova07\themes\adminlte2\widgets\Box::end()?>
@@ -93,7 +103,16 @@ $this->params['breadcrumbs'] = [
     </thead>
     <tbody>
     <tr>
-        <td><?=$form->field($newParticipant,'prisoner_id')->label(false)->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')])?></td>
+        <td>
+            <?php echo $form->field($newParticipant,'prisoner_id')->label(false)->widget(
+              \kartik\select2\Select2::class,[
+                  'data' => \vova07\users\models\Prisoner::getListForCombo(),
+                  'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+
+                ]
+            );
+            //dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')])?></td>
+
 
     </tr>
     </tbody>
@@ -102,7 +121,7 @@ $this->params['breadcrumbs'] = [
 
 <?php $box->beginFooter()?>
 
-<?php echo \yii\bootstrap\Html::submitButton(Module::t('events','SUBMIT'))?>
+<?php //echo \yii\bootstrap\Html::submitButton(Module::t('events','SUBMIT'))?>
 <?php $box->endFooter()?>
 <?php ActiveForm::end()?>
 

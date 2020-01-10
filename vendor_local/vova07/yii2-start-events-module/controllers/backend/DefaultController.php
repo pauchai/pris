@@ -5,6 +5,7 @@ use vova07\events\models\backend\EventSearch;
 use vova07\events\models\Event;
 use vova07\events\Module;
 use vova07\users\models\backend\User;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -55,6 +56,7 @@ class DefaultController extends BackendController
     {
         $searchModel = new EventSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        \Yii::$app->user->returnUrl = Url::current();
         //$dataProvider->query->planing();
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
@@ -113,7 +115,7 @@ class DefaultController extends BackendController
             if ($model->validate()){
                 if ($model->save()){
                     //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 };
             };
         }

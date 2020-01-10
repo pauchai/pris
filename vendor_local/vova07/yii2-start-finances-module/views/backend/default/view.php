@@ -19,7 +19,7 @@ use vova07\users\models\Prisoner;
 use \vova07\finances\components\DataColumnWithButtonAction;
 
 $this->title = Module::t("default","FINANCES_TITLE");
-$this->params['subtitle'] =  '<b>' . Module::t("default","DETAIL_VIEW") . '</b>' . ' : ' . '<h3>' . $model->getFullTitle(true) . '</h3>' ;
+$this->params['subtitle'] =  '';
 $this->params['breadcrumbs'] = [
 
 
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
      $this->params['subtitle']
 ];
 ?>
-
+<h3><?=Module::t("default","DETAIL_VIEW") ?> : <i><?=$model->getFullTitle(true)?> </i></h3>
 <?php $box = Box::begin(
     [
         'title' => $this->params['subtitle'],
@@ -56,7 +56,7 @@ $initRemain = 0;
         'content' =>function($model)use (&$initRemain){
             if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
                 $value = $model->amount;
-                //$initRemain += $value;
+                $initRemain += $value;
                 return $value;
             } else {
                 return 0;
@@ -68,7 +68,7 @@ $initRemain = 0;
         'content' =>function($model)use (&$initRemain){
             if ($model->type_id == \vova07\finances\models\Balance::TYPE_CREDIT){
                 $value = $model->amount;
-               // $initRemain -= $value;
+                $initRemain -= $value;
                 return $value;
             } else {
                 return 0;
@@ -79,11 +79,11 @@ $initRemain = 0;
         'header' => 'remain',
         'content' =>function($model)use (&$initRemain){
             $value = $initRemain;
-            if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
+         /*   if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
                 $initRemain += $model->amount;
             } else {
                 $initRemain -= $model->amount;
-            }
+            }*/
             return $value;
         }
     ]
@@ -132,7 +132,7 @@ $initRemain = 0;
             ]
         ]
     ],
-    'afterFooter' => [
+  /*  'afterFooter' => [
         [
             'columns' => [
                 [],
@@ -142,9 +142,11 @@ $initRemain = 0;
                 ]
             ]
         ]
-    ],
+    ],*/
     'columns' => $columns
 ])?>
 
-
+<?php $box->beginFooter()?>
+<h2>Остаток: <?=Yii::$app->formatter->asDecimal($model->getBalances()->debit()->sum('amount') - $model->getBalances()->credit()->sum('amount'),2)?></h2>
+<?php $box->endFooter()?>
 <?php  Box::end()?>
