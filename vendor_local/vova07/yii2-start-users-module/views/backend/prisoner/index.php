@@ -95,7 +95,22 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                             'url'=>\yii\helpers\Url::to(['prison-sectors'])
                         ],
                         'data' => \vova07\prisons\models\Sector::getListForCombo()
-                    ]
+                    ],
+                    'afterInput' => function ($form, $widget) use ($model, $index) {
+
+                        return $form->field($model, "[$index]status_id")->widget(\kartik\widgets\Select2::class, [
+                            'data' => \vova07\users\models\Prisoner::getStatusesForCombo(),
+                            'pluginOptions'=>['allowClear'=>true],
+
+                            'options' => [
+                                    'placeholder' => 'Select Status...',
+                                //'prompt' => 'tt',
+
+
+                            ],
+
+                        ]);
+                    },
                 ];
                 },
 
@@ -107,6 +122,30 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                 'pluginOptions' => ['allowClear' => true ],
             ],
             'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_SECTORS'), 'class'=> 'no-print form-control', 'id' => null],
+
+        ],
+        [
+            'visible' => $isLight === false,
+            'attribute' => 'status_id',
+            'content' => function($model){
+                if ($model->status_id > \vova07\users\models\Prisoner::STATUS_ACTIVE){
+                    $options = ['class'=>'label label-danger'];
+                } else if($model->status_id == \vova07\users\models\Prisoner::STATUS_ACTIVE) {
+                    $options = ['class'=>'label label-success'];
+                } else {
+                    $options = ['class'=>'label label-info'];
+                }
+                return Html::tag('span',  $model->status,$options);
+            },
+            //contentOptions' => ['class' => '.no-print'],
+            'hidden' => $this->context->isPrintVersion,
+            'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => [
+                    'allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' =>  Module::t('default','SELECT_STATUS_FILTER'), 'class'=> 'form-control', 'id' => null],
 
         ],
         [
@@ -146,7 +185,6 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => '',
             'value' => 'person.country.iso',
         ],
-        'prisonerSecurity.type',
         [
             'visible' => $isLight === false,
             'attribute' => 'person.address',
@@ -212,30 +250,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'header' => '',
             'content'=> function($model){return Html::img($model->person->photo_preview_url,['class'=>"img-circle img-sm"]);},
         ],
-        [
-            'visible' => $isLight === false,
-            'attribute' => 'status_id',
-            'content' => function($model){
-                if ($model->status_id > \vova07\users\models\Prisoner::STATUS_ACTIVE){
-                    $options = ['class'=>'label label-danger'];
-                } else if($model->status_id == \vova07\users\models\Prisoner::STATUS_ACTIVE) {
-                    $options = ['class'=>'label label-success'];
-                } else {
-                    $options = ['class'=>'label label-info'];
-                }
-                return Html::tag('span',  $model->status,$options);
-                },
-            //contentOptions' => ['class' => '.no-print'],
-            'hidden' => $this->context->isPrintVersion,
-            'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
-            'filterType' => GridView::FILTER_SELECT2,
-            'filterWidgetOptions' => [
-                'pluginOptions' => [
-                    'allowClear' => true],
-            ],
-            'filterInputOptions' => ['prompt' =>  Module::t('default','SELECT_STATUS_FILTER'), 'class'=> 'form-control', 'id' => null],
 
-        ],
 
 
         ['class' => \kartik\grid\ActionColumn::class,
