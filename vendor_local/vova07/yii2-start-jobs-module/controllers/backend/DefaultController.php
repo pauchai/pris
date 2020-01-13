@@ -90,7 +90,7 @@ class DefaultController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
-
+        \Yii::$app->user->returnUrl = \yii\helpers\Url::current();
         if ($post = \Yii::$app->request->post()) {
             $jobs = $dataProvider->query->indexBy('__ownableitem_id')->all();
             if (JobPaid::loadMultiple($jobs, $post) && JobPaid::validateMultiple($jobs)) {
@@ -156,7 +156,7 @@ class DefaultController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['index']);
+                return $this->goBack();
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
@@ -175,12 +175,12 @@ class DefaultController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = User::findOne($id)))
+        if (is_null($model = JobPaidForm::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+             return $this->goBack();;
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
@@ -196,7 +196,7 @@ class DefaultController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();;
                 };
             };
         }
@@ -262,15 +262,25 @@ class DefaultController extends BackendController
         $jobList = JobPaidList::find()->all();
         foreach ($jobList as $jobItem)
         {
-            $newModel = new JobPaid();
-            $newModel->prison_id = $prison_id;
-            $newModel->type_id = $jobItem->type_id;
-            $newModel->half_time = $jobItem->half_time;
-            $newModel->prisoner_id = $jobItem->assigned_to;
-            $newModel->month_no = $month_no;
-            $newModel->year = $year;
-            $newModel->autoFillDaysHours();
-            $newModel->save();
+            $model = JobPaid::findOne([
+                'prison_id'=>$jobItem['prison_id'],
+                'prisoner_id' => $jobItem['assigned_to'],
+                'half_time' => $jobItem['half_time'],
+                'month_no' => $month_no,
+                'year' => $year,
+            ]);
+            if (is_null($model)){
+                $newModel = new JobPaid();
+                $newModel->prison_id = $prison_id;
+                $newModel->type_id = $jobItem->type_id;
+                $newModel->half_time = $jobItem->half_time;
+                $newModel->prisoner_id = $jobItem->assigned_to;
+                $newModel->month_no = $month_no;
+                $newModel->year = $year;
+                $newModel->autoFillDaysHours();
+                $newModel->save();
+            }
+
 
 
         }

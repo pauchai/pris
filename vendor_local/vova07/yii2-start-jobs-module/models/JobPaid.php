@@ -17,6 +17,7 @@ use vova07\finances\models\Balance;
 use vova07\jobs\Module;
 use vova07\jobs\helpers\Calendar;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -78,7 +79,10 @@ class JobPaid extends  JobAbstract
         return new JobPaidQuery(get_called_class());
 
     }
-
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
+    }
     public function getType()
     {
         return $this->hasOne(JobPaidType::class, ['id' => 'type_id']);

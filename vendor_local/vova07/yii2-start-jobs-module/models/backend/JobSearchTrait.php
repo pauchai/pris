@@ -41,8 +41,10 @@ trait JobSearchTrait
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()
+            'query' => self::find()->joinWith(['person' => function($query){$query->from('person');}])
         ]);
+        $dataProvider->sort = false;
+        $dataProvider->query->orderBy('person.second_name, person.first_name');
         $this->load($params);
         $this->validate();
 

@@ -43,7 +43,7 @@ class JobGrid extends GridView
         }
         $this->insertDaysColumns();
         if ($this->showActionButton)
-            $this->columns[] =   ['class' => ActionColumn::class];
+            $this->columns[] =   ['class' => ActionColumn::class,'template' => "{delete}"];
 
         parent::init();
 
@@ -123,35 +123,32 @@ class JobGrid extends GridView
         $this->columns[] = [
             'header' => Module::t('labels','TOTAL_HOURS_LABEL'),
             'content' => function($model){
-                $retValue = 0;
-                for ($i=1;$i<=31;$i++){
-                    $attributeName = $i . 'd';
-                    $retValue +=$model->$attributeName;
-                }
-                return $retValue;
+                return $model->hours;
             }];
         $this->columns[] = [
             'header' => Module::t('labels','TOTAL_DAYS_LABEL'),
-            'content' => function($model){
-                $retValue = 0;
-                for ($i=1;$i<=31;$i++){
-                    $attributeName = $i . 'd';
-                    if ($model->$attributeName)
-                        $retValue++;
-                }
-                return $retValue;
-            }];
+            'content' => function($model){ return $model->days; }];
     }
 
     public function run()
     {
+
         echo $this->render("_search",['model'=>$this->filterModel]);
+        echo  Html::a(
+            Module::t('default','SYNC_TABULAR_FOR_MONTH'),
+            ['create-tabular',
+                'prison_id'=>$this->filterModel->prison_id,
+                'year'=>$this->filterModel->year,
+                'month_no'=>$this->filterModel->month_no
+            ],
+            ['class'=>'btn btn-default']
+        );
         $this->form = ActiveForm::begin(['method'=>'post']);
-        echo Html::submitButton('submit',['class'=>'btn btn-submit']);
+        echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
 
         parent::run();
 
-        echo Html::submitButton('submit',['class'=>'btn btn-submit']);
+        echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
          ActiveForm::end();
          $this->fixedColumnsAsserts();
     }

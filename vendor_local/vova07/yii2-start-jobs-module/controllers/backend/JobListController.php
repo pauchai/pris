@@ -20,6 +20,7 @@ use vova07\jobs\models\backend\JobPaidTypeSearch;
 use vova07\jobs\models\JobNotPaidType;
 use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 class JobListController extends BackendController
 {
@@ -42,6 +43,7 @@ class JobListController extends BackendController
     {
         $searchModel = new JobPaidListSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        \Yii::$app->user->returnUrl = Url::current();
 
         return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }
@@ -55,7 +57,7 @@ class JobListController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()) {
 
-                    return $this->redirect(['view', 'id' => $model->getPrimaryKey()]);
+                    return $this->goBack();
             }
 
         }
@@ -76,7 +78,7 @@ class JobListController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = JobPaidType::findOne($id)))
+        if (is_null($model = JobPaidList::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

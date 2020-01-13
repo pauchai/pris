@@ -30,9 +30,17 @@ $this->params['breadcrumbs'] = [
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'prison.company.title',
-        'type.title',
         'assignedTo.person.fio',
+        'type.title',
+
+        [
+            'attribute'=>'half_time',
+            'format'=> 'html',
+            'value' => function($model){
+                $className = $model->half_time?'fa fa-check':'';
+                return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
+            }
+        ],
         'assigned_at:date',
 
         ['class' => \yii\grid\ActionColumn::class]

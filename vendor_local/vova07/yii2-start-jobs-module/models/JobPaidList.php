@@ -17,6 +17,7 @@ use vova07\base\models\Ownableitem;
 use vova07\humanitarians\Module;
 use vova07\jobs\helpers\Calendar;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -116,6 +117,10 @@ class JobPaidList extends  Ownableitem
     public function getPrison()
     {
         return $this->hasOne(Prison::class,['__company_id' => 'prison_id']);
+    }
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'assigned_to']);
     }
     public function getAssignedTo()
     {

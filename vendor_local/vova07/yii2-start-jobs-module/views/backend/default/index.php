@@ -76,8 +76,6 @@ $this->params['breadcrumbs'] = [
    // 'prison.company.title',
     'prisoner.person.fio',
     'type.title',
-    'hours',
-        'days',
 //    'month_no',
 //    'year',
     [
@@ -94,11 +92,13 @@ $this->params['breadcrumbs'] = [
 ?>
 
 <?php echo \vova07\jobs\components\job_grid\JobGrid::widget([
-    'showOnEmpty' => true,
+    'showOnEmpty' => false,
+    'showCreateWhenEmpty' => false,
     'dataProvider' => $dataProvider,
     'filterModel'=> $searchModel,
     'columns' => $gridColumns,
-    'fixedColumnsWidth' => [2,15,10,3]
+    'fixedColumnsWidth' => [2,15,10,3],
+    'showActionButton' => true,
 
 
 ])?>
