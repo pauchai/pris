@@ -48,6 +48,8 @@ class JobListController extends BackendController
         return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }
 
+
+
     public function actionCreate()
     {
         $model = new JobPaidList();

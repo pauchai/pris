@@ -59,13 +59,19 @@ trait JobSearchTrait
 
 
 
-    public function getYearMonth()
+    public function getYearMonth($format = true)
     {
         if ($this->year && $this->month_no)
         {
-            return $this->getDateTime()->format('Y-m-01');
+            if ($format === true)
+                return $this->getDateTime()->format('Y-m-01');
+            else
+                return $this->getDateTime();
         } else {
-            return  (new \DateTime())->format('Y-m-01');
+            if ($format === true)
+                return  (new \DateTime())->format('Y-m-01');
+            else
+                return  (new \DateTime());
         }
     }
 

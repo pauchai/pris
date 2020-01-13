@@ -24,6 +24,7 @@ class JobGrid extends GridView
     public $showSyncButton = true;
     public $showActionButton = false;
     public $fixedColumnsWidth = [];
+    public $enableControlls = true;
 
 
     public $form;
@@ -123,8 +124,11 @@ class JobGrid extends GridView
     public function run()
     {
 
-        echo $this->render("_search",['model'=>$this->filterModel]);
-        if ($this->showSyncButton) {
+        if ($this->enableControlls){
+            echo $this->render("_search",['model'=>$this->filterModel]);
+        }
+
+        if ($this->showSyncButton && $this->enableControlls) {
             echo Html::a(
                 Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
                 ['create-tabular',
@@ -135,19 +139,21 @@ class JobGrid extends GridView
                 ['class' => 'btn btn-info']
             );
         }
-        if ($this->dataProvider->count){
-            $this->form = ActiveForm::begin(['method'=>'post']);
+        $this->form = ActiveForm::begin(['method'=>'post']);
+
+        if ($this->dataProvider->count && $this->enableControlls ){
             echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
         }
 
 
         parent::run();
 
-        if ($this->dataProvider->count){
+        if ($this->dataProvider->count && $this->enableControlls ){
             echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
-            ActiveForm::end();
-            $this->fixedColumnsAsserts();
         }
+        ActiveForm::end();
+
+        $this->fixedColumnsAsserts();
 
     }
 

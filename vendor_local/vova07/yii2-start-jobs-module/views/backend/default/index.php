@@ -43,7 +43,8 @@ $this->params['breadcrumbs'] = [
     // $this->params['subtitle']
 ];
 ?>
-<?php echo \yii\helpers\Html::a('',\yii\helpers\Url::current([0=>'index-orders-report']),['class' => 'fa fa-print'])?>
+<?php echo \yii\helpers\Html::a('ordanante',\yii\helpers\Url::current([0=>'index-orders-report']),['class' => 'fa fa-print'])?> |
+<?php echo \yii\helpers\Html::a('print',\yii\helpers\Url::current([0=>'index-print']),['class' => 'fa fa-print'])?>
 <?php $box = Box::begin(
     [
         'title' => $this->params['subtitle'],
@@ -70,10 +71,12 @@ $this->params['breadcrumbs'] = [
 
 
 
+
+
 <?php
-    $gridColumns = [
-    ['class' => SerialColumn::class],
-   // 'prison.company.title',
+$gridColumns = [
+    ['class' => \yii\grid\SerialColumn::class],
+    // 'prison.company.title',
     'prisoner.person.fio',
     'type.title',
 //    'month_no',
@@ -83,14 +86,13 @@ $this->params['breadcrumbs'] = [
         'format'=> 'html',
         'value' => function($model){
             $className = $model->half_time?'fa fa-check':'';
-            return Html::tag('i','',['class'=>$className . ' text-success']);
+            return \yii\helpers\Html::tag('i','',['class'=>$className . ' text-success']);
         }
     ],
-    ];
+];
 
 
 ?>
-
 <?php echo \vova07\jobs\components\job_grid\JobGrid::widget([
     'showOnEmpty' => false,
     'dataProvider' => $dataProvider,
@@ -101,7 +103,6 @@ $this->params['breadcrumbs'] = [
 
 
 ])?>
-
 
 
 
