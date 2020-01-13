@@ -3,6 +3,7 @@ namespace vova07\prisons\models\backend;
 use Faker\Provider\DateTime;
 use vova07\base\components\DateJuiBehavior;
 use vova07\prisons\models\PrisonerSecurity;
+use vova07\users\models\Prisoner;
 use yii\db\Expression;
 
 /**
@@ -38,8 +39,14 @@ class PrisonerSecuritySearch extends \vova07\prisons\models\PrisonerSecurity
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()
+            'query' => self::find()->
+                joinWith(['person' => function($query){ return $query->from('person');}])->
+            joinWith(['prisoner' => function($query){ return $query->from('prisoner');}])
         ]);
+        $dataProvider->query->orderBy('person.second_name, person.first_name');
+        $dataProvider->query->andWhere(['prisoner.status_id' => Prisoner::STATUS_ACTIVE]);
+
+        $dataProvider->sort = false;
 
         if (!$this->type_id && $this->availableTypes){
             $dataProvider->query->andWhere(
@@ -49,6 +56,7 @@ class PrisonerSecuritySearch extends \vova07\prisons\models\PrisonerSecurity
 
             );
         }
+
 
         if ($this->load($params) && $this->validate()){
             $dataProvider->query->andFilterWhere(

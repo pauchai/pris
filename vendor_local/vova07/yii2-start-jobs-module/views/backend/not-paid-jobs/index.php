@@ -88,8 +88,8 @@ $this->params['breadcrumbs'] = [
     'filterModel'=> $searchModel,
     'columns' => $gridColumns,
     'fixedColumnsWidth' => [2,4,14,5],
-    'showOnEmpty' => true,
-    'showCreateWhenEmpty' => false,
+   // 'showOnEmpty' => true,
+    'showSyncButton' => false,
 
 
 ])?>

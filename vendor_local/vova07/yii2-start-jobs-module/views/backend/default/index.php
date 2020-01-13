@@ -93,12 +93,11 @@ $this->params['breadcrumbs'] = [
 
 <?php echo \vova07\jobs\components\job_grid\JobGrid::widget([
     'showOnEmpty' => false,
-    'showCreateWhenEmpty' => false,
     'dataProvider' => $dataProvider,
     'filterModel'=> $searchModel,
     'columns' => $gridColumns,
     'fixedColumnsWidth' => [2,15,10,3],
-    'showActionButton' => true,
+    'showActionButton' => !$this->context->isPrintVersion,
 
 
 ])?>

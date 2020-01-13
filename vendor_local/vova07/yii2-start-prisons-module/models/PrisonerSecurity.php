@@ -20,6 +20,7 @@ use vova07\countries\models\Country;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
@@ -198,6 +199,11 @@ class PrisonerSecurity extends  Ownableitem
     public function delete()
     {
        return ActiveRecord::delete();
+    }
+
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
     }
 
 }

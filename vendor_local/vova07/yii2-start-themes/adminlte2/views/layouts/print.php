@@ -19,7 +19,9 @@ dmstr\web\AdminLteAsset::register($this);
     }
     @media  print {
 
-        input,select, button, .select2 ,.input-group{display:none !important;}
+       /*
+        input,select, button, .select2 ,.input-group{display:none;}
+       */
 
         a,a[href]:after {
             content: " " !important;

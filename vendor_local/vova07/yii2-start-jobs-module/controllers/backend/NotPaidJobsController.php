@@ -79,6 +79,7 @@ class NotPaidJobsController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl = \yii\helpers\Url::current();
 
         $searchModel = new JobNotPaidSearch();
         //$year = $year ?? (new \DateTime())->format('Y');
@@ -120,7 +121,7 @@ class NotPaidJobsController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['index']);
+                return $this->goBack();
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
@@ -130,7 +131,7 @@ class NotPaidJobsController extends BackendController
 
     public function actionView($id)
     {
-        if (is_null($model = Event::findOne($id)))
+        if (is_null($model = JobNotPaid::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
         };
@@ -139,19 +140,19 @@ class NotPaidJobsController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = User::findOne($id)))
+        if (is_null($model = JobNotPaid::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
     public function actionUpdate($id)
     {
-        if (is_null($model = Event::findOne($id)))
+        if (is_null($model = JobNotPaid::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
@@ -160,7 +161,7 @@ class NotPaidJobsController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }

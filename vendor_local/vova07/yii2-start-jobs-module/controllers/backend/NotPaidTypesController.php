@@ -36,6 +36,8 @@ class NotPaidTypesController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl = \yii\helpers\Url::current();
+
         $searchModel = new JobNotPaidTypeSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
@@ -52,7 +54,7 @@ class NotPaidTypesController extends BackendController
             if ($model->validate()) {
                 if ($model->save()) {
                    // return $this->redirect(['view', 'id' => $model->getPrimaryKey()]);
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 }
             };
         }
@@ -65,7 +67,7 @@ class NotPaidTypesController extends BackendController
 
     public function actionView($id)
     {
-        if (is_null($model = Document::findOne($id)))
+        if (is_null($model = JobNotPaidType::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
@@ -73,19 +75,19 @@ class NotPaidTypesController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = Document::findOne($id)))
+        if (is_null($model = JobNotPaidType::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
             throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
     public function actionUpdate($id)
     {
-        if (is_null($model = Document::findOne($id)))
+        if (is_null($model = JobNotPaidType::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
@@ -94,7 +96,7 @@ class NotPaidTypesController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }

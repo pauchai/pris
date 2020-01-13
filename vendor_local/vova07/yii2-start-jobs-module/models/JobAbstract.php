@@ -16,6 +16,7 @@ use vova07\base\models\Ownableitem;
 use vova07\humanitarians\Module;
 use vova07\jobs\helpers\Calendar;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -122,7 +123,10 @@ abstract class JobAbstract extends  Ownableitem
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
     }
-
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
+    }
     public function getDays()
     {
         $result = 0;

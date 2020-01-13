@@ -21,7 +21,7 @@ class JobGrid extends GridView
 {
    // public $searchModel;
     public $showOnEmpty = false;
-    public $showCreateWhenEmpty = true;
+    public $showSyncButton = true;
     public $showActionButton = false;
     public $fixedColumnsWidth = [];
 
@@ -30,17 +30,7 @@ class JobGrid extends GridView
 
     public function init()
     {
-        if ($this->showCreateWhenEmpty){
-        $this->emptyText = Html::a(
-            Module::t('default','CREATE_TABULAR_FOR_MONTH'),
-            ['create-tabular',
-                'prison_id'=>$this->filterModel->prison_id,
-                'year'=>$this->filterModel->year,
-                'month_no'=>$this->filterModel->month_no
-            ],
-            ['class'=>'btn btn-default']
-        );
-        }
+
         $this->insertDaysColumns();
         if ($this->showActionButton)
             $this->columns[] =   ['class' => ActionColumn::class,'template' => "{delete}"];
@@ -134,23 +124,31 @@ class JobGrid extends GridView
     {
 
         echo $this->render("_search",['model'=>$this->filterModel]);
-        echo  Html::a(
-            Module::t('default','SYNC_TABULAR_FOR_MONTH'),
-            ['create-tabular',
-                'prison_id'=>$this->filterModel->prison_id,
-                'year'=>$this->filterModel->year,
-                'month_no'=>$this->filterModel->month_no
-            ],
-            ['class'=>'btn btn-default']
-        );
-        $this->form = ActiveForm::begin(['method'=>'post']);
-        echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
+        if ($this->showSyncButton) {
+            echo Html::a(
+                Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
+                ['create-tabular',
+                    'prison_id' => $this->filterModel->prison_id,
+                    'year' => $this->filterModel->year,
+                    'month_no' => $this->filterModel->month_no
+                ],
+                ['class' => 'btn btn-info']
+            );
+        }
+        if ($this->dataProvider->count){
+            $this->form = ActiveForm::begin(['method'=>'post']);
+            echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
+        }
+
 
         parent::run();
 
-        echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
-         ActiveForm::end();
-         $this->fixedColumnsAsserts();
+        if ($this->dataProvider->count){
+            echo Html::submitButton(Module::t('tabular','TABULAR_SAVE'),['class'=>'btn btn-success']);
+            ActiveForm::end();
+            $this->fixedColumnsAsserts();
+        }
+
     }
 
     public function fixedColumnsAsserts()

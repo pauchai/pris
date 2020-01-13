@@ -79,10 +79,7 @@ class JobPaid extends  JobAbstract
         return new JobPaidQuery(get_called_class());
 
     }
-    public function getPerson()
-    {
-        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
-    }
+
     public function getType()
     {
         return $this->hasOne(JobPaidType::class, ['id' => 'type_id']);
