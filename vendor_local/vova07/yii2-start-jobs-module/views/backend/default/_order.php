@@ -51,9 +51,9 @@ zilelor lucrate)</i></span></font></p>
         <?php
             $value = $model->getWorkDaysWithCompensation();
             $floorValue = floor($value);
-            $fractionValue = 100 * (round($value,2) - $floorValue);
+            $fractionValue = round($value,2) - $floorValue;
         ?>
-muncă prin </span><u><?=Module::t('default','{v,number}({n,spellout}.{f,number} zile) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> ?></u></p>
+muncă prin </span><u><?=Module::t('default','{v,number}({n,spellout} {f,number} zile) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> ?></u></p>
 <p ><span ><b>Director
 Penitenciarului nr. 1</b></span><b>-Taraclia</b></p>
 <p >Comisar-<span >şef
