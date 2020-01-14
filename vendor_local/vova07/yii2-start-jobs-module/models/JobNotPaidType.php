@@ -80,6 +80,11 @@ class JobNotPaidType extends  ActiveRecordMetaModel
 
     }
 
-
+    public function attributeLabels()
+    {
+        return [
+            'title' => Module::t('labels','JOB_TITLE_LABEL')
+        ];
+    }
 
 }

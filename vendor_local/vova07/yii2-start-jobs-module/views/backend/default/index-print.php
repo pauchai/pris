@@ -73,7 +73,7 @@ __________________________________________________________________________
 
 <h2 style="text-align: center">TABEL DE PONTAJ</h2>
 <p style="text-align: center">
-al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("M")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
+al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("F")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
 </p>
 
 <?php

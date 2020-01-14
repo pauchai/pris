@@ -43,6 +43,16 @@ $this->params['breadcrumbs'] = [
     // $this->params['subtitle']
 ];
 ?>
+<?php $this->registerCss(<<<CSS
+/*
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+    border: 1px solid ;
+}
+*/
+
+
+CSS
+)?>
 <table width="100%">
     <tr>
         <td width="60%">
@@ -73,7 +83,7 @@ __________________________________________________________________________
 
 <h2 style="text-align: center">TABEL DE PONTAJ</h2>
 <p style="text-align: center">
-al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("M")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
+al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("F")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
 </p>
 
 

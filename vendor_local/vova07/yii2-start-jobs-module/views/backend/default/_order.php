@@ -48,7 +48,12 @@ anul na</i></span></font><font size="2" ><i>şterii)</i></font></p>
 <font size="2" ><i>(num</i></font><font size="2" ><span ><i>ărul
 zilelor lucrate)</i></span></font></p>
 <p ><span >De
-muncă prin </span><u><?=Module::t('default','{n,number}({n,spellout}) zile',['n'=>$model->getWorkDaysWithCompensation()])?></u></p>
+        <?php
+            $value = $model->getWorkDaysWithCompensation();
+            $floorValue = floor($value);
+            $fractionValue = 100 * (round($value,2) - $floorValue);
+        ?>
+muncă prin </span><u><?=Module::t('default','{v,number}({n,spellout}.{f,number} zile) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> ?></u></p>
 <p ><span ><b>Director
 Penitenciarului nr. 1</b></span><b>-Taraclia</b></p>
 <p >Comisar-<span >şef
