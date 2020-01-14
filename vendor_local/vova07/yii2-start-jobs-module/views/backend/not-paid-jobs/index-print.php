@@ -26,7 +26,7 @@ use \vova07\jobs\helpers\Calendar;
 
 \uran1980\yii\modules\i18n\assets\AppAjaxButtonsAsset::register($this);
 
-$this->title = Module::t("default","JOB_NOT_PAID_TITLE");
+$this->title = '';
 
 $this->params['subtitle'] = '';
 /*
@@ -43,43 +43,49 @@ $this->params['breadcrumbs'] = [
     // $this->params['subtitle']
 ];
 ?>
-<?php echo \yii\helpers\Html::a('print',\yii\helpers\Url::current([0=>'index-print']),['class' => 'fa fa-print'])?>
-
-<?php $box = Box::begin(
-    [
-        'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{create}',
-         'buttons' => [
-            'create' => [
-                'url' => ['create',
-                    'prison_id' => \vova07\prisons\models\Company::findOne(['alias'=>'pu-1'])->primaryKey,
-                    'month_no' => $searchModel->month_no,
-                    'year' => $searchModel->year,
-                    ],
-                'icon' => 'fa-plus',
-                'options' => [
-                    'class' => 'btn-default',
-                    'title' => Yii::t('vova07/themes/adminlte2/widgets/box', 'Create'),
-
-                ]
-            ]
-          ]
-    ]
-
-);?>
+<table width="100%">
+    <tr>
+        <td width="60%">
+            <p>
+                <b>Instituţia:</b> <u>Penitenciarul nr.1 Taraclia</u>
+            </p>
+            <p>
+                 <b>Detaşamentul:</b> <u>deservirea gospodărească</u>
+            </p>
+        </td>
+        <td width="40%">
+            <p style="text-align: center">
+"APROB"
+            </p>
+            <p style="text-align: right">
+__________________________________________________________________________
+            </p>
+            <p style="text-align: right">
+__________________________________________________________________________
+            </p>
 
 
+        </td>
+    </tr>
+</table>
+
+
+
+<h2 style="text-align: center">TABEL DE PONTAJ</h2>
+<p style="text-align: center">
+al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("M")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
+</p>
 
 
 <?php
-    $gridColumns = [
+$gridColumns = [
     ['class' => SerialColumn::class],
-   // 'prison.company.title',
+    // 'prison.company.title',
     'prisoner.person.fio',
     'type.title',
 //    'month_no',
 //    'year',
-    ];
+];
 
 
 ?>
@@ -89,8 +95,10 @@ $this->params['breadcrumbs'] = [
     'filterModel'=> $searchModel,
     'columns' => $gridColumns,
     //'fixedColumnsWidth' => [2,4,14,5],
-   // 'showOnEmpty' => true,
     'showSyncButton' => false,
+    'enableControlls' => false,
+    'summary' => false,
+
 
 
 ])?>
@@ -98,7 +106,12 @@ $this->params['breadcrumbs'] = [
 
 
 
-<?php  Box::end()?>
 
 
+<p style="text-align: right">
+    __________________________________________________________________________
+</p>
+<p style="text-align: right">
+    __________________________________________________________________________
+</p>
 

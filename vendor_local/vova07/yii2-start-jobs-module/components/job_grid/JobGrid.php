@@ -25,6 +25,7 @@ class JobGrid extends GridView
     public $showActionButton = false;
     public $fixedColumnsWidth = [];
     public $enableControlls = true;
+    public $filterPosition  = self::FILTER_POS_FOOTER;
 
 
     public $form;
@@ -174,17 +175,18 @@ if ($this->dataProvider->query->count()){
         $fixedColumnscssContent .='.grid-view table thead tr th:nth-child(' . ($index+1) . '),' . "\n";
         $fixedColumnscssContent .='.grid-view  table tbody tr td:nth-child(' .($index+1) . ') {' . "\n";
         $fixedColumnscssContent .='background:#eff1f7;'. "\n";
-        $fixedColumnscssContent .='top: auto;left:' . $cssLeft . 'em' . ';position: absolute;width:' . $width . 'em' . ';'. "\n";
+        //$fixedColumnscssContent .='top: auto;left:' . $cssLeft . 'em' . ';position: absolute;width:' . $width . 'em' . ';'. "\n";
+        $fixedColumnscssContent .='width:' . $width . 'em' . ';'. "\n";
         $fixedColumnscssContent .= '}' . "\n";
-        $cssLeft += $width;
+       // $cssLeft += $width;
     }
 
 
 
-   $fixedColumnscssContent .='.grid-view  table thead tr th:nth-child(' . (count($fixedColumnWidth)+1) . '),'. "\n";
-   $fixedColumnscssContent .='.grid-view  table tbody tr td:nth-child(' . (count($fixedColumnWidth)+1) . '){'. "\n";
-   $fixedColumnscssContent .='padding-left: ' . ($cssLeft + 0.5 ) . 'em;'. "\n";
-   $fixedColumnscssContent .='}' . "\n";
+  // $fixedColumnscssContent .='.grid-view  table thead tr th:nth-child(' . (count($fixedColumnWidth)+1) . '),'. "\n";
+  // $fixedColumnscssContent .='.grid-view  table tbody tr td:nth-child(' . (count($fixedColumnWidth)+1) . '){'. "\n";
+   //$fixedColumnscssContent .='padding-left: ' . ($cssLeft + 0.5 ) . 'em;'. "\n";
+  // $fixedColumnscssContent .='}' . "\n";
 
 
      $this->view->registerCss(
@@ -197,7 +199,7 @@ if ($this->dataProvider->query->count()){
 
 .grid-view table {
   
-  width: 1300px;
+ /* width: 1300px; */
   
 }
 .grid-view  table thead tr .days{padding:0px;}
@@ -211,7 +213,8 @@ if ($this->dataProvider->query->count()){
 CSS
 
 
- . $fixedColumnscssContent);
+ . $fixedColumnscssContent
+     );
     }
 
 }
