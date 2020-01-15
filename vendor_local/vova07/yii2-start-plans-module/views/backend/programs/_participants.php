@@ -95,6 +95,15 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 $gridColumns[] = [
 
     'attribute' => 'status'
+];
+$gridColumns[] = [
+        'class' => \yii\grid\ActionColumn::class,
+        'template' => '{delete}',
+        'buttons' => [
+            'delete' => function ($url, $model, $key) {
+                         return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
+                     }
+        ]
 ]
 ?>
 <?php $this->registerCss(

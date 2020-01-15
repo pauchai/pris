@@ -34,6 +34,10 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
         ]);
+        $dataProvider->sort = false;
+        $dataProvider->query->joinWith(['person' => function($query){$query->from('person');}])
+            ->orderBy('prison_id, programdict_id,person.second_name, person.first_name');
+
         $this->prison_id = \Yii::$app->base->company->primaryKey;
         $query->andFilterWhere(
             [

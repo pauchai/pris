@@ -17,8 +17,9 @@ use vova07\users\models\Prisoner;
 
 <?php $form = ActiveForm::begin()?>
 
-<?=$form->field($model,'prisoner_id')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt' => Module::t('default','SELECT_PRISONER')])?>
-<?=$form->field($model,'type_id')->dropDownList(PrisonerSecurity::getTypesForCombo(),['prompt' => Module::t('default','SELECT_SECURITY_TYPE')])?>
+
+<?php echo $form->field($model,'prisoner_id')->widget(\kartik\select2\Select2::class,['data' => \vova07\users\models\Prisoner::getListForCombo(),'options' => ['prompt' => Module::t('default','SELECT_PRISONER')]])?>
+<?=$form->field($model,'type_id')->dropDownList(PrisonerSecurity::getTypesForCombo(),['clear' => 'true','prompt' => Module::t('default','SELECT_SECURITY_TYPE')])?>
 <?= $form->field($model, 'dateStartJui')->widget(DatePicker::className())
 ?>
 <?= $form->field($model, 'dateEndJui')->widget(DatePicker::className())

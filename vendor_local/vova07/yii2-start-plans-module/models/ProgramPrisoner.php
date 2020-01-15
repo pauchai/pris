@@ -19,6 +19,7 @@ use vova07\countries\models\Country;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -171,6 +172,10 @@ class ProgramPrisoner extends  Ownableitem
     public function getPrisoner()
     {
         return $this->hasOne(Prisoner::class,['__person_id' => 'prisoner_id']);
+    }
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
     }
 
     public function getProgramDict()

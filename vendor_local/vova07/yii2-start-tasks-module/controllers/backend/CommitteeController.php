@@ -6,6 +6,7 @@ use vova07\events\Module;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
 use vova07\users\models\backend\User;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -54,13 +55,22 @@ class CommitteeController extends BackendController
 
     public function actionIndex()
     {
+
+        $committeeNotFinishedProvider = new ActiveDataProvider();
+        $committeeNotFinishedProvider->sort = false;
+        $committeeNotFinishedProvider->query = Committee::find()->andWhere('isnull(`date_finish`)');
+
+
         $searchModel = new CommitteeSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->sort = false;
+        $dataProvider->query->orderBy('date_finish');
+        $dataProvider->query->andWhere('not isnull(`date_finish`)');
         //$dataProvider->query->planing();
         $newModel = new Committee;
         $newModel->assigned_to = \Yii::$app->user->getId();
         $newModel->status_id = Committee::STATUS_INIT;
-        return $this->render("index", ['dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel]);
+        return $this->render("index", ['committeeNotFinishedProvider' => $committeeNotFinishedProvider, 'dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel]);
     }
 
     public function actionCreate()

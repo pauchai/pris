@@ -81,11 +81,12 @@ class ProgramsController extends BackendController
 
     public function actionView($id)
     {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
         if (is_null($model = Program::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
-        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
         $programPrisonerSearch = new ProgramPrisonerSearch();
         $dataProvider = $programPrisonerSearch->search(['program_id'=>$id],'');
         $dataProvider->query;

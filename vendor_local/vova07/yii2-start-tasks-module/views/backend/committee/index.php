@@ -35,6 +35,93 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
+<?php echo GridView::widget(['dataProvider' => $committeeNotFinishedProvider,
+    'showFooter' => true,
+    'afterFooter' => [[
+        //      'columns' => $newModelFields
+    ]],
+    'columns' => [
+        ['class' => SerialColumn::class],
+
+        [
+            'attribute' => 'subject_id',
+            'value' => 'subject',
+            'filter' => Committee::getSubjectsForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_SUBJECT'), 'class'=> 'form-control', 'id' => null],
+        ],
+        [
+            'attribute' => 'prisoner_id',
+            'value' => 'prisoner.person.fio',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default' ,'SELECT_PRISONER'), 'class'=> 'form-control', 'id' => null],
+
+        ],
+        [
+            'attribute' => 'assigned_to',
+            'value' => 'assignedTo.person.fio',
+            'filter' => \vova07\users\models\Officer::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_ASSIGNED_TO'), 'class'=> 'form-control', 'id' => null],
+
+        ],
+
+        'dateStartJui',
+       // 'dateFinishJui',
+
+
+        //'date_start:date',
+        //'date_finish:date',
+        [
+            'attribute' => 'mark_id',
+            'value' => 'mark',
+            'filter' => Committee::getMarksForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_MARK_FILTER'), 'class'=> 'form-control', 'id' => null],
+        ],
+
+
+        [
+            'attribute' => 'status_id',
+            'filter' => Committee::getStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_STATUS'), 'class'=> 'form-control', 'id' => null],
+            'content' => function($model) {
+                if ($model->status_id === Committee::STATUS_MATERIALS_ARE_READY){
+                    $options = ['class' => 'label label-info'];
+                } elseif ($model->status_id === Committee::STATUS_FINISHED)  {
+                    $options = ['class' => 'label label-success'];
+                } else {
+                    $options = ['class' => 'label label-default'];
+                }
+
+                return Html::tag('span',$model->status,$options);
+            },
+        ],
+
+        ['class' => ActionColumn::class,
+            'hidden' => $this->context->isPrintVersion,
+
+        ]
+    ]
+])?>
 
 <?php //$form=\yii\bootstrap\ActiveForm::begin(['action' => ['create']]);?>
 <?php /*$newModelFields = [

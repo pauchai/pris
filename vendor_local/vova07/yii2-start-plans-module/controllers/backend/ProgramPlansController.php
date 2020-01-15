@@ -44,7 +44,7 @@ class ProgramPlansController extends BackendController
 
     public function actionIndex()
     {
-
+        \Yii::$app->user->returnUrl  = Url::current();
 
         $searchModel = new ProgramPrisonerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());

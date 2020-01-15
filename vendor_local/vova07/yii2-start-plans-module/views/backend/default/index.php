@@ -76,7 +76,7 @@ CSS
         [
                 'attribute' => 'content',
             'content' => function($model){
-                return \yii\bootstrap\Html::a($model->content,'#',['class' => 'btn btn-success btn-block ']);
+                return \yii\bootstrap\Html::a($model->content,'#',['class' => 'btn bg-gray btn-block ']);
             },
            //'contentOptions' => ['class' => 'btn btn-success btn-block']
         ],
@@ -102,6 +102,7 @@ CSS
         ]
     ]
 ])?>
+
 <?php $form=\yii\bootstrap\ActiveForm::begin([
         'action' => ['/plans/requirements-prisoner/create'],
 ]);?>
@@ -139,7 +140,7 @@ CSS
             'attribute' => 'programdict_id',
             // 'contentOptions' => ['class' => 'btn btn-success btn-block'],
             'content' => function($model){
-                return \yii\bootstrap\Html::a($model->programDict->title,\yii\helpers\Url::to(['/plans/program-prisoners/view','id'=>$model->primaryKey]),['class' => 'btn btn-success btn-block']);
+                return \yii\bootstrap\Html::a($model->programDict->title,\yii\helpers\Url::to(['/plans/program-prisoners/view','id'=>$model->primaryKey]),['class' => 'btn bg-gray btn-block']);
             }
         ],
 

@@ -32,6 +32,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
+
             'attribute' => '__person_id',
 
             'filter' => Prisoner::getListForCombo(),
@@ -43,7 +44,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
 
             //'header' => '',
-           'content' => function($model){return $model->person->fio . ' ' . $model->person->birth_year;},
+           'content' => function($model){return Html::a($model->person->fio . ' ' . $model->person->birth_year, ['view','id' => $model->primaryKey]);},
            //
            //  'value' => 'person.fio'
         ],

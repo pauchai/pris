@@ -12,6 +12,7 @@ use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -32,7 +33,7 @@ class ProgramPrisonersController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create', 'participants','add-participant','view','update','index'],
+                'actions' => ['create', 'delete', 'participants','add-participant','view','update','index'],
                 'roles' => ['@']
             ]
         ];
@@ -52,6 +53,7 @@ class ProgramPrisonersController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl  = Url::current();
         $searchModel = new ProgramPrisonerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
@@ -108,6 +110,28 @@ class ProgramPrisonersController extends BackendController
         }
 
         return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+
+    }
+    public function actionDelete($id)
+    {
+
+        if (is_null($model = ProgramPrisoner::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+
+//        if (\Yii::$app->request->isPost){
+
+
+                if ($model->delete()){
+                    return $this->goBack();
+                } else {
+                    throw new \LogicException('cant delete');
+                }
+
+ //       }
+
+
 
     }
 
