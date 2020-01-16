@@ -112,7 +112,8 @@ class JobPaid extends  JobAbstract
     public function attributeLabels()
     {
         return [
-            'half_time' => Module::t('labels', 'HALF_TIME_LABEL')
+            'half_time' => Module::t('labels', 'HALF_TIME_LABEL'),
+            'type.category_id' => Module::t('labels', 'CATEGORY')
         ];
     }
 

@@ -6,65 +6,117 @@ use vova07\site\models\Setting;
  * @var $model \vova07\jobs\models\JobPaid
  */
 ?>
-<p align="center" ><u><b>ORDANANŢÂ</b></u></p>
-<p align="center" ><span ><b>Privind
+<?php
+    $this->registerCss(<<<CSS
+    body {
+        font-family: "Times New Roman";
+    }
+    .field {
+        display:inline-block;
+        border:none;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        text-align: center;
+        font-weight: bolder;
+    }
+CSS
+)
+?>
+<p align="center" ><u><b>ORDONANŢĂ</b></u></p>
+<p align="center" ><span ><b>privind
 compensarea privilegiată a zilelor de muncă</b></span></p>
-<p align="center" ><span ><b>Din
+<p align="center" >
+<span >      <b>din
 contul termenului de pedeapsă</b></span></p>
-<p >Condamnatul <u><?=$model->prisoner->person->fio?></u></p>
-<p ><span >În
-luna </span><i><u><?=(new DateTime())->setDate($model->year,$model->month_no,1)->format('M')?></u></i><span >
-<?=$model->year?> a fost antrenat la executarea următoarelor lucrări</span><span >:
-</span>
+        <p>
+
+            <label>Condamnatul</label>
+<span class="field" style="width:30em;"> <?=$model->prisoner->fullTitle?></span>
+
+        </p>
+
+        <div style='text-align:justify'>
+
+            în luna
+            <i><u><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . $model->month_no)?></u></i>
+<?=$model->year?> a fost antrenat la executarea următoarelor lucrări:
+</div>
+
+
+<p >
+
+    <span class="field"  style="font-weight:normal;width:100%;text-align:center">deservire gospodărească / <b><?=$model->type->title?> </b></span>
 </p>
-<p ><u>
-</u><i><u>deservire gospodărească</u></i><span ><i><u>
-/<?=$model->type->title?></u></i></span></p>
-<p ><font size="2" ><span ><i>
-  (specialitatea)</i></span></font></p>
-<p ><span >În
-decurs de	<u><?=$model->days?> <?=$model->half_time?'/0.5':''?></u>zile.</span></p>
+
+<p  style="text-align: center"><span style="line-height: 30%" ><i>
+  (specialitatea)</i></span></p>
+<p >În
+decurs de
+    <span style="font-weight: bolder; text-align:center;width:15em" class="field" >
+        <?=$model->days?>
+        <?php if ($model->half_time):?>
+         / 0.5
+        <?php endif;?>
+        zile.
+    </span>
+
+
+</p>
 <p ><span >Sarcina
 de producer execut</span><span >ă, sancţiuni
 disciplinare nu are.</span></p>
 <p ><span >În
 urma deciziei Comisiei penitenciarului din „____”
-_____________<?=date('Y')?></span></p>
-<p ><span >Privind
-compensarea privilegiată a yilelor de muncă în contul duratei
+_____________<?=date('Y')?></span>
+privind
+compensarea privilegiată a zilelor de muncă în contul duratei
 pedepsei  reişind din calcul
-</span><u><?=$model->type->compensationTitle?> </u></p>
-<p >Conduc<span >înd-mă
-de prevederile articolului 238 Cod de Executare al R.M.,</span></p>
-<p align="center" ><b>DISPUN</b><b>:</b></p>
-<p ><span >Condamnatului
-</span><u><?=$model->prisoner->person->fio?></u></p>
+    <span class="field" style="width:20em;"  ><?=$model->type->compensationTitle?></span>
+</p>
+<p >Conducîndu-mă
+de prevederile articolului 238 Cod de Executare al R.M.,</p>
+<p align="center" >
+    <b>DISPUN:</b>
+</p>
+<p>
+    <label>Condamnatului</label>
+    <span class="field" style="width:30em;" ><?=$model->prisoner->fullTitle?></span>
+</p>
+
 <p >
-<font size="2" ><span ><i>(NPP,
-anul na</i></span></font><font size="2" ><i>şterii)</i></font></p>
-<p ><span >Se
-        efectuează compensarea privilegiată  </span><u><?=$model->days?> <?=$model->half_time?'/0.5':''?></u> zile</p>
-<p >
-<font size="2" ><i>(num</i></font><font size="2" ><span ><i>ărul
-zilelor lucrate)</i></span></font></p>
-<p ><span >De
+    Se efectuează compensarea privilegiată
+   <span class="field">
+    <?=$model->days?>
+    <?php if ($model->half_time):?>
+        / 0.5
+    <?php endif;?>
+   </span>
+    zile de muncă
         <?php
             $value = $model->getWorkDaysWithCompensation();
             $floorValue = floor($value);
             $fractionValue = round($value,2) - $floorValue;
         ?>
-muncă prin </span><u><?=Module::t('default','{v,number}({n,spellout} {f,number} zile) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> ?></u></p>
-<p ><span ><b>Director
-Penitenciarului nr. 1</b></span><b>-Taraclia</b></p>
-<p >Comisar-<span >şef
-de justiţie	</span> <u><?=Setting::getInstance()->directorOfficer->person->fio?></u></p>
-<p ><span >«___»
-____________<?=date('d-m-Y')?> </span>
+
+    <p>
+    prin <span class="field" style="width:30em"  ><?=Module::t('default','{v,number}({n,spellout} and {f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> zile</span>
+    </p>
+<p ><b>Director
+Penitenciarului nr. 1-Taraclia</b></p>
+<p ><span class="field" style="width:100%" value="" ></span>
 </p>
-<p ><span >Cuţa am luat cunoştinţă</span></p>
-<p ><span >La data de </span><span >«___» ___________<?=date('Y')?>
-	_______________________________</span></p>
+<p >«___»____________<?=date('Y')?>
+</p>
 <p >
-<font size="2" ><i>(</i></font><font size="2" ><i>semn</i></font><font size="2" ><span ><i>ătura
-condamnatului</i></span></font><font size="2" ><i>)</i></font></p>
+    Cu ordonanţa am luat cunoştinţă la data de «___» ___________<?=date('Y')?>
+</p>
+<div style="width:50%" ">
+<span class="field" style="width:100%"></span>
+    <p style="text-align: center">(semnătura condamnatului)</p>
+</div>
+
+
+
+
 <div style="page-break-after: always"></div>

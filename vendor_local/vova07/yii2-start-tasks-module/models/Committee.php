@@ -194,10 +194,10 @@ class Committee extends  Ownableitem
     }
     public function getMark()
     {
-        if ($this->mark_id)
-            return self::getMarksForCombo()[$this->mark_id];
-        else
+        if (is_null($this->mark_id) || $this->mark_id=="")
             return null;
+        else
+            return self::getMarksForCombo()[$this->mark_id];
     }
 
     public function getPrisoner()

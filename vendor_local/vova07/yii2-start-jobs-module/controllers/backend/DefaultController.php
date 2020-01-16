@@ -116,7 +116,7 @@ class DefaultController extends BackendController
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->pagination->pageSize = 0;
+        $dataProvider->pagination = false;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
         \Yii::$app->user->returnUrl = \yii\helpers\Url::current();
 

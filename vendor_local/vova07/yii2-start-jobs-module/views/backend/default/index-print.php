@@ -58,10 +58,10 @@ $this->params['breadcrumbs'] = [
 "APROB"
             </p>
             <p style="text-align: right">
-__________________________________________________________________________
+_________________________________________________________________________________
             </p>
             <p style="text-align: right">
-__________________________________________________________________________
+_________________________________________________________________________________
             </p>
 
 
@@ -71,16 +71,16 @@ __________________________________________________________________________
 
 
 
-<h2 style="text-align: center">TABEL DE PONTAJ</h2>
-<p style="text-align: center">
+<h3 style="text-align: center">TABEL DE PONTAJ</h3>
+<h4 style="text-align: center">
 al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("F")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
-</p>
+</h4>
 
 <?php
 $gridColumns = [
     ['class' => \yii\grid\SerialColumn::class],
     // 'prison.company.title',
-    'prisoner.person.fio',
+    'prisoner.fullTitle',
     'type.title',
 //    'month_no',
 //    'year',
