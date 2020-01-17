@@ -44,6 +44,7 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 <?php echo \yii\helpers\Html::a('ordanante',\yii\helpers\Url::current([0=>'index-orders-report']),['class' => 'fa fa-print'])?> |
+<?php echo \yii\helpers\Html::a('certificat',\yii\helpers\Url::current([0=>'index-certificats-report']),['class' => 'fa fa-print'])?> |
 <?php echo \yii\helpers\Html::a('print',\yii\helpers\Url::current([0=>'index-print']),['class' => 'fa fa-print'])?>
 <?php $box = Box::begin(
     [

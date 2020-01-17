@@ -10,6 +10,7 @@ use vova07\site\models\Setting;
     $this->registerCss(<<<CSS
     body {
         font-family: "Times New Roman";
+        font-size:14px;
     }
     .field {
         display:inline-block;
@@ -23,16 +24,18 @@ use vova07\site\models\Setting;
 CSS
 )
 ?>
-<p align="center" ><u><b>ORDONANŢĂ</b></u></p>
-<p align="center" ><span ><b>privind
-compensarea privilegiată a zilelor de muncă</b></span></p>
-<p align="center" >
-<span >      <b>din
-contul termenului de pedeapsă</b></span></p>
+
+<p  style="text-align:center;" ><u><b>ORDONANŢĂ</b></u></p>
+<p style="text-align:center;line-height:50%" ><span ><b>privind compensarea privilegiată a zilelor de muncă</b></span></p>
+<p style="text-align:center;line-height:50%" >
+
+    <span ><b>din contul termenului de pedeapsă</b></span></p>
+    <br/>
+
         <p>
 
             <label>Condamnatul</label>
-<span class="field" style="width:30em;"> <?=$model->prisoner->fullTitle?></span>
+<span class="field" style="width:27em;"> <?=$model->prisoner->fullTitle?></span>
 
         </p>
 
@@ -76,17 +79,18 @@ pedepsei  reişind din calcul
 </p>
 <p >Conducîndu-mă
 de prevederile articolului 238 Cod de Executare al R.M.,</p>
+<br/>
 <p align="center" >
     <b>DISPUN:</b>
 </p>
 <p>
     <label>Condamnatului</label>
-    <span class="field" style="width:30em;" ><?=$model->prisoner->fullTitle?></span>
+    <span class="field" style="width:26em;" ><?=$model->prisoner->fullTitle?></span>
 </p>
 
 <p >
     Se efectuează compensarea privilegiată
-   <span class="field">
+   <span class="field" style="width:10em">
     <?=$model->days?>
     <?php if ($model->half_time):?>
         / 0.5
@@ -100,18 +104,23 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
         ?>
 
     <p>
-    prin <span class="field" style="width:30em"  ><?=Module::t('default','{v,number}({n,spellout} and {f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue])?> zile</span>
+    prin <span class="field" style="width:30em"  ><?=Module::t('default','{v,number} ({n,spellout} ,{f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue * 100])?> zile</span>
     </p>
+<br/>
 <p ><b>Director
 Penitenciarului nr. 1-Taraclia</b></p>
+<br/>
 <p ><span class="field" style="width:100%" value="" ></span>
 </p>
 <p >«___»____________<?=date('Y')?>
 </p>
+<br/>
 <p >
     Cu ordonanţa am luat cunoştinţă la data de «___» ___________<?=date('Y')?>
 </p>
+<br/>
 <div style="width:50%" ">
+
 <span class="field" style="width:100%"></span>
     <p style="text-align: center">(semnătura condamnatului)</p>
 </div>

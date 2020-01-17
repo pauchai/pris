@@ -71,7 +71,7 @@ class DefaultController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['index-orders-report',],
+                'actions' => ['index-orders-report', 'index-certificats-report'],
                 'roles' => ['@']//[Module::PERMISSION_PROGRAM_PLANING_VIEW]
             ],
 
@@ -154,7 +154,37 @@ class DefaultController extends BackendController
         \Yii::$app->sourceLanguage = $oldSourceLanguage;
         return $res;
     }
+    public function actionIndexCertificatsReport()
+    {
+        /**
+         * @TODO fix for spellout formatter
+         */
+        $oldSourceLanguage = \Yii::$app->sourceLanguage;
+        \Yii::$app->sourceLanguage = 'ro-RO';
+        $searchModel = new JobPaidSearch();
+        //$year = $year ?? (new \DateTime())->format('Y');
+        //$month_no = $month_no ?? (new \DateTime())->format('n');
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->pagination->pageSize = 0;
+        //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
+        if ($post = \Yii::$app->request->post()) {
+            $jobs = $dataProvider->query->indexBy('__ownableitem_id')->all();
+            if (JobPaid::loadMultiple($jobs, $post) && JobPaid::validateMultiple($jobs)) {
+                foreach ($jobs as $job) {
+                    if (!$job->save(false)){
+                        throw new \LogicException();
+                    };
+                }
+            }
+
+
+        };
+
+        $res =  $this->render("index-certificats-report", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+        \Yii::$app->sourceLanguage = $oldSourceLanguage;
+        return $res;
+    }
     public function actionCloneList()
     {
 
