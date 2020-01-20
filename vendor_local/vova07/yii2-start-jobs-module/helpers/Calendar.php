@@ -92,5 +92,15 @@ class Calendar
         return $range;
     }
 
+    public static function getDateTime($year, $monthNo , $dayNo = 1)
+    {
+        if ($year && $monthNo)
+        {
+            return (new \DateTime())->setDate($year,$monthNo,$dayNo);
+        } else {
+            return  (new \DateTime());
+        }
 
+
+    }
 }

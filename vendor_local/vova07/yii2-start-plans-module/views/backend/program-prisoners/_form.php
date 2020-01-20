@@ -20,6 +20,7 @@ use vova07\users\models\Officer;
 <?=$form->field($model,'programdict_id')->dropDownList(\vova07\plans\models\ProgramDict::getListForCombo(),['prompt'=>Module::t('default','SELECT_PROGRAM')])?>
 <?=$form->field($model,'prison_id')->dropDownList(Prison::getListForCombo(),['prompt'=> Module::t('default','SELECT_PRISON')])?>
 <?=$form->field($model,'prisoner_id')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISONER')])?>
+<?=$form->field($model,'program_id')->dropDownList(\vova07\plans\models\Program::getListForCombo(),['prompt'=>Module::t('default','SELECT_GROUP')])?>
 <?=$form->field($model,'date_plan')?>
 <?=$form->field($model,'planned_by')->dropDownList(\vova07\users\models\Officer::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISONER')])?>
 <?=$form->field($model,'mark_id')->dropDownList(ProgramPrisoner::getMarksForCombo(),['prompt'=>Module::t('default','SELECT_MARK')])?>

@@ -14,12 +14,14 @@ use vova07\jobs\helpers\Calendar;
 use vova07\jobs\models\Holiday;
 use vova07\jobs\Module;
 use vova07\prisons\widgets\ActionColumn;
+use yii\db\ActiveRecord;
 use yii\grid\GridView;
 use yii\helpers\Html;
 
 class JobGrid extends GridView
 {
    // public $searchModel;
+
     public $showOnEmpty = false;
     public $showSyncButton = true;
     public $showActionButton = false;
@@ -50,10 +52,12 @@ class JobGrid extends GridView
         $firstFixColumnsCount = count ($this->columns);
         $url = \yii\helpers\Url::to(['toggle-date']);
 
-        for($i=1;$i<=Calendar::getMonthDaysNumber($this->filterModel->getDateTime());$i++){
+        $modelDateTime = Calendar::getDateTime($this->filterModel->year, $this->filterModel->month_no);
+        for($i=1;$i<=Calendar::getMonthDaysNumber($modelDateTime);$i++){
             $htmlOptions = [];
             $attributeName = $i . 'd';
-            $btnDateTime = (new \DateTime())->setDate($this->filterModel->year,$this->filterModel->month_no,$i);
+          //  $btnDateTime = (new \DateTime())->setDate($this->filterModel->year,$this->filterModel->month_no,$i);
+            $btnDateTime = Calendar::getDateTime($this->filterModel->year, $this->filterModel->month_no,$i);
             $btnDate = $btnDateTime->format("Y-m-d");
 
        /*     if (in_array($btnDateTime->format('N'),[6,7]) ){
@@ -106,7 +110,9 @@ class JobGrid extends GridView
                 'header' => $buttonContent,
                 //'attribute' => $attributeName
                 'content' => function($model) use($attributeName,$btnClass, $btnDateTime, $htmlOptions){
-                    return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);
+
+                        return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);
+
                 }
             ];
 
@@ -119,7 +125,9 @@ class JobGrid extends GridView
             }];
         $this->columns[] = [
             'header' => Module::t('labels','TOTAL_DAYS_LABEL'),
-            'content' => function($model){ return $model->days; }];
+            'content' => function($model){
+                return $model->days;
+            }];
     }
 
     public function run()
@@ -188,12 +196,16 @@ if ($this->dataProvider->query->count()){
    //$fixedColumnscssContent .='padding-left: ' . ($cssLeft + 0.5 ) . 'em;'. "\n";
   // $fixedColumnscssContent .='}' . "\n";
 
+     if ($this->view->context->isPrintVersion)
+        $overflowX = 'none';
+     else
+        $overflowX = 'scroll';
 
      $this->view->registerCss(
     <<<CSS
 
          .grid-view {
-            overflow-x: scroll;
+            overflow-x: $overflowX;
            }
 
 

@@ -94,24 +94,30 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     în număr de: <span class="field" style="width:82%"  ><?=Module::t('default','{v,number} ({n,spellout} ,{f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue * 100])?> zile</span>
     </p>
 <br/>
-<p ><b>Secţia Logistică şi Administrare</b></p>
 
-<table>
+
+<table width="100%">
     <tr>
-        <td style="text-align:right">________________________/</td>
-        <td>_________________</td>
-        <td style="text-align:left">/_________________________</td>
-    </tr>
-</table>
+        <td width="50%" style="padding-right:10px;">
+            <p ><b>Secţia Logistică şi Administrare</b></p>
+            <br/>
+            <p >
+                <span class="field" style="width:100%" value="" ></span>
+            </p>
+            <p >«___»____________<?=date('Y')?>
+            </p>
+        </td>
 
-<br/>
-<p ><b>Secţia Reintegrare Socială</b></p>
+        <td width="50%"  style="padding-left:10px;" >
+            <p ><b>Secţia Reintegrare Socială</b></p>
+            <br/>
+            <p >
+                <span class="field" style="width:100%" value="" ></span>
+            </p>
+            <p >«___»____________<?=date('Y')?>
+            </p>
 
-<table>
-    <tr>
-        <td style="text-align:right">________________________/</td>
-        <td>_________________</td>
-        <td style="text-align:left">/_________________________</td>
+        </td>
     </tr>
 </table>
 

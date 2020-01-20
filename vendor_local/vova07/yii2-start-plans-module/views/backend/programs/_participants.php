@@ -22,7 +22,13 @@ use yii\helpers\Html;
     ['class' => yii\grid\SerialColumn::class],
     [
             'attribute' => 'prisoner.person.fio',
-        'value' => function($model){return $model->prisoner->getFullTitle(true);}
+        'content' => function($model){
+            $url[0] = '/plans/program-visits/index';
+            $programVisitSearch = new \vova07\plans\models\backend\ProgramVisitSearch();
+            $programVisitSearch->program_prisoner_id = $model->primaryKey;
+            $url[$programVisitSearch->formName()] = $programVisitSearch->getAttributes();
+            return Html::a($model->prisoner->getFullTitle(true), $url);//;
+        }
     ],
 
     ]
@@ -96,7 +102,7 @@ $gridColumns[] = [
 
     'attribute' => 'status'
 ];
-$gridColumns[] = [
+/*$gridColumns[] = [
         'class' => \yii\grid\ActionColumn::class,
         'template' => '{delete}',
         'buttons' => [
@@ -104,7 +110,7 @@ $gridColumns[] = [
                          return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
                      }
         ]
-]
+]*/
 ?>
 <?php $this->registerCss(
         <<<CSS

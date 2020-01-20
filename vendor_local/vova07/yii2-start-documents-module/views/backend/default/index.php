@@ -42,6 +42,11 @@ $this->params['breadcrumbs'] = [
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PRISONER'), 'class'=> 'form-control', 'id' => null],
             'group' => true,
         ],
+        'person.IDNP',
+        [
+            'header' => '',
+            'value' => 'country.iso'
+        ],
 
         [
             'attribute' => 'type_id',
@@ -86,10 +91,7 @@ $this->params['breadcrumbs'] = [
             ])
         ],
 
-        [
-            'header' => '',
-            'value' => 'country.iso'
-        ],
+
         [
             'class' => \yii\grid\ActionColumn::class,
             'visible' => !$this->context->isPrintVersion,

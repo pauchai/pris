@@ -45,7 +45,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <table width="100%">
     <tr>
-        <td width="60%">
+        <td width="70%">
             <p>
                 <b>Instituţia:</b> <u>Penitenciarul nr.1 Taraclia</u>
             </p>
@@ -53,15 +53,15 @@ $this->params['breadcrumbs'] = [
                  <b>Detaşamentul:</b> <u>deservirea gospodărească</u>
             </p>
         </td>
-        <td width="40%">
-            <p style="text-align: center">
+        <td width="30%">
+            <p style="text-align: center;font-size:120%">
 "APROB"
             </p>
             <p style="text-align: right">
-_________________________________________________________________________________
+______________________________________________________________
             </p>
             <p style="text-align: right">
-_________________________________________________________________________________
+______________________________________________________________
             </p>
 
 
@@ -73,7 +73,7 @@ ________________________________________________________________________________
 
 <h3 style="text-align: center">TABEL DE PONTAJ</h3>
 <h4 style="text-align: center">
-al detaşamentului deservirii gospodăreşti pe luna: <b><?=$searchModel->getYearMonth(false)->format("F")?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
+al detaşamentului deservirii gospodăreşti pe luna: <b><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . $searchModel->month_no)?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
 </h4>
 
 <?php

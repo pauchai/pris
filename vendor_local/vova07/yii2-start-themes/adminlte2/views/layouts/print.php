@@ -16,7 +16,14 @@ dmstr\web\AdminLteAsset::register($this);
 <style>
     body {
         padding:30px;
+
     }
+    body, table, h1,h2,h3,h4,h5,h6,h7  {
+        font-family: "Times New Roman" !important;
+    }
+
+
+
     @media  print {
 
        /*
@@ -26,7 +33,9 @@ dmstr\web\AdminLteAsset::register($this);
         a,a[href]:after {
             content: " " !important;
         }
-
+        .btn-danger {
+            background-color: red !important;
+        }
     }
 
 </style>

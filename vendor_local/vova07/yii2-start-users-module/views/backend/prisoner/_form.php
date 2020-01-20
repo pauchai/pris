@@ -68,13 +68,14 @@ use vova07\prisons\Module;
     </div>
 </div>
 <div class="row">
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'second_name')?>
+
+    </div>
+
     <div class="col-md-3">
 
         <?=$form->field($model->person,'first_name')?>
-
-    </div>
-    <div class = 'col-md-3'>
-        <?=$form->field($model->person,'second_name')?>
 
     </div>
 

@@ -37,7 +37,7 @@ class NotPaidJobsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'index-print'],
+                'actions' => ['index', 'index-print','table-individual-report'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_NOT_PAID_JOBS_LIST]
             ],
             [
@@ -120,6 +120,23 @@ class NotPaidJobsController extends BackendController
 
 
         return $this->render("index-print", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+    }
+    public function actionTableIndividualReport()
+    {
+        $this->isPrintVersion = true;
+        $this->layout = '@vova07/themes/adminlte2/views/layouts/print.php';
+
+
+        $searchModel = new JobNotPaidSearch();
+        //$year = $year ?? (new \DateTime())->format('Y');
+        //$month_no = $month_no ?? (new \DateTime())->format('n');
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->pagination->pageSize = 0;
+        //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
+
+
+
+        return $this->render("table-individual-report", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
     }
 
     public function actionCloneList()
