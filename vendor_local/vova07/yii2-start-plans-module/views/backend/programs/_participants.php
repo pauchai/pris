@@ -20,16 +20,7 @@ use yii\helpers\Html;
 
 <?php $gridColumns = [
     ['class' => yii\grid\SerialColumn::class],
-    [
-            'attribute' => 'prisoner.person.fio',
-        'content' => function($model){
-            $url[0] = '/plans/program-visits/index';
-            $programVisitSearch = new \vova07\plans\models\backend\ProgramVisitSearch();
-            $programVisitSearch->program_prisoner_id = $model->primaryKey;
-            $url[$programVisitSearch->formName()] = $programVisitSearch->getAttributes();
-            return Html::a($model->prisoner->getFullTitle(true), $url);//;
-        }
-    ],
+    'prisoner.person.fio',
 
     ]
 ?>
@@ -102,16 +93,24 @@ $gridColumns[] = [
 
     'attribute' => 'status'
 ];
-/*$gridColumns[] = [
+$gridColumns[] = [
+        'visible' => !$this->context->isPrintVersion,
         'class' => \yii\grid\ActionColumn::class,
-        'template' => '{delete}',
+        'template' => '{visits}',
         'buttons' => [
-            'delete' => function ($url, $model, $key) {
-                         return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
+            'visits' => function ($url, $model, $key) {
+                $url1[0] = '/plans/program-visits/index';
+                $programVisitSearch = new \vova07\plans\models\backend\ProgramVisitSearch();
+                $programVisitSearch->program_prisoner_id = $model->primaryKey;
+                $url1[$programVisitSearch->formName()] = $programVisitSearch->getAttributes();
+
+                return Html::a('', $url1, ['class' => 'fa fa-tasks']);
+                         //return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
                      }
         ]
-]*/
+]
 ?>
+
 <?php $this->registerCss(
         <<<CSS
 
