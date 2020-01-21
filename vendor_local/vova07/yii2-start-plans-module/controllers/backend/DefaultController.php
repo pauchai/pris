@@ -137,12 +137,16 @@ class DefaultController extends BackendController
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => [] ,
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST => [],
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST => [],
+
            // \vova07\rbac\Module::ROLE_SUPERADMIN => []
         ];
 
         foreach ($prisonerPrograms as $program)
         {
             $roleName = $program->ownableitem->createdBy->user->role;
+            if ($roleName === \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT)
+                    $roleName = \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR;
+
             if (!isset($programsGroupedByRole[$roleName]))
                 continue;
 

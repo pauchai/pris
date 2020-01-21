@@ -86,7 +86,7 @@ $this->params['breadcrumbs'] = [
 
     [
         'class' => ActionColumn::class,
-        'hidden' => $this->context->isPrintVersion &&  $isLight ,
+        'hidden' => $this->context->isPrintVersion  ,
 
     ]
 ];

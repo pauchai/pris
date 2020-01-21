@@ -59,6 +59,8 @@ class DefaultController extends BackendController
     {
         $searchModel = new DocumentSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        if ($this->isPrintVersion)
+                $dataProvider->pagination = false;
 
         return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }

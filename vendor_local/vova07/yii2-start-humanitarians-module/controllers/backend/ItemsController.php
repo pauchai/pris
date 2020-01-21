@@ -7,6 +7,7 @@ use vova07\humanitarians\models\HumanitarianItem;
 use vova07\humanitarians\Module;
 use vova07\users\models\backend\User;
 use vova07\users\models\Prisoner;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -35,6 +36,7 @@ class ItemsController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl = Url::current();
         $searchModel = new HumanitarianItemSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $model = new HumanitarianItem();
@@ -52,7 +54,7 @@ class ItemsController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                return $this->goBack();
             }
         }
 
@@ -76,7 +78,7 @@ class ItemsController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
@@ -92,7 +94,7 @@ class ItemsController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }
