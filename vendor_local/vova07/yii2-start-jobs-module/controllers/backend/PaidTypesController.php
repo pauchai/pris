@@ -18,6 +18,7 @@ use vova07\jobs\models\backend\JobNotPaidTypeSearch;
 use vova07\jobs\models\backend\JobPaidTypeSearch;
 use vova07\jobs\models\JobNotPaidType;
 use vova07\jobs\models\JobPaidType;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 class PaidTypesController extends BackendController
 {
@@ -38,6 +39,7 @@ class PaidTypesController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl = Url::current();
         $searchModel = new JobPaidTypeSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
@@ -53,7 +55,7 @@ class PaidTypesController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()) {
                 if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->getPrimaryKey()]);
+                    return $this->goBack();
                 }
             };
         }

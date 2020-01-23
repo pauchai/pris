@@ -39,7 +39,7 @@ class JobPaidType extends  ActiveRecordMetaModel
     public function rules()
     {
         return [
-            [['title','compensation_id','hours_per_day','hours_per_sa'],'required'],
+            [['title','compensation_id', 'category_id', 'hours_per_day','hours_per_sa'],'required'],
             [['title'], 'string'],
         ];
 
