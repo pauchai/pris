@@ -5,7 +5,6 @@
 <?php ContentDecorator::begin([
         'viewFile' => '@vova07/humanitarians/views/backend/layouts/print_blank.php',
         'view' => $this,
-
     ]
 );?>
 <h3 align="center">

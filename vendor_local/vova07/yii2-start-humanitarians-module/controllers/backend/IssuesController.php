@@ -53,7 +53,7 @@ class IssuesController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['view'],
+                'actions' => ['view', 'view-print'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_HUMANITARIAN_VIEW]
             ],
             [
@@ -112,6 +112,28 @@ class IssuesController extends BackendController
         } else {
             return $this->render('view', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
         }
+
+
+    }
+    public function actionViewPrint($id)
+    {
+        $this->isPrintVersion = true;
+        $this->layout = '@vova07/themes/adminlte2/views/layouts/print.php';
+        if (is_null($model = HumanitarianIssue::findOne($id))) {
+            throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
+        };
+        $prisonerSearch = new PrisonerSearch();
+        $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
+        if ($this->isPrintVersion)
+            $dataProvider->pagination=false;
+        else
+            $dataProvider->pagination->setPageSize(100);
+
+        //
+
+
+            return $this->render('view-print', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
+
 
 
     }

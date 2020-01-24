@@ -27,57 +27,63 @@ $this->params['breadcrumbs'] = [
 ];
 
 
+$printUrlParams = \yii\helpers\Url::current(['print' => true]);
     ?>
 
+
+<table width="100%">
+    <tr>
+        <td width="70%">
+
+        </td>
+        <td width="30%">
+            <p style="text-align: center;font-size:160%">
+                "APROB"
+            </p>
+
+            <p style="text-align: right">
+            ___________________________________________________________________________________
+            </p>
+            <br/>
+            <p style="text-align: right">
+            ___________________________________________________________________________________
+            </p>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+        </td>
+    </tr>
+</table>
+
+
+
+<h3 style="text-align: center">
+    BORDEROU DE ELIBERARE A MATERIALELOR
+
+</h3>
+<h3 style="text-align: center">
+    PENTRU NECESITĂȚILE PENITENCIARULUI Nr.1 - TARACLIA
+</h3>
+<h3 style="text-align: center">
+    pe luna <b><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m', $model->date_issue))?></b> anului: <?=date('Y', $model->date_issue)?>
+</h3>
+<br/>
+<br/>
+
+
+
+
+
 <?php
-    $printUrlParams = Yii::$app->getRequest()->getQueryParams();
-    $printUrlParams[0] = 'view-print';
 
-    $box = Box::begin(
-    [
-        'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{print}{update}{delete}',
-        'buttons'=>[
-            'print' => [
-                'url' => $printUrlParams,
-                'icon' => 'fa-print',
-                'options' => [
-                    'class' => 'btn-default',
-                    'title' => Yii::t('vova07/themes/adminlte2/widgets/box', 'PRINT'),
-
-                ]
-            ],
-        ]
-    ]
-);?>
-
-<?php echo \yii\widgets\DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-        'dateIssueJui',
-
-
-    ]
-])?>
-
-<?php  Box::end() ?>
-
-
-
-<?php $box = Box::begin(
-    [
-        'title' => Module::t('default','PRISONERS_LIST'),
-
-    ]
-
-);?>
-
-<?php
 $gridColumns = [
 
     ['class' => yii\grid\SerialColumn::class],
     'fullTitle',
     [
+            'visible' => !$searchModel->sector_id,
         'attribute' => 'sector_id',
         'value' => 'sector.title',
         'filter' => Sector::getListForCombo(),
@@ -109,31 +115,39 @@ $gridColumns = [
             //'content' => function($model){return 'test';}
         ];
     }
+    $gridColumns[] = [
+        'header' => Html::tag('div', Module::t('default','SEMNATURA_LABEL'),['style'=>'text-align:center']) ,
+        'content' => function($model){return '';},
+
+
+    ]
 ?>
+<table style="width:100%">
+    <tr>
+        <td style="width:50%"><p>Gestionar:_____________________________________________</p></td>
+        <td style="width:50%;text-align: right">
+            <?php if ($searchModel->sector_id):?>
+                sector: <?= $searchModel->sector->title?>
+            <?php endif;?>
+            <?=$model->dateIssueJui?>
+        </td>
+    </tr>
+
+</table>
+<br/>
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
-    'columns' => $gridColumns
+    'columns' => $gridColumns,
+    'summary' => false,
+    'filterPosition' => GridView::FILTER_POS_FOOTER,
 ])?>
-
-<?php Box::end()?>
-
-<?php
-
-    $this->registerJs(<<<JS
-        $(document).on('ajaxButtonSubmit',function(event, data){
-              \$i = data.element.closest('i');
-           if (data.data.action === 'insert'){
-               data.element.removeClass('btn-default').addClass('btn-success');
-                data.element.children().removeClass('glyphicon-plus').addClass('glyphicon-minus');  
-           }  else {
-               data.element.removeClass('btn-success').addClass('btn-default');
-                data.element.children().removeClass('glyphicon-minus').addClass('glyphicon-plus');
-           }
-        });
-JS
-
-    )
-
-?>
+<br/>
+<p style="font-size:160%">
+    A eliberat materialele:
+</p>
+<br/>
+<p>
+    ____________________________________________________________________________________________________________________________________________________________________________________
+</p>
