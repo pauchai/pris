@@ -48,7 +48,9 @@ phpunit.phar
 /_materials
 /backend/web/assets
 composer.lock
+/statics/web/videos
 /statics/web/persons/photos
 /statics/web/persons/previews
 /backend/web/statics
+/backend/web/statics/videos
 /home/pauk/PhpstormProjects/prisons/vendor_local/vova07/yii2-start-rbac-module/data
