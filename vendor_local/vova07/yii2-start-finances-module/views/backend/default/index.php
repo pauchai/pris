@@ -71,7 +71,7 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'attribute' => 'prisoner.status_id',
-            //'value' => 'prisoner.status',
+            'value' => 'prisoner.status',
             'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
@@ -190,6 +190,7 @@ $creditHeader = [
 $gridBeforeHeader = [
     [
         'columns' => [
+            [],
             [],
             [],
             [],
