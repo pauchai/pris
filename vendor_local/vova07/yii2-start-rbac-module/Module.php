@@ -49,6 +49,8 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PROGRAM_PLANING_UPDATE = 'ProgramPlaningUpdate';
     public const PERMISSION_PROGRAM_PLANING_VIEW = 'ProgramPlaningView';
 
+    public const PERMISSION_PROGRAM_LIST = 'ProgramList';
+
     public const PERMISSION_PRISONER_PLAN_VIEW = 'PrisonerPlanView';
     public const PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING = 'PrisonerPlanProgramsPlaning';
     public const PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING = 'PrisonerPlanRequirementsPlaning';

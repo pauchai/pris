@@ -17,6 +17,7 @@ use vova07\prisons\models\PrisonerSecurity;
 <!-- /.row -->
 <!-- Main row -->
 <div class="row">
+    <?php if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST)):?>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <?php echo InfoBox::widget(
             [       'title' => \vova07\prisons\Module::t('default','PRISONERS_TITLE'),
@@ -30,6 +31,9 @@ use vova07\prisons\models\PrisonerSecurity;
         ?>
 
     </div>
+    <?php endif;?>
+
+    <?php if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST)):?>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <?php echo InfoBox::widget(
             [       'title' => \vova07\prisons\Module::t('documents','DOCUMENTS_TITLE'),
@@ -42,36 +46,49 @@ use vova07\prisons\models\PrisonerSecurity;
             ]
         );?>
     </div>
+    <?php endif;?>
+
+
     <div class="col-md-3 col-sm-6 col-xs-12">
-        <?php echo InfoBox::widget(
-            [       'title' => \vova07\plans\Module::t('default','PROGRAMS_PLANNED'),
-                'infoContent' => Html::a(
+
+        <?php
+            $infoContent = '';
+            if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST))
+                $infoContent .= Html::a(
                     Html::tag('span',
-                         ProgramPrisoner::find()->planned()->count(),
+                        ProgramPrisoner::find()->planned()->count(),
                         ['class' => 'badge bg-yellow']
                     ) . 'planned',
                     ['/plans/program-plans'],
-                        ['class' =>'btn']
+                    ['class' =>'btn']
 
-                    ) .
-                    Html::a(
-                        Html::tag('span',
-                            ProgramPrisoner::find()->active()->count(),
-                            ['class' => 'badge bg-yellow']
-                        ) . 'active',
-                        ['/plans/programs/index'],
-                        ['class' =>'btn']
-                    ),
-
+                );
+            if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PROGRAM_LIST))
+                $infoContent .=  Html::a(
+                    Html::tag('span',
+                        ProgramPrisoner::find()->active()->count(),
+                        ['class' => 'badge bg-yellow']
+                    ) . 'active',
+                    ['/plans/programs/index'],
+                    ['class' =>'btn']
+                );
+        ?>
+        <?php if ($infoContent):?>
+        <?php echo InfoBox::widget(
+            [
+                'title' => \vova07\plans\Module::t('default','PROGRAMS_PLANNED'),
+                'infoContent' =>  $infoContent,
                 'icon' => 'calendar-check'
             ]
         );?>
+        <?php endif;?>
     </div>
 
 
 
 </div>
 <div class="row">
+    <?php   if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_LIST)):    ?>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <?php echo InfoBox::widget(
             [       'title' => \vova07\plans\Module::t('default','PRISONER_SECURITY'),
@@ -98,6 +115,7 @@ use vova07\prisons\models\PrisonerSecurity;
             ]
         );?>
     </div>
+    <?php endif;?>
 </div>
 <div class="row">
 

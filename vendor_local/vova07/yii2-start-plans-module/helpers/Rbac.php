@@ -47,6 +47,8 @@ class Rbac
        $permissions = [
 
            Module::PERMISSION_PROGRAM_PLANING_LIST,
+           Module::PERMISSION_PROGRAM_LIST,
+
 
        ];
 
