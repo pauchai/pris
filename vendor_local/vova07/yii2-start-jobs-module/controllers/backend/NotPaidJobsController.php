@@ -85,6 +85,7 @@ class NotPaidJobsController extends BackendController
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->ownedByCurrentUser();
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
@@ -111,9 +112,12 @@ class NotPaidJobsController extends BackendController
 
 
         $searchModel = new JobNotPaidSearch();
+
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->ownedByCurrentUser();
+
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
@@ -131,6 +135,8 @@ class NotPaidJobsController extends BackendController
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->ownedByCurrentUser();
+
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
