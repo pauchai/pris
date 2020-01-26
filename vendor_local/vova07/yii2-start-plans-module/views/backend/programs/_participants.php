@@ -20,9 +20,12 @@ use yii\helpers\Html;
 
 <?php $gridColumns = [
     ['class' => yii\grid\SerialColumn::class],
-    'prisoner.person.fio',
-
+    [
+            'attribute' => 'prisoner.person.fio',
+        'value' => function($model){return $model->prisoner->getFullTitle(true);}
+    ],
     ]
+
 ?>
 <?php
 foreach($model->getProgramVisits()->distinctDates() as $dateValue){

@@ -89,7 +89,7 @@ class ProgramsController extends BackendController
         };
         $programPrisonerSearch = new ProgramPrisonerSearch();
         $dataProvider = $programPrisonerSearch->search(['program_id'=>$id],'');
-        $dataProvider->query;
+        $dataProvider->query->forPrisonersActiveAndEtapped();
 
         return $this->render('view', ['model'=>$model,'dataProvider' => $dataProvider]);
     }
