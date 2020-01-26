@@ -69,6 +69,18 @@ $this->params['breadcrumbs'] = [
 
 
         ],
+        [
+            'attribute' => 'prisoner.status_id',
+            //'value' => 'prisoner.status',
+            'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_STATUS'), 'class'=> 'form-control', 'id' => null],
+
+
+        ]
         ];
 $debitColumnNames = ['category1','category2','category3','category4'];
 $debitCnt = 0;

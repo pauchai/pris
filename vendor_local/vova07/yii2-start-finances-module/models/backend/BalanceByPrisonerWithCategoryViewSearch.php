@@ -27,7 +27,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
     public function rules()
     {
         return [
-            [['prisoner_id','only_debt','prisoner.sector_id'],'safe']
+            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id'],'safe']
         ];
     }
     public function search($params)
@@ -43,13 +43,17 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
             return $dataProvider;
         }
 
-        if ($this->getAttribute('prisoner.sector_id')){
-            $prisonerQuery = (new Query())->select('__person_id')->where(['sector_id' => $this->getAttribute('prisoner.sector_id')])->from(Prisoner::tableName());
-            $query->andWhere(
-                ['prisoner_id' => $prisonerQuery]
-            );
-        }
+        $prisonerQuery = (new Query())->select('__person_id')->from(Prisoner::tableName());
 
+            $prisonerQuery->andFilterWhere([
+                'sector_id' => $this->getAttribute('prisoner.sector_id'),
+                'status_id' => $this->getAttribute('prisoner.status_id')
+            ]);
+
+
+        $query->andWhere(
+            ['prisoner_id' => $prisonerQuery]
+        );
 
         $query->andFilterWhere(
             [
@@ -72,7 +76,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['prisoner.sector_id']);
+        return array_merge(parent::attributes(),['prisoner.sector_id', 'prisoner.status_id']);
     }
 
 
