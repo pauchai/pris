@@ -256,8 +256,14 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         ['class' => \kartik\grid\ActionColumn::class,
             'dropdown' => true,
+            'visibleButtons' => [
+              'update' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONERS_UPDATE),
+              'delete' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONERS_DELETE),
+              'view' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONERS_VIEW)
+            ],
             'updateOptions' => ['class' => 'disabled'],
-            'hidden' => $this->context->isPrintVersion,
+            'hidden' => $this->context->isPrintVersion ,
+
 
         ],
     ]

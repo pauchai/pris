@@ -39,6 +39,10 @@ class Module extends \vova07\base\components\Module
     const PERMISSION_VIEW_RULES = 'BViewRules';
 
     public const PERMISSION_PRISONERS_LIST = "BPrisonerListRules";
+    public const PERMISSION_PRISONERS_DELETE = "BPrisonerDelete";
+    public const PERMISSION_PRISONERS_UPDATE = "BPrisonerUpdate";
+    public const PERMISSION_PRISONERS_VIEW = "BPrisonerVeiw";
+
     public const PERMISSION_PROGRAM_PLANING_CREATE = 'ProgramPlaningCreate';
     public const PERMISSION_PROGRAM_PLANING_DELETE = 'ProgramPlaningDelete';
     public const PERMISSION_PROGRAM_PLANING_LIST = 'ProgramPlaningList';
