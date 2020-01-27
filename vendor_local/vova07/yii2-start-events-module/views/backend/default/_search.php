@@ -1,0 +1,27 @@
+<?php
+use yii\bootstrap\ActiveForm;
+use vova07\jobs\models\backend\JobPaidSearch;
+use vova07\prisons\models\Prison;
+use vova07\jobs\helpers\Calendar;
+use yii\bootstrap\Html;
+
+/**
+ * @var $model JobPaidSearch
+ */
+?>
+
+
+<div class="post-search">
+    <?php $form = ActiveForm::begin([
+
+        'method' => 'get',
+    ]); ?>
+    <?= $form->field($model, 'dateStartFromJui')->widget(\kartik\widgets\DatePicker::class); ?>
+    <?= $form->field($model, 'dateStartToJui')->widget(\kartik\widgets\DatePicker::class) ?>
+    <div class="form-group">
+        <?= Html::submitButton(\vova07\site\Module::t('default','SEARCH_LABEL'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(\vova07\site\Module::t('default','RESET_LABEL'), ['class' => 'btn btn-default']) ?>
+    </div>
+    <?php ActiveForm::end(); ?>
+</div>
+

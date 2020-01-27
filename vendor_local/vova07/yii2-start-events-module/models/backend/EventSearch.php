@@ -1,5 +1,6 @@
 <?php
 namespace vova07\events\models\backend;
+use vova07\base\components\DateJuiBehavior;
 use vova07\events\models\Event;
 
 
@@ -12,14 +13,28 @@ use vova07\events\models\Event;
 
 class EventSearch extends Event
 {
-
-    public function init()
+    public $dateStartFrom;
+    public $dateStartTo;
+    public function behaviors()
     {
-
+        return [
+            'dateIssueJui'=>[
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'dateStartFrom',
+                'juiAttribute' => 'dateStartFromJui'
+            ],
+            'dateExpirationJui'=>[
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'dateStartTo',
+                'juiAttribute' => 'dateStartToJui',
+                //  'dateFormat' => 'dd-mm-yyyy'
+            ]
+        ];
     }
     public function rules()
     {
         return [
+            [['dateStartFromJui', 'dateStartToJui'],'string'],
             [['title'],'string'],
             [['category_id'] , 'integer'],
         ];
@@ -36,7 +51,6 @@ class EventSearch extends Event
         $dataProvider->sort = [
             'defaultOrder' => [
                 'date_start' => SORT_ASC,
-
             ]
         ];
         if ($this->load($params) && $this->validate()){
@@ -47,6 +61,13 @@ class EventSearch extends Event
             $dataProvider->query->andFilterWhere(
                 ['like', 'title', $this->title  ]
             );
+            $dataProvider->query->andFilterWhere(
+                ['>=', 'date_start', $this->dateStartFrom  ]
+            );
+            $dataProvider->query->andFilterWhere(
+                ['<=', 'date_start', $this->dateStartTo  ]
+            );
+
         }
 
         return $dataProvider;

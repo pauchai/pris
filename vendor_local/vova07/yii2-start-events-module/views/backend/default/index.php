@@ -20,6 +20,7 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
+
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
@@ -27,6 +28,7 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
+<?=$this->render('_search',['model' => $searchModel])?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
