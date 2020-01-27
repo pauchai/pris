@@ -20,7 +20,8 @@ class EventSearch extends Event
     public function rules()
     {
         return [
-            [['title'],'string']
+            [['title'],'string'],
+            [['category_id'] , 'integer'],
         ];
     }
     public function search($params)
@@ -38,6 +39,15 @@ class EventSearch extends Event
 
             ]
         ];
+        if ($this->load($params) && $this->validate()){
+            $dataProvider->query->andFilterWhere([
+                'category_id' => $this->category_id,
+
+            ]);
+            $dataProvider->query->andFilterWhere(
+                ['like', 'title', $this->title  ]
+            );
+        }
 
         return $dataProvider;
 

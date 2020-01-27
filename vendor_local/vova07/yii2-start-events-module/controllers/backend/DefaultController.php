@@ -58,7 +58,7 @@ class DefaultController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         \Yii::$app->user->returnUrl = Url::current();
         //$dataProvider->query->planing();
-        return $this->render("index", ['dataProvider'=>$dataProvider]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
     }
 
     public function actionCreate()

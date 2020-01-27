@@ -17,6 +17,7 @@ use vova07\users\models\Officer;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'title')?>
+<?=$form->field($model,'category_id')->dropDownList(Event::getCategoriesForCombo(),['prompt'=>\vova07\events\Module::t('events','SELECT_EVENT_CATEGORY_PROMPT')])?>
 <?=$form->field($model,'prison_id')->dropDownList(Prison::getListForCombo(),['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISON')])?>
 <?=$form->field($model,'dateStartJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'dateFinishJui')->widget(\kartik\widgets\DatePicker::class)?>

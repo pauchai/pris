@@ -29,10 +29,18 @@ $this->params['breadcrumbs'] = [
 );?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'date_start:date',
         'title',
+        [
+          'attribute' => 'category_id',
+            'value' => 'category',
+            'class' => \yii\grid\DataColumn::class,
+            'filter' => \vova07\events\models\Event::getCategoriesForCombo(),
+        ],
         'assigned.person.fio',
         [
             'attribute'=>'status_id',

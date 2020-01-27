@@ -34,6 +34,12 @@ class Event extends  Ownableitem
     const STATUS_ACTIVE = 10;
     const STATUS_FINISHED = 11;
 
+    const CATEGORY_ARTA_PLASTICA = 1;
+    const CATEGORY_MASURA_CULTURAL_EDUCATIVE = 2;
+    const CATEGORY_SEMINAR_INFORMATIV_BRAINRING = 3;
+    const CATEGORY_EXPOZITI_DE_DESENE = 4;
+    const CATEGORY_ACTIVITATI_SPORTIVE = 5;
+
     public static function tableName()
     {
         return 'events';
@@ -42,7 +48,7 @@ class Event extends  Ownableitem
     public function rules()
     {
         return [
-            [['prison_id','assigned_to', 'title', 'slug', 'status_id',], 'required'],
+            [['prison_id','assigned_to', 'title', 'slug', 'status_id', 'category_id'], 'required'],
 
             [['dateStartJui', 'dateFinishJui'], 'date']
         ];
@@ -63,13 +69,15 @@ class Event extends  Ownableitem
                 'date_start' => Schema::TYPE_INTEGER . " NOT NULL",
                 'date_finish' => Schema::TYPE_INTEGER . " ",
                 'assigned_to' => Schema::TYPE_INTEGER . " NOT NULL",
-                'status_id' => Schema::TYPE_TINYINT . " NOT NULL"
+                'status_id' => Schema::TYPE_TINYINT . " NOT NULL",
+                'category_id' => Schema::TYPE_TINYINT . " NOT NULL"
             ],
             'indexes' => [
                 [self::class, 'prison_id'],
                 [self::class, 'date_start'],
                 [self::class, 'status_id'],
-                [self::class, 'assigned_to']
+                [self::class, 'assigned_to'],
+                [self::class, 'category_id'],
             ],
             'foreignKeys' => [
                 [self::class, 'prison_id', Prison::class, Prison::primaryKey()],
@@ -179,6 +187,25 @@ class Event extends  Ownableitem
             'assigned.person.fio' => Module::t('labels','ASSIGNED_PERSON_FIO_LABEL'),
             'status_id' => Module::t('labels','STATUS_LABEL'),
         ];
+    }
+
+    public static function getCategoriesForCombo()
+    {
+        return [
+            self::CATEGORY_ARTA_PLASTICA => Module::t('default','CATEGORY_ARTA_PLASTICA_TITLE'),
+            self::CATEGORY_MASURA_CULTURAL_EDUCATIVE => Module::t('default','CATEGORY_MASURA_CULTURAL_EDUCATIVE_TITLE'),
+            self::CATEGORY_SEMINAR_INFORMATIV_BRAINRING => Module::t('default','CATEGORY_SEMINAR_INFORMATIV_BRAINRING_TITLE'),
+            self::CATEGORY_EXPOZITI_DE_DESENE => Module::t('default','CATEGORY_EXPOZITI_DE_DESENE_TITLE'),
+            self::CATEGORY_ACTIVITATI_SPORTIVE => Module::t('default','CATEGORY_ACTIVITATI_SPORTIVE_TITLE'),
+        ];
+    }
+
+    public function getCategory()
+    {
+        if ($this->category_id)
+            return self::getCategoriesForCombo()[$this->category_id];
+        else
+            return null;
     }
 
 
