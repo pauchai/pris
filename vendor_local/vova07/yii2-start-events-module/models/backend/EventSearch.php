@@ -36,7 +36,7 @@ class EventSearch extends Event
         return [
             [['dateStartFromJui', 'dateStartToJui'],'string'],
             [['title'],'string'],
-            [['category_id'] , 'integer'],
+            [['category_id','status_id'] , 'integer'],
         ];
     }
     public function search($params)
@@ -56,6 +56,7 @@ class EventSearch extends Event
         if ($this->load($params) && $this->validate()){
             $dataProvider->query->andFilterWhere([
                 'category_id' => $this->category_id,
+                'status_id' => $this->status_id,
 
             ]);
             $dataProvider->query->andFilterWhere(

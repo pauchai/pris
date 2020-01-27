@@ -8,9 +8,11 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 use vova07\events\Module;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
-$this->params['subtitle'] = 'LIST';
+$this->params['subtitle'] = Module::t("default","EVENTS_LIST_TITLE");
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'] = [
 );?>
 <?=$this->render('_search',['model' => $searchModel])?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
 
     'columns' => [
@@ -43,7 +45,17 @@ $this->params['breadcrumbs'] = [
             'class' => \yii\grid\DataColumn::class,
             'filter' => \vova07\events\models\Event::getCategoriesForCombo(),
         ],
-        'assigned.person.fio',
+        [
+            'header' => \yii\bootstrap\Html::tag('span','',['class' => 'fa fa-users'] ),
+            'content' => function($model){
+                return \yii\bootstrap\Html::a($model->getParticipants()->count(), ['participants/index','event_id' => $model->primaryKey], [
+                    'title' => \vova07\plans\Module::t('default', 'EVENT_PARTICIPANTS'),
+                    'data-pjax' => '0',
+                    'class'=>'btn btn-primary'
+                ]);
+                return ;
+            }
+        ],
         [
             'attribute'=>'status_id',
             'content' => function($model){
@@ -56,25 +68,16 @@ $this->params['breadcrumbs'] = [
                 };
                 return \yii\helpers\Html::tag('span',$model->status,$options);
             },
+            'filter' => \vova07\events\models\Event::getStatusesForCombo(),
+
         ],
+        'assigned.person.fio',
+
+
 
         [
-          'header' => '',
-          'content' => function($model){
-                return $model->getParticipants()->count();
-          }
-        ],
-        [
-            'class' => yii\grid\ActionColumn::class,
-            'template' => ' {participants}  {update} {delete} ',
-            'buttons' => [
-                'participants' => function ($url, $model, $key) {
-                    return \yii\bootstrap\Html::a('<span class="fa fa-users"></span>', ['participants/index','event_id' => $key], [
-                        'title' => \vova07\plans\Module::t('default', 'EVENT_PARTICIPANTS'),
-                        'data-pjax' => '0',
-                    ]);
-                },
-            ],
+            'class' => ActionColumn::class,
+
         ]
     ]
 ])?>

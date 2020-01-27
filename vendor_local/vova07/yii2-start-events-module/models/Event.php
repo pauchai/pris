@@ -186,6 +186,9 @@ class Event extends  Ownableitem
             'title' => Module::t('labels','TITLE_LABEL'),
             'assigned.person.fio' => Module::t('labels','ASSIGNED_PERSON_FIO_LABEL'),
             'status_id' => Module::t('labels','STATUS_LABEL'),
+            'category_id' =>  Module::t('labels','CATEGORY_LABEL'),
+            'dateStartFromJui' =>  Module::t('labels','DATE_START_FROM_JUI_LABEL'),
+            'dateStartToJui' =>  Module::t('labels','DATE_START_TO_JUI_LABEL')
         ];
     }
 
