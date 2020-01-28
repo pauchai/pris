@@ -35,16 +35,39 @@ use vova07\prisons\models\PrisonerSecurity;
 
     <?php if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST)):?>
     <div class="col-md-3 col-sm-6 col-xs-12">
+        <?php
+            $documentSearchModel = new \vova07\documents\models\backend\DocumentSearch;
+            $infoContent = '';
+            $infoContent =  Html::a(
+                Document::find()->count(),
+                ['/documents/default/index']
+            );
+            $infoContent .= Html::a(
+                Html::tag('span',
+                    Document::find()->expired()->count(),
+                    ['class' => 'badge bg-red']
+                ) . 'expired',
+                ['/documents/default/index',$documentSearchModel->formName() => ['metaStatusId' => Document::META_STATUS_EXPIRATED]],
+                ['class' =>'btn']
+            );
+             $infoContent .= Html::a(
+            Html::tag('span',
+                Document::find()->aboutExpiration()->count(),
+                ['class' => 'badge bg-yellow']
+            ) . 'expired',
+            ['/documents/default/index',$documentSearchModel->formName() => ['metaStatusId' => Document::META_STATUS_ABOUT_EXPIRATION]],
+            ['class' =>'btn']
+             )
+        ?>
+        <?php if ($infoContent):?>
         <?php echo InfoBox::widget(
             [       'title' => \vova07\prisons\Module::t('documents','DOCUMENTS_TITLE'),
-                'infoContent' => Html::a(
-                    Document::find()->count(),
-                    ['/documents/default/index']
-                ) ,
+                'infoContent' => $infoContent ,
 
                 'icon' => 'file-alt'
             ]
         );?>
+        <?php endif;?>
     </div>
     <?php endif;?>
 

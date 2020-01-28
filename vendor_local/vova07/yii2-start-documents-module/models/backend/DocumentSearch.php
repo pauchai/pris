@@ -14,12 +14,15 @@ class DocumentSearch extends \vova07\documents\models\Document
 {
     public $issuedFrom;
     public $issuedTo;
+    public $metaStatusId;
+
     public function rules()
     {
         return [
             [['person_id','type_id'],'integer'],
             [['issuedFrom','issuedTo'],'integer'],
             [['issuedToJui','issuedFromJui'],'date'],
+            [['metaStatusId'], 'integer'],
     //        [['issuedToJui'],'date','format' => 'dd-mm-yyyy']
 
         ];
@@ -74,6 +77,12 @@ class DocumentSearch extends \vova07\documents\models\Document
             'type_id' => $this->type_id,
 
         ]);
+        if ($this->metaStatusId == self::META_STATUS_ABOUT_EXPIRATION)
+                $dataProvider->query->aboutExpiration();
+        elseif ($this->metaStatusId == self::META_STATUS_EXPIRATED)
+                $dataProvider->query->expired();
+
+
         $dataProvider->query->andFilterWhere(['>=','date_issue',$this->issuedFrom])
             ->andFilterWhere(['<=','date_issue',$this->issuedTo]);
         return $dataProvider;

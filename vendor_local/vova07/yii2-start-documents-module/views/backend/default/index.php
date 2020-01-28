@@ -55,15 +55,7 @@ $this->params['breadcrumbs'] = [
                    // $content = $model->type . '|' . $model->seria;
                     $content = Html::tag('span', $model->type,['class'=>' label label-success ']);
                     $content .= ' ' . Html::tag('span', $model->seria,['class'=>'  label label-success']);
-                    if ($model->isExpired()){
-                        $content .= Html::tag( 'span',Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
-                    } else {
-//                        $content = Html::tag('span', $content,['class'=>'label label-success']);
-                        if ($model->isAboutExpiration()){
-                            $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>'label label-warning']);
 
-                        }
-                    };
                     return $content;
 
 
@@ -75,6 +67,23 @@ $this->params['breadcrumbs'] = [
             ],
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_TYPE'), 'class'=> 'form-control', 'id' => null],
 
+        ],
+        [
+            'attribute' => 'metaStatusId',
+            'content' => function($model){
+                $content = '';
+                if ($model->isExpired()){
+                    $content = Html::tag( 'span',Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
+                } else {
+//                        $content = Html::tag('span', $content,['class'=>'label label-success']);
+                    if ($model->isAboutExpiration()){
+                        $content = ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>'label label-warning']);
+
+                    }
+                };
+                return $content;
+            },
+            'filter' => \vova07\documents\models\Document::getMetaStatusesForCombo(),
         ],
         [
           'attribute' => 'date_issue',

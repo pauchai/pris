@@ -63,6 +63,14 @@ class Document extends  Ownableitem
     const STATUS_ACTIVE = 10;
 
     const EXPIRATION_ABOUT_DAYS = 30;
+
+
+    public const META_STATUS_ABOUT_EXPIRATION = 1;
+    public const META_STATUS_EXPIRATED = 2;
+
+
+
+
     public static function tableName()
     {
         return 'document';
@@ -256,6 +264,16 @@ class Document extends  Ownableitem
             'title' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
         ];
     }
+
+    public static function getMetaStatusesForCombo()
+    {
+        return [
+          self::META_STATUS_ABOUT_EXPIRATION => Module::t('default', 'META_STATUS_ABOUT_EXPIRATION'),
+          self::META_STATUS_EXPIRATED => Module::t('default', 'META_STATUS_EXPIRATED'),
+        ];
+    }
+
+
 
 
 }
