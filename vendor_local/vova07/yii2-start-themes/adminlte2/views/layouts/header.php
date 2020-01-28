@@ -22,7 +22,7 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
 
                 <li>
-                    <a target="_blank" href="<?=Yii::$app->getUrlManager()->getHostInfo()?>/dokuwiki">Documentations</a>
+                    <a target="_blankgit " href="<?=Yii::$app->getUrlManager()->getHostInfo()?>/dokuwiki">Documentations</a>
                 </li>
                 <li class="company">
                     <a href="">
