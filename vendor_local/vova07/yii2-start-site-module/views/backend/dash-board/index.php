@@ -54,7 +54,7 @@ use vova07\prisons\models\PrisonerSecurity;
             Html::tag('span',
                 Document::find()->aboutExpiration()->count(),
                 ['class' => 'badge bg-yellow']
-            ) . 'expired',
+            ) . 'about',
             ['/documents/default/index',$documentSearchModel->formName() => ['metaStatusId' => Document::META_STATUS_ABOUT_EXPIRATION]],
             ['class' =>'btn']
              )

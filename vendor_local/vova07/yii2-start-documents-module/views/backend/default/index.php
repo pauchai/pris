@@ -73,11 +73,11 @@ $this->params['breadcrumbs'] = [
             'content' => function($model){
                 $content = '';
                 if ($model->isExpired()){
-                    $content = Html::tag( 'span',Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
+                    $content = Html::tag( 'span','expired' . ' ' . Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>' label label-danger']);
                 } else {
 //                        $content = Html::tag('span', $content,['class'=>'label label-success']);
                     if ($model->isAboutExpiration()){
-                        $content = ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>'label label-warning']);
+                        $content = ' ' .Html::tag('span', 'expiring' . ' ' . Yii::$app->formatter->asRelativeTime($model->date_expiration ),['class'=>'label label-warning']);
 
                     }
                 };
