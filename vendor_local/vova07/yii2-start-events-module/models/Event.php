@@ -48,9 +48,11 @@ class Event extends  Ownableitem
     public function rules()
     {
         return [
-            [['prison_id','assigned_to', 'title', 'slug', 'status_id', 'category_id'], 'required'],
+            [['prison_id','assigned_to', 'title', 'slug', 'status_id'], 'required'],
+            [['category_id'],'integer'],
 
-            [['dateStartJui', 'dateFinishJui'], 'date']
+            [['dateStartJui', 'dateFinishJui'], 'date'],
+           // [['status_id'], 'default', 'value' => Event::STATUS_ACTIVE]
         ];
 
     }

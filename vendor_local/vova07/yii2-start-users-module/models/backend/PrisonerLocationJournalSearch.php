@@ -13,6 +13,7 @@ use vova07\users\models\PrisonerLocationJournal;
 class PrisonerLocationJournalSearch extends PrisonerLocationJournal
 {
 
+
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([

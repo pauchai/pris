@@ -29,7 +29,11 @@ $this->params['breadcrumbs'] = [
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'prisoner.person.fio',
+        [
+          'attribute' => 'prisoner_id',
+          'value'  => 'prisoner.person.fio',
+        ],
+
         'prison.company.title',
         'sector.title',
         'cell.number',
