@@ -2,6 +2,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
+use kartik\grid\GridView;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -26,12 +27,23 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
           'attribute' => 'prisoner_id',
           'value'  => 'prisoner.person.fio',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ]
+
+            ],
+            'filterInputOptions' => ['prompt' =>  Module::t('default','SELECT_PRISONER_FILTER'), 'class'=> 'form-control', 'id' => null],
+
         ],
 
         'prison.company.title',
