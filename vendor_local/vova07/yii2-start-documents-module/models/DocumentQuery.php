@@ -32,4 +32,10 @@ class DocumentQuery extends ActiveQuery
 
     }
 
+    public function byPerson($personId)
+    {
+        return $this->andWhere([
+            'person_id' => $personId,
+        ]);
+    }
 }

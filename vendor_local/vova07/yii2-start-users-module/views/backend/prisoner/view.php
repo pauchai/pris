@@ -31,7 +31,11 @@ $this->params['breadcrumbs'] = [
           ['label' =>  Module::t('default','ACTIVITĂȚI_OPȚIONALE'),
               'url' => ['/events/prisoner-events/index', 'prisoner_id'=> $model->primaryKey]],
           [
-              'label' => Module::t('default','DOCUMENTS_IDENTIFICATION'),
+              'label' => Module::t('default','DOCUMENTS_IDENTIFICATION') .
+                  Html::tag('span',
+                      Html::tag('span',\vova07\documents\models\Document::find()->byPerson($model->primaryKey)->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
+
               'url' => ['/documents/default', 'DocumentSearch[person_id]'=>$model->primaryKey],
 
           ],
@@ -41,7 +45,14 @@ $this->params['breadcrumbs'] = [
 
           ],
           [
-              'label' => Module::t('default','PRISONER_BALANCE'),
+              'label' => Module::t('default','PRISONER_BALANCE') .
+                  Html::tag('span',
+                      Html::tag('span',
+                          \vova07\finances\models\Balance::find()->byPrisoner($model->primaryKey)->debit()->sum('amount') -
+                          \vova07\finances\models\Balance::find()->byPrisoner($model->primaryKey)->credit()->sum('amount')
+                          , ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
+
               'url' => ['/finances/balance/index', 'BalanceSearch[prisoner_id]'=>$model->primaryKey],
 
           ],

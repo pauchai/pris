@@ -23,4 +23,10 @@ class BalanceQuery extends ActiveQuery
     {
         return $this->andWhere(['type_id' => Balance::TYPE_CREDIT]);
     }
+    public function byPrisoner($prisonerId)
+    {
+        return $this->andWhere([
+            'prisoner_id' => $prisonerId,
+        ]);
+    }
 }
