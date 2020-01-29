@@ -7,6 +7,7 @@
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
+use kartik\grid\GridView;
 
 $this->title = \vova07\plans\Module::t("default","ELECTRICITY_DEVICES_TITLE");
 $this->params['subtitle'] = 'LIST';
@@ -27,11 +28,21 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'title',
-        'prisoner.person.fio',
+        [
+            'attribute' => 'prisoner_id',
+            'value' => 'prisoner.person.fio',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true ],
+            ],
+            'filterInputOptions' => [ 'prompt' => \vova07\electricity\Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+         ],
         'assigned_at:date',
         'unassigned_at:date',
         'sector.title',

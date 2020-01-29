@@ -21,4 +21,10 @@ class DeviceQuery extends ActiveQuery
     }
 */
 
+    public function byPrisoner($prisonerId)
+    {
+        return $this->andWhere([
+            'prisoner_id' => $prisonerId,
+        ]);
+    }
 }

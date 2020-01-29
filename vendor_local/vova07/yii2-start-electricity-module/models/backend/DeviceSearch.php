@@ -10,16 +10,26 @@ namespace vova07\electricity\models\backend;
 
 class DeviceSearch extends \vova07\electricity\models\Device
 {
+    public function rules()
+    {
+        return [
 
+            [['prisoner_id','sector_id','cell_id',],'integer'],
+
+
+        ];
+
+
+    }
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
         ]);
-        if ($this->load($params) ){
+        if ($this->load($params) && $this->validate() ){
             $dataProvider->query->andFilterWhere(
                 [
-
+                    'prisoner_id' => $this->prisoner_id
 //
                 ]);
         }

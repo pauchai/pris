@@ -23,6 +23,7 @@ use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
+use vova07\users\models\PrisonerQuery;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
@@ -133,7 +134,7 @@ class Device extends  Ownableitem
 
     public static function find()
     {
-        return new CommitteeQuery(get_called_class());
+        return new DeviceQuery(get_called_class());
     }
 
     public function getOwnableitem()

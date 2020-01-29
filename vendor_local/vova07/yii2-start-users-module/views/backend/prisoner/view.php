@@ -21,7 +21,9 @@ $this->params['breadcrumbs'] = [
 
   \yii\bootstrap\NavBar::begin();
   echo \yii\bootstrap\Nav::widget([
+      'encodeLabels' => false,
       'items' => [
+
           [
                   'label' => Module::t('default','PLAN_INDIVIDUAL_DE_EXECUTAREA_PEDEPSEI'),
               'url' => ['/plans/default/index','prisoner_id'=>$model->primaryKey]
@@ -32,7 +34,28 @@ $this->params['breadcrumbs'] = [
               'label' => Module::t('default','DOCUMENTS_IDENTIFICATION'),
               'url' => ['/documents/default', 'DocumentSearch[person_id]'=>$model->primaryKey],
 
+          ],
+          [
+              'label' => Module::t('default','PRISONER_LOCATION_JOURNAL'),
+              'url' => ['/users/prisoners-journal/index', 'PrisonerLocationJournalSearch[prisoner_id]'=>$model->primaryKey],
+
+          ],
+          [
+              'label' => Module::t('default','PRISONER_BALANCE'),
+              'url' => ['/finances/balance/index', 'BalanceSearch[prisoner_id]'=>$model->primaryKey],
+
+          ],
+          [
+              'label' => Module::t('default','PRISONER_ELECTRICITY') .
+                            Html::tag('span',
+                                Html::tag('span',\vova07\electricity\models\Device::find()->byPrisoner($model->primaryKey)->count(), ['class' => "label label-primary pull-right"] ),
+                                ['class' => 'pull-right-container']),
+
+
+              'url' => ['/electricity/devices/index', 'DeviceSearch[prisoner_id]'=>$model->primaryKey],
+
           ]
+
       ],
       'options' => ['class' => 'navbar-nav'],
   ]);
