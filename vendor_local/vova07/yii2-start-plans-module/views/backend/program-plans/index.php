@@ -72,6 +72,12 @@ $this->params['breadcrumbs'] = [
         ],
         [
           'attribute' => 'plannedBy.person.fio',
+          'value' => function($model){
+                if ($model->plannedBy)
+                    return $model->plannedBy->person->getFio(true);
+                else
+                    return null;
+                },
           'visible' => !$this->context->isPrintVersion,
         ],
         [

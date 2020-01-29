@@ -115,10 +115,14 @@ class Person extends  Ownableitem
         return $this->hasOne(Country::class,['id' => 'citizen_id']);
     }
 
-    public function getFio()
+    public function getFio($withoutPatronymic = false)
     {
-        return $this->second_name . ' ' . $this->first_name . ' ' . $this->patronymic;
+        if ($withoutPatronymic)
+            return $this->second_name . ' ' . $this->first_name;
+        else
+            return $this->second_name . ' ' . $this->first_name . ' ' . $this->patronymic;
     }
+
 
     public static function getListForCombo()
     {
