@@ -25,22 +25,32 @@ $this->params['breadcrumbs'] = [
       'items' => [
 
           [
-                  'label' => Module::t('default','PLAN_INDIVIDUAL_DE_EXECUTAREA_PEDEPSEI'),
+                  'label' => Module::t('default','PLAN_INDIVIDUAL_DE_EXECUTAREA_PEDEPSEI') .
+                      Html::tag('span',
+                          Html::tag('span',$model->getRequirements()->count(), ['class' => "label label-primary pull-right"] ).
+                          Html::tag('span',$model->getPrisonerPrograms()->count(), ['class' => "label label-primary pull-right"] ),
+                          ['class' => 'pull-right-container']),
               'url' => ['/plans/default/index','prisoner_id'=>$model->primaryKey]
           ],
-          ['label' =>  Module::t('default','ACTIVITĂȚI_OPȚIONALE'),
+          ['label' =>  Module::t('default','ACTIVITĂȚI_OPȚIONALE').
+              Html::tag('span',
+                  Html::tag('span',$model->getEvents()->count(), ['class' => "label label-primary pull-right"] ),
+                  ['class' => 'pull-right-container']),
               'url' => ['/events/prisoner-events/index', 'prisoner_id'=> $model->primaryKey]],
           [
               'label' => Module::t('default','DOCUMENTS_IDENTIFICATION') .
                   Html::tag('span',
-                      Html::tag('span',\vova07\documents\models\Document::find()->byPerson($model->primaryKey)->count(), ['class' => "label label-primary pull-right"] ),
+                      Html::tag('span',$model->person->getDocuments()->count(), ['class' => "label label-primary pull-right"] ),
                       ['class' => 'pull-right-container']),
 
               'url' => ['/documents/default', 'DocumentSearch[person_id]'=>$model->primaryKey],
 
           ],
           [
-              'label' => Module::t('default','PRISONER_LOCATION_JOURNAL'),
+              'label' => Module::t('default','PRISONER_LOCATION_JOURNAL') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getLocationJournal()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
               'url' => ['/users/prisoners-journal/index', 'PrisonerLocationJournalSearch[prisoner_id]'=>$model->primaryKey],
 
           ],
@@ -48,8 +58,8 @@ $this->params['breadcrumbs'] = [
               'label' => Module::t('default','PRISONER_BALANCE') .
                   Html::tag('span',
                       Html::tag('span',
-                          \vova07\finances\models\Balance::find()->byPrisoner($model->primaryKey)->debit()->sum('amount') -
-                          \vova07\finances\models\Balance::find()->byPrisoner($model->primaryKey)->credit()->sum('amount')
+                          $model->getBalances()->debit()->sum('amount') -
+                          $model->getBalances()->credit()->sum('amount')
                           , ['class' => "label label-primary pull-right"] ),
                       ['class' => 'pull-right-container']),
 
@@ -59,13 +69,45 @@ $this->params['breadcrumbs'] = [
           [
               'label' => Module::t('default','PRISONER_ELECTRICITY') .
                             Html::tag('span',
-                                Html::tag('span',\vova07\electricity\models\Device::find()->byPrisoner($model->primaryKey)->count(), ['class' => "label label-primary pull-right"] ),
+                                Html::tag('span',$model->getDevices()->count(), ['class' => "label label-primary pull-right"] ),
                                 ['class' => 'pull-right-container']),
 
 
               'url' => ['/electricity/devices/index', 'DeviceSearch[prisoner_id]'=>$model->primaryKey],
 
-          ]
+          ],
+
+          [
+              'label' => Module::t('default','PRISONER_COMMITIES') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getCommities()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
+              'url' => ['/tasks/committee'],
+
+          ],
+
+          [
+              'label' => Module::t('default','PRISONER_JOBS') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getJobs()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
+
+
+              'url' => ['/jobs/job-list/index', 'JobPaidListSearch[assigned_to]'=>$model->primaryKey],
+
+          ],
+
+          [
+              'label' => Module::t('default','PRISONER_SECURITY') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getPrisonerSecurity()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']),
+
+
+              'url' => ['/prisons/prisoner-security/index', 'PrisonerSecurity251Search[prisoner_id]'=>$model->primaryKey, 'PrisonerSecurity248Search[prisoner_id]'=>$model->primaryKey],
+
+          ],
+
 
       ],
       'options' => ['class' => 'navbar-nav'],

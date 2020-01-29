@@ -210,6 +210,15 @@ class Prisoner extends  OwnableItem
         return $this->hasMany(\vova07\events\models\Event::class, ['__ownableitem_id' => 'event_id'])->via('eventParticipants');
     }
 
+    public function getCommities()
+    {
+        return $this->hasMany(\vova07\tasks\models\Committee::class, ['prisoner_id' => '__person_id']);
+    }
+    public function getJobs()
+    {
+        return $this->hasMany(\vova07\jobs\models\JobPaidList::class, ['assigned_to' => '__person_id']);
+    }
+
     public function getRequirements()
     {
         return $this->hasMany(Requirement::class, ['prisoner_id' => '__person_id']);
@@ -218,6 +227,10 @@ class Prisoner extends  OwnableItem
     public function getProgramPlans()
     {
         return $this->hasMany(ProgramPlan::class, ['prisoner_id' => '__person_id']);
+    }
+    public function getLocationJournal()
+    {
+        return $this->hasMany(PrisonerLocationJournal::class, ['prisoner_id' => '__person_id']);
     }
 
     public static function getListForCombo()

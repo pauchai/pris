@@ -8,6 +8,8 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 
+use kartik\grid\GridView;
+
 $this->title = \vova07\plans\Module::t("default","JOB_LIST_TITLE");
 $this->params['subtitle'] = 'LIST';
 $this->params['breadcrumbs'] = [
@@ -27,10 +29,22 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'assignedTo.person.fio',
+        [
+          'attribute' => 'assigned_to',
+          'value' => 'assignedTo.person.fio',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true ],
+            ],
+            'filterInputOptions' => [ 'prompt' => \vova07\jobs\Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+
+        ],
+
         'type.title',
 
         [
