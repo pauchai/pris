@@ -14,7 +14,7 @@ use kartik\grid\EditableColumnAction;
 use lajax\translatemanager\models\Language;
 use vova07\base\components\BackendController;
 use vova07\prisons\models\Sector;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\prisons\models\backend\PrisonSearch;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\Prison;
@@ -108,7 +108,7 @@ class PrisonerController extends BackendController
     {
       //  $access = \Yii::$app->authManager->checkAccess(\Yii::$app->user->id,Module::PERMISSION_PRISONERS_LIST);
        // if (!$access) {echo "break";die();}
-        $searchModel = new PrisonerSearch();
+        $searchModel = new PrisonerViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 //        $dataProvider->sort->attributes['person.first_name'] = [
 //          'asc' => ['person.first_name' => SORT_ASC],
@@ -158,7 +158,7 @@ class PrisonerController extends BackendController
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
         };
 
-        $prisonerSearch = new PrisonerSearch();
+        $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->searchFromSession();
         $dataProvider->pagination = false;
        // $searchModels = $dataProvider->getModels();

@@ -26,7 +26,9 @@ use vova07\plans\models\Requirement;
 use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\PrisonerSecurity;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\psycho\models\PsyCharacteristic;
+use vova07\psycho\models\PsyRisk;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
@@ -339,6 +341,11 @@ class Prisoner extends  OwnableItem
         ){
             $this->resolveChangeLocation();
         }
+    }
+
+    public function getCharacteristic()
+    {
+        return $this->hasOne(PsyCharacteristic::class, ['__person_id' => '__person_id']);
     }
 
 

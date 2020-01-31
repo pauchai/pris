@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * Time: 11:30 AM
  */
 
-class PrisonerSearch extends \vova07\users\models\PrisonerView
+class PrisonerViewSearch extends \vova07\users\models\PrisonerView
 {
     public $termStartFrom, $termStartTo;
     public $termFinishFrom, $termFinishTo;

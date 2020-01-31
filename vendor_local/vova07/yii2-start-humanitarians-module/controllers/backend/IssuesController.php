@@ -9,7 +9,7 @@ use vova07\humanitarians\models\HumanitarianIssue;
 use vova07\humanitarians\models\HumanitarianPrisoner;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\Prisoner;
 use yii\db\Query;
@@ -102,7 +102,7 @@ class IssuesController extends BackendController
         if (is_null($model = HumanitarianIssue::findOne($id))) {
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
-        $prisonerSearch = new PrisonerSearch();
+        $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
         $dataProvider->pagination->setPageSize(100);
         //$dataProvider->pagination=false;
@@ -122,7 +122,7 @@ class IssuesController extends BackendController
         if (is_null($model = HumanitarianIssue::findOne($id))) {
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
-        $prisonerSearch = new PrisonerSearch();
+        $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
         if ($this->isPrintVersion)
             $dataProvider->pagination=false;
@@ -200,7 +200,7 @@ class IssuesController extends BackendController
 
     public function actionMassAdd($issue_id, $item_id, $sector_id)
     {
-        $prisonerSearch = new PrisonerSearch();
+        $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
         $prisons = Prisoner::findAll(['sector_id' => $sector_id]);
 

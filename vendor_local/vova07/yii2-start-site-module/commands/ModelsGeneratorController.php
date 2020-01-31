@@ -22,6 +22,9 @@ use vova07\jobs\models\JobPaid;
 use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
 use vova07\jobs\models\WorkDay;
+use vova07\psycho\models\PsyCharacteristic;
+use vova07\psycho\models\PsyRisk;
+use vova07\psycho\models\PsyRiskQuery;
 use vova07\rbac\helpers\Rbac;
 use vova07\rbac\Module;
 use vova07\users\models\PrisonerLocationJournal;
@@ -70,7 +73,7 @@ class ModelsGeneratorController extends \yii\console\Controller
     {
         return [
 
-
+/*
             Item::class,
             Ident::class,
 
@@ -131,6 +134,10 @@ class ModelsGeneratorController extends \yii\console\Controller
             ProgramVisit::class,
             Program::class,
             Requirement::class,
+            */
+
+            PsyCharacteristic::class,
+
         ];
     }
 

@@ -152,6 +152,10 @@ return [
             'class' => \vova07\electricity\Module::class,
 
         ],
+        'psycho' => [
+            'class' => \vova07\psycho\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(

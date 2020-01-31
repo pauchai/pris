@@ -73,6 +73,9 @@ return [
         'electricity' => [
             'appContext' => 'backend'
         ],
+        'psycho' => [
+            'appContext' => 'backend'
+        ],
 
 
         'translations' => [

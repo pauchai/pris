@@ -14,7 +14,7 @@ use lajax\translatemanager\models\Language;
 use vova07\base\components\BackendController;
 use vova07\prisons\models\Sector;
 use vova07\users\models\backend\PrisonerLocationJournalSearch;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\prisons\models\backend\PrisonSearch;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\Prison;

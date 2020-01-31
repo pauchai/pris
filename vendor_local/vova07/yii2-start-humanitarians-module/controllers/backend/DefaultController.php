@@ -7,7 +7,7 @@ use vova07\humanitarians\models\backend\HumanitarianPrisonerSearch;
 use vova07\humanitarians\models\HumanitarianPrisoner;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use yii\web\NotFoundHttpException;
 
@@ -57,7 +57,7 @@ class DefaultController extends BackendController
 
     public function actionIndex()
     {
-        $searchModel = new PrisonerSearch();
+        $searchModel = new PrisonerViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }

@@ -92,4 +92,10 @@ return [
         'bootstrap' => \vova07\electricity\Bootstrap::class,
         'alias' => ['@vova07/electricity' => '@vendor_local/vova07/yii2-start-electricity-module']
     ],
+    'vova07/psycho' => [
+        'name' => 'Application Information Dumper',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\psycho\Bootstrap::class,
+        'alias' => ['@vova07/psycho' => '@vendor_local/vova07/yii2-start-psycho-module']
+    ],
 ];

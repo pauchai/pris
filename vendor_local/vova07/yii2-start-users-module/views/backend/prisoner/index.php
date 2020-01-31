@@ -5,7 +5,7 @@ use vova07\prisons\Module;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 use vova07\users\models\Prisoner;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison

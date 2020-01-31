@@ -14,7 +14,7 @@ use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\Requirement;
 use vova07\plans\models\RequirementsQuery;
 use vova07\plans\Module;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
@@ -93,7 +93,7 @@ class DefaultController extends BackendController
         }
 
 
-        $prisonerSearch = new PrisonerSearch();
+        $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->searchFromSession();
         $dataProvider->pagination = false;
         // $searchModels = $dataProvider->getModels();

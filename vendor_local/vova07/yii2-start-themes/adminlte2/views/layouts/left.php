@@ -161,6 +161,15 @@ use vova07\site\Module;
 
                         ]
                     ],
+                    ['label' =>  Module::t('menu', 'PSYCHO_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => true,
+                        'items' => [
+                            [
+                            'label' => Module::t('menu','PSYCHO_HARACHTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
+                            'visible' => true,
+                            ]
+                        ]
+                    ],
                     ['label' => Module::t('menu','ADMINISTRATION_HEADER_MENU'), 'options' => ['class' => 'header'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
                     ],

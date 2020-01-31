@@ -14,7 +14,7 @@ use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\WorkDay;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
-use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use yii\web\NotFoundHttpException;
 
