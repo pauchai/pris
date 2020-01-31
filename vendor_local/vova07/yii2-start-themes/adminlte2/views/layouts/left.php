@@ -165,7 +165,7 @@ use vova07\site\Module;
                         'visible' => true,
                         'items' => [
                             [
-                            'label' => Module::t('menu','PSYCHO_HARACHTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
+                            'label' => Module::t('menu','PSYCHO_CHARACTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
                             'visible' => true,
                             ]
                         ]
