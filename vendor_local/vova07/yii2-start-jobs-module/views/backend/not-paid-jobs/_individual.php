@@ -24,7 +24,7 @@ use vova07\site\models\Setting;
 CSS
 )
 ?>
-<br/><br/><br/>
+
 <p  style="text-align:center;" ><u><b>TABELUL</b></u></p>
 <p style="text-align:center;line-height:50%" >de evidenţa a orelor neremunerate a condamnatului</p>
 <p style="text-align:center;line-height:50%" >
