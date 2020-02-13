@@ -57,7 +57,14 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'attribute' => 'prisoner_id',
-            'value' => function($model) {return $model->prisoner->getFullTitle(true);}
+            'value' => function($model) {return $model->prisoner->getFullTitle(true);},
+             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                 'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PROGRAM'), 'class'=> 'form-control', 'id' => null],
+
         ],
 
 

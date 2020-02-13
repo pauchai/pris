@@ -36,7 +36,7 @@ $this->params['breadcrumbs'] = [
             if ($commitie = $model->prisoner->getCommities()->subject251()->one())
 //            if ($commitie = $model->prisoner->getCommities()->one())
              return $model->prisoner->getFullTitle() . ' ' . \yii\helpers\Html::a( \yii\helpers\Html::tag('i', ' ' ,[
-                 'class' => 'fa fa-info ' . ($commitie->status_id == \vova07\tasks\models\Committee::STATUS_FINISHED ? 'text-danger':'') ,
+                 'class' => 'fa fa-calendar-check ' . ($commitie->status_id == \vova07\tasks\models\Committee::STATUS_FINISHED ? 'text-danger':'') ,
                  'data' => [
                 //     'toggle' => 'tooltip',
                  //    'original-title' =>$commitie->subject . ' ' . $commitie->status . ' ' . $commitie->mark
