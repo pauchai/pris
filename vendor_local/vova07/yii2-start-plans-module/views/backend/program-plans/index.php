@@ -98,7 +98,11 @@ $this->params['breadcrumbs'] = [
             'update' => function ($url, $model, $key) {
                      return  \yii\bootstrap\Html::a('', ['/plans/program-prisoners/update','id'=>$model->primaryKey],['class'=>"fa fa-edit"]) ;
                  },
+                'delete' => function ($url, $model, $key) {
+                    return  \yii\bootstrap\Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey],['class'=>"fa fa-trash"]) ;
+                },
             ],
+
         ]
     ]
 ])?>
