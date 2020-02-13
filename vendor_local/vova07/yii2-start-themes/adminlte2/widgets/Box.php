@@ -173,7 +173,7 @@ class Box extends Widget
                 'url' => ['create'],
                 'icon' => 'fa-plus',
                 'options' => [
-                    'class' => 'btn-default',
+                    'class' => 'btn-default no-print',
                     'title' => Yii::t('vova07/themes/admin/widgets/box', 'Create')
                 ]
             ];
@@ -184,7 +184,7 @@ class Box extends Widget
                 'url' => ['update',$this->deleteParam => Yii::$app->request->get($this->deleteParam)],
                 'icon' => 'fa-edit',
                 'options' => [
-                    'class' => 'btn-default',
+                    'class' => 'btn-default no-print',
                     'title' => Yii::t('vova07/themes/admin/widgets/box', 'update')
                 ]
             ];
@@ -196,7 +196,7 @@ class Box extends Widget
                 'url' => ['delete', $this->deleteParam => Yii::$app->request->get($this->deleteParam)],
                 'icon' => 'fa-trash-o',
                 'options' => [
-                    'class' => 'btn-default',
+                    'class' => 'btn-default no-print',
                     'title' => Yii::t('vova07/themes/admin/widgets/box', 'Delete'),
                     'data-confirm' => Yii::t('vova07/themes/admin/widgets/box', 'Are you sure you want to delete this item?'),
                     'data-method' => 'delete'

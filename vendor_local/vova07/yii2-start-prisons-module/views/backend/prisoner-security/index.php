@@ -31,7 +31,21 @@ $this->params['breadcrumbs'] = [
     ['class' => yii\grid\SerialColumn::class],
     [
         'attribute' => 'prisoner_id',
-        'value' => function($model){return $model->prisoner->getFullTitle(true);},
+        //'value' => function($model){return $model->prisoner->getFullTitle(true);},
+        'content' => function($model){
+            if ($commitie = $model->prisoner->getCommities()->subject251()->one())
+//            if ($commitie = $model->prisoner->getCommities()->one())
+             return $model->prisoner->getFullTitle() . ' ' . \yii\helpers\Html::a( \yii\helpers\Html::tag('i', ' ' ,[
+                 'class' => 'fa fa-info ' . ($commitie->status_id == \vova07\tasks\models\Committee::STATUS_FINISHED ? 'text-danger':'') ,
+                 'data' => [
+                //     'toggle' => 'tooltip',
+                 //    'original-title' =>$commitie->subject . ' ' . $commitie->status . ' ' . $commitie->mark
+                 ],
+                 'title' => $commitie->subject . ' ' . $commitie->status . ' ' . $commitie->mark
+             ]),['/tasks/committee/index',  'CommitteeSearch[prisoner_id]' => $commitie->prisoner_id, 'CommitteeSearch[subject_id]' => \vova07\tasks\models\Committee::SUBJECT_251]) ;
+            else
+             return $model->prisoner->getFullTitle();
+         },
         'filter' => Prisoner::getListForCombo(),
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions' => [
@@ -40,6 +54,7 @@ $this->params['breadcrumbs'] = [
         'filterInputOptions' => ['prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'form-control', 'id' => null],
         'group' => true,
     ],
+    'prisoner.sector.title',
 
     [
         'attribute' => 'type_id',
@@ -99,7 +114,10 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-
+<?php if ($this->context->isPrintVersion) {
+    $searchModel248 = null;
+    $searchModel251 = null;
+}?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider248,
     'filterModel' => $searchModel248,
     'columns' => $columnDefinition,
@@ -120,4 +138,13 @@ $this->params['breadcrumbs'] = [
 
 <?php Box::end()?>
 
+<?php  if ($this->context->isPrintVersion) $this->registerCss(<<<CSS
+    
+    .table td {
+        padding:0px !important;
+        font-size: 150%;
+    }
+CSS
+)
+?>
 

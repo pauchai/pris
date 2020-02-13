@@ -14,11 +14,26 @@ use yii\db\ActiveQuery;
 class CommitteeQuery extends ActiveQuery
 {
 
-/*
-    public function active()
+
+    public function subject251()
     {
-        return $this->andWhere(['status_id' => Event::STATUS_ACTIVE]);
+        return $this->andWhere([
+            'subject_id' => Committee::SUBJECT_251,
+           // 'status_id' => Committee::STATUS_FINISHED
+
+        ]);
     }
-*/
+
+    public function finished()
+    {
+        return $this->andWhere([
+
+            'status_id' => Committee::STATUS_FINISHED
+
+        ]);
+    }
+
+
+
 
 }
