@@ -9,7 +9,7 @@ use vova07\site\Module;
         <div class="user-panel">
             <?php if (Yii::$app->user->identity->person):?>
             <div class="pull-left image">
-                <img src="<?=Yii::$app->user->identity->person->photo_preview_url ?>" class="img-circle" alt="User Image"/>
+                <img style = "max-width:70px !important" src="<?=Yii::$app->user->identity->person->photo_preview_url ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?=Yii::$app->user->identity->person->fio?></p>

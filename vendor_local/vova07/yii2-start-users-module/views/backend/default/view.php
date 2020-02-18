@@ -43,8 +43,15 @@ $this->params['breadcrumbs'] = [
         'model' => $model,
         'attributes' => [
             'username',
+            [
+                'label' => '',
+                'value' => $model->person->photo_url,
+                'format' => 'image'
 
-        ]
+            ]
+        ],
+
+
     ])?>
 <?php else:?>
     <?php
