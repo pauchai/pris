@@ -32,8 +32,33 @@ $this->params['breadcrumbs'] = [
         'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'programDict.title',
-        'plannedBy.person.fio',
+
+        [
+            'attribute' => 'programdict_id',
+            'value' => 'programDict.title',
+              'filter' => \vova07\plans\models\ProgramDict::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+    'pluginOptions' => ['allowClear' => true],
+],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PROGRAMS_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+        ],
+
+        [
+          'attribute' => 'planned_by',
+          'value' => 'plannedBy.person.fio',
+            'filter' => \vova07\users\models\Officer::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_OFFICER_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+
+        ],
+
+
       //  'prison.company.title',
         [
             'attribute' => 'prisoner_id',

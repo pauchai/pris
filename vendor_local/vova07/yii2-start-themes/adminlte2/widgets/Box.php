@@ -218,7 +218,8 @@ class Box extends Widget
 
         if (!isset($this->buttons['cancel'])) {
                  $this->buttons['cancel'] = [
-                'url' => ['index'],
+                //'url' => ['index'],
+                'url' => Yii::$app->user->returnUrl??['index'],
                 'icon' => 'fa-reply',
                 'options' => [
                     'class' => 'btn-default',

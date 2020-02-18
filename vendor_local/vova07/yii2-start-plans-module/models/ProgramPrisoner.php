@@ -143,6 +143,7 @@ class ProgramPrisoner extends  Ownableitem
             ],
             'plannedBy' => [
                 'class' => AttributeBehavior::class,
+                'preserveNonEmptyValues' => true,
                 'attributes' => [
                      ActiveRecord::EVENT_BEFORE_INSERT => 'planned_by',
                      ActiveRecord::EVENT_BEFORE_UPDATE => 'planned_by',

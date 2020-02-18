@@ -22,7 +22,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
     public function rules()
     {
         return [
-            [['programdict_id', 'prison_id', 'prisoner_id', 'program_id', 'date_plan'], 'integer']
+            [['programdict_id', 'prison_id', 'planned_by', 'prisoner_id', 'program_id', 'date_plan'], 'integer']
 
         ];
     }
@@ -51,7 +51,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         $query->andFilterWhere(
             [
                 'programdict_id' => $this->programdict_id,
-
+                'planned_by' => $this->planned_by,
                 'prisoner_id' => $this->prisoner_id,
                 'date_plan' => $this->date_plan,
                 'program_id' => $this->program_id,
