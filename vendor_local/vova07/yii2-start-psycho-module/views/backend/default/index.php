@@ -35,6 +35,7 @@ $this->params['breadcrumbs'] = [
 
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
+    'hover' => true,
     'filterModel' => $searchModel,
     //'floatHeader' => true,
     'columns' => [
@@ -73,7 +74,8 @@ $this->params['breadcrumbs'] = [
          */
         [
            // \yii\grid\DataColumn::
-            'attribute' => 'characteristic.risk',
+
+            'header' => '',
             'content' => function($model){
                 if ($model->characteristic){
                     if ($model->characteristic->risk_id >= \vova07\psycho\models\PsyCharacteristic::RISK_HIGH){
@@ -93,7 +95,7 @@ $this->params['breadcrumbs'] = [
             'attribute' =>         'characteristic.feature_violent',
 
             'format'=> 'html',
-            'value' => function($model){
+            'content' => function($model){
                 if ($model->characteristic){
                     $className = $model->characteristic->feature_violent?'fa fa-check':'';
                     return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
@@ -105,7 +107,7 @@ $this->params['breadcrumbs'] = [
             'attribute' =>         'characteristic.feature_self_torture',
 
             'format'=> 'html',
-            'value' => function($model){
+            'content' => function($model){
                 if ($model->characteristic){
                     $className = $model->characteristic->feature_self_torture?'fa fa-check':'';
                     return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
@@ -117,7 +119,7 @@ $this->params['breadcrumbs'] = [
             'attribute' =>         'characteristic.feature_sucide',
 
             'format'=> 'html',
-            'value' => function($model){
+            'content' => function($model){
                 if ($model->characteristic){
                     $className = $model->characteristic->feature_sucide?'fa fa-check':'';
                     return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
@@ -130,7 +132,7 @@ $this->params['breadcrumbs'] = [
             'attribute' =>         'characteristic.feature_addiction_alcohol',
 
             'format'=> 'html',
-            'value' => function($model){
+            'content' => function($model){
                 if ($model->characteristic){
                     $className = $model->characteristic->feature_addiction_alcohol?'fa fa-check':'';
                     return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
@@ -143,7 +145,7 @@ $this->params['breadcrumbs'] = [
             'attribute' =>         'characteristic.feature_addiction_drug',
 
             'format'=> 'html',
-            'value' => function($model){
+            'content' => function($model){
                 if ($model->characteristic){
                     $className = $model->characteristic->feature_addiction_drug?'fa fa-check':'';
                     return \yii\bootstrap\Html::tag('i','',['class'=>$className . ' text-success']);
@@ -181,7 +183,14 @@ $this->params['breadcrumbs'] = [
                 [],
                 [],
                 [],
-                [],
+                [
+                    'content' =>  Module::t('labels','RISC_LABEL'),
+                    'options' => [
+
+                        'style' => 'text-align:center',
+                        'class' => 'label-danger'
+                    ]
+                ],
 
 
                 [
@@ -189,7 +198,7 @@ $this->params['breadcrumbs'] = [
                     'options' => [
                         'colspan' => 1,
                         'style' => 'text-align:center',
-                        'class' => 'label-info'
+                        'class' => 'label-warning'
                     ]
                 ],
 
@@ -198,7 +207,7 @@ $this->params['breadcrumbs'] = [
                     'options' => [
                         'colspan' => 2,
                         'style' => 'text-align:center',
-                        'class' => 'label-info'
+                        'class' => 'label-warning'
                     ]
                 ],
                 [
@@ -206,7 +215,7 @@ $this->params['breadcrumbs'] = [
                     'options' => [
                         'colspan' => 2,
                         'style' => 'text-align:center',
-                        'class' => 'label-info'
+                        'class' => 'label-warning'
                     ]
                 ],
             ]
