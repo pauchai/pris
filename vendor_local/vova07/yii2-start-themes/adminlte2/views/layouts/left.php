@@ -157,6 +157,8 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','PROGRAM_PLANS_LIST'),'icon' => 'circle','url'=>['/plans/program-plans'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
 
+                            ['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
 
                         ]

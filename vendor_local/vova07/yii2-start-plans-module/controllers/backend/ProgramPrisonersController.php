@@ -57,7 +57,7 @@ class ProgramPrisonersController extends BackendController
         $searchModel = new ProgramPrisonerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
-        return $this->render("index", ['dataProvider'=>$dataProvider]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
     }
 
 

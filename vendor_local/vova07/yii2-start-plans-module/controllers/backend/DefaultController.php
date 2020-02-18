@@ -167,6 +167,8 @@ class DefaultController extends BackendController
         foreach ($prisonerRequirements as $requirement)
         {
             $roleName = $requirement->ownableitem->createdBy->user->role;
+            if ($roleName === \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT)
+                $roleName = \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR;
             if (!isset($programsGroupedByRole[$roleName]))
                 continue;
             if (!isset($programsGroupedByRole[$roleName]['req']))

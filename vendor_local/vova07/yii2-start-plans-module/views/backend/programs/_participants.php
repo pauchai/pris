@@ -99,7 +99,7 @@ $gridColumns[] = [
 $gridColumns[] = [
         'visible' => !$this->context->isPrintVersion,
         'class' => \yii\grid\ActionColumn::class,
-        'template' => '{visits}',
+        'template' => '{visits}{delete}',
         'buttons' => [
             'visits' => function ($url, $model, $key) {
                 $url1[0] = '/plans/program-visits/index';
@@ -109,8 +109,10 @@ $gridColumns[] = [
 
                 return Html::a('', $url1, ['class' => 'fa fa-tasks']);
                          //return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
-                     }
+                     },
+
         ]
+
 ]
 ?>
 
