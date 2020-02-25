@@ -17,6 +17,16 @@ $this->params['breadcrumbs'] = [
     $this->params['subtitle']
 ];
 ?>
+
+<?php $this->registerCss(
+        <<<CSS
+    #w2 td img{
+        width:200px;
+        
+    }
+CSS
+
+)?>
 <?php
 
   \yii\bootstrap\NavBar::begin();
@@ -133,6 +143,7 @@ $this->params['breadcrumbs'] = [
 
 <?php echo \yii\widgets\DetailView::widget([
     'model' => $model,
+    'id' => 'w2',
     'attributes' => [
             [
               'attribute' => 'person.photo_url',
