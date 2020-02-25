@@ -21,7 +21,16 @@ use \vova07\jobs\models\JobNotPaidType;
 <?=$form->field($model,'month_no')->hiddenInput()->label(false);?>
 <?=$form->field($model,'year')->staticControl()?>
 <?=$form->field($model,'year')->hiddenInput()->label(false)?>
-<?=$form->field($model,'prisoner_id')->dropDownList(Prisoner::getListForCombo(),['prompt' => Module::t('default','SELECT_PRISONER_TITLE')])?>
+
+<?php echo $form->field($model,'prisoner_id')->widget(\kartik\select2\Select2::class,[
+    'data' => \vova07\users\models\Prisoner::getListForCombo(),
+
+    'options'=>[
+
+        'prompt'=>\vova07\jobs\Module::t('forms','SELECT_PRISONER_PROMPT')
+    ]
+]);?>
+
 <?=$form->field($model,'type_id')->dropDownList(JobNotPaidType::getListForCombo(),['prompt' => Module::t('default','SELECT_JOB_TYPE_TITLE')])?>
 
 

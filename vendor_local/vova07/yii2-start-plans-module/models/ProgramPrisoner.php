@@ -21,6 +21,7 @@ use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
+use vova07\users\models\User;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -178,6 +179,7 @@ class ProgramPrisoner extends  Ownableitem
     {
         return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
     }
+
 
     public function getProgramDict()
     {

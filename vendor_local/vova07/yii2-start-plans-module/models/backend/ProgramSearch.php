@@ -19,7 +19,7 @@ class ProgramSearch extends Program
     public function rules()
     {
         return [
-            [['programdict_id','prison_id','prisoner_id'],'integer']
+            [['programdict_id','prison_id','prisoner_id', ],'integer']
         ];
     }
     public function search($params)

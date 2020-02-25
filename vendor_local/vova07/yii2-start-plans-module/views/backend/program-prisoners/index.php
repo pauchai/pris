@@ -74,6 +74,19 @@ $this->params['breadcrumbs'] = [
         'date_plan',
         'status',
         [
+            'header' => \vova07\plans\Module::t('default','CREATED_BY'),
+            'attribute' => 'ownableitem.created_by',
+            'value' => 'ownableitem.createdBy.user.username',
+            'filter' => \vova07\users\models\User::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_USER_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+        ],
+
+        [
             'class' => \kartik\grid\ActionColumn::class
         ]
     ]

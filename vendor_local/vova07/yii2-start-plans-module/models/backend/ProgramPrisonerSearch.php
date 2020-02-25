@@ -22,7 +22,8 @@ class ProgramPrisonerSearch extends ProgramPrisoner
     public function rules()
     {
         return [
-            [['programdict_id', 'prison_id', 'planned_by', 'prisoner_id', 'program_id', 'date_plan'], 'integer']
+            [['programdict_id', 'prison_id', 'planned_by', 'prisoner_id', 'program_id', 'date_plan'], 'integer'],
+            [['ownableitem.created_by'],'safe'],
 
         ];
     }
@@ -35,7 +36,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
             'query' => $query
         ]);
         $dataProvider->sort = false;
-        $dataProvider->query->joinWith(['person' => function($query){$query->from('person');}])
+        $dataProvider->query->joinWith(['person' => function($query){$query->from('person');}])->joinWith(['ownableitem' => function($query){$query->from('ownableitem');}])
             ->orderBy('prison_id, programdict_id,person.second_name, person.first_name');
 
         $this->prison_id = \Yii::$app->base->company->primaryKey;
@@ -55,6 +56,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
                 'prisoner_id' => $this->prisoner_id,
                 'date_plan' => $this->date_plan,
                 'program_id' => $this->program_id,
+                'ownableitem.created_by' => $this->getAttribute('ownableitem.created_by')
 
             ]
         );
@@ -64,5 +66,11 @@ class ProgramPrisonerSearch extends ProgramPrisoner
 
         return $dataProvider;
 
+    }
+
+    public function attributes()
+    {
+// делаем поле зависимости доступным для поиска
+        return array_merge(parent::attributes(), ['ownableitem.created_by']);
     }
 }

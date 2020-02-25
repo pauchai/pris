@@ -122,7 +122,19 @@ class ImportController extends \yii\console\Controller
     }
 
 
+    public function actionTest()
+    {
+        //https://media1.prime.md/hls/202002/162259/360p199.ts
+        $str = '';
+        $baseUrl = "https://media1.prime.md/hls/202002/162259/";
+        for ($i = 0; $i<360; $i++){
+            $url = $baseUrl . '360p' . $i . '.ts';
+            $str .= $url . "\n";
+        }
 
+        echo $str;
+
+    }
 
     private function doLogin()
     {

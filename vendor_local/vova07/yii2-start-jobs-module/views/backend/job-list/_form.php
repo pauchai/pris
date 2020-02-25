@@ -18,7 +18,8 @@ use vova07\users\models\Officer;
 
 
 <?=$form->field($model,'prison_id')->dropDownList(Prison::getListForCombo(),['prompt'=>\vova07\jobs\Module::t('forms','SELECT_PRISON_PROMPT')])?>
-<?=$form->field($model,'assigned_to')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\jobs\Module::t('forms','SELECT_PRISONER_PROMPT')])?>
+<?php //echo $form->field($model,'assigned_to')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\jobs\Module::t('forms','SELECT_PRISONER_PROMPT')])?>
+<?php echo $form->field($model,'assigned_to')->widget(\kartik\select2\Select2::class,['data' => \vova07\users\models\Prisoner::getListForCombo(),'options'=>['prompt'=>\vova07\jobs\Module::t('forms','SELECT_PRISONER_PROMPT')]]);?>
 <?=$form->field($model,'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'type_id')->dropDownList(\vova07\jobs\models\JobPaidType::getListForCombo(),['prompt'=>\vova07\jobs\Module::t('forms','SELECT_JOB_TYPE_PROMPT')])?>
 <?=$form->field($model,'half_time')->checkbox()?>

@@ -58,12 +58,12 @@ $this->params['breadcrumbs'] = [
               'label' => Module::t('default','PRISONER_BALANCE') .
                   Html::tag('span',
                       Html::tag('span',
-                          $model->getBalances()->debit()->sum('amount') -
-                          $model->getBalances()->credit()->sum('amount')
+                          Yii::$app->formatter->asDecimal($model->getBalances()->debit()->sum('amount') -
+                          $model->getBalances()->credit()->sum('amount'))
                           , ['class' => "label label-primary pull-right"] ),
                       ['class' => 'pull-right-container']),
 
-              'url' => ['/finances/balance/index', 'BalanceSearch[prisoner_id]'=>$model->primaryKey],
+              'url' => ['/finances/default/view', 'id'=>$model->primaryKey],
 
           ],
           [
