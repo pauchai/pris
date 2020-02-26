@@ -5,6 +5,7 @@ use vova07\base\ModelGenerator\Facade;
 use vova07\base\ModelGenerator\ModelTableGenerator;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\comments\models\Comment;
 use vova07\countries\models\Country;
 use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
@@ -134,9 +135,10 @@ class ModelsGeneratorController extends \yii\console\Controller
             ProgramVisit::class,
             Program::class,
             Requirement::class,
-            */
 
             PsyCharacteristic::class,
+*/
+            Comment::class,
 
         ];
     }

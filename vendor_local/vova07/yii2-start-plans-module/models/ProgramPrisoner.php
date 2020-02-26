@@ -15,6 +15,7 @@ use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\comments\models\Comment;
 use vova07\countries\models\Country;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
@@ -200,6 +201,13 @@ class ProgramPrisoner extends  Ownableitem
         return $this->hasOne(Officer::class,['__person_id' => 'planned_by']);
     }
 
+    public  function getComments()
+    {
+
+        return $this->hasMany(Comment::class, ['item_id' => '__ownableitem_id']);
+
+    }
+
     public static function getListForCombo()
     {
         return ArrayHelper::map(self::find()->joinWith(['program'=>function($q){$q->joinWith('programDict');}])->asArray()->all(),'__ownableitem_id','program.programDict.title');
@@ -316,6 +324,8 @@ class ProgramPrisoner extends  Ownableitem
     {
         return ArrayHelper::map(self::find()->select('programdict_id')->with('programDict')->distinct()->asArray()->all(),'programdict_id','programDict.title');
     }
+
+
 
     public function attributeLabels()
     {

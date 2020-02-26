@@ -58,3 +58,4 @@ $this->params['breadcrumbs'] = [
 
 
 
+<?php echo \vova07\comments\widgets\Comment::widget(['model' => $model])?>

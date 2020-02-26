@@ -94,13 +94,24 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
     ];
 $gridColumns[] = [
 
+    'content' => function($model) {return
+        $model->getComments()->count()?  Html::tag('i', $model->getComments()->count(), ['class' => 'fa fa-comment']):'';
+        }
+];
+$gridColumns[] = [
+
     'attribute' => 'status'
 ];
 $gridColumns[] = [
         'visible' => !$this->context->isPrintVersion,
         'class' => \yii\grid\ActionColumn::class,
-        'template' => '{visits}{delete}',
+        'template' => '{visits}{view}{delete}',
         'buttons' => [
+            'view' => function ($url, $model, $key) {
+                $url1 = ['/plans/program-prisoners/view', 'id' => $model->primaryKey];
+                return Html::a('', $url1, ['class' => 'fa fa-eye']);
+                //return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
+            },
             'visits' => function ($url, $model, $key) {
                 $url1[0] = '/plans/program-visits/index';
                 $programVisitSearch = new \vova07\plans\models\backend\ProgramVisitSearch();

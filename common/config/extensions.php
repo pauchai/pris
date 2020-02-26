@@ -98,4 +98,10 @@ return [
         'bootstrap' => \vova07\psycho\Bootstrap::class,
         'alias' => ['@vova07/psycho' => '@vendor_local/vova07/yii2-start-psycho-module']
     ],
+    'vova07/comments' => [
+        'name' => 'Application Information Dumper',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\comments\Bootstrap::class,
+        'alias' => ['@vova07/comments' => '@vendor_local/vova07/yii2-start-comments-module']
+    ],
 ];

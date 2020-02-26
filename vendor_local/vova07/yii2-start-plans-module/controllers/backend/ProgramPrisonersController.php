@@ -1,6 +1,7 @@
 <?php
 namespace vova07\plans\controllers\backend;
 use vova07\base\components\BackendController;
+use vova07\comments\components\CommentCreateAction;
 use vova07\plans\models\backend\ProgramPrisonerSearch;
 use vova07\plans\models\backend\ProgramSearch;
 use vova07\plans\models\Program;
@@ -33,13 +34,27 @@ class ProgramPrisonersController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create', 'delete', 'participants','add-participant','view','update','index'],
+                'actions' => ['create', 'delete', 'participants', 'add-participant', 'view', 'update', 'index'],
                 'roles' => ['@']
+            ],
+            [
+                'allow' => true,
+                'actions' => ['createComment'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE]
             ]
         ];
         return $behaviors;
     }
 
+    public function actions()
+    {
+        return [
+          'createComment' => [
+              'class' => CommentCreateAction::class,
+
+          ]
+        ];
+    }
 
 
     public function actionPrograms($id)

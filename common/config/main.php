@@ -156,6 +156,10 @@ return [
             'class' => \vova07\psycho\Module::class,
 
         ],
+        'comments' => [
+            'class' => \vova07\comments\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(

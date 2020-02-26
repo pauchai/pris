@@ -6,7 +6,7 @@
  * Time: 10:40 AM
  */
 
-namespace vova07\psycho\controllers\backend;
+namespace vova07\comments\controllers\backend;
 
 
 
@@ -29,7 +29,7 @@ class DefaultController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index','create', 'update'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_LIST],
+                'roles' => ['@'],
             ],
 
         ];
