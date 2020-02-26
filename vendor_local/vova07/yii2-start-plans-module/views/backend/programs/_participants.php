@@ -29,15 +29,19 @@ use yii\helpers\Html;
 ?>
 <?php
 foreach($model->getProgramVisits()->distinctDates() as $dateValue){
+    $date = DateTime::createFromFormat('Y-m-d', $dateValue);
     $gridColumns[] = [
-            'header' => $dateValue,
+            'header' => Html::tag('div', $date->format('d-m') . "<br/>". $date->format('Y'),['style' => 'text-align:center']),
         'content' => function($model)use($dateValue){
             $programVisit = \vova07\plans\models\ProgramVisit::findOne([
                 'program_prisoner_id'=>$model->primaryKey,
                 'date_visit' => $dateValue
             ]);
             if ($programVisit){
-                return Html::tag('span',$programVisit->getStatus(),['class'=>'label label-' . $programVisit->resolveStatusStyle()]);
+                return Html::tag('div',
+                    Html::tag('span',$programVisit->getStatus(),['class'=>'label label-' . $programVisit->resolveStatusStyle()]),
+                ['style'=>'text-align:center']
+                        );
             } else {
                 return Html::tag('div',
                     Html::dropDownList('mark',null,
@@ -84,24 +88,21 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 
     'header' =>Module::t('programs','MARK'),
     'content' => function($model){
-        return Html::tag('span', \vova07\plans\models\ProgramPrisoner::getMarkTitleById($model->resolveMark()),
-            ['class' => 'label label-' . \vova07\plans\models\ProgramPrisoner::resolveMarkStyleById($model->resolveMark())]);
+                $commentCntBox = $model->getComments()->count()?  Html::tag('i', '', ['class' => 'fa fa-comment']):'';
+                if (!is_null($model->mark_id))
+                    $markBox = Html::tag('span', $model->markTitle,
+                        ['class' => 'label label-' . \vova07\plans\models\ProgramPrisoner::resolveMarkStyleById($model->mark_id)]);
+                else
+                    $markBox = Html::tag('span', \vova07\plans\models\ProgramPrisoner::getMarkTitleById($model->resolveMark()),
+                        ['class' => 'label label-default']);
+
+
+        return $markBox . $commentCntBox ;
     }
 ];
-    $gridColumns[] = [
 
-        'attribute' => 'markTitle'
-    ];
-$gridColumns[] = [
 
-    'content' => function($model) {return
-        $model->getComments()->count()?  Html::tag('i', $model->getComments()->count(), ['class' => 'fa fa-comment']):'';
-        }
-];
-$gridColumns[] = [
 
-    'attribute' => 'status'
-];
 $gridColumns[] = [
         'visible' => !$this->context->isPrintVersion,
         'class' => \yii\grid\ActionColumn::class,
@@ -127,8 +128,8 @@ $gridColumns[] = [
 ]
 ?>
 
-<?php $this->registerCss(
-        <<<CSS
+<?php
+$css =  <<<CSS
 
          .grid-view {
             overflow-x: scroll;
@@ -166,10 +167,11 @@ $gridColumns[] = [
   /*to show second column behind the first*/
 }
 
-CSS
+CSS;
 
+//$this->registerCss($css);
 
-)?>
+?>
 <?php echo \yii\grid\GridView::widget(['id' => 'participants','dataProvider' => $dataProvider,
     'columns' => $gridColumns,
 ])?>

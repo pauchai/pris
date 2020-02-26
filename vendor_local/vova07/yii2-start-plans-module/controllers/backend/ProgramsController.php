@@ -31,7 +31,7 @@ class ProgramsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
+                'actions' => ['index','create','view', 'view-print', 'delete','update'],
                 'roles' => ['@']
             ]
         ];
@@ -92,6 +92,20 @@ class ProgramsController extends BackendController
         $dataProvider->query->forPrisonersActiveAndEtapped();
 
         return $this->render('view', ['model'=>$model,'dataProvider' => $dataProvider]);
+    }
+    public function actionViewPrint($id)
+    {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
+        if (is_null($model = Program::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
+        };
+        $programPrisonerSearch = new ProgramPrisonerSearch();
+        $dataProvider = $programPrisonerSearch->search(['program_id'=>$id],'');
+        $dataProvider->query->forPrisonersActiveAndEtapped();
+
+        return $this->render('view_print', ['model'=>$model,'dataProvider' => $dataProvider]);
     }
     public function actionDelete($id)
     {

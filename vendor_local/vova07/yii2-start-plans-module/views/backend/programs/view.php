@@ -16,6 +16,7 @@ $this->params['breadcrumbs'] = [
     $this->params['subtitle']
 ];
 ?>
+<?php echo \yii\helpers\Html::a('fişa',\yii\helpers\Url::current([0=>'view-print']),['class' => 'fa fa-print'])?>
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
