@@ -58,6 +58,7 @@ class DefaultController extends BackendController
     public function actionIndex()
     {
         $searchModel = new DocumentSearch();
+        $searchModel->status_id = DocumentSearch::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         if ($this->isPrintVersion)
                 $dataProvider->pagination = false;

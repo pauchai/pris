@@ -35,7 +35,7 @@ CSS
         <p>
 
             <label>Condamnatul</label>
-<span class="field" style="width:27em;"> <?=$model->prisoner->fullTitle?></span>
+<span class="field" style="width:25em;"> <?=$model->prisoner->fullTitle?></span>
 
         </p>
 
@@ -85,7 +85,7 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
 </p>
 <p>
     <label>Condamnatului</label>
-    <span class="field" style="width:26em;" ><?=$model->prisoner->fullTitle?></span>
+    <span class="field" style="width:25em;" ><?=$model->prisoner->fullTitle?></span>
 </p>
 
 <p >
@@ -97,14 +97,14 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
     <?php endif;?>
    </span>
     zile de muncă
-        <?php
-            $value = $model->getWorkDaysWithCompensation();
-            $floorValue = floor($value);
-            $fractionValue = round($value,2) - $floorValue;
-        ?>
+    <?php
+    $value = $model->getWorkDaysWithCompensation();
+    $floorValue = floor($value);
+    $fractionValue = floor(($value - $floorValue) * 100);
+    ?>
 
-    <p>
-    prin <span class="field" style="width:30em"  ><?=Module::t('default','{v,number} ({n,spellout} ,{f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue * 100])?> zile</span>
+<p>
+    prin <span class="field" style="width:30em"  ><?=Module::t('default','{n,number},{f,number} ({n,spellout}, {f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue ])?> zile</span>
     </p>
 <br/>
 <p ><b>Director

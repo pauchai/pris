@@ -99,6 +99,17 @@ $this->params['breadcrumbs'] = [
                     'format' => 'dd-mm-yyyy']
             ])
         ],
+        [
+            'attribute' => "status_id",
+            'value' => 'status',
+            'filter' => \vova07\documents\models\Document::getStatusesForCombo(),
+            'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\documents\Module::t('default','SELECT_STATUS'), 'class'=> 'form-control'],
+
+        ],
 
 
         [

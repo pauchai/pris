@@ -31,8 +31,9 @@ use yii\helpers\Html;
 foreach($model->getProgramVisits()->distinctDates() as $dateValue){
     $date = DateTime::createFromFormat('Y-m-d', $dateValue);
     $gridColumns[] = [
+
             'header' => Html::tag('div', $date->format('d-m') . "<br/>". $date->format('Y'),['style' => 'text-align:center']),
-        'content' => function($model)use($dateValue){
+            'content' => function($model)use($dateValue){
             $programVisit = \vova07\plans\models\ProgramVisit::findOne([
                 'program_prisoner_id'=>$model->primaryKey,
                 'date_visit' => $dateValue
@@ -43,7 +44,10 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
                 ['style'=>'text-align:center']
                         );
             } else {
-                return Html::tag('div',
+                if ($model->status_id ==\vova07\plans\models\Program::STATUS_FINISHED)
+                    return '';
+                else
+                    return Html::tag('div',
                     Html::dropDownList('mark',null,
                         ProgramVisit::getStatusesForCombo(),[
                                 'onChange'=>'PARTICIPANTS_GRID.onMarkSelect;',
@@ -66,7 +70,8 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
     ];
 }
 ?>
-<?php $gridColumns[] = [
+<?php
+$gridColumns[] = [
 
     'header' =>Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
         \yii\jui\DatePicker::widget([
@@ -82,13 +87,14 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
                 'from'=> $model->getVisits()->exceptDoesntPresentedValid()->count()
             ]);
 
-        }
+        },
+        'visible' => $model->status_id !=\vova07\plans\models\Program::STATUS_FINISHED
 ];
  $gridColumns[] = [
 
     'header' =>Module::t('programs','MARK'),
     'content' => function($model){
-                $commentCntBox = $model->getComments()->count()?  Html::tag('i', '', ['class' => 'fa fa-comment']):'';
+                $commentCntBox = \vova07\comments\widgets\CommentCountWithPopover::widget(['query' => $model->getComments()]);
                 if (!is_null($model->mark_id))
                     $markBox = Html::tag('span', $model->markTitle,
                         ['class' => 'label label-' . \vova07\plans\models\ProgramPrisoner::resolveMarkStyleById($model->mark_id)]);

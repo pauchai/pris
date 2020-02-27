@@ -63,7 +63,9 @@ class Program extends  Ownableitem
                      *
                      */
                     $programPrisoner =$visit->programPrisoner;
-                    $programPrisoner->mark_id = $programPrisoner->resolveMark();
+                    if (is_null($programPrisoner->mark_id))
+                        $programPrisoner->mark_id = $programPrisoner->resolveMark();
+
                     $programPrisoner->status_id = ProgramPrisoner::STATUS_FINISHED;
                     $programPrisoner->save();
                 };

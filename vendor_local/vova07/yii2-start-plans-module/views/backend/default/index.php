@@ -143,6 +143,13 @@ CSS
                 return \yii\bootstrap\Html::a($model->programDict->title,\yii\helpers\Url::to(['/plans/program-prisoners/view','id'=>$model->primaryKey]),['class' => 'btn bg-gray btn-block']);
             }
         ],
+        [
+                'content' => function($model){
+                    return \vova07\comments\widgets\CommentCountWithPopover::widget([
+                                'query' => $model->getComments()
+                        ]);
+                }
+        ],
 
         [
             'content' => function($model){

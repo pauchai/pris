@@ -120,7 +120,7 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 
 ])?>
 
-<p>Notă</p>
+<p><b>Notă:</b></p>
 <p><b>p</b> - prezent,</p>
 <p><b>n</b> - absenţa nemotivată,</p>
 <p><b>m</b> - absenţa motivată,</p>

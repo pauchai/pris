@@ -37,7 +37,7 @@ $this->params['breadcrumbs'] = [
         'date_finish',
         [
             'header' => '',
-            'content' => function($model){return $model->getParticipants()->count();}
+            'content' => function($model){return $model->getParticipants()->forPrisonersActiveAndEtapped()->count();}
         ],
         'status',
         [

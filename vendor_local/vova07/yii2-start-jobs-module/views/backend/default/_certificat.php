@@ -44,7 +44,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 <p  style="text-align:center;" ><u><b>CERTIFICAT</b></u></p>
         <p>
             <label>Condamnatul</label>
-<span class="field" style="width:27em;"> <?=$model->prisoner->fullTitle?></span>
+<span class="field" style="width:26em;"> <?=$model->prisoner->fullTitle?></span>
 
         </p>
 
@@ -87,11 +87,11 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
         <?php
             $value = $model->getWorkDaysWithCompensation();
             $floorValue = floor($value);
-            $fractionValue = round($value,2) - $floorValue;
+            $fractionValue = floor(($value - $floorValue) * 100);
         ?>
 
     <p>
-    în număr de: <span class="field" style="width:82%"  ><?=Module::t('default','{v,number} ({n,spellout} ,{f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue * 100])?> zile</span>
+    în număr de: <span class="field" style="width:82%"  ><?=Module::t('default','{n,number},{f,number} ({n,spellout}, {f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue ])?> zile</span>
     </p>
 <br/>
 

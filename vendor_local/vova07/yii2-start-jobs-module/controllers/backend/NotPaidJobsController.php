@@ -85,7 +85,9 @@ class NotPaidJobsController extends BackendController
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->query->ownedByCurrentUser();
+        if (!\Yii::$app->user->can(\vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR))
+            $dataProvider->query->ownedByCurrentUser();
+
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
@@ -116,7 +118,9 @@ class NotPaidJobsController extends BackendController
         //$year = $year ?? (new \DateTime())->format('Y');
         //$month_no = $month_no ?? (new \DateTime())->format('n');
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->query->ownedByCurrentUser();
+
+        if (!\Yii::$app->user->can(\vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR))
+            $dataProvider->query->ownedByCurrentUser();
 
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));

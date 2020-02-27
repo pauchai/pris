@@ -22,7 +22,7 @@ class DocumentSearch extends \vova07\documents\models\Document
             [['person_id','type_id'],'integer'],
             [['issuedFrom','issuedTo'],'integer'],
             [['issuedToJui','issuedFromJui'],'date'],
-            [['metaStatusId'], 'integer'],
+            [['metaStatusId', 'status_id'], 'integer'],
     //        [['issuedToJui'],'date','format' => 'dd-mm-yyyy']
 
         ];
@@ -75,6 +75,7 @@ class DocumentSearch extends \vova07\documents\models\Document
         $dataProvider->query->andFilterWhere([
             'person_id' => $this->person_id,
             'type_id' => $this->type_id,
+            'status_id' => $this->status_id,
 
         ]);
         if ($this->metaStatusId == self::META_STATUS_ABOUT_EXPIRATION)

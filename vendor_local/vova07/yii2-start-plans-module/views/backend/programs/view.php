@@ -31,7 +31,12 @@ $this->params['breadcrumbs'] = [
         'prison.company.title',
         'order_no',
         'date_start',
-        'status'
+        [
+            'contentOptions' => ($model->status_id ==\vova07\plans\models\Program::STATUS_FINISHED)?['class' => 'label label-danger']:['class' => 'label label-default'],
+            'attribute' => 'status',
+
+        ]
+
     ]
 ])?>
 
