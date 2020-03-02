@@ -60,7 +60,11 @@ class Committee extends  Ownableitem
 
             [['mark_id'],'integer'],
             [['dateStartJui', 'dateFinishJui'],'date'],
-          //  [['dateFinishJui'], 'required', 'when' => function($model){ return $model->status_id === self::STATUS_FINISHED;} ]
+            ['dateFinishJui', 'required', 'when' => function($model){ return $model->status_id == self::STATUS_FINISHED;}
+                , 'whenClient' => "function (attribute, value) {
+                    return $('#committee-datefinishjui').val() == '" . self::STATUS_FINISHED. "';
+                }"]
+
 
         ];
     }
