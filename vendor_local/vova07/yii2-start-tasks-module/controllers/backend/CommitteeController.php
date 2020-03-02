@@ -64,7 +64,7 @@ class CommitteeController extends BackendController
         $searchModel = new CommitteeSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->sort = false;
-        $dataProvider->query->orderBy('date_finish');
+        $dataProvider->query->orderBy('date_finish DESC');
         $dataProvider->query->andWhere('not isnull(`date_finish`)');
         //$dataProvider->query->planing();
         $newModel = new Committee;

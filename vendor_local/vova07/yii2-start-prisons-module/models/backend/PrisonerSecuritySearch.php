@@ -40,11 +40,12 @@ class PrisonerSecuritySearch extends \vova07\prisons\models\PrisonerSecurity
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()->
-                joinWith(['person' => function($query){ return $query->from('person');}])->
-            joinWith(['prisoner' => function($query){ return $query->from('prisoner');}])
+                joinWith(['person' => function($query){ return $query->from('person');}])
+                //->joinWith(['prisoner' => function($query){ return $query->from('prisoner');}])
         ]);
         $dataProvider->query->orderBy('person.second_name, person.first_name');
-        $dataProvider->query->andWhere(['prisoner.status_id' => Prisoner::STATUS_ACTIVE]);
+       // $dataProvider->query->andWhere(['prisoner.status_id' => Prisoner::STATUS_ACTIVE]);
+        $dataProvider->query->prisonerActive();
 
         $dataProvider->sort = false;
 

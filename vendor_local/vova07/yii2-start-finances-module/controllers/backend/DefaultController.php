@@ -37,6 +37,7 @@ class DefaultController extends BackendController
     public function actionIndex()
     {
         $searchModel = new BalanceByPrisonerWithCategoryViewSearch();
+        $searchModel->setAttribute('prisoner.status_id',   Prisoner::STATUS_ACTIVE );
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
         if ($this->isPrintVersion)

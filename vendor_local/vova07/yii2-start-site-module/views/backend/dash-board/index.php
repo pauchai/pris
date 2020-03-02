@@ -117,7 +117,7 @@ use vova07\prisons\models\PrisonerSecurity;
             [       'title' => \vova07\plans\Module::t('default','PRISONER_SECURITY'),
                 'infoContent' => Html::a(
                         Html::tag('span',
-                            PrisonerSecurity::find()->andWhere(['type_id' => PrisonerSecurity::TYPE_246_g])->count(),
+                            PrisonerSecurity::find()->andWhere(['type_id' => PrisonerSecurity::TYPE_246_g])->prisonerActive()->count(),
                             ['class' => 'badge bg-yellow']
                         ) . PrisonerSecurity::getTypesForCombo()[PrisonerSecurity::TYPE_246_g],
                         ['/prisons/prisoner-security/index'],
@@ -126,7 +126,7 @@ use vova07\prisons\models\PrisonerSecurity;
                     ) .
                     Html::a(
                         Html::tag('span',
-                            PrisonerSecurity::find()->andWhere(['or', 'type_id=' . PrisonerSecurity::TYPE_251 ,'type_id=' . PrisonerSecurity::TYPE_250 ])->count(),
+                            PrisonerSecurity::find()->andWhere(['or', 'type_id=' . PrisonerSecurity::TYPE_251 ,'type_id=' . PrisonerSecurity::TYPE_250 ])->prisonerActive()->count(),
                             ['class' => 'badge bg-yellow']
                         ) . PrisonerSecurity::getTypesForCombo()[PrisonerSecurity::TYPE_251] . ' ' . PrisonerSecurity::getTypesForCombo()[PrisonerSecurity::TYPE_250],
                         ['/prisons/prisoner-security/index'],

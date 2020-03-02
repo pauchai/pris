@@ -39,7 +39,8 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
         ]);
         $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
 
-        if (!($this->load($params) && $this->validate())) {
+        $this->load($params);
+        if (!$this->validate()) {
             return $dataProvider;
         }
 

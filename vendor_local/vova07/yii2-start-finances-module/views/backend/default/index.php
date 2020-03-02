@@ -110,7 +110,7 @@ foreach ($credirColumnNames as $columnName){
 };
 
        $gridColumns[] = [
-            'class' => DataColumnWithButtonAction::class,
+            'class' => \vova07\finances\components\DataColumnWithButtonActionRemain::class,
             'attribute' => 'remain',
             'enableResolveCategoryAndType' => false,
             'contentOptions' => function($model){
