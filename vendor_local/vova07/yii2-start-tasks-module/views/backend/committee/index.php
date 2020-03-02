@@ -35,8 +35,9 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?php echo GridView::widget(['dataProvider' => $committeeNotFinishedProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProviderNotFinished,
     'showFooter' => true,
+    'filterModel' => $searchModelNotFinished,
     'afterFooter' => [[
         //      'columns' => $newModelFields
     ]],
@@ -161,9 +162,9 @@ $this->params['breadcrumbs'] = [
 ?>
 
 
-<?php echo GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProviderFinished,
     'showFooter' => true,
-    'filterModel' => $searchModel,
+    'filterModel' => $searchModelFinished,
     'afterFooter' => [[
   //      'columns' => $newModelFields
     ]],

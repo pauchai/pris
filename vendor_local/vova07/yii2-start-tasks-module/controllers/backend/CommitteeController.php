@@ -3,6 +3,8 @@ namespace vova07\tasks\controllers\backend;
 use vova07\base\components\BackendController;
 use vova07\events\models\Event;
 use vova07\events\Module;
+use vova07\tasks\models\backend\CommitteeFinishedSearch;
+use vova07\tasks\models\backend\CommitteeNotFinishedSearch;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
 use vova07\users\models\backend\User;
@@ -56,21 +58,19 @@ class CommitteeController extends BackendController
     public function actionIndex()
     {
 
-        $committeeNotFinishedProvider = new ActiveDataProvider();
-        $committeeNotFinishedProvider->sort = false;
-        $committeeNotFinishedProvider->query = Committee::find()->andWhere('isnull(`date_finish`)');
+        $searchModelNotFinisshed = new CommitteeNotFinishedSearch();
+        $dataProviderNotFinished = $searchModelNotFinisshed->search(\Yii::$app->request->get());
 
+        $searchModelFinished = new CommitteeFinishedSearch();
 
-        $searchModel = new CommitteeSearch();
-        $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->sort = false;
-        $dataProvider->query->orderBy('date_finish DESC');
-        $dataProvider->query->andWhere('not isnull(`date_finish`)');
+        $dataProviderFinished = $searchModelFinished->search(\Yii::$app->request->get());
+        $dataProviderFinished->query->orderBy('date_finish DESC');
+
         //$dataProvider->query->planing();
         $newModel = new Committee;
         $newModel->assigned_to = \Yii::$app->user->getId();
         $newModel->status_id = Committee::STATUS_INIT;
-        return $this->render("index", ['committeeNotFinishedProvider' => $committeeNotFinishedProvider, 'dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel]);
+        return $this->render("index", ['dataProviderNotFinished' => $dataProviderNotFinished, 'dataProviderFinished'=>$dataProviderFinished, 'newModel' => $newModel,'searchModelFinished' => $searchModelFinished, 'searchModelNotFinished' => $searchModelNotFinisshed]);
     }
 
     public function actionCreate()

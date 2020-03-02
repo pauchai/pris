@@ -42,7 +42,9 @@ $this->params['breadcrumbs'] = [
                  //    'original-title' =>$commitie->subject . ' ' . $commitie->status . ' ' . $commitie->mark
                  ],
                  'title' => $commitie->subject . ' ' . $commitie->status . ' ' . $commitie->mark
-             ]),['/tasks/committee/index',  'CommitteeSearch[prisoner_id]' => $commitie->prisoner_id, 'CommitteeSearch[subject_id]' => \vova07\tasks\models\Committee::SUBJECT_251]) ;
+             ]),['/tasks/committee/index',  'CommitteeNotFinishedSearch[prisoner_id]' => $commitie->prisoner_id, 'CommitteeNotFinishedSearch[subject_id]' => \vova07\tasks\models\Committee::SUBJECT_251,
+                     'CommitteeFinishedSearch[prisoner_id]' => $commitie->prisoner_id, 'CommitteeFinishedSearch[subject_id]' => \vova07\tasks\models\Committee::SUBJECT_251
+                     ]) ;
             else
              return $model->prisoner->getFullTitle();
          },

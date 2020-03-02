@@ -33,6 +33,15 @@ class CommitteeQuery extends ActiveQuery
         ]);
     }
 
+    public function notFinished()
+    {
+        return $this->andWhere([
+
+            '<>', 'status_id' , Committee::STATUS_FINISHED
+
+        ]);
+    }
+
 
 
 

@@ -16,6 +16,7 @@ use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
+use vova07\prisons\models\PrisonerSecurity;
 use vova07\tasks\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
@@ -58,7 +59,8 @@ class Committee extends  Ownableitem
             [['subject_id', 'prisoner_id', 'assigned_to','status_id'], 'required'],
 
             [['mark_id'],'integer'],
-            [['dateStartJui', 'dateFinishJui'],'date']
+            [['dateStartJui', 'dateFinishJui'],'date'],
+          //  [['dateFinishJui'], 'required', 'when' => function($model){ return $model->status_id === self::STATUS_FINISHED;} ]
 
         ];
     }
@@ -94,6 +96,25 @@ class Committee extends  Ownableitem
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
 
+    }
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_BEFORE_UPDATE, function($event) {
+            /**
+             * @var $event Event
+             * @var $committee Committee
+             *
+             */
+            $committee = $event->sender;
+            if ($committee->status_id == Committee::STATUS_FINISHED) {
+                if ($committee->prisoner) {
+                    $committee->prisoner->delete();
+                }
+
+            }
+        });
     }
 
     public function behaviors()
