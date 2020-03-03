@@ -24,6 +24,31 @@ use vova07\site\models\Setting;
 CSS
 )
 ?>
+<table width="100%">
+    <tr>
+        <td width="70%">
+
+        </td>
+        <td width="30%">
+            <p style="text-align: center;font-size:100%">
+                "APROB"
+            </p>
+
+            <p style="text-align: right">
+                __________________________________________________
+            </p>
+
+            <p style="text-align: right">
+                __________________________________________________
+            </p>
+
+
+        </td>
+    </tr>
+</table>
+<br/>
+<br/>
+
 
 <p  style="text-align:center;" ><u><b>TABELUL</b></u></p>
 <p style="text-align:center;line-height:50%" >de evidenţa a orelor neremunerate a condamnatului</p>

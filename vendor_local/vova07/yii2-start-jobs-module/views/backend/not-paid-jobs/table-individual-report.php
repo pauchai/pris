@@ -18,29 +18,6 @@ CSS
         );
 ?>
 
-
-        <table width="100%">
-                <tr>
-                        <td width="70%">
-
-                        </td>
-                        <td width="30%">
-                                <p style="text-align: center;font-size:100%">
-                                        "APROB"
-                                </p>
-
-                                <p style="text-align: right">
-                                        ___________________________________________________________________________________
-                                </p>
-
-                                <p style="text-align: right">
-                                        ___________________________________________________________________________________
-                                </p>
-
-
-                        </td>
-                </tr>
-        </table>
 <?php echo \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
 
