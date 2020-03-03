@@ -104,4 +104,10 @@ return [
         'bootstrap' => \vova07\comments\Bootstrap::class,
         'alias' => ['@vova07/comments' => '@vendor_local/vova07/yii2-start-comments-module']
     ],
+    'vova07/concepts' => [
+        'name' => 'Concepts Module',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\concepts\Bootstrap::class,
+        'alias' => ['@vova07/concepts' => '@vendor_local/vova07/yii2-start-concepts-module']
+    ],
 ];

@@ -160,6 +160,10 @@ return [
             'class' => \vova07\comments\Module::class,
 
         ],
+        'concepts' => [
+            'class' => \vova07\concepts\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(
