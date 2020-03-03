@@ -1,34 +1,32 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\psycho\Module;
+use vova07\concepts\Module;
+use vova07\events\models\Event;
+use vova07\prisons\models\Prison;
+use vova07\users\models\Officer;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\prisons\models\Prison
+ * @var $model \vova07\events\models\Event
  * @var $box \vova07\themes\adminlte2\widgets\Box
   */
 
-/**
- * @property integer $risk_id
- * @property boolean $feature_violent
- * @property boolean $feature_self_torture
- * @property boolean $feature_sucide
- * @property boolean $feature_addiction_alcohol
- * @property boolean $feature_addiction_drug
-
- */
 ?>
 
 
 <?php $form = ActiveForm::begin()?>
 
+<?=$form->field($model,'title')?>
 
-<?=$form->field($model,'risk_id')->dropDownList(\vova07\psycho\models\PsyCharacteristic::getRiskForCombo(),['prompt' => Module::t('default','SELECT_RISK_PROMPT')])?>
-<?=$form->field($model,'feature_violent')->checkbox()?>
-<?=$form->field($model,'feature_self_torture')->checkbox()?>
-<?=$form->field($model,'feature_sucide')->checkbox()?>
-<?=$form->field($model,'feature_addiction_alcohol')->checkbox()?>
-<?=$form->field($model,'feature_addiction_drug')->checkbox()?>
+<?=$form->field($model,'prison_id')->dropDownList(Prison::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISON')])?>
+<?=$form->field($model,'dateStartJui')->widget(\kartik\widgets\DatePicker::class)?>
+<?=$form->field($model,'dateFinishJui')->widget(\kartik\widgets\DatePicker::class)?>
+<?=$form->field($model,'assigned_to')->dropDownList(Officer::getListForCombo(),['prompt'=> Module::t('default','SELECT_ASSIGNED_TO')])?>
+<?=$form->field($model,'status_id')->dropDownList(\vova07\concepts\models\Concept::getStatusesForCombo(),['prompt'=>Module::t('default','SELECT_CONCEPT_STATUS')])?>
+
+
+
+
 
 <?php $box->beginFooter();?>
 <div class="form-group">

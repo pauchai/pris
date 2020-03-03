@@ -11,9 +11,15 @@ namespace vova07\concepts\models;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\concepts\Module;
+use vova07\prisons\models\Prison;
+use vova07\users\models\Officer;
+use vova07\users\models\Prisoner;
+use yii\behaviors\SluggableBehavior;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -23,6 +29,8 @@ use yii\helpers\ArrayHelper;
 
 class Concept extends  Ownableitem
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_FINISHED = 2;
 
     public static function tableName()
     {
@@ -32,12 +40,12 @@ class Concept extends  Ownableitem
     public function rules()
     {
         return [
-            //[['item_id','content'],'required'],
+            [['prison_id','assigned_to', 'title', 'slug', 'status_id'], 'required'],
+
+            [['dateStartJui', 'dateFinishJui'], 'date'],
         ];
 
     }
-
-
     public static function getMetadata()
     {
 
@@ -45,15 +53,25 @@ class Concept extends  Ownableitem
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
-                'item_id' => $migration->integer()->notNull(),
-                'content' => $migration->text()->notNull(),
+                'prison_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'title' => Schema::TYPE_STRING . ' NOT NULL',
+                'slug' => Schema::TYPE_STRING . " NOT NULL",
+                'date_start' => Schema::TYPE_INTEGER . " NOT NULL",
+                'date_finish' => Schema::TYPE_INTEGER . " ",
+                'assigned_to' => Schema::TYPE_INTEGER . " NOT NULL",
+                'status_id' => Schema::TYPE_TINYINT . " NOT NULL",
             ],
-
-
+            'indexes' => [
+                [self::class, 'prison_id'],
+                [self::class, 'date_start'],
+                [self::class, 'status_id'],
+                [self::class, 'assigned_to'],
+            ],
             'foreignKeys' => [
-                [self::class, 'item_id', Item::class, Item::primaryKey()],
-
+                [self::class, 'prison_id', Prison::class, Prison::primaryKey()],
+                [self::class, 'assigned_to', Officer::class, Officer::primaryKey()],
             ],
+
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
 
@@ -64,13 +82,34 @@ class Concept extends  Ownableitem
 
         if (get_called_class() == self::class) {
             $behaviors = [
+                [
+                    'class' => SluggableBehavior::class,
+                    'attribute' => 'title',
+                    'slugAttribute' => 'slug',
 
+                    'ensureUnique' => true,
+                ],
                 'saveRelations' => [
                     'class' => SaveRelationsBehavior::class,
                     'relations' => [
                         'ownableitem',
+
+
                     ],
                 ],
+                [
+                    'class' => DateJuiBehavior::class,
+                    'attribute' => 'date_start',
+                    'juiAttribute' => 'dateStartJui',
+
+                ],
+                [
+                    'class' => DateJuiBehavior::class,
+                    'attribute' => 'date_finish',
+                    'juiAttribute' => 'dateFinishJui',
+
+                ]
+
             ];
         } else {
             $behaviors = [];
@@ -80,7 +119,7 @@ class Concept extends  Ownableitem
 
     public static function find()
     {
-        return new CommentQuery(get_called_class());
+        return new ConceptQuery(get_called_class());
     }
 
     public function getOwnableitem()
@@ -89,14 +128,57 @@ class Concept extends  Ownableitem
     }
 
 
-    public function getItem()
+    public static function getListForCombo()
     {
-        return $this->hasOne(Item::class, ['id'=>'item_id']);
+        return ArrayHelper::map(self::find()->asArray()->all(), '__ownableitem_id', 'title');
+    }
+
+    public static function getStatusesForCombo()
+    {
+        return [
+            self::STATUS_ACTIVE => Module::t('default', 'STATUS_ACTIVE'),
+            //    self::STATUS_ACTIVE => Module::t('default', 'STATUS_ACTIVE'),
+            self::STATUS_FINISHED => Module::t('default', 'STATUS_FINISHED'),
+        ];
+    }
+
+    public function getStatus()
+    {
+        return self::getStatusesForCombo()[$this->status_id];
     }
 
 
+    public function getConceptParticipants()
+    {
+        return $this->hasMany(Concept::class, ['concept_id' => '__ownableitem_id']);
+    }
 
+    public function getParticipants()
+    {
+        return $this->hasMany(Prisoner::class, ['__person_id' => 'prisoner_id'])->via('conceptParticipants');
+    }
 
+    public function getPrison()
+    {
+        return $this->hasOne(Prison::class, ['__company_id'=>'prison_id']);
+    }
+    public function getAssigned()
+    {
+        return $this->hasOne(Officer::class, ['__person_id'=>'assigned_to']);
+    }
+
+    public  function attributeLabels()
+    {
+        return [
+            'date_start' => Module::t('labels','DATE_START_LABEL'),
+            'title' => Module::t('labels','TITLE_LABEL'),
+            'assigned.person.fio' => Module::t('labels','ASSIGNED_PERSON_FIO_LABEL'),
+            'status_id' => Module::t('labels','STATUS_LABEL'),
+            'category_id' =>  Module::t('labels','CATEGORY_LABEL'),
+            'dateStartFromJui' =>  Module::t('labels','DATE_START_FROM_JUI_LABEL'),
+            'dateStartToJui' =>  Module::t('labels','DATE_START_TO_JUI_LABEL')
+        ];
+    }
 
 
 }

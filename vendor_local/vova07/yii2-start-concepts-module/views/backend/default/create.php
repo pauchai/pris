@@ -1,13 +1,13 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\psycho\Module;
+use vova07\concepts\Module;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\psycho\models\PsyCharacteristic
+ * @var $model \vova07\plans\models\Program
   */
-$this->title = Module::t("default",$model->person->fio);
-$this->params['subtitle'] = Module::t('default','PSY_CHARACTERISTIC_TITTLE');
+$this->title = Module::t("default","CONCEPT_TITLE");
+$this->params['subtitle'] = Module::t("default","CREATE_NEW")
 ?>
 
 
