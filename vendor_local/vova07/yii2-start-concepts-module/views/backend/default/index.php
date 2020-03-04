@@ -8,8 +8,8 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 use vova07\concepts\Module;
-use kartik\grid\GridView;
-use kartik\grid\ActionColumn;
+use yii\grid\GridView;
+use yii\grid\ActionColumn;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = Module::t("default","CONCEPTS_LIST_TITLE");

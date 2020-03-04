@@ -42,7 +42,7 @@ class ConceptVisit extends  Ownableitem
     public function rules()
     {
         return [
-            [['class_id', 'prisoner_id', 'status_id', 'date_visit'], 'required'],
+            [['class_id', 'prisoner_id', 'status_id', 'at'], 'required'],
         ];
     }
 
@@ -56,7 +56,7 @@ class ConceptVisit extends  Ownableitem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'class_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
-                'date_visit' => Schema::TYPE_DATE . ' NOT NULL',
+                'at' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL'
             ],
 

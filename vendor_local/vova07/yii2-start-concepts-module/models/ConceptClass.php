@@ -12,6 +12,8 @@ namespace vova07\concepts\models;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 
+use vova07\base\components\DateConvertJuiBehavior;
+use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 
 use vova07\base\models\Ownableitem;
@@ -38,7 +40,7 @@ class ConceptClass extends  Ownableitem
     public function rules()
     {
         return [
-            [['concept_id',  'at'], 'required'],
+            [['concept_id',  'atJui'], 'required'],
         ];
     }
 
@@ -51,7 +53,7 @@ class ConceptClass extends  Ownableitem
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'concept_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
-                'at' => Schema::TYPE_DATE . ' NOT NULL',
+                'at' => Schema::TYPE_INTEGER . ' NOT NULL',
 
             ],
 
@@ -85,6 +87,11 @@ class ConceptClass extends  Ownableitem
 
 
                     ],
+                ],
+                'atJui' => [
+                    'class' => DateJuiBehavior::class,
+                    'attribute' => 'at',
+                    'juiAttribute' => 'atJui'
                 ]
 
             ];

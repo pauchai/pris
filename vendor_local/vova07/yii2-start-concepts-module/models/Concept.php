@@ -150,12 +150,18 @@ class Concept extends  Ownableitem
 
     public function getConceptParticipants()
     {
-        return $this->hasMany(Concept::class, ['concept_id' => '__ownableitem_id']);
+        return $this->hasMany(ConceptParticipant::class, ['concept_id' => '__ownableitem_id']);
     }
 
     public function getParticipants()
     {
         return $this->hasMany(Prisoner::class, ['__person_id' => 'prisoner_id'])->via('conceptParticipants');
+    }
+
+
+    public function getClasses()
+    {
+        return $this->hasMany(ConceptClass::class, ['concept_id' => '__ownableitem_id']);
     }
 
     public function getPrison()

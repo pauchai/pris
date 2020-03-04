@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
  * Time: 3:22 PM
  */
 
-class ClassesController extends BackendController
+class ParticipantsController extends BackendController
 {
 
     public function behaviors()
@@ -24,12 +24,12 @@ class ClassesController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['create'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_CLASS_CREATE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_PARTICIPANT_CREATE]
             ],
             [
                 'allow' => true,
                 'actions' => ['delete'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_CLASS_CREATE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_PARTICIPANT_DELETE]
             ],
         ];
         return $behaviors;
@@ -38,26 +38,26 @@ class ClassesController extends BackendController
     public function actionCreate()
     {
 
-        $model = new ConceptClass();
-
+        $model = new ConceptParticipant();
 
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
                 //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
-                return $this->goBack();
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
         }
 
+        return $this->goBack();
+
         //return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
 
-    public function actionDelete($id)
+    public function actionDelete($concept_id, $prisoner_id)
     {
-        if (is_null($model = ConceptClass::findOne($id)))
+        if (is_null($model = ConceptParticipant::findOne(['concept_id' => $concept_id, 'prisoner_id' => $prisoner_id])))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

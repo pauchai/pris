@@ -89,7 +89,49 @@ class DefaultController extends BackendController
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
+    public function actionUpdate($id)
+    {
+        if (is_null($model = Concept::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+
+        if (\Yii::$app->request->isPost){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate()){
+                if ($model->save()){
+                    //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
+                };
+            };
+        }
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+
+    public function actionView($id)
+    {
+        \Yii::$app->user->setReturnUrl(Url::current());
+
+        if (is_null($model = Concept::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+        };
 
 
+        return $this->render('view', ['model'=>$model]);
+    }
+
+    public function actionDelete($id)
+    {
+        if (is_null($model = Concept::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        if ($model->delete()){
+            return $this->goBack();
+        };
+        throw new \LogicException(Module::t('default',"CANT_DELETE"));
+    }
 
 }
