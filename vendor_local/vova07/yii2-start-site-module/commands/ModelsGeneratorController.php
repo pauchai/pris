@@ -144,8 +144,8 @@ class ModelsGeneratorController extends \yii\console\Controller
 
             Comment::class,
 */
-           // Concept::class,
-           // ConceptParticipant::class,
+            Concept::class,
+            ConceptParticipant::class,
             ConceptClass::class,
             ConceptVisit::class,
 

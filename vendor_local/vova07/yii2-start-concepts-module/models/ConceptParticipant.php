@@ -14,7 +14,9 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\concepts\Module;
 use vova07\countries\models\Country;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
@@ -33,7 +35,7 @@ class ConceptParticipant extends  Ownableitem
     {
         return [
             [['concept_id','prisoner_id'], 'required'],
-            [['concept_id','prisoner_id'],'unique','targetAttribute' => ['concept_id','prisoner_id']],
+            [['concept_id','prisoner_id'],'unique','targetAttribute' => ['concept_id','prisoner_id'],'message' => Module::t('default','PARTICIPANT_EXISTS')],
         ];
     }
 
@@ -105,6 +107,11 @@ class ConceptParticipant extends  Ownableitem
     public function getPrisoner()
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
+    }
+
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id'=>'prisoner_id']);
     }
 
 

@@ -64,7 +64,11 @@ $this->params['breadcrumbs'] = [
 <?php
     $gridColumns = [
         ['class' => yii\grid\SerialColumn::class],
-        'prisoner.person.fio'
+        [
+                'attribute' => 'prisoner_id',
+                'value' => function($model){return $model->prisoner->getFullTitle(true);}
+        ],
+
     ];
 
 ?>
@@ -113,7 +117,7 @@ $this->params['breadcrumbs'] = [
 <?php echo GridView::widget(
     [
         'id' => 'participants',
-        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getConceptParticipants()]),
+        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getConceptParticipants()->orderByFio()]),
         'columns' => $gridColumns,
 
     ]
