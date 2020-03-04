@@ -120,6 +120,23 @@ class Module extends \vova07\base\components\Module
 
 
     public const PERMISSION_QUICK_SWITCH_USER = "BPermissionQuickSwitchUser";
+
+
+    public const PERMISSION_CONCEPTS_LIST = 'BPermissionConceptList';
+    public const PERMISSION_CONCEPT_CREATE = 'BPermissionConceptCreate';
+    public const PERMISSION_CONCEPT_UPDATE = 'BPermissionConceptUpdate';
+    public const PERMISSION_CONCEPT_VIEW = 'BPermissionConceptView';
+    public const PERMISSION_CONCEPT_DELETE = 'BPermissionConcepteDelete';
+
+    public const PERMISSION_CONCEPT_PARTICIPANT_CREATE = 'BPermissionConceptParticipantCreate';
+    public const PERMISSION_CONCEPT_PARTICIPANT_DELETE = 'BPermissionConceptParticipantDelete';
+
+    public const PERMISSION_CONCEPT_CLASS_CREATE = 'BPermissionConceptClassCreate';
+    public const PERMISSION_CONCEPT_CLASS_DELETE = 'BPermissionConceptClassDelete';
+
+
+
+
     /**
      * @inheritdoc
      */

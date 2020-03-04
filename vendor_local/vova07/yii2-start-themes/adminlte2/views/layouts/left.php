@@ -172,6 +172,17 @@ use vova07\site\Module;
                             ]
                         ]
                     ],
+
+                    ['label' =>  Module::t('menu', 'CONCEPTS_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_CONCEPTS_LIST),
+                        'items' => [
+                            [
+                                'label' => Module::t('menu','CONCEPTS_LIST'),'icon' => 'circle','url'=>['/concepts/default'],
+                                'visible' => true,
+                            ]
+                        ]
+                    ],
+
                     ['label' => Module::t('menu','ADMINISTRATION_HEADER_MENU'), 'options' => ['class' => 'header'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
                     ],

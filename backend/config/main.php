@@ -76,7 +76,12 @@ return [
         'psycho' => [
             'appContext' => 'backend'
         ],
-
+        'comments' => [
+            'appContext' => 'backend'
+        ],
+        'concepts' => [
+            'appContext' => 'backend'
+        ],
 
         'translations' => [
             'class' => uran1980\yii\modules\i18n\Module::className(),

@@ -92,6 +92,8 @@ $this->params['breadcrumbs'] = [
     //'fixedColumnsWidth' => [2,4,14,5],
    // 'showOnEmpty' => true,
     'showSyncButton' => false,
+    'showActionButton' => !$this->context->isPrintVersion,
+
 
 
 ])?>
