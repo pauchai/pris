@@ -30,6 +30,9 @@ class Rbac
             Module::PERMISSION_CONCEPT_PARTICIPANT_CREATE,
             Module::PERMISSION_CONCEPT_PARTICIPANT_DELETE,
 
+            Module::PERMISSION_CONCEPT_VISIT_CREATE,
+            Module::PERMISSION_CONCEPT_VISIT_DELETE,
+
         ];
 
         foreach($permissions as $permissionName){

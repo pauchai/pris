@@ -18,7 +18,6 @@ use vova07\base\models\Ownableitem;
 
 use vova07\concepts\Module;
 
-use vova07\plans\models\ConceptVisitQuery;
 use vova07\users\models\Prisoner;
 
 
@@ -42,7 +41,7 @@ class ConceptVisit extends  Ownableitem
     public function rules()
     {
         return [
-            [['class_id', 'prisoner_id', 'status_id', 'at'], 'required'],
+            [['class_id', 'prisoner_id', 'status_id'], 'required'],
         ];
     }
 
@@ -53,16 +52,16 @@ class ConceptVisit extends  Ownableitem
     {
         $metadata = [
             'fields' => [
-                Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
+               // Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'class_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
-                'at' => Schema::TYPE_INTEGER . ' NOT NULL',
+              //  'at' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL'
             ],
 
-           // 'primaries' => [
-            //    [self::class, ['program_id', 'prisoner_id', 'date_visit']]
-            //],
+            'primaries' => [
+                [self::class, ['class_id', 'prisoner_id']]
+            ],
 
             'index' => [
 
@@ -143,9 +142,9 @@ class ConceptVisit extends  Ownableitem
     public static function mapStatuseStyle()
     {
         return [
-            self::STATUS_DOESNT_PRESENT => 'danger',
-            self::STATUS_DOESNT_PRESENT_VALID => 'info',
-            self::STATUS_PRESENT => 'success',
+            self::STATUS_ABSENT => 'danger',
+            self::STATUS_PRESENT => 'info',
+            self::STATUS_ETAP => 'success',
         ];
     }
     public function resolveStatusStyle()

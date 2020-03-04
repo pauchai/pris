@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\concepts\models\ConceptVisit
+ * @var $model \vova07\plans\models\ProgramVisit
  */
 ?>
 

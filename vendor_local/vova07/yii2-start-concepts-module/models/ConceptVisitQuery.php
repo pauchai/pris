@@ -6,7 +6,7 @@
  * Time: 6:35 PM
  */
 
-namespace vova07\plans\models;
+namespace vova07\concepts\models;
 
 
 use vova07\concepts\models\Concept;

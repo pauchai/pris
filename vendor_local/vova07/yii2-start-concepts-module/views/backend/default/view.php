@@ -2,6 +2,8 @@
 
 use vova07\concepts\Module;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use vova07\concepts\models\ConceptVisit;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\concepts\models\Concept
@@ -69,7 +71,33 @@ $this->params['breadcrumbs'] = [
 <?php foreach ($model->classes as $classModel):?>
    <?php $gridColumns[] = [
             'header' => Yii::$app->formatter->asDate($classModel->at,'mm/dd') . ' ' . Yii::$app->formatter->asDate($classModel->at,'Y'),
-        'content' => function($model){return 'tt';},
+        'content' => function($model)use($classModel){
+            $conceptVisit = ConceptVisit::findOne([
+                'class_id'=>$classModel->primaryKey,
+                'prisoner_id' => $model->prisoner_id
+            ]);
+            if ($conceptVisit){
+                return Html::tag('span',$conceptVisit->getStatus(),['class'=>'label label-' . $conceptVisit->resolveStatusStyle()]);
+            } else {
+                return Html::tag('div',
+                    Html::dropDownList('mark',null,
+                        ConceptVisit::getStatusesForCombo(),[
+                            'onChange'=>'PARTICIPANTS_GRID.onMarkSelect;',
+                            'prompt'=>Module::t('programs','SELECT_VISIT_STATUS')
+                        ]),
+                    [
+                        'data-model' => \yii\helpers\Json::encode([
+                            //'program_id' => $model->program_id,
+                            //'prisoner_id' => $model->prisoner_id,
+                            'class_id' => $classModel->primaryKey,
+                            'prisoner_id' => $model->prisoner_id
+
+                        ])
+                    ]
+
+                );
+            }
+        }
           ]
     ?>
 <?php endforeach;?>
@@ -84,7 +112,7 @@ $this->params['breadcrumbs'] = [
 
 <?php echo GridView::widget(
     [
-
+        'id' => 'participants',
         'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getConceptParticipants()]),
         'columns' => $gridColumns,
 
@@ -138,3 +166,37 @@ $this->params['breadcrumbs'] = [
 
 <?php \vova07\themes\adminlte2\widgets\Box::end(); ?>
 
+<?php
+$classVisitsUrl = \yii\helpers\Url::to(['/concepts/visits/create']);
+$this->registerJs(
+    <<<JS
+    PARTICIPANTS_GRID = {
+          onMarkSelect:function(event){
+//            var tdContainer = $(event.delegateTarget);
+            var selectEl = $(event.currentTarget);
+            var divContainer = selectEl.parent().closest('div');            
+            var dataModel  = divContainer.data('model');
+            dataModel.status_id = selectEl.val();
+            $.ajax({
+                type:'POST',
+                url:'$classVisitsUrl',
+                data: dataModel,
+                success: function(data) {
+                    divContainer.fadeOut();
+                   divContainer.html(data).fadeIn();
+                }
+            })
+            
+            
+        }
+    }
+    
+ 
+    $('body  ').on('change','#participants>table>tbody>tr select',PARTICIPANTS_GRID.onMarkSelect);
+                
+   
+    
+
+JS
+)
+?>

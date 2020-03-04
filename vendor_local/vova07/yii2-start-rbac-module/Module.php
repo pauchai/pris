@@ -134,6 +134,8 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_CONCEPT_CLASS_CREATE = 'BPermissionConceptClassCreate';
     public const PERMISSION_CONCEPT_CLASS_DELETE = 'BPermissionConceptClassDelete';
 
+    public const PERMISSION_CONCEPT_VISIT_CREATE = 'BPermissionConceptVisitCreate';
+    public const PERMISSION_CONCEPT_VISIT_DELETE = 'BPermissionConceptVisitDelete';
 
 
 
