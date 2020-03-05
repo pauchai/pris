@@ -41,7 +41,7 @@ class ConceptVisit extends  Ownableitem
     public function rules()
     {
         return [
-            [['class_id', 'prisoner_id', 'status_id'], 'required'],
+            [['class_id', 'participant_id', 'status_id'], 'required'],
         ];
     }
 
@@ -54,13 +54,13 @@ class ConceptVisit extends  Ownableitem
             'fields' => [
                // Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'class_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
-                'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
+                'participant_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
               //  'at' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL'
             ],
 
             'primaries' => [
-                [self::class, ['class_id', 'prisoner_id']]
+                [self::class, ['class_id', 'participant_id']]
             ],
 
             'index' => [
@@ -69,7 +69,7 @@ class ConceptVisit extends  Ownableitem
             ],
             'foreignKeys' => [
                 [get_called_class(), 'class_id', ConceptClass::class, ConceptClass::primaryKey()],
-                [get_called_class(), 'prisoner_id', Prisoner::class, Prisoner::primaryKey()],
+                [get_called_class(), 'participant_id', ConceptParticipant::class, ConceptParticipant::primaryKey()],
 
             ],
 
@@ -118,9 +118,9 @@ class ConceptVisit extends  Ownableitem
         return $this->hasOne(ConceptClass::class, ['__ownableitem_id' => 'class_id']);
     }
 
-    public function getPrisoner()
+    public function getParticipant()
     {
-        return $this->hasOne(Prisoner::class, ['__person_id' => 'prisoner_id']);
+        return $this->hasOne(ConceptParticipant::class, ['__ownableitem_id' => 'participant_id']);
     }
 
 

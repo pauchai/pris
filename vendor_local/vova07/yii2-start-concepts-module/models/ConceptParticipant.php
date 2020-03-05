@@ -46,13 +46,15 @@ class ConceptParticipant extends  Ownableitem
     {
         $metadata = [
             'fields' => [
+                Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'concept_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL',
 
             ],
-            'primaries' => [
-                [self::class,['concept_id','prisoner_id']]
+            'indexes' => [
+                [self::class, ['concept_id', 'prisoner_id'], 'unique'],
             ],
+
             'foreignKeys' => [
                 [self::class, 'concept_id',Concept::class,Concept::primaryKey()],
                 [self::class, 'prisoner_id',Prisoner::class,Prisoner::primaryKey()],

@@ -55,9 +55,9 @@ class ParticipantsController extends BackendController
     }
 
 
-    public function actionDelete($concept_id, $prisoner_id)
+    public function actionDelete($id)
     {
-        if (is_null($model = ConceptParticipant::findOne(['concept_id' => $concept_id, 'prisoner_id' => $prisoner_id])))
+        if (is_null($model = ConceptParticipant::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

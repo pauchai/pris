@@ -39,7 +39,8 @@
         "kartik-v/yii2-detail-view": "dev-master",
         "cetver/yii2-language-selector": "dev-master",
         "kartik-v/yii2-field-range": "*",
-        "kartik-v/yii2-editable": "@dev"
+        "kartik-v/yii2-editable": "@dev",
+        "bower-asset/rrule": "dev-master"
 
     },
     "require-dev": {

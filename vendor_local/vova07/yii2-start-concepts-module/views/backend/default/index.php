@@ -57,10 +57,23 @@ $this->params['breadcrumbs'] = [
         ],
         'assigned.person.fio',
 
+        [
 
+                'header' => \yii\bootstrap\Html::tag('span','',['class' => 'fa fa-users'] ),
+                'content' => function($model){
+                    return \yii\bootstrap\Html::a($model->getParticipants()->count(), ['view','id' => $model->primaryKey], [
+                        'title' => \vova07\concepts\Module::t('default', 'CONCEPT_PARTICIPANTS'),
+                        'data-pjax' => '0',
+                        'class'=>'btn btn-primary'
+                    ]);
+                    return ;
+                }
+
+        ],
 
         [
             'class' => ActionColumn::class,
+            'template' => '{update} {delete}'
 
         ]
     ]

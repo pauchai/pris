@@ -65,7 +65,7 @@ $this->params['breadcrumbs'] = [
     $gridColumns = [
         ['class' => yii\grid\SerialColumn::class],
         [
-                'attribute' => 'prisoner_id',
+                'attribute' => 'participant_id',
                 'value' => function($model){return $model->prisoner->getFullTitle(true);}
         ],
 
@@ -78,7 +78,7 @@ $this->params['breadcrumbs'] = [
         'content' => function($model)use($classModel){
             $conceptVisit = ConceptVisit::findOne([
                 'class_id'=>$classModel->primaryKey,
-                'prisoner_id' => $model->prisoner_id
+                'participant_id' => $model->primaryKey
             ]);
             if ($conceptVisit){
                 return Html::tag('span',$conceptVisit->getStatus(),['class'=>'label label-' . $conceptVisit->resolveStatusStyle()]);
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'] = [
                             //'program_id' => $model->program_id,
                             //'prisoner_id' => $model->prisoner_id,
                             'class_id' => $classModel->primaryKey,
-                            'prisoner_id' => $model->prisoner_id
+                            'participant_id' => $model->primaryKey
 
                         ])
                     ]
@@ -107,6 +107,7 @@ $this->params['breadcrumbs'] = [
 <?php endforeach;?>
 
 <?php
+
     $gridColumns[]   = [
     'class' => \yii\grid\ActionColumn::class,
     'template' => '{delete}',
