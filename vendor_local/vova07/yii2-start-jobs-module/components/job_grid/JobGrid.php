@@ -67,7 +67,7 @@ class JobGrid extends GridView
                     $holiday->save();
                 }
             }*/
-            $htmlOptions['style'] = "padding:0px";
+            $htmlOptions['style'] = "padding:0px; text-align:center;";
             if (Calendar::isWeekEnd($btnDate) || Calendar::isHoliday($btnDate) ){
                 $btnClass = 'btn-danger';
 
@@ -110,7 +110,7 @@ class JobGrid extends GridView
                 'header' => $buttonContent,
                 //'attribute' => $attributeName
                 'content' => function($model) use($attributeName,$btnClass, $btnDateTime, $htmlOptions){
-
+                        //$htmlOptions['style'] = 'text-align:center';
                         return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);
 
                 }
