@@ -23,7 +23,7 @@ use vova07\users\models\Officer;
 <?=$form->field($model,'dateFinishJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'assigned_to')->dropDownList(Officer::getListForCombo(),['prompt'=> Module::t('default','SELECT_ASSIGNED_TO')])?>
 <?=$form->field($model,'status_id')->dropDownList(\vova07\concepts\models\Concept::getStatusesForCombo(),['prompt'=>Module::t('default','SELECT_CONCEPT_STATUS')])?>
-
+<?php //echo $form->field($model, 'rrule')->widget(  \pauk\recurinput\RecurInput::class)?>
 
 
 

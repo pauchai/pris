@@ -41,7 +41,7 @@ class VisitsController extends BackendController
     public function actionCreate()
     {
         $model = new ConceptVisit();
-        $key = ArrayHelper::filter(\Yii::$app->request->post(),['class_id','prisoner_id']);
+        $key = ArrayHelper::filter(\Yii::$app->request->post(),['class_id','participant_id']);
         if (!($model = ConceptVisit::findOne($key))){
             $model = new ConceptVisit;
             $model->load(\Yii::$app->request->post(),'');
@@ -58,7 +58,7 @@ class VisitsController extends BackendController
 
     public function actionDelete($id)
     {
-        if (is_null($model = ProgramVisit::findOne($id)))
+        if (is_null($model = ConceptVisit::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

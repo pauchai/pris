@@ -110,4 +110,10 @@ return [
         'bootstrap' => \vova07\concepts\Bootstrap::class,
         'alias' => ['@vova07/concepts' => '@vendor_local/vova07/yii2-start-concepts-module']
     ],
+    'pauk/recurinput' => [
+        'name' => 'Yii2 RecurInput widget',
+        'version' => '1.0.0',
+        'bootstrap' => \pauk\recurinput\Bootstrap::class,
+        'alias' => ['@pauk/recurinput' => '@vendor_local/pauk/yii2-recurinput']
+    ],
 ];

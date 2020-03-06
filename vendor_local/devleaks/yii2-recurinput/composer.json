@@ -1,0 +1,22 @@
+{
+    "name": "devleaks/yii2-recurinput",
+    "description": "RFC 2445 iCalendar RECUR Data Type Input",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pierre M",
+            "email": "devleaks.be@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+		"bower-asset/rrule": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "\\devleaks\\recurinput\\": ""
+        }
+    }
+}

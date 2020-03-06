@@ -59,6 +59,7 @@ class Concept extends  Ownableitem
                 'date_start' => Schema::TYPE_INTEGER . " NOT NULL",
                 'date_finish' => Schema::TYPE_INTEGER . " ",
                 'assigned_to' => Schema::TYPE_INTEGER . " NOT NULL",
+                'rrule' => $migration->text(),
                 'status_id' => Schema::TYPE_TINYINT . " NOT NULL",
             ],
             'indexes' => [

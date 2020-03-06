@@ -2,6 +2,7 @@
 
 use vova07\concepts\Module;
 use yii\grid\GridView;
+
 use yii\helpers\Html;
 use vova07\concepts\models\ConceptVisit;
 /**
@@ -52,7 +53,7 @@ $this->params['breadcrumbs'] = [
     $newClassForm = \kartik\form\ActiveForm::begin([
         'type' => \kartik\form\ActiveForm::TYPE_INLINE,
         'action' => ['/concepts/classes/create'],
-        'options' => ['class'=>'pull-right']
+      //  'options' => ['class'=>'pull-right']
     ])
 ?>
     <?=$newClassForm->field($newClass, 'concept_id')->hiddenInput()?>

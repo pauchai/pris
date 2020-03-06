@@ -15,7 +15,7 @@ dmstr\web\AdminLteAsset::register($this);
 ?>
 <style>
     body {
-        padding:30px;
+
 
     }
     body, table, h1,h2,h3,h4,h5,h6,h7  {
@@ -49,8 +49,8 @@ dmstr\web\AdminLteAsset::register($this);
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>    </head>
     <body >
-    <header>
-        <?php echo Html::beginTag('div', ['class' => 'box-tools pull-left no-print']);?>
+    <header class="no-print">
+        <?php echo Html::beginTag('div', ['class' => 'box-tools pull-left ']);?>
         <a  href="javascript:print()"><i class="fa fa-print"></i></a>
         <?php echo Html::endTag("div");?>
     </header>

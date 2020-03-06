@@ -40,7 +40,8 @@
         "cetver/yii2-language-selector": "dev-master",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-editable": "@dev",
-        "bower-asset/rrule": "dev-master"
+        "bower-asset/rrule": "dev-master",
+        "rlanvin/php-rrule": "dev-master"
 
     },
     "require-dev": {

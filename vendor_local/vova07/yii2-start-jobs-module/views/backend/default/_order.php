@@ -6,24 +6,7 @@ use vova07\site\models\Setting;
  * @var $model \vova07\jobs\models\JobPaid
  */
 ?>
-<?php
-    $this->registerCss(<<<CSS
-    body {
-        font-family: "Times New Roman";
-        font-size:14px;
-    }
-    .field {
-        display:inline-block;
-        border:none;
-        border-bottom-color: black;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        text-align: center;
-        font-weight: bolder;
-    }
-CSS
-)
-?>
+
 
 <p  style="text-align:center;" ><u><b>ORDONANŢĂ</b></u></p>
 <p style="text-align:center;line-height:50%" ><span ><b>privind compensarea privilegiată a zilelor de muncă</b></span></p>
