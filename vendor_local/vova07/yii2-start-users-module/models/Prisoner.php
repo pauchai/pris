@@ -16,6 +16,7 @@ use vova07\base\components\DateConvertJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\concepts\models\ConceptParticipant;
 use vova07\countries\models\Country;
 
 use vova07\finances\models\Balance;
@@ -346,6 +347,11 @@ class Prisoner extends  OwnableItem
     public function getCharacteristic()
     {
         return $this->hasOne(PsyCharacteristic::class, ['__person_id' => '__person_id']);
+    }
+
+    public function getConceptParticipants()
+    {
+        return $this->hasMany(ConceptParticipant::class, ['prisoner_id' => '__person_id']);
     }
 
 

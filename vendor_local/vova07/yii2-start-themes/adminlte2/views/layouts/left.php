@@ -179,6 +179,10 @@ use vova07\site\Module;
                             [
                                 'label' => Module::t('menu','CONCEPTS_LIST'),'icon' => 'circle','url'=>['/concepts/default'],
                                 'visible' => true,
+                            ],
+                            [
+                                'label' => Module::t('menu','PARTICIPANTS_LIST'),'icon' => 'circle','url'=>['/concepts/participants'],
+                                'visible' => true,
                             ]
                         ]
                     ],

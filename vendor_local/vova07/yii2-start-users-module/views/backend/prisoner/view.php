@@ -24,6 +24,10 @@ $this->params['breadcrumbs'] = [
         width:200px;
         
     }
+    #w1 li >a> span{
+        margin-left:5px;        
+    }
+      
 CSS
 
 )?>
@@ -115,6 +119,18 @@ CSS
 
 
               'url' => ['/prisons/prisoner-security/index', 'PrisonerSecurity251Search[prisoner_id]'=>$model->primaryKey, 'PrisonerSecurity248Search[prisoner_id]'=>$model->primaryKey],
+
+          ],
+
+          [
+              'label' => Module::t('default','PRISONER_CONCEPTS') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getConceptParticipants()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']
+                  ),
+
+
+              'url' => ['/concepts/participants/index', 'ConceptParticipantSearch[prisoner_id]'=>$model->primaryKey],
 
           ],
 

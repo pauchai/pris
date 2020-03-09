@@ -1,6 +1,8 @@
 <?php
 namespace vova07\concepts\controllers\backend;
+use http\Url;
 use vova07\base\components\BackendController;
+use vova07\concepts\models\backend\ConceptParticipantSearch;
 use vova07\concepts\models\ConceptClass;
 use vova07\concepts\models\ConceptParticipant;
 use vova07\concepts\Module;
@@ -23,6 +25,11 @@ class ParticipantsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
+                'actions' => ['index'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_PARTICIPANT_LIST]
+            ],
+            [
+                'allow' => true,
                 'actions' => ['create'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_PARTICIPANT_CREATE]
             ],
@@ -33,6 +40,17 @@ class ParticipantsController extends BackendController
             ],
         ];
         return $behaviors;
+    }
+
+    public function actionIndex()
+    {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+        $searchModel = new ConceptParticipantSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        if ($this->isPrintVersion)
+            $dataProvider->pagination = false;
+
+        return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }
 
     public function actionCreate()

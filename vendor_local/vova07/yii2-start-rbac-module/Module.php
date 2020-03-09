@@ -128,6 +128,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_CONCEPT_VIEW = 'BPermissionConceptView';
     public const PERMISSION_CONCEPT_DELETE = 'BPermissionConcepteDelete';
 
+    public const PERMISSION_CONCEPT_PARTICIPANT_LIST = 'BPermissionConceptParticipantList';
     public const PERMISSION_CONCEPT_PARTICIPANT_CREATE = 'BPermissionConceptParticipantCreate';
     public const PERMISSION_CONCEPT_PARTICIPANT_DELETE = 'BPermissionConceptParticipantDelete';
 
