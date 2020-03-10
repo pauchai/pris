@@ -31,7 +31,19 @@ $this->params['breadcrumbs'] = [
 <?php
     $columns = [
         ['class' => yii\grid\SerialColumn::class],
-        'prisoner.fullTitle',
+        ['attribute' => 'prisoner_id',
+            'value' => 'prisoner.fullTitle',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'attribute' => 'prisoner_id',
+                'pluginOptions' => ['allowClear' => true ],
+            ],
+            'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+
+        ],
+
+
         ];
     $gridBeforeColumns = [
         [],
@@ -94,11 +106,10 @@ $columns[] = [
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-    //'filterModel' => $searchModel,
+    'filterModel' => $searchModel,
     'beforeHeader' =>  $gridBeforeHeader,
     'columns' => $columns
 ])?>
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
-<span class="bg"

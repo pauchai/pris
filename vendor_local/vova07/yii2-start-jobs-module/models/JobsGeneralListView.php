@@ -48,7 +48,7 @@ class JobsGeneralListView extends  ActiveRecord
     }
     public static function primaryKey()
     {
-        return ['prisoner_id'];
+        return ['prisoner_id','year'];
     }
     public static function find()
     {
