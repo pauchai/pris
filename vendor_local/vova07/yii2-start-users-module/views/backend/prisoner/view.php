@@ -104,10 +104,11 @@ CSS
               'label' => Module::t('default','PRISONER_JOBS') .
                   Html::tag('span',
                       Html::tag('span',$model->getJobs()->count(), ['class' => "label label-primary pull-right"] ),
+
                       ['class' => 'pull-right-container']),
 
 
-              'url' => ['/jobs/job-list/index', 'JobPaidListSearch[assigned_to]'=>$model->primaryKey],
+              'url' => ['/jobs/general-list/index', 'JobsGeneralListViewSearch[prisoner_id]'=>$model->primaryKey],
 
           ],
 
