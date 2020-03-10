@@ -1,6 +1,8 @@
 <?php
 namespace vova07\finances\controllers\backend;
+use kartik\mpdf\Pdf;
 use vova07\base\components\BackendController;
+use vova07\base\tools\PrinceXml\Prince;
 use vova07\finances\models\backend\BalanceByPrisonerViewSearch;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
@@ -9,6 +11,7 @@ use vova07\finances\models\Balance;
 use vova07\rbac\Module;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 
 /**
@@ -57,8 +60,19 @@ class BalanceController extends BackendController
         $searchModel = new BalanceSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
+        //\Yii::$app->response->isSent = true;
+       // $contentHtml = $this->render("print_receipt", ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+        $princePdf = new Prince('/usr/bin/prince');
+      //  header('Content-Type: application/pdf');
+       // header('Content-Disposition: inline; filename="foo.pdf"');
+        $arr  = [];
+
+        //$princePdf->convert_string_to_passthru($contentHtml, $arr);
 
         return $this->render("print_receipt", ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+
+
+
 
     }
 

@@ -41,7 +41,8 @@
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-editable": "@dev",
         "bower-asset/rrule": "dev-master",
-        "rlanvin/php-rrule": "dev-master"
+        "rlanvin/php-rrule": "dev-master",
+        "kartik-v/yii2-mpdf": "dev-master"
 
     },
     "require-dev": {
