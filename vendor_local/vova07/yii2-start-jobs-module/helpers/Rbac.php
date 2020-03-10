@@ -31,6 +31,8 @@ class Rbac
            Module::PERMISSION_NOT_PAID_JOB_UPDATE,
            Module::PERMISSION_NOT_PAID_JOB_DELETE,
            Module::PERMISSION_NOT_PAID_JOB_VIEW,
+
+           Module::PERMISSION_GENERAL_LIST_VIEW,
        ];
 
        foreach($permissions as $permissionName){

@@ -113,7 +113,8 @@ use vova07\site\Module;
                     ['label' =>  Module::t('menu', 'JOBS_MENU'),'icon' => 'cube','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_JOBS_ACCESS),
                         'items' => [
-                            ['label' => Module::t('menu','AVAILABLE_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/job-list/index']],
+                            ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
+                                ['label' => Module::t('menu','AVAILABLE_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/job-list/index']],
                             ['label' => Module::t('menu','JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/default/index']],
                             ['label' => Module::t('menu','NOT_PAID_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-jobs/index']],
                             ['label' => Module::t('menu','NOT_PAID_TYPES_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-types/index']],

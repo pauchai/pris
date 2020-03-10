@@ -93,6 +93,9 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PAID_JOB_DELETE = 'BPermissionPaidJobsDelete';
     public const PERMISSION_PAID_JOB_VIEW = 'BPermissionPaidJobsView';
 
+    public const PERMISSION_GENERAL_LIST_VIEW = 'BPermissionGeneralListView';
+
+
     public const PERMISSION_NOT_PAID_JOBS_LIST = 'BPermissionNotPaidJobsList';
     public const PERMISSION_NOT_PAID_JOB_CREATE = 'BPermissionNotPaidJobCreate';
     public const PERMISSION_NOT_PAID_JOB_UPDATE = 'BPermissionNotPaidJobUpdate';
