@@ -75,7 +75,14 @@ $this->params['breadcrumbs'] = [
                 //'class' => 'label-danger'
             ]
         ];
+
     }
+$gridBeforeColumns[] = ['visible' => !$searchModel['year']];
+
+$columns[] = [
+    'attribute' => 'year',
+    'visible' => !$searchModel['year'],
+];
 
     $gridBeforeHeader = [
     [

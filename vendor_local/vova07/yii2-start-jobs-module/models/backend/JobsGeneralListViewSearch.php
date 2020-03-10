@@ -22,7 +22,7 @@ class JobsGeneralListViewSearch extends \vova07\jobs\models\JobsGeneralListView
             'query' => self::find()->joinWith(['person' => function($query){$query->from('person');}])
         ]);
         $dataProvider->sort = false;
-        $dataProvider->query->orderBy('person.second_name, person.first_name');
+        $dataProvider->query->orderBy('year DESC, person.second_name, person.first_name');
         if ($this->load($params) &&   $this->validate()){
             $dataProvider->query->andFilterWhere([
                 'prisoner_id' => $this->prisoner_id,
