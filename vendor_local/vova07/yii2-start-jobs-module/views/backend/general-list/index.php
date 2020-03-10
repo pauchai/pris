@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
     $columns = [
         ['class' => yii\grid\SerialColumn::class],
         ['attribute' => 'prisoner_id',
-            'value' => 'prisoner.fullTitle',
+            'value' => function($model){ return $model->prisoner->getFullTitle(true);},
             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
@@ -94,6 +94,7 @@ $gridBeforeColumns[] = ['visible' => !$searchModel['year']];
 $columns[] = [
     'attribute' => 'year',
     'visible' => !$searchModel['year'],
+    'filter' => false,
 ];
 
     $gridBeforeHeader = [
