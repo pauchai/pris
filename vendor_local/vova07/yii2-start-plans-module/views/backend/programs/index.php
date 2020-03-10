@@ -39,7 +39,20 @@ $this->params['breadcrumbs'] = [
             'header' => '',
             'content' => function($model){return $model->getParticipants()->forPrisonersActiveAndEtapped()->count();}
         ],
-        'status',
+        [
+          'attribute' => 'status_id',
+          'content' => function($model){
+                if ($model->status_id == \vova07\plans\models\Program::STATUS_FINISHED)
+                return \yii\bootstrap\Html::tag('span', $model->status,[
+                    'class' => 'label label-success'
+                ]);
+                    Else
+                        return \yii\bootstrap\Html::tag('span', $model->status,[
+                            'class' => 'label label-default'
+                        ]);
+            }
+        ],
+
         [
             'class' => yii\grid\ActionColumn::class,
             'template' => '{view} {update} {participants} {delete}',

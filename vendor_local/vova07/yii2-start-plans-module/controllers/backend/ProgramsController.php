@@ -47,6 +47,7 @@ class ProgramsController extends BackendController
     {
         $searchModel = new ProgramSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->orderBy('status_id');
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
