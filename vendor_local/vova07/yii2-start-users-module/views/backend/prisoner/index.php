@@ -99,7 +99,20 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                     ],
                     'afterInput' => function ($form, $widget) use ($model, $index) {
 
-                        return $form->field($model, "[$index]status_id")->widget(\kartik\widgets\Select2::class, [
+                        return
+                            $form->field($model, "[$index]cell_id")->widget(\kartik\widgets\Select2::class, [
+                                'data' => \vova07\prisons\models\Cell::getListForCombo(),
+                                'pluginOptions'=>['allowClear'=>true],
+
+                                'options' => [
+                                    'placeholder' => 'Select Cell...',
+                                    //'prompt' => 'tt',
+
+
+                                ],
+
+                            ]) .
+                            $form->field($model, "[$index]status_id")->widget(\kartik\widgets\Select2::class, [
                             'data' => \vova07\users\models\Prisoner::getStatusesForCombo(),
                             'pluginOptions'=>['allowClear'=>true],
 

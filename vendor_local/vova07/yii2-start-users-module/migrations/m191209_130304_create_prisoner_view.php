@@ -36,6 +36,7 @@ class m191209_130304_create_prisoner_view extends Migration
                     '__person_id',
                     'prison_id',
                     'sector_id',
+                    'cell_id',
                     'origin_id',
                     'profession',
                     'article',
