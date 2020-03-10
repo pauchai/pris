@@ -100,9 +100,15 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                     'afterInput' => function ($form, $widget) use ($model, $index) {
 
                         return
-                            $form->field($model, "[$index]cell_id")->widget(\kartik\widgets\Select2::class, [
+                            $form->field($model, "[$index]cell_id")->widget(\kartik\depdrop\DepDrop::class, [
+                                'type' => \kartik\depdrop\DepDrop::TYPE_SELECT2,
                                 'data' => \vova07\prisons\models\Cell::getListForCombo(),
-                                'pluginOptions'=>['allowClear'=>true],
+                                'pluginOptions'=>[
+                                    'depends'=>['sector_id' .  $model->primaryKey],
+                                    'url'=>\yii\helpers\Url::to(['sector-cells']),
+
+                                    'allowClear'=>true
+                                ],
 
                                 'options' => [
                                     'placeholder' => 'Select Cell...',
