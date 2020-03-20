@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
 
 <?php $box = Box::begin();?>
 
-
+<?php echo $this->render('_search',['model' => $searchModel])?>
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'hover' => true,
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'] = [
         ['class' => SerialColumn::class],
         [
             'attribute' => '__person_id',
-            'value' => 'person.fio',
+            'value' => 'fullTitle',
             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
             'filterWidgetOptions' => [
@@ -72,9 +72,7 @@ $this->params['breadcrumbs'] = [
          * @property boolean $feature_addiction_drug
 
          */
-        [
-           // \yii\grid\DataColumn::
-
+/*        [
             'header' => '',
             'content' => function($model){
                 if ($model->characteristic){
@@ -90,7 +88,7 @@ $this->params['breadcrumbs'] = [
 
 
             },
-        ],
+        ],*/
         [
             'attribute' =>         'characteristic.feature_violent',
 
@@ -183,14 +181,14 @@ $this->params['breadcrumbs'] = [
                 [],
                 [],
                 [],
-                [
+               /* [
                     'content' =>  Module::t('labels','RISC_LABEL'),
                     'options' => [
 
                         'style' => 'text-align:center',
                         'class' => 'label-danger'
                     ]
-                ],
+                ],*/
 
 
                 [

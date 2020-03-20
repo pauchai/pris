@@ -39,7 +39,7 @@ class DefaultController extends BackendController
     public function actionIndex()
     {
         \Yii::$app->user->setReturnUrl(Url::current());
-        $searchModel = new PrisonerCharacteristicSearch();
+        $searchModel = new PrisonerViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         if ($this->isPrintVersion)
                 $dataProvider->pagination = false;

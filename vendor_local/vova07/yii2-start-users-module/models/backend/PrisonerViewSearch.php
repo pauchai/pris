@@ -3,7 +3,9 @@ namespace vova07\users\models\backend;
 
 use vova07\base\components\DateConvertJuiBehavior;
 use vova07\prisons\models\Prison;
+use vova07\psycho\models\PsyCharacteristic;
 use vova07\users\models\Prisoner;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -20,6 +22,11 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
     public $termUdoFrom, $termUdoTo;
     public $enabledSaveSearch = false;
 
+    /**
+     * @var boolean
+     */
+    public $hasPsycho = true;
+
     public function rules()
     {
         return [
@@ -28,7 +35,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
             [['termStartFromJui','termStartToJui','termFinishFromJui','termFinishToJui','termUdoFromJui','termUdoToJui'],'date'],
             [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
             [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE],
-            [['enabledSaveSearch'],'boolean'],
+            [['enabledSaveSearch', 'hasPsycho'],'boolean'],
         ];
     }
     public function searchFromSession()
@@ -36,6 +43,13 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
         $params = \Yii::$app->session->get($this->formName());
         return $this->search($params, '');
     }
+
+    /**
+     * @param $params
+     * @param null $formName
+     * @return \yii\data\ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
+     */
     public function search($params, $formName = null)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
@@ -73,6 +87,20 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
         $dataProvider->query->andFilterWhere(['>=','term_udo',$this->termUdoFrom])
             ->andFilterWhere(['<=','term_udo',$this->termUdoTo]);
 
+        if ($this->hasPsycho)
+        {
+            $dataProvider->query->joinWith(['characteristic' => function($query) { $query->from(['characteristic' => 'psy_characteristics']); }]);
+            $dataProvider->query->andWhere(
+                [
+                    'or',
+                    new Expression('feature_violent=1'),
+                    new Expression('feature_self_torture=1'),
+                    new Expression('feature_sucide=1'),
+                    new Expression('feature_addiction_alcohol=1'),
+                    new Expression('feature_addiction_drug=1'),
+                ]
+            );
+        }
         return $dataProvider;
 
     }

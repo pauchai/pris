@@ -12,7 +12,6 @@ namespace vova07\users\models\backend;
 
 class PrisonerSearch extends \vova07\users\models\Prisoner
 {
-
     public function rules()
     {
         return [
