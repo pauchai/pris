@@ -30,8 +30,32 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
-<?php $printUrlParams = \yii\helpers\Url::current([0=>'index-print'])?>
-<?php echo  \yii\bootstrap\Html::a('APROB',$printUrlParams,['class' => 'fa fa-print'])?>
+
+<table width="100%">
+    <tr>
+        <td width="70%">
+
+        </td>
+        <td width="30%">
+            <p style="text-align: center;font-size:160%">
+                "APROB"
+            </p>
+
+            <p style="text-align: right">
+                ___________________________________________________________________________________
+            </p>
+            <br/>
+            <p style="text-align: right">
+                ___________________________________________________________________________________
+            </p>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+        </td>
+    </tr>
+</table>
 
 <?php $box = Box::begin();?>
 

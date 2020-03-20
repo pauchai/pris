@@ -28,7 +28,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create', 'update'],
+                'actions' => ['index' ,'index-print','create', 'update'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_LIST],
             ],
 
@@ -45,6 +45,18 @@ class DefaultController extends BackendController
                 $dataProvider->pagination = false;
 
         return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
+    }
+    public function actionIndexPrint()
+    {
+        $this->isPrintVersion = true;
+        $this->layout = '@vova07/themes/adminlte2/views/layouts/print.php';
+        \Yii::$app->user->setReturnUrl(Url::current());
+        $searchModel = new PrisonerViewSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        if ($this->isPrintVersion)
+            $dataProvider->pagination = false;
+
+        return $this->render("index_print", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }
 
 
