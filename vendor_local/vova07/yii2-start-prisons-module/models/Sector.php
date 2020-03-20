@@ -117,6 +117,10 @@ class Sector extends  OwnableItem
     {
         return $this->hasMany(Cell::class,['sector_id'=>'__ownableitem_id']);
     }
+    public function getCellsForCombo()
+    {
+        return ArrayHelper::map($this->cells,'__ownableitem_id','number');
+    }
 
     public function attributeLabels()
     {

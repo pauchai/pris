@@ -14,6 +14,7 @@ use kartik\grid\EditableColumnAction;
 use lajax\translatemanager\models\Language;
 use vova07\base\components\BackendController;
 use vova07\prisons\models\Sector;
+use vova07\users\models\backend\PrisonerSearch;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\prisons\models\backend\PrisonSearch;
 use vova07\prisons\models\Company;
@@ -44,7 +45,7 @@ class PrisonerController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index','cells'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_LIST],
 
             ]
@@ -129,6 +130,18 @@ class PrisonerController extends BackendController
          //   return $this->render("index_print", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
         //} else
             return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel, 'isLight' => $isLight]);
+    }
+
+    public function actionCells()
+    {
+        $searchModel = new PrisonerSearch();
+        $searchModel->prison_id = Company::findOne(['alias' => Company::PRISON_PU1])->__ownableitem_id;
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+
+        $dataProvider->query->orderBy('prison_id, sector_id, cell_id');
+
+        return $this->render("cells", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
+
     }
 
     public function actionCreate()

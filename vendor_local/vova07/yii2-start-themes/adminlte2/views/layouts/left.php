@@ -64,8 +64,18 @@ use vova07\site\Module;
 
                     ],
                     ['label' => Module::t('menu','DASH_BOARD_MENU'),'icon' => 'tachometer-alt','url'=>['/site/dash-board/index']],
-                    ['label' => Module::t('menu','PRISONERS_LIST'),'icon' => 'users','url'=>['/users/prisoner'],
+                    ['label' => Module::t('menu','PRISONERS_LIST'),'icon' => 'users','url'=>'#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+                      'items' => [
+                          ['label' => Module::t('menu','PRISONERS_LIST'),'icon' => 'circle','url'=>['/users/prisoner'],
+                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+
+                          ],
+                          ['label' => Module::t('menu','CELLS_PRISONERS_LIST'),'icon' => 'circle','url'=>['/users/prisoner/cells'],
+                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+
+                          ],
+                      ]
                     ],
                     ['label' => Module::t('menu','PRISONERS_SECURITY_LIST'),'icon' => 'hourglass','url'=>['/prisons/prisoner-security/index'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_LIST),
