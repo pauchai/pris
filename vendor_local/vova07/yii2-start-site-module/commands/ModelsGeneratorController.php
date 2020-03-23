@@ -30,6 +30,7 @@ use vova07\jobs\models\WorkDay;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyRiskQuery;
+use vova07\psycho\models\PsyTest;
 use vova07\rbac\helpers\Rbac;
 use vova07\rbac\Module;
 use vova07\users\models\PrisonerLocationJournal;
@@ -143,11 +144,13 @@ class ModelsGeneratorController extends \yii\console\Controller
             PsyCharacteristic::class,
 
             Comment::class,
-*/
+
             Concept::class,
             ConceptParticipant::class,
             ConceptClass::class,
             ConceptVisit::class,
+*/
+            PsyTest::class,
 
         ];
     }

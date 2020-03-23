@@ -20,6 +20,7 @@ class Rbac
        // Permissions
        $permissions = [
            Module::PERMISSION_PSYCHO_LIST,
+           Module::PERMISSION_PSYCHO_TESTS,
 
        ];
 

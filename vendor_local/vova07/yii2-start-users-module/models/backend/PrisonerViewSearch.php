@@ -25,7 +25,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
     /**
      * @var boolean
      */
-    public $hasPsycho = true;
+    public $hasPsycho = false;
 
     public function rules()
     {
@@ -101,6 +101,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
                 ]
             );
         }
+
         return $dataProvider;
 
     }

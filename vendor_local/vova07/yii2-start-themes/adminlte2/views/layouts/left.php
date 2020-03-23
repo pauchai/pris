@@ -180,6 +180,10 @@ use vova07\site\Module;
                             [
                             'label' => Module::t('menu','PSYCHO_CHARACTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
                             'visible' => true,
+                            ],
+                            [
+                                'label' => Module::t('menu','PSYCHO_TESTS_LIST'),'icon' => 'circle','url'=>['/psycho/tests'],
+                                'visible' => true,
                             ]
                         ]
                     ],

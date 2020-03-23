@@ -120,6 +120,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE = "BPermissionProgramPrisonersCommentCreate";
 
     public const PERMISSION_PSYCHO_LIST = "BPermissionPsychoList";
+    public const PERMISSION_PSYCHO_TESTS = "BPermissionPsychoTests";
 
 
     public const PERMISSION_QUICK_SWITCH_USER = "BPermissionQuickSwitchUser";

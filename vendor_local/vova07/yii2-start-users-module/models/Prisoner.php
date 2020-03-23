@@ -29,6 +29,7 @@ use vova07\prisons\models\Prison;
 use vova07\prisons\models\PrisonerSecurity;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
+use vova07\psycho\models\PsyTest;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\Sector;
@@ -352,6 +353,11 @@ class Prisoner extends  OwnableItem
     public function getConceptParticipants()
     {
         return $this->hasMany(ConceptParticipant::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getTests()
+    {
+        return $this->hasMany(PsyTest::class, ['prisoner_id' => '__person_id']);
     }
 
 
