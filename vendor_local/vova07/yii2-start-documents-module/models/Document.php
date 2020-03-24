@@ -20,6 +20,7 @@ use vova07\documents\Module;
 use vova07\users\models\Person;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -90,6 +91,7 @@ class Document extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
@@ -100,8 +102,8 @@ class Document extends  Ownableitem
                 'seria' => Schema::TYPE_STRING . ' NOT NULL' ,
                 'IDNP' =>  Schema::TYPE_STRING. ' ',
 
-                'date_issue' => Schema::TYPE_INTEGER . ' NOT NULL',
-                'date_expiration' => Schema::TYPE_INTEGER .'(12)' ,
+                'date_issue' => $migration->bigInteger()->notNull(),
+                'date_expiration' => $migration->bigInteger()->notNull() ,
 
             ],
             'indexes' => [

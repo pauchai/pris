@@ -24,6 +24,7 @@ use vova07\plans\models\ConceptVisitQuery;
 use vova07\users\models\Prisoner;
 
 
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -49,11 +50,12 @@ class ConceptClass extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'concept_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
-                'at' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'at' => $migration->bigInteger()->notNull(),
 
             ],
 

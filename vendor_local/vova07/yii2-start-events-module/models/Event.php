@@ -22,6 +22,7 @@ use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
@@ -62,14 +63,15 @@ class Event extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'prison_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'title' => Schema::TYPE_STRING . ' NOT NULL',
                 'slug' => Schema::TYPE_STRING . " NOT NULL",
-                'date_start' => Schema::TYPE_INTEGER . " NOT NULL",
-                'date_finish' => Schema::TYPE_INTEGER . " ",
+                'date_start' => $migration->bigInteger()->notNull(),
+                'date_finish' => $migration->bigInteger(),
                 'assigned_to' => Schema::TYPE_INTEGER . " NOT NULL",
                 'status_id' => Schema::TYPE_TINYINT . " NOT NULL",
                 'category_id' => Schema::TYPE_TINYINT . " NOT NULL"

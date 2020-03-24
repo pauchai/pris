@@ -58,7 +58,7 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
                 'prison_id' => $migration->integer()->notNull(),
                 'sector_id' => $migration->integer(),
                 'cell_id' => $migration->integer(),
-                'at' => $migration->integer(),
+                'at' => $migration->bigInteger(),
             ],
             'indexes' => [
                 [self::class, ['prisoner_id']],

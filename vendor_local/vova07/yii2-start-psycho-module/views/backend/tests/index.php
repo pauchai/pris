@@ -30,8 +30,8 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
-<?php $printUrlParams = \yii\helpers\Url::current([0=>'index-print'])?>
-<?php echo  \yii\bootstrap\Html::a('APROB',$printUrlParams,['class' => 'fa fa-print'])?>
+<?php //$printUrlParams = \yii\helpers\Url::current([0=>'index-print'])?>
+<?php //echo  \yii\bootstrap\Html::a('APROB',$printUrlParams,['class' => 'fa fa-print'])?>
 
 <?php $box = Box::begin();?>
 

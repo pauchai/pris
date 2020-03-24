@@ -30,8 +30,8 @@ class Item extends ActiveRecordMetaModel
         $metadata = [
             'fields' => [
                 'id' => Schema::TYPE_PK . ' ',
-                'created_at' => Schema::TYPE_INTEGER . ' NOT NULL' ,
-                'updated_at' =>  Schema::TYPE_INTEGER . ' NOT NULL' ,
+                'created_at' => $migration->bigInteger()->notNull(),
+                'updated_at' =>  $migration->bigInteger()->notNull(),
 
             ],
             'indexes' => [

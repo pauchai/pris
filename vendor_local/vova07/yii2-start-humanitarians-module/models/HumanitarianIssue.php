@@ -47,7 +47,7 @@ class HumanitarianIssue extends  Ownableitem
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
-                'date_issue' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'date_issue' => $migration->bigInteger()->notNull(),
                 'items' => $migration->json(),
             ],
             'indexes' => [

@@ -57,7 +57,7 @@ class JobPaidList extends  Ownableitem
                 'type_id' => $migration->integer()->notNull(),
                 'half_time' => $migration->tinyInteger()->notNull(),
                 'assigned_to' => $migration->integer(),
-                'assigned_at' => $migration->integer(),
+                'assigned_at' => $migration->bigInteger(),
 
 
             ],

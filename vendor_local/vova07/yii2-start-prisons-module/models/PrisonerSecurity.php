@@ -63,8 +63,8 @@ class PrisonerSecurity extends  Ownableitem
             'fields' => [
                // Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'prisoner_id' => Schema::TYPE_PK ,
-                'date_start' => $migration->integer()->notNull(),
-                'date_end' => $migration->integer()->notNull(),
+                'date_start' => $migration->bigInteger()->notNull(),
+                'date_end' => $migration->bigInteger()->notNull(),
                 'type_id' => $migration->tinyInteger()->notNull(),
             ],
             'indexes' => [

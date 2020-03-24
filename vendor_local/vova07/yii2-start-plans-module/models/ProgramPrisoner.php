@@ -74,12 +74,12 @@ class ProgramPrisoner extends  Ownableitem
                 'programdict_id' =>Schema::TYPE_INTEGER. ' NOT NULL',
                 'prison_id' => Schema::TYPE_INTEGER. ' NOT NULL',
                 'prisoner_id' => Schema::TYPE_INTEGER. ' NOT NULL',
-                'date_plan' => Schema::TYPE_INTEGER. '',
+                'date_plan' => $migration->bigInteger(),
                 'program_id' => Schema::TYPE_INTEGER. '',
                 'mark_id' => Schema::TYPE_TINYINT. ' ',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
                 'planned_by' => $migration->integer(),
-                'finished_at' => $migration->integer(),
+                'finished_at' => $migration->bigInteger(),
             ],
             //'primaries' => [
             //    [self::class,['program_id','prisoner_id']]

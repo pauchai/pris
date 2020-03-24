@@ -23,6 +23,7 @@ use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use vova07\tasks\models\CommitteeQuery;
@@ -74,6 +75,7 @@ class Committee extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
@@ -81,8 +83,8 @@ class Committee extends  Ownableitem
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'mark_id' => Schema::TYPE_STRING,
                 'assigned_to' => Schema::TYPE_STRING . ' NOT NULL',
-                'date_start' => Schema::TYPE_INTEGER,
-                'date_finish' => Schema::TYPE_INTEGER,
+                'date_start' => $migration->bigInteger(),
+                'date_finish' => $migration->bigInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL'
             ],
             'indexes' => [
