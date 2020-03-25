@@ -134,6 +134,14 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
+            'content' =>  $form->field($newProgram,'assigned_to')->widget(\kartik\widgets\Select2::class,[
+                'data' => \vova07\users\models\Officer::getListForCombo(),
+                'pluginOptions' => ['allowClear' => true ],
+                'options' => ['prompt' =>  \vova07\plans\Module::t('default', 'SELECT_OFFICER')]
+            ])
+        ],
+
+        [
             'content' =>  \yii\bootstrap\Html::submitButton('',['class'=>'fa fa-plus'])
         ]
     ]
@@ -161,6 +169,11 @@ $this->params['breadcrumbs'] = [
                 return \yii\bootstrap\Html::a($model->getParticipants()->count(),$programUrl) ;
                 }
         ],
+        [
+            'attribute' => 'assigned_to',
+            'value' => 'assignedTo.person.fio'
+        ]
+
 
 
 

@@ -83,7 +83,7 @@ class Program extends  Ownableitem
     public function rules()
     {
         return [
-            [['programdict_id','prison_id','date_start','order_no','status_id'], 'required'],
+            [['programdict_id','prison_id','date_start','order_no','status_id','assigned_to'], 'required'],
           //  [['date_start','date_finish'],'date'],
             [['dateStartJui'],'string'],
             [['order_no'],'string'],
@@ -233,8 +233,7 @@ class Program extends  Ownableitem
             'prison_id' => Module::t('labels', 'PROGRAM_PRISON'),
             'order_no' => Module::t('labels', 'PROGRAM_ORDER_NO'),
             'dateStartJui' => Module::t('labels', 'PROGRAM_DATE_START'),
-            'status_id' => Module::t('labels', 'PROGRAM_STATUS'),
-
+            'status_id' => Module::t('labels', 'PROGRAM_STATUS')
         ];
 
     }
