@@ -17,7 +17,11 @@ use vova07\prisons\Module;
 <?=$form->field($model,'prison_id')->dropDownList(\vova07\prisons\models\Prison::getListForCombo(),['prompt' => \vova07\plans\Module::t('default','SELECT')])?>
 <?=$form->field($model,'order_no')?>
 <?=$form->field($model,'dateStartJui')->widget(\yii\jui\DatePicker::class);?>
-
+<?=$form->field($model,'assigned_to')->widget(\kartik\widgets\Select2::class,[
+        'data' => \vova07\users\models\Officer::getListForCombo(),
+        'pluginOptions' => ['allowClear' => true ],
+        'options' => ['prompt' =>  \vova07\plans\Module::t('default', 'SELECT_OFFICER')]
+])?>
 <?=$form->field($model,'status_id')->dropDownList(\vova07\plans\models\Program::getStatusesForCombo(),['prompt' => \vova07\plans\Module::t('default','SELECT_STATUS')])?>
 
 

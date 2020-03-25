@@ -36,6 +36,11 @@ $this->params['breadcrumbs'] = [
         'date_start',
         'date_finish',
         [
+            'attribute' => 'assigned_to',
+            'value' => 'assignedTo.person.fio'
+        ],
+
+        [
             'header' => '',
             'content' => function($model){return $model->getParticipants()->forPrisonersActiveAndEtapped()->count();}
         ],

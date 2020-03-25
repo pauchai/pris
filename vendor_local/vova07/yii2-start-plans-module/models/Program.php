@@ -20,6 +20,7 @@ use vova07\countries\models\Country;
 use vova07\plans\controllers\backend\ProgramVisitsController;
 use vova07\plans\Module;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\base\Behavior;
 use yii\base\Event;
@@ -28,6 +29,7 @@ use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -95,6 +97,7 @@ class Program extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
@@ -104,6 +107,7 @@ class Program extends  Ownableitem
                 'date_finish' => Schema::TYPE_DATE . ' ',
                 'order_no' => Schema::TYPE_STRING .  ' NOT NULL',
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
+                'assigned_to' => $migration->integer()->notNull(),
             ],
 
             'index' => [
@@ -113,6 +117,8 @@ class Program extends  Ownableitem
             'foreignKeys' => [
                 [self::class, 'programdict_id',ProgramDict::class,ProgramDict::primaryKey()],
                 [self::class, 'prison_id',Prison::class, Prison::primaryKey()],
+                [self::class, 'assigned_to',Officer::class, Officer::primaryKey()],
+
 
             ],
 
@@ -189,6 +195,11 @@ class Program extends  Ownableitem
        // return $this->hasMany(ProgramVisit::class,['program_id'=>'__ownableitem_id']);
         $programPrisonerSubQuery =  ProgramPrisoner::find()->select('__ownableitem_id')->where(['program_id'=>$this->primaryKey]);
         return ProgramVisit::find()->where(['program_prisoner_id'=>$programPrisonerSubQuery]);
+    }
+
+    public function getAssignedTo()
+    {
+        return $this->hasOne(Officer::class,['__person_id' => 'assigned_to']);
     }
 
     public static function getListForCombo()

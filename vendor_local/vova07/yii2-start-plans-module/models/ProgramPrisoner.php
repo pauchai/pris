@@ -98,7 +98,6 @@ class ProgramPrisoner extends  Ownableitem
                 [self::class, 'programdict_id',ProgramDict::class,ProgramDict::primaryKey()],
                 [self::class, 'prisoner_id',Prisoner::class,Prisoner::primaryKey()],
                 [self::class, 'planned_by',Officer::class,Officer::primaryKey()],
-
             ],
 
 
@@ -200,6 +199,7 @@ class ProgramPrisoner extends  Ownableitem
     {
         return $this->hasOne(Officer::class,['__person_id' => 'planned_by']);
     }
+
 
     public  function getComments()
     {
@@ -330,7 +330,7 @@ class ProgramPrisoner extends  Ownableitem
     public function attributeLabels()
     {
        return [
-         'plannedBy.person.fio' => Module::t('labels' , 'PLANNED_BY_FIO_LABEL'),
+           'plannedBy.person.fio' => Module::t('labels' , 'PLANNED_BY_FIO_LABEL'),
            'programdict_id' => Module::t('labels','PROGRAM_INDIVIDUAL_TITLE'),
            'prison_id' => Module::t('labels','PROGRAM_INDIVIDUAL_PRISON'),
            'prisoner_id' => Module::t('labels','PROGRAM_INDIVIDUAL_PRISONER'),
