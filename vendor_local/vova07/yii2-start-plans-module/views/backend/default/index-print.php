@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $prisoner \vova07\users\models\Prisoner
+ * @var $prisonerPlan \vova07\plans\models\PrisonerPlan
  * @var $this \yii\web\View
  * @var $prisonerPrograms
  * @var $prisonerRequirements
@@ -15,8 +15,8 @@ use yii\helpers\Html;
 $this->title =  Module::t('default', 'PLANUL INDIVIDUAL DE EXECUTAREA PEDEPSEI');
 $this->params['subtitle'] = '';
 $this->params['breadcrumbs'][] = [
-        'label'=>$prisoner->person->fio,
-    'url' => ['/users/prisoner/view','id'=>$prisoner->primaryKey]
+        'label'=>$prisonerPlan->person->fio,
+    'url' => ['/users/prisoner/view','id'=>$prisonerPlan->primaryKey]
 
 ];
 $this->params['breadcrumbs'][] = Module::t('default', 'PLANUL INDIVIDUAL ');;
@@ -57,7 +57,7 @@ CSS
      <h1 class="bg-black" align="center">Planul Individual de resocializare a condamnatului adult</h1>
 
 
-    <h3 align="center"><b>N.P.P.</b> <u><?=$prisoner->person->fio?> <?=$prisoner->person->birth_year?></u></h3>
+    <h3 align="center"><b>N.P.P.</b> <u><?=$prisonerPlan->person->fio?> <?=$prisonerPlan->person->birth_year?></u></h3>
 
 
 <?php  $cnt = 0;foreach($programsGroupedByRole as $role=>$programs):?>

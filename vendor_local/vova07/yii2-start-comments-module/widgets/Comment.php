@@ -43,7 +43,7 @@ class Comment extends Widget
                 'action' => ['createComment']
             ]);
             $comment = new \vova07\comments\models\Comment();
-            $comment->item_id = $this->model->primaryKey;
+            $comment->item_id = $this->model->item->primaryKey;
             echo $form->field($comment,'item_id')->hiddenInput()->label(false);
             echo $form->field($comment,'content');
             echo Html::submitButton();

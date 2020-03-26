@@ -195,6 +195,11 @@ class ProgramPrisoner extends  Ownableitem
         return $this->hasOne(Prison::class,['__company_id' => 'prison_id']);
     }
 
+    public function getPlan()
+    {
+        return $this->hasOne(PrisonerPlan::class,['__prisoner_id' => 'prisoner_id']);
+    }
+
     public function getPlannedBy()
     {
         return $this->hasOne(Officer::class,['__person_id' => 'planned_by']);
@@ -301,7 +306,11 @@ class ProgramPrisoner extends  Ownableitem
         }
 
     }
+    public function getItem()
+    {
+        return $this->ownableitem->item;
 
+    }
     public static function mapMarkStyle()
     {
         return [

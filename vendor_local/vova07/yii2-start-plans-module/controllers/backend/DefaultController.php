@@ -2,11 +2,13 @@
 namespace vova07\plans\controllers\backend;
 use http\Url;
 use vova07\base\components\BackendController;
+use vova07\comments\components\CommentCreateAction;
 use vova07\plans\models\backend\EventSearch;
 use vova07\plans\models\backend\ProgramDictSearch;
 use vova07\plans\models\backend\ProgramSearch;
 use vova07\plans\models\Event;
 use vova07\plans\models\EventParticipant;
+use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
 use vova07\plans\models\ProgramDict;
 use vova07\plans\models\ProgramPlan;
@@ -42,16 +44,29 @@ class DefaultController extends BackendController
                 'allow' => true,
                 'actions' => ['index','index-print'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW],
+            ],
+            [
+            'allow' => true,
+            'actions' => ['createComment'],
+            'roles' => [\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_COMMENT_CREATE]
             ]
         ];
         return $behaviors;
     }
+    public function actions()
+    {
+        return [
+            'createComment' => [
+                'class' => CommentCreateAction::class,
 
+            ]
+        ];
+    }
     public function actionIndex($prisoner_id)
     {
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
-        if (!($prisoner = Prisoner::findOne($prisoner_id))){
+        if (!($prisonerPlan = PrisonerPlan::findOne($prisoner_id))){
             throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
         }
 
@@ -59,7 +74,7 @@ class DefaultController extends BackendController
             $newRequirement->prisoner_id = $prisoner_id;
 
             $newProgramPrisoner = new ProgramPrisoner();
-            $newProgramPrisoner->prison_id = $prisoner->prison_id;
+            $newProgramPrisoner->prison_id = $prisonerPlan->prisoner->prison_id;
             $newProgramPrisoner->prisoner_id = $prisoner_id;
             $newProgramPrisoner->status_id = ProgramPrisoner::STATUS_INIT;
 
@@ -69,27 +84,27 @@ class DefaultController extends BackendController
 
 
         $prisonerProgramsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisoner->getPrisonerPrograms(),
+            'query' =>   $prisonerPlan->getPrisonerPrograms(),
             'pagination' => ['pageSize' => 0]
         ]);
             if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
-                    $prisonerPrograms = $prisoner->getPrisonerPrograms()->all();
+                    $prisonerPrograms = $prisonerPlan->getPrisonerPrograms()->all();
 
             else{
-                $prisonerPrograms = $prisoner->getPrisonerPrograms()->ownedBy()->all();
+                $prisonerPrograms = $prisonerPlan->getPrisonerPrograms()->ownedBy()->all();
                 $prisonerProgramsDataProvider->query->ownedBy();
             }
 
         $prisonerRequirementsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisoner->getRequirements(),
+            'query' =>   $prisonerPlan->getRequirements(),
             'pagination' => ['pageSize' => 0]
         ]);
 
         if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING))
-            $prisonerRequirements = $prisoner->getRequirements()->all();
+            $prisonerRequirements = $prisonerPlan->getRequirements()->all();
         else{
             $prisonerRequirementsDataProvider->query->ownedBy();
-            $prisonerRequirements = $prisoner->getRequirements()->ownedBy()->all();
+            $prisonerRequirements = $prisonerPlan->getRequirements()->ownedBy()->all();
         }
 
 
@@ -103,7 +118,7 @@ class DefaultController extends BackendController
         $nextId = isset($searchKeys[$arrayIndex+1])?$searchKeys[$arrayIndex+1]:null;
 
            return $this->render("index", [
-               'prisoner'=>$prisoner ,
+               'prisonerPlan'=>$prisonerPlan ,
                'newRequirement'=>$newRequirement,
                'newProgramPrisoner' => $newProgramPrisoner,
                'prisonerPrograms' => $prisonerPrograms,
@@ -119,12 +134,12 @@ class DefaultController extends BackendController
 
     public function actionIndexPrint($prisoner_id)
     {
-        if (!($prisoner = Prisoner::findOne($prisoner_id))){
+        if (!($prisonerPlan = PrisonerPlan::findOne($prisoner_id))){
             throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
         }
 
         $prisonerProgramsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisoner->getPrisonerPrograms(),
+            'query' =>   $prisonerPlan->getPrisonerPrograms(),
             'pagination' => ['pageSize' => 0]
         ]);
         //if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
@@ -156,7 +171,7 @@ class DefaultController extends BackendController
         }
 
         $prisonerRequirementsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisoner->getRequirements(),
+            'query' =>   $prisonerPlan->getRequirements(),
             'pagination' => ['pageSize' => 0]
         ]);
 
@@ -179,7 +194,7 @@ class DefaultController extends BackendController
 
 
         return $this->render("index-print", [
-            'prisoner'=>$prisoner ,
+            'prisonerPlan'=>$prisonerPlan ,
             'programsGroupedByRole' => $programsGroupedByRole,
         //    'requirementsGroupedByRole' => $requirementsGroupedByRole,
 

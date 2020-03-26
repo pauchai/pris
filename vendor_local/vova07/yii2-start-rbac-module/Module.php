@@ -142,7 +142,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_CONCEPT_VISIT_CREATE = 'BPermissionConceptVisitCreate';
     public const PERMISSION_CONCEPT_VISIT_DELETE = 'BPermissionConceptVisitDelete';
 
-
+    public const PERMISSION_PRISONER_PLAN_COMMENT_CREATE = 'BPermissionPrisonerPlanCommentCreate';
 
     /**
      * @inheritdoc

@@ -73,7 +73,7 @@ class Ownableitem extends Item
     }
     public function getItem()
     {
-        return $this->hasOne(Item::class,['id' => '__item_id']);
+       return $this->hasOne(Item::class,['id' => '__item_id']);
     }
 
     public function getCreatedBy()

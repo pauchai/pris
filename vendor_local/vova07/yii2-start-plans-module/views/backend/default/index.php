@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $prisoner \vova07\users\models\Prisoner
+ * @var $prisonerPlan PrisonerPlan
  * @var $this \yii\web\View
  * @var $prisonerPrograms
  * @var $prisonerRequirements
@@ -16,12 +16,12 @@ use \vova07\plans\models\programPrisoner;
 $this->title =  Module::t('default', 'PLANUL INDIVIDUAL DE EXECUTAREA PEDEPSEI');
 $this->params['subtitle'] = '';
 $this->params['breadcrumbs'][] = [
-        'label'=>$prisoner->person->fio,
-    'url' => ['/users/prisoner/view','id'=>$prisoner->primaryKey]
+        'label'=>$prisonerPlan->person->fio,
+    'url' => ['/users/prisoner/view','id'=>$prisonerPlan->primaryKey]
 
 ];
 $this->params['breadcrumbs'][] = Module::t('default', 'PLANUL INDIVIDUAL ');;
-$printUrlParams['prisoner_id'] = $prisoner->primaryKey;
+$printUrlParams['prisoner_id'] = $prisonerPlan->primaryKey;
 $printUrlParams[0] = 'index-print';
 //$printUrlParams['print']=true;
 ?>
@@ -47,6 +47,18 @@ $printUrlParams[0] = 'index-print';
 );?>
 
 <?php $box->beginBody();?>
+<?php echo \yii\widgets\DetailView::widget(
+        [
+           'model' => $prisonerPlan,
+           'attributes' => [
+                   [
+                           'attribute' => 'status_id',
+                           'format' => 'html',
+                           'value' => \yii\bootstrap\Html::tag('span',$prisonerPlan->status,['class' => 'label label-warning'])
+                   ]
+           ]
+        ]
+)?>
 <?php // echo \vova07\users\widgets\PrisonerInfo::widget(['prisoner'=>$prisoner])?>
 
 
@@ -216,9 +228,8 @@ CSS
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
+<?php echo \vova07\comments\widgets\Comment::widget(['model' => $prisonerPlan])?>
 
-
-<?=$this->render('_comments')?>
 <?php
 
     $programPlanUrl =  \yii\helpers\Url::to(['program-plans/change-year']);

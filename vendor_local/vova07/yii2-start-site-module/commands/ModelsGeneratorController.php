@@ -27,6 +27,7 @@ use vova07\jobs\models\JobPaid;
 use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
 use vova07\jobs\models\WorkDay;
+use vova07\plans\models\PrisonerPlan;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyRiskQuery;
@@ -149,8 +150,12 @@ class ModelsGeneratorController extends \yii\console\Controller
             ConceptParticipant::class,
             ConceptClass::class,
             ConceptVisit::class,
-*/
+//
+
             PsyTest::class,
+
+*/
+            PrisonerPlan::class,
 
         ];
     }

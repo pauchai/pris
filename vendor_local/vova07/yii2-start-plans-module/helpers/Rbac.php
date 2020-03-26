@@ -61,6 +61,8 @@ class Rbac
 
        $permissions = [
            Module::PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE,
+           Module::PERMISSION_PRISONER_PLAN_COMMENT_CREATE,
+
 
        ];
 
