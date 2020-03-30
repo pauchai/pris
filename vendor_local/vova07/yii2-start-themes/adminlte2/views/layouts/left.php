@@ -170,6 +170,8 @@ use vova07\site\Module;
 
                             ['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','SUMMARIZED_LIST'),'icon' => 'circle','url'=>['/plans/summarized/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
 
 
                         ]

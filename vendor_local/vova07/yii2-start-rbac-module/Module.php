@@ -144,6 +144,7 @@ class Module extends \vova07\base\components\Module
 
     public const PERMISSION_PRISONER_PLAN_COMMENT_CREATE = 'BPermissionPrisonerPlanCommentCreate';
 
+    public const PERMISSION_PROGRAMS_SUMMARIZED_LIST  = 'BPermissionProgramsSummarizedList';
     /**
      * @inheritdoc
      */

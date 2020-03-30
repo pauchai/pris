@@ -20,6 +20,7 @@ class Rbac
        // Permissions
        $permissions = [
            Module::PERMISSION_PRISONER_PLAN_VIEW,
+           Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST
 
        ];
 
