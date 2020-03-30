@@ -9,6 +9,7 @@
 namespace vova07\documents\models;
 
 
+use vova07\users\models\Prisoner;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\db\ExpressionBuilder;
@@ -37,5 +38,12 @@ class DocumentQuery extends ActiveQuery
         return $this->andWhere([
             'person_id' => $personId,
         ]);
+    }
+    public function activePrisoners()
+    {
+        $subQuery = Prisoner::find()->select('__person_id')->active();
+        $this->andWhere(
+            ['person_id' => $subQuery]
+        );
     }
 }

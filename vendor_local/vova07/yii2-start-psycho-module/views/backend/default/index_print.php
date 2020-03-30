@@ -180,26 +180,6 @@ $this->params['breadcrumbs'] = [
         ],
 
 
-        [
-            'class' => \kartik\grid\ActionColumn::class,
-            'template' => '{update}',
-            'buttons' => [
-                'update' => function ($url, $model, $key) {
-                    if ($model->characteristic){
-                        return \yii\helpers\Html::a('<span class="glyphicon glyphicon-edit"></span>', ['update','person_id' => $key], [
-                            'title' => \vova07\prisons\Module::t('default', 'UPDATE'),
-                            'data-pjax' => '0',
-                        ]);
-                    } else {
-                        return \yii\helpers\Html::a('<span class="glyphicon glyphicon-plus"></span>', ['create','person_id' => $key], [
-                            'title' => \vova07\prisons\Module::t('default', 'CREATE'),
-                            'data-pjax' => '0',
-                        ]);
-                    }
-
-                },
-            ],
-        ],
     ],
 
     'beforeHeader' => [

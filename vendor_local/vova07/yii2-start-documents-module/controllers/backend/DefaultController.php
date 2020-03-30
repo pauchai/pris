@@ -60,6 +60,7 @@ class DefaultController extends BackendController
         $searchModel = new DocumentSearch();
         $searchModel->status_id = DocumentSearch::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->activePrisoners();
         if ($this->isPrintVersion)
                 $dataProvider->pagination = false;
 
