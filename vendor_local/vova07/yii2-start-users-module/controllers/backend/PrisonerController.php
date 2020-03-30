@@ -136,7 +136,13 @@ class PrisonerController extends BackendController
     {
         $searchModel = new PrisonerSearch();
         $searchModel->prison_id = Company::findOne(['alias' => Company::PRISON_PU1])->__ownableitem_id;
+
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+
+        $dataProvider->query->active();
+
+        if ($this->isPrintVersion)
+        $dataProvider->pagination = false;
 
         $dataProvider->query->orderBy('prison_id, sector_id, cell_id');
 
