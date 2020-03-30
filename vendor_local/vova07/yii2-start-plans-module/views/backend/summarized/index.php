@@ -50,30 +50,37 @@ $this->params['breadcrumbs'] = [
             //'format' => ['date','php:D Y-m-d'],
         ],
         [
-            'header' => 'Educator nr act',
+            'header' => 'nr act',
             'content' => function($model){return $model->getEducatorActivitationsCount();}
         ],
         [
-            'header' => 'Educator nr cond',
+            'header' => 'nr cond',
             'content' => function($model){return $model->getEducatorParticipantsCount();}
         ],
 
         [
-            'header' => 'Psychologist nr act',
+            'header' => 'nr act',
             'content' => function($model){return $model->getPsychologistActivitationsCount();}
         ],
         [
-            'header' => 'Psychologist nr cond',
+            'header' => 'nr cond',
             'content' => function($model){return $model->getPsychologistParticipantsCount();}
         ],
 
         [
-            'header' => 'Sociologist nr act',
+            'header' => 'nr act',
             'content' => function($model){return $model->getSociologistActivitationsCount();}
         ],
         [
-            'header' => 'Sociologist nr cond',
+            'header' => 'nr cond',
             'content' => function($model){return $model->getSociologistParticipantsCount();}
+        ],
+        [
+            'header' => 'nr cond',
+            'content' => function($model){return  $model->getEducatorParticipantsCount() +
+                    $model->getPsychologistActivitationsCount() +
+                    $model->getSociologistParticipantsCount();
+            }
         ],
 
     ],
@@ -101,6 +108,14 @@ $this->params['breadcrumbs'] = [
 
                 [
                     'content' =>   Module::t('labels','SOCIOLOGIST_TITLE'),
+                    'options' => [
+                        'colspan' => 2,
+                        'style' => 'text-align:center',
+
+                    ]
+                ],
+                [
+                    'content' =>   Module::t('labels','TOTAL'),
                     'options' => [
                         'colspan' => 2,
                         'style' => 'text-align:center',

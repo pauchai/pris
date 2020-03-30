@@ -24,6 +24,13 @@ use yii\bootstrap\Html;
             ]);
             ?>
         </div>
+        <div class="col-sm-4">
+            <?= $form->field($model, 'atToJui')->widget(\kartik\widgets\DatePicker::class,[
+                'options' => ['autocomplete'=>'off'],
+
+            ]);
+            ?>
+        </div>
 
 
     </div>
