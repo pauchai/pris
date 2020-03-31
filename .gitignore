@@ -54,3 +54,5 @@ composer.lock
 /backend/web/statics
 /backend/web/statics/videos
 /home/pauk/PhpstormProjects/prisons/vendor_local/vova07/yii2-start-rbac-module/data
+
+prisons*.sql

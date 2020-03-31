@@ -64,6 +64,9 @@ class PrisonerPlan extends  Ownableitem
                 'date_finished' => $migration->bigInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
             ],
+            'dependsOn' => [
+                Prisoner::class
+            ],
             'index' => [
                 [self::class,['status_id']]
             ],

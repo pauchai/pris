@@ -31,7 +31,7 @@ class m200325_130052_prisonerPlan extends Migration
             };
 
         }
-        //$this->dropForeignKey('fk_program_prisoner2041663612', \vova07\plans\models\ProgramPrisoner::tableName());
+        $this->dropForeignKey('fk_program_prisoner2041663612', \vova07\plans\models\ProgramPrisoner::tableName());
         $this->addForeignKey('fk_program_prisoner_prisoner_id',\vova07\plans\models\ProgramPrisoner::tableName(), 'prisoner_id', \vova07\plans\models\PrisonerPlan::tableName(), '__prisoner_id'  );
 
         foreach (\vova07\plans\models\Requirement::find()->all() as $requirements)
@@ -60,6 +60,15 @@ class m200325_130052_prisonerPlan extends Migration
      */
     public function safeDown()
     {
+
+        $this->dropForeignKey('fk_program_prisoner_prisoner_id', \vova07\plans\models\ProgramPrisoner::tableName());
+        $this->addForeignKey('fk_program_prisoner2041663612',\vova07\plans\models\ProgramPrisoner::tableName(), 'prisoner_id', \vova07\users\models\Prisoner::tableName(), '__prisoner_id'  );
+
+        $this->dropForeignKey('fk_requirement_prisoner_id', \vova07\plans\models\Requirement::tableName());
+        $this->addForeignKey('fk_requirement2041663612',\vova07\plans\models\Requirement::tableName(), 'prisoner_id', \vova07\users\models\Prisoner::tableName(), '__prisoner_id'  );
+
+        $this->truncateTable(\vova07\plans\models\PrisonerPlan::tableName());
+
 
 
         return true;

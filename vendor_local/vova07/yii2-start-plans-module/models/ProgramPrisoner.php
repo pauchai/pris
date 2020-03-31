@@ -96,7 +96,7 @@ class ProgramPrisoner extends  Ownableitem
 
                 [self::class, 'prison_id',Prison::class,Prison::primaryKey()],
                 [self::class, 'programdict_id',ProgramDict::class,ProgramDict::primaryKey()],
-                [self::class, 'prisoner_id',Prisoner::class,Prisoner::primaryKey()],
+                [self::class, 'prisoner_id',PrisonerPlan::class,PrisonerPlan::primaryKey()],
                 [self::class, 'planned_by',Officer::class,Officer::primaryKey()],
             ],
 

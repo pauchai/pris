@@ -56,7 +56,7 @@ class Requirement extends  Ownableitem
 
 
             'foreignKeys' => [
-                [self::class, 'prisoner_id',Prisoner::class, Prisoner::primaryKey()],
+                [self::class, 'prisoner_id',PrisonerPlan::class, PrisonerPlan::primaryKey()],
 
             ],
 

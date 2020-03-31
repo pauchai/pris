@@ -20,6 +20,7 @@ use vova07\concepts\models\ConceptParticipant;
 use vova07\countries\models\Country;
 
 use vova07\finances\models\Balance;
+use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
 use vova07\plans\models\ProgramPlan;
 use vova07\plans\models\ProgramPrisoner;
@@ -332,6 +333,11 @@ class Prisoner extends  OwnableItem
     public function getPrisonerSecurity()
     {
         return $this->hasOne(PrisonerSecurity::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getPrisonerPlan()
+    {
+        return $this->hasOne(PrisonerPlan::class,['__prisoner_id' => '__person_id']);
     }
 
     public function afterSave($insert, $changedAttributes)
