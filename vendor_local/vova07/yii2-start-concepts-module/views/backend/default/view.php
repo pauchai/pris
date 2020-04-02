@@ -75,7 +75,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <?php foreach ($model->classes as $classModel):?>
    <?php $gridColumns[] = [
-            'header' => Yii::$app->formatter->asDate($classModel->at,'mm/dd') . ' ' . Yii::$app->formatter->asDate($classModel->at,'Y'),
+            'header' => Yii::$app->formatter->asDate($classModel->at,'d/MM') . ' ' . Yii::$app->formatter->asDate($classModel->at,'Y'),
         'content' => function($model)use($classModel){
             $conceptVisit = ConceptVisit::findOne([
                 'class_id'=>$classModel->primaryKey,

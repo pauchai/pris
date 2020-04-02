@@ -8,6 +8,9 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 
+/**
+ * @var $model \vova07\plans\models\SummarizedModel
+ */
 use kartik\grid\GridView;
 use \vova07\plans\Module;
 $this->title = \vova07\plans\Module::t("default","SUMMARIZED_VIEW");

@@ -25,7 +25,7 @@ class ProgramVisitQuery extends ActiveQuery
 
     public function presented()
     {
-        $this->andWhere(['status_id'=>ProgramVisit::STATUS_PRESENT]);
+        $this->andWhere(['program_visits.status_id'=>ProgramVisit::STATUS_PRESENT]);
         return $this;
     }
     public function doesntPresented()

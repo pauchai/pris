@@ -12,8 +12,10 @@ namespace vova07\plans\models;
 
 
 use vova07\concepts\models\Concept;
+use vova07\concepts\models\ConceptClass;
 use vova07\events\models\Event;
 use vova07\plans\components\SummarizedDataProvider;
+use vova07\plans\controllers\backend\ProgramVisitsController;
 use vova07\rbac\Module;
 use vova07\users\models\User;
 use yii\base\Model;
@@ -40,46 +42,46 @@ class SummarizedModel extends  Model
     public function getEducatorActivitationsCount()
     {
         return $this->getEventsByRoles(self::$educatorRoles)->count() +
-            $this->getProgramsByRoles(self::$educatorRoles)->count() +
-           $this->getConceptsByRoles(self::$educatorRoles)->count();
+            $this->getProgramsVisitsDistinctsProgramByRoles(self::$educatorRoles)->count() +
+           $this->getConceptClassesByRoles(self::$educatorRoles)->count();
 
     }
 
     public function getEducatorParticipantsCount()
     {
         return $this->getEventsParticipantsByRoles(self::$educatorRoles)+
-            $this->getProgramVisitsByRoles(self::$educatorRoles) +
-            $this->getConceptParticipantsByRoles(self::$educatorRoles);
+            $this->getProgramVisitsByRoles(self::$educatorRoles)->count() +
+            $this->getConceptClassesVisitsByRoles(self::$educatorRoles);
     }
 
     public function getSociologistActivitationsCount()
     {
         return $this->getEventsByRoles(self::$sociologistRoles)->count() +
-            $this->getProgramsByRoles(self::$sociologistRoles)->count() +
-            $this->getConceptsByRoles(self::$sociologistRoles)->count();
+            $this->getProgramsVisitsDistinctsProgramByRoles(self::$sociologistRoles)->count() +
+            $this->getConceptClassesByRoles(self::$sociologistRoles)->count();
 
     }
 
     public function getSociologistParticipantsCount()
     {
         return $this->getEventsParticipantsByRoles(self::$sociologistRoles)+
-            $this->getProgramVisitsByRoles(self::$sociologistRoles) +
-            $this->getConceptParticipantsByRoles(self::$sociologistRoles);
+            $this->getProgramVisitsByRoles(self::$sociologistRoles)->count() +
+            $this->getConceptClassesVisitsByRoles(self::$sociologistRoles);
     }
 
     public function getPsychologistActivitationsCount()
     {
         return $this->getEventsByRoles(self::$psychologistRoles)->count() +
-            $this->getProgramsByRoles(self::$psychologistRoles)->count() +
-            $this->getConceptsByRoles(self::$psychologistRoles)->count();
+            $this->getProgramsVisitsDistinctsProgramByRoles(self::$psychologistRoles)->count() +
+            $this->getConceptClassesByRoles(self::$psychologistRoles)->count();
 
     }
 
     public function getPsychologistParticipantsCount()
     {
         return $this->getEventsParticipantsByRoles(self::$psychologistRoles)+
-            $this->getProgramVisitsByRoles(self::$psychologistRoles) +
-            $this->getConceptParticipantsByRoles(self::$psychologistRoles);
+            $this->getProgramVisitsByRoles(self::$psychologistRoles)->count() +
+            $this->getConceptClassesVisitsByRoles(self::$psychologistRoles);
     }
 
 //Events
@@ -118,13 +120,9 @@ class SummarizedModel extends  Model
     }
 
     //Programs
-    public function getProgramsByRoles($roles)
+    public function getProgramsVisitsDistinctsProgramByRoles($roles)
     {
-       return Program::find()->andWhere([
-                'assigned_to' => $this->getUserIdsByRolesQuery($roles),
-            ]
-        )->andWhere(
-            ['date_start' => $this->at  ]);
+       return $this->getProgramVisitsByRoles($roles)->select(['program_prisoners.program_id'])->distinct();
 
 
     }
@@ -133,45 +131,40 @@ class SummarizedModel extends  Model
 
     public function getProgramVisitsByRoles($roles)
     {
-        $cnt = 0;
-
-        foreach ($this->getProgramsByRoles($roles)->all() as $program)
-        {
-            /**
-             * @var $program Program
-             */
-            $cnt += $program->getProgramVisits()->presented()->count();
-        }
-        return $cnt;
+        return ProgramVisit::find()->joinWith('programPrisoner')->joinWith('programPrisoner.program')->andWhere([
+                'programs.assigned_to' => $this->getUserIdsByRolesQuery($roles),
+            ]
+        )->presented()->andWhere(['program_visits.date_visit' => $this->at]);
     }
 
     //Concepts
-    public function getConceptsByRoles($roles)
+    public function getConceptClassesByRoles($roles)
     {
         $dateStartFrom = \DateTime::createFromFormat($this->format,$this->at)->setTime(0,0,0);
         $dateStartTo = (clone $dateStartFrom)->add(new \DateInterval('PT24H'));
 
-        return Concept::find()->andWhere([
-           'assigned_to' => $this->getUserIdsByRolesQuery($roles)
+        return ConceptClass::find()->joinWith('concept')->
+            andWhere([
+           'concepts.assigned_to' => $this->getUserIdsByRolesQuery($roles)
         ])->andWhere(
-            ['>=', 'date_start', $dateStartFrom->getTimestamp()  ]
+            ['>=', 'at', $dateStartFrom->getTimestamp()  ]
         )->andWhere(
-            ['<=', 'date_start', $dateStartTo->getTimestamp()  ]
+            ['<=', 'at', $dateStartTo->getTimestamp()  ]
         );
     }
 
-    public function getConceptParticipantsByRoles($roles)
+    public function getConceptClassesVisitsByRoles($roles)
     {
         $cnt = 0;
         /**
-         * @var $concept Concept
+         * @var $conceptClass ConceptClass
          */
-        foreach ($this->getConceptsByRoles($roles)->all() as $concept)
+        foreach ($this->getConceptClassesByRoles($roles)->all() as $conceptClass)
         {
             /**
              * @var $program Program
              */
-            $cnt += $concept->getParticipants()->count();
+            $cnt += $conceptClass->getVisits()->presented()->count();
         }
         return $cnt;
     }

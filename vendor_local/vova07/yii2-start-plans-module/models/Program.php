@@ -197,6 +197,7 @@ class Program extends  Ownableitem
         return ProgramVisit::find()->where(['program_prisoner_id'=>$programPrisonerSubQuery]);
     }
 
+
     public function getAssignedTo()
     {
         return $this->hasOne(Officer::class,['__person_id' => 'assigned_to']);

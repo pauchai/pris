@@ -115,7 +115,12 @@ class ConceptClass extends  Ownableitem
 
     public function getConcept()
     {
-        return $this->hasOne(ConceptVisit::class, ['__ownableitem_id' => 'concept_id']);
+        return $this->hasOne(Concept::class, ['__ownableitem_id' => 'concept_id']);
+    }
+
+    public function getVisits()
+    {
+        return $this->hasMany(ConceptVisit::class, ['class_id' => '__ownableitem_id' ]);
     }
 
 
