@@ -6,6 +6,7 @@ use vova07\prisons\models\Prison;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyTest;
 use vova07\psycho\models\PsyTestQuery;
+use vova07\psycho\Module;
 use vova07\users\models\Prisoner;
 use yii\db\Expression;
 use yii\db\Query;
@@ -23,7 +24,7 @@ class PrisonerTestSearch extends \vova07\users\models\backend\PrisonerViewSearch
     const HASTEST_WITH_TEST = 1;
     const HASTEST_WITHOUT_TEST = 2;
 
-    public $hasTest = self::HASTEST_WITH_TEST;
+    public $hasTest ;
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(),[
@@ -93,8 +94,8 @@ class PrisonerTestSearch extends \vova07\users\models\backend\PrisonerViewSearch
     public static function getHasTestFilter()
     {
         return [
-            self::HASTEST_WITH_TEST => 'has tests',
-            self::HASTEST_WITHOUT_TEST => 'has not tests',
+            self::HASTEST_WITH_TEST => Module::t('default', 'HASTEST_WITH_TEST'),
+            self::HASTEST_WITHOUT_TEST => Module::t('default', 'HASTEST_WITHOUT_TEST'),
 
         ];
     }

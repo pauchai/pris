@@ -26,12 +26,13 @@ $printUrlParams[0] = 'index-print';
 //$printUrlParams['print']=true;
 ?>
 
+
 <?php echo Html::a('prev', \yii\helpers\Url::current(['prisoner_id' => $prevPrisonerId]));?>  |
 <?php echo Html::a('next', \yii\helpers\Url::current(['prisoner_id' => $nextPrisonerId]));?>
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{print}{update}{delete}',
+        'buttonsTemplate' => '{print}{update}',
         'buttons'=>[
             'print' => [
                 'url' => $printUrlParams,
@@ -42,6 +43,16 @@ $printUrlParams[0] = 'index-print';
 
                 ]
             ],
+            'update' => [
+                'url' => ['update', 'prisoner_id' => $prisonerPlan->primaryKey],
+                'icon' => 'fa-edit',
+                'options' => [
+                    'class' => 'btn-default',
+                    'title' => Yii::t('vova07/themes/adminlte2/widgets/box', 'PRINT'),
+
+                ]
+            ],
+
         ]
     ]
 );?>

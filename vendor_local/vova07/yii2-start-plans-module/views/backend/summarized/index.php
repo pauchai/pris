@@ -81,7 +81,7 @@ $this->params['breadcrumbs'] = [
         [
             'header' => 'nr cond',
             'content' => function($model){return  $model->getEducatorParticipantsCount() +
-                    $model->getPsychologistActivitationsCount() +
+                    $model->getPsychologistParticipantsCount() +
                     $model->getSociologistParticipantsCount();
             }
         ],

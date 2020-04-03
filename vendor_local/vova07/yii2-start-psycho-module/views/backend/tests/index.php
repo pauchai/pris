@@ -69,7 +69,7 @@ $this->params['breadcrumbs'] = [
 
         [
             'attribute' =>         'hasTest',
-            'header' => 'tests',
+            'header' =>  Module::t('default', 'FILTER_HEADER'),
             'format'=> 'html',
             'content' => function($model)use($testSearch){
                     $content = \yii\bootstrap\Html::a('',['create','prisoner_id'=>$model->primaryKey],['class' => 'fa fa-plus']);

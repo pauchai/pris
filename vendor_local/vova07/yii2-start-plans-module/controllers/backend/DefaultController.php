@@ -42,7 +42,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','index-print'],
+                'actions' => ['index','index-print', 'create', 'update'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW],
             ],
             [
@@ -67,7 +67,8 @@ class DefaultController extends BackendController
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
         if (!($prisonerPlan = PrisonerPlan::findOne($prisoner_id))){
-            throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
+            //throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
+           return $this->redirect(['create','prisoner_id' => $prisoner_id]);
         }
 
             $newRequirement = new Requirement();
@@ -199,6 +200,34 @@ class DefaultController extends BackendController
         //    'requirementsGroupedByRole' => $requirementsGroupedByRole,
 
         ]);
+    }
+
+    public function actionCreate($prisoner_id)
+    {
+        $model = new PrisonerPlan([
+            '__prisoner_id' => $prisoner_id,
+            'status_id' => PrisonerPlan::STATUS_ACTIVE,
+        ]);
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate() && $model->save()){
+                return $this->goBack();
+            }
+        }
+
+        return $this->render('create', ['model' => $model]);
+    }
+    public function actionUpdate($prisoner_id)
+    {
+        $model =  PrisonerPlan::findOne($prisoner_id);
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate() && $model->save()){
+                return $this->goBack();
+            }
+        }
+
+        return $this->render('update', ['model' => $model]);
     }
 
 
