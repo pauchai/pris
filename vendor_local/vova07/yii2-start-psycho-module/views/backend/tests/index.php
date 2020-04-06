@@ -74,8 +74,15 @@ $this->params['breadcrumbs'] = [
             'content' => function($model)use($testSearch){
                     $content = \yii\bootstrap\Html::a('',['create','prisoner_id'=>$model->primaryKey],['class' => 'fa fa-plus']);
                     foreach ($model->getTests()->fromTo($testSearch->atFrom, $testSearch->atTo)->all() as $key=>$test){
-                        $content .= ' ' . \yii\bootstrap\Html::a(' ' . $test->atJui, ['delete','id'=>$test->primaryKey] ,['class' => 'label label-danger fa fa-trash']);
-                    }
+                        $buttonOptions = [
+                            'title' => $test->atJui,
+                            'aria-label' => $test->atJui,
+                            'data-pjax' => '0',
+                            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                            'data-method' => 'post',
+                            'class' => 'label label-danger fa fa-trash'
+                        ];
+                        $content .= ' ' . \yii\bootstrap\Html::a( $test->atJui, ['delete','id'=>$test->primaryKey] ,$buttonOptions);                    }
 
 
 

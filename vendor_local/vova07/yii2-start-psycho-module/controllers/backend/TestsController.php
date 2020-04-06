@@ -18,6 +18,7 @@ use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyTest;
 use vova07\psycho\Module;
 use vova07\users\models\backend\PrisonerViewSearch;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
@@ -31,8 +32,16 @@ class TestsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index' ,'create', 'update', 'delete'],
+                'actions' => ['index' ],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_TESTS],
+
+
+            ],
+            [
+                'allow' => true,
+                'actions' => ['create', 'update', 'delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_TESTS],
+                'verbs' => ['POST']
             ],
 
         ];
