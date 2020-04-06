@@ -80,7 +80,7 @@ $this->params['breadcrumbs'] = [
                             'data-pjax' => '0',
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                             'data-method' => 'post',
-                            'class' => 'label label-danger fa fa-trash'
+                            'class' => 'label label-' . $test->getStatusGlyph(). ' fa fa-trash'
                         ];
                         $content .= ' ' . \yii\bootstrap\Html::a( $test->atJui, ['delete','id'=>$test->primaryKey] ,$buttonOptions);                    }
 

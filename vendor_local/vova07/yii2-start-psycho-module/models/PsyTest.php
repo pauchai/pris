@@ -33,6 +33,13 @@ class PsyTest extends  Ownableitem
 {
 
 
+    const STATUS_GREEN = 'success';
+    const STATUS_BLUE = 'info';
+    const STATUS_RED = 'danger';
+
+    const LIMIT_MONTHS_GREEN = 11;
+    const LIMIT_MONTHS_BLUE = 12;
+
 
     public static function tableName()
     {
@@ -122,6 +129,23 @@ class PsyTest extends  Ownableitem
         return $this->prisoner->person->fio;
     }
 
+    public function getStatusGlyph()
+    {
+
+            $dateTime =  \DateTime::createFromFormat('Y-m-d', $this->at);
+            $dateDiff = $dateTime->diff(new \DateTime());
+
+            $diffMonths = $dateDiff->m + $dateDiff->y * 12;
+            if ( $diffMonths <= self::LIMIT_MONTHS_GREEN )
+                $res = self::STATUS_GREEN;
+            elseif ( $diffMonths > self::LIMIT_MONTHS_GREEN && $diffMonths <= self::LIMIT_MONTHS_BLUE)
+                $res = self::STATUS_BLUE;
+            elseif ( $diffMonths > self::LIMIT_MONTHS_BLUE)
+                $res = self::STATUS_RED;
+
+            return $res;
+
+     }
 
 
 }

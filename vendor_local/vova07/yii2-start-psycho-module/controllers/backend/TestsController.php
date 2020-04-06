@@ -32,14 +32,14 @@ class TestsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index' ],
+                'actions' => ['index', 'create', 'update'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_TESTS],
 
 
             ],
             [
                 'allow' => true,
-                'actions' => ['create', 'update', 'delete'],
+                'actions' => ['delete'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_TESTS],
                 'verbs' => ['POST']
             ],

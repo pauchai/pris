@@ -10,6 +10,7 @@ namespace vova07\concepts\models;
 
 
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 class ConceptQuery extends ActiveQuery
 {

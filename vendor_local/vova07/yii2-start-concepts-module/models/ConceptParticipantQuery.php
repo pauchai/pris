@@ -11,6 +11,7 @@ namespace vova07\concepts\models;
 
 use vova07\users\models\Person;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 use yii\db\Query;
 
 class ConceptParticipantQuery extends ActiveQuery
@@ -23,6 +24,11 @@ class ConceptParticipantQuery extends ActiveQuery
          */
         $this->joinWith(['person' => function($query){ $query->from(['person' => Person::tableName()]); }])->orderBy('person.second_name');
         return $this;
+    }
+
+    public function hasConcept()
+    {
+        return $this->andWhere(new Expression('isnull(concept_id)'));
     }
 
 }
