@@ -37,6 +37,7 @@ class EventSearch extends Event
             [['dateStartFromJui', 'dateStartToJui'],'string'],
             [['title'],'string'],
             [['category_id','status_id'] , 'integer'],
+            [['status_id'],'default', 'value' => self::STATUS_PLANING]
         ];
     }
     public function search($params)
@@ -53,7 +54,10 @@ class EventSearch extends Event
                 'date_start' => SORT_ASC,
             ]
         ];
-        if ($this->load($params) && $this->validate()){
+        $this->load($params);
+        $this->validate();
+
+
             $dataProvider->query->andFilterWhere([
                 'category_id' => $this->category_id,
                 'status_id' => $this->status_id,
@@ -69,7 +73,7 @@ class EventSearch extends Event
                 ['<=', 'date_start', $this->dateStartTo  ]
             );
 
-        }
+
 
         return $dataProvider;
 
