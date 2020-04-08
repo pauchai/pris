@@ -3,6 +3,8 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\jobs\Module;
 use kartik\grid\GridView;
+use vova07\jobs\models\backend\JobNormalizedViewDaysSearch;
+
 //use yii\grid\GridView;
 /**
  * @var $this \yii\web\View
@@ -105,6 +107,22 @@ $columns[] = [
 ?>
 <?php echo $this->render('_search', ['model' => $searchModel])?>
 
+<?php
+    if ($searchModel['year']){
+        $searchJobNormilizedDays = new JobNormalizedViewDaysSearch();
+        $searchJobNormilizedDays->atFromJui = (new DateTime())->setDate($searchModel['year'], 1,1)->format('d-m-Y');
+        $searchJobNormilizedDays->atToJui = (new DateTime())->format('d-m-Y');
+
+        echo Html::a(
+            Module::t('default','SUMMARIZED_JOBS_INFO'),
+            ['summarized',
+                'JobNormalizedViewDaysSearch[atFromJui]' => $searchJobNormilizedDays->atFromJui,
+                'JobNormalizedViewDaysSearch[atToJui]' => $searchJobNormilizedDays->atToJui
+            ]
+        );
+    }
+
+?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
