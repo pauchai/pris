@@ -31,7 +31,7 @@ class ProgramPrisonerQuery extends ActiveQuery
     }
     public function hasProgram()
     {
-        return $this->andWhere('not(program_id  is null)');
+        return $this->andWhere('not isnull(program_id )');
     }
 
     public function forPrisonersActiveAndEtapped()

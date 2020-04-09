@@ -37,7 +37,14 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-
+<?php
+    $archiveUrl = [
+        'prisoner_id' => $searchModel['prisoner_id'],
+        'prisoner.status_id' => $searchModel['prisoner.status_id'],
+    ];
+    $archiveUrl[0] = '/finances/balance/print-archive';
+    echo Html::a('ARCHIVE', $archiveUrl);
+?>
 <?php
     $gridColumns  = [
         ['class' => SerialColumn::class],

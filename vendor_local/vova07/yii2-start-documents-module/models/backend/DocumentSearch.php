@@ -31,16 +31,26 @@ class DocumentSearch extends \vova07\documents\models\Document
     public function behaviors()
     {
         return [
-            'dateIssueJui'=>[
+            'issuedFromJui'=>[
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'issuedFrom',
                 'juiAttribute' => 'issuedFromJui'
             ],
-            'dateExpirationJui'=>[
+            'issuedToJui'=>[
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'issuedTo',
                 'juiAttribute' => 'issuedToJui',
               //  'dateFormat' => 'dd-mm-yyyy'
+            ],
+            'dateIssueJui'=>[
+                'class' => DateJuiBehavior::className(),
+                'attribute' => 'date_issue',
+                'juiAttribute' => 'dateIssueJui'
+            ],
+            'dateExpirationJui'=>[
+                'class' => DateJuiBehavior::className(),
+                'attribute' => 'date_expiration',
+                'juiAttribute' => 'dateExpirationJui'
             ]
         ];
     }

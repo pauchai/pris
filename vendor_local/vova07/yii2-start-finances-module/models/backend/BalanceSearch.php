@@ -42,12 +42,11 @@ class BalanceSearch extends Balance
                 'type_id' => $this->type_id,
                 'category_id' => $this->category_id,
                 'prisoner_id' => $this->prisoner_id,
-                'reason' => $this->reason,
                 'at' => $this->at,
-
-
-
             ]
+        );
+        $query->andFilterWhere(
+            ['like', 'reason' , $this->reason]
         );
 
         return $dataProvider;

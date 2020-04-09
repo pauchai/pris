@@ -49,7 +49,7 @@ class ProgramsController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->query->orderBy('status_id');
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
-        return $this->render("index", ['dataProvider'=>$dataProvider]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
     }
 
     public function actionCreate()

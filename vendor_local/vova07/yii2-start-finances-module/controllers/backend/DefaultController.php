@@ -4,6 +4,7 @@ use vova07\base\components\BackendController;
 use vova07\finances\models\backend\BalanceByPrisonerViewSearch;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
+use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
 use vova07\finances\Module;
 use vova07\users\models\Prisoner;
@@ -46,12 +47,16 @@ class DefaultController extends BackendController
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
     }
 
+
+
     public function actionView($id)
     {
         if (is_null($model = Prisoner::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t("PRISONER_NOT_FOUND"));
         };
+        $searchModel = new BalanceSearch;
+
         $dataProvider = new ActiveDataProvider([
             'query' => $model->getBalances(),
         ]);

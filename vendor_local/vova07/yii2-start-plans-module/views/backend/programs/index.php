@@ -28,6 +28,7 @@ $this->params['breadcrumbs'] = [
 );?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'programDict.title',
@@ -55,7 +56,9 @@ $this->params['breadcrumbs'] = [
                         return \yii\bootstrap\Html::tag('span', $model->status,[
                             'class' => 'label label-default'
                         ]);
-            }
+            },
+            'filter' => \vova07\plans\models\Program::getStatusesForCombo(),
+
         ],
 
         [

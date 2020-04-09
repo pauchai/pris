@@ -9,6 +9,9 @@ use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
 use vova07\rbac\Module;
+use yii\data\SqlDataProvider;
+use yii\db\Expression;
+use yii\db\Query;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -31,7 +34,7 @@ class BalanceController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','print-receipt','delete'],
+                'actions' => ['index','print-receipt','delete', 'print-archive'],
                 'roles' => [Module::PERMISSION_FINANCES_ACCESS]
             ]
         ];
@@ -74,6 +77,41 @@ class BalanceController extends BackendController
 
 
 
+    }
+
+    public function actionPrintArchive()
+    {
+        $query =  (new Query())->select(
+            [
+                'b1.prisoner_id',
+                'debit' => new \yii\db\Expression('ifnull(CASE WHEN b1.type_id=' . Balance::TYPE_DEBIT. ' THEN b1.amount END, 0)'),
+                'credit' => new \yii\db\Expression('ifnull(CASE WHEN b1.type_id=' . Balance::TYPE_CREDIT. ' THEN b1.amount END, 0)'),
+                'b1.at',
+                'b1.reason',
+                'fio' => new Expression("concat(person.second_name, ' ' , person.first_name , ' ', person.patronymic, ' ' , person.birth_year )"),
+
+
+            ]
+        )->leftJoin('person','person.__ident_id = b1.prisoner_id')
+            ->leftJoin('prisoner','prisoner.__person_id = b1.prisoner_id')
+        ->from(['b1' => Balance::tableName()])
+            ->orderBy('person.second_name, person.first_name, person.patronymic, person.birth_year, b1.at')
+        ->andFilterWhere([
+            'prisoner.status_id' => \Yii::$app->request->get('prisoner_status_id'),
+            'prisoner_id' => \Yii::$app->request->get('prisoner_id')
+        ]);
+
+
+
+        list($sql, $params) = \Yii::$app->db->getQueryBuilder()->build($query);
+         $dataProvider = new SqlDataProvider([
+            'sql' => $sql,
+            'params' => $params,
+        ]);
+         $dataProvider->pagination = false;
+
+
+         return $this->render('print-archive', ['dataProvider' => $dataProvider]);
     }
 
     public function actionDelete($id)

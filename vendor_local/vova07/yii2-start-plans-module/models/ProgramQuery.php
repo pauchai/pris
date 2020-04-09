@@ -14,6 +14,9 @@ use yii\db\ActiveQuery;
 class ProgramQuery extends ActiveQuery
 {
 
-
+    public function active()
+    {
+        return $this->andWhere(['status_id' => Program::STATUS_ACTIVE]);
+    }
 
 }

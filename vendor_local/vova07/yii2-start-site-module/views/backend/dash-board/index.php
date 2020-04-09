@@ -11,6 +11,7 @@ use vova07\users\models\Prisoner;
 use vova07\documents\models\Document;
 use vova07\plans\models\ProgramPrisoner;
 use vova07\prisons\models\PrisonerSecurity;
+use vova07\plans\models\Program;
 ?>
 
 
@@ -39,12 +40,12 @@ use vova07\prisons\models\PrisonerSecurity;
             $documentSearchModel = new \vova07\documents\models\backend\DocumentSearch;
             $infoContent = '';
             $infoContent =  Html::a(
-                Document::find()->count(),
+                Document::find()->activePrisoners()->count(),
                 ['/documents/default/index']
             );
             $infoContent .= Html::a(
                 Html::tag('span',
-                    Document::find()->expired()->count(),
+                    Document::find()->activePrisoners()->expired()->count(),
                     ['class' => 'badge bg-red']
                 ) . 'expired',
                 ['/documents/default/index',$documentSearchModel->formName() => ['metaStatusId' => Document::META_STATUS_EXPIRATED]],
@@ -52,7 +53,7 @@ use vova07\prisons\models\PrisonerSecurity;
             );
              $infoContent .= Html::a(
             Html::tag('span',
-                Document::find()->aboutExpiration()->count(),
+                Document::find()->aboutExpiration()->activePrisoners()->count(),
                 ['class' => 'badge bg-yellow']
             ) . 'about',
             ['/documents/default/index',$documentSearchModel->formName() => ['metaStatusId' => Document::META_STATUS_ABOUT_EXPIRATION]],
@@ -76,20 +77,14 @@ use vova07\prisons\models\PrisonerSecurity;
 
         <?php
             $infoContent = '';
-            if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST))
-                $infoContent .= Html::a(
-                    Html::tag('span',
-                        ProgramPrisoner::find()->planned()->count(),
-                        ['class' => 'badge bg-yellow']
-                    ) . 'planned',
-                    ['/plans/program-plans'],
-                    ['class' =>'btn']
 
-                );
             if (Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PROGRAM_LIST))
                 $infoContent .=  Html::a(
                     Html::tag('span',
-                        ProgramPrisoner::find()->active()->count(),
+                        Program::find()->active()->count() . ' / ' . ProgramPrisoner::find()
+                            ->active()
+                            ->forPrisonersActiveAndEtapped()
+                            ->count(),
                         ['class' => 'badge bg-yellow']
                     ) . 'active',
                     ['/plans/programs/index'],

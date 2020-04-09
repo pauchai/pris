@@ -37,6 +37,8 @@ class ConceptSearch extends Concept
             [['dateStartFromJui', 'dateStartToJui'],'string'],
             [['title'],'string'],
             [['status_id'] , 'integer'],
+            [['status_id'], 'default', 'value' => self::STATUS_ACTIVE]
+
         ];
     }
     public function search($params)
@@ -53,7 +55,9 @@ class ConceptSearch extends Concept
                 'date_start' => SORT_ASC,
             ]
         ];
-        if ($this->load($params) && $this->validate()){
+        $this->load($params) ;
+        $this->validate();
+
             $dataProvider->query->andFilterWhere([
 
                 'status_id' => $this->status_id,
@@ -69,7 +73,7 @@ class ConceptSearch extends Concept
                 ['<=', 'date_start', $this->dateStartTo  ]
             );
 
-        }
+
 
         return $dataProvider;
 

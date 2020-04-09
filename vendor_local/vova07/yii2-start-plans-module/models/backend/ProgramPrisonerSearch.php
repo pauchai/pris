@@ -24,6 +24,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         return [
             [['programdict_id', 'prison_id', 'planned_by', 'prisoner_id', 'program_id', 'date_plan'], 'integer'],
             [['ownableitem.created_by'],'safe'],
+            [['date_plan'], 'default', 'value' => date('Y')],
 
         ];
     }
@@ -46,9 +47,11 @@ class ProgramPrisonerSearch extends ProgramPrisoner
             ]);
 
 
-        if (!($this->load($params, $formName) && $this->validate())) {
-            return $dataProvider;
-        }
+        $this->load($params, $formName);
+        $this->validate();
+       // if (!($this->load($params, $formName) && $this->validate())) {
+       //     return $dataProvider;
+       // }
         $query->andFilterWhere(
             [
                 'programdict_id' => $this->programdict_id,

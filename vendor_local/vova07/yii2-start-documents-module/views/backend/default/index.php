@@ -97,7 +97,8 @@ $this->params['breadcrumbs'] = [
                 'pluginOptions' => [
                     'allowClear' => true,
                     'format' => 'dd-mm-yyyy']
-            ])
+            ]),
+            'content' => function($model){return $model->dateIssueJui . " ({$model->dateExpirationJui})";}
         ],
         [
             'attribute' => "status_id",

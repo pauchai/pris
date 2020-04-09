@@ -42,7 +42,7 @@ class DocumentQuery extends ActiveQuery
     public function activePrisoners()
     {
         $subQuery = Prisoner::find()->select('__person_id')->active();
-        $this->andWhere(
+        return  $this->andWhere(
             ['person_id' => $subQuery]
         );
     }

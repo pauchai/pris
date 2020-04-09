@@ -19,7 +19,8 @@ class ProgramSearch extends Program
     public function rules()
     {
         return [
-            [['programdict_id','prison_id','prisoner_id', ],'integer']
+            [['programdict_id','prison_id', 'status_id' ],'integer'],
+            [['status_id'], 'default', 'value' => self::STATUS_ACTIVE]
         ];
     }
     public function search($params)
@@ -29,15 +30,14 @@ class ProgramSearch extends Program
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
         ]);
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+        $this->load($params);
+        $this->validate();
 
         $query->andFilterWhere(
             [
                 'programdict_id' => $this->programdict_id,
                 'prison_id' => $this->prison_id,
-                'prisoner_id' => $this->prisoner_id,
+                'status_id'  => $this->status_id,
 
             ]
         );

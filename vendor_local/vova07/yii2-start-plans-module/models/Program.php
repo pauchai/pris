@@ -56,6 +56,7 @@ class Program extends  Ownableitem
              *
              */
             $program = $event->sender;
+            $dateFinishValue = '';
             if ($program->status_id == Program::STATUS_FINISHED) {
                 $programVisits = $program->getProgramVisits()->all();
                 foreach ($programVisits as $visit)
@@ -70,9 +71,10 @@ class Program extends  Ownableitem
 
                     $programPrisoner->status_id = ProgramPrisoner::STATUS_FINISHED;
                     $programPrisoner->save();
+                    $dateFinishValue = $visit->date_visit;
                 };
 
-
+                $program->date_finish = $dateFinishValue;
             }
         });
     }
