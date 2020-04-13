@@ -15,5 +15,8 @@ use yii\db\Expression;
 class ConceptQuery extends ActiveQuery
 {
 
-
+    public function active()
+    {
+        return $this->andWhere(['status_id' => Concept::STATUS_ACTIVE]);
+    }
 }

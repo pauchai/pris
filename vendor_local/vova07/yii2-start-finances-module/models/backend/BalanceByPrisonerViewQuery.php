@@ -14,5 +14,10 @@ use yii\db\ActiveQuery;
 class BalanceByPrisonerViewQuery extends ActiveQuery
 {
 
-
+    public function byPrisonerId($prisoner_id)
+    {
+        return $this->andWhere([
+           'prisoner_id' => $prisoner_id
+        ]);
+    }
 }

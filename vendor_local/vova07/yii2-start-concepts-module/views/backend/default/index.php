@@ -10,6 +10,7 @@
 use vova07\concepts\Module;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use vova07\concepts\models\Concept;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = Module::t("default","CONCEPTS_LIST_TITLE");
@@ -43,9 +44,9 @@ $this->params['breadcrumbs'] = [
         [
             'attribute'=>'status_id',
             'content' => function($model){
-                if ($model->status_id === \vova07\events\models\Event::STATUS_PLANING){
+                if ($model->status_id === Concept::STATUS_ACTIVE){
                     $options = ['class'=>'label label-info'];
-                } elseif ($model->status_id === \vova07\events\models\Event::STATUS_FINISHED) {
+                } elseif ($model->status_id === Concept::STATUS_FINISHED) {
                     $options = ['class'=>'label label-success'];
                 } else {
                     $options = ['class' => 'label label-default'];

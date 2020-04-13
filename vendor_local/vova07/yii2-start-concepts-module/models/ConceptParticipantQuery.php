@@ -26,9 +26,14 @@ class ConceptParticipantQuery extends ActiveQuery
         return $this;
     }
 
-    public function hasConcept()
+
+
+    public function forActiveConcepts()
     {
-        return $this->andWhere(new Expression('isnull(concept_id)'));
+        $this->andWhere([
+            'in', 'concept_id', Concept::find()->active()->select('__ownableitem_id')
+        ]);
+        return $this;
     }
 
 }

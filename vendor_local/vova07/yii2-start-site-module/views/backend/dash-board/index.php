@@ -12,6 +12,8 @@ use vova07\documents\models\Document;
 use vova07\plans\models\ProgramPrisoner;
 use vova07\prisons\models\PrisonerSecurity;
 use vova07\plans\models\Program;
+use vova07\concepts\models\Concept;
+use vova07\concepts\models\ConceptParticipant;
 ?>
 
 
@@ -133,6 +135,27 @@ use vova07\plans\models\Program;
             ]
         );?>
     </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <?php echo InfoBox::widget(
+                [       'title' => \vova07\plans\Module::t('default','CONCEPTS'),
+                    'infoContent' => Html::a(
+                            Html::tag('span',
+                               Concept::find()->active()->count() . ' / ' .
+                               ConceptParticipant::find()->forActiveConcepts()->count()
+                                ,
+                                ['class' => 'badge bg-yellow']
+                            ),
+                            ['/concepts/default/index'],
+                            ['class' =>'btn']
+
+                        ) ,
+
+
+                    'icon' => 'calendar-check'
+                ]
+            );?>
+        </div>
     <?php endif;?>
 </div>
 <div class="row">

@@ -108,7 +108,7 @@ class BalanceController extends BackendController
             'sql' => $sql,
             'params' => $params,
         ]);
-         $dataProvider->pagination = false;
+         //$dataProvider->pagination = false;
 
 
          return $this->render('print-archive', ['dataProvider' => $dataProvider]);

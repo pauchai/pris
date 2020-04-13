@@ -43,28 +43,40 @@ $this->params['breadcrumbs'] = [
 
 <?php $remain = null; $lastPrisonerId = null ?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-
-
+    'striped' => true,
+    'hover' => true,
+    'showPageSummary' => true,
+    'panel' => ['type' => 'primary', 'heading' => $this->title],
     'columns' => [
-        ['class' => SerialColumn::class],
+      //  ['class' => SerialColumn::class],
         [
             'attribute' => 'prisoner_id',
             'group' => true,
+            'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+
+
             'value' => function($model){
                 return $model['fio'];
             },
-            'groupFooter' => function ($model, $key, $index, $widget)use(&$remain) { // Closure method
+            'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
+                //$remain = \vova07\finances\models\backend\BalanceByPrisonerView::find()->byPrisonerId($model['prisoner_id'])->sum('remain');
                 return [
-                    'mergeColumns' => [[1,3]], // columns to merge in summary
+                  //  'mergeColumns' => [[1,3]], // columns to merge in summary
+
                     'content' => [             // content to show in each summary cell
                        // 1 => 'Summary (' . $model['fio'] . ')',
                        // 2 => GridView::F_SUM,
-                       // 3 => GridView::F_SUM,
-
+                     //   3 => GridView::F_SUM,
+                      //  4 => GridView::F_SUM,
+                      //  5 => ' ' . $remain
                     ],
                     'contentFormats' => [      // content reformatting for each summary cell
                       //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
-                       // 3 => ['format' => 'number', 'decimals' => 2],
+                    //    3 => ['format' => 'number', 'decimals' => 2],
+                    //    4 => ['format' => 'number', 'decimals' => 2],
+                     //   5 => ['format' => 'number', 'decimals' => 2]
                     ],
                     'contentOptions' => [      // content html attributes for each summary cell
                         //1 => ['style' => 'font-variant:small-caps'],
@@ -78,6 +90,8 @@ $this->params['breadcrumbs'] = [
             }
 
         ],
+        'at:date',
+        'reason',
         'debit',
         'credit',
         [
@@ -94,9 +108,7 @@ $this->params['breadcrumbs'] = [
 
                 return $remain;
             }
-        ],
-        'at',
-        'reason',
+        ]
 
     ]
 ])?>
