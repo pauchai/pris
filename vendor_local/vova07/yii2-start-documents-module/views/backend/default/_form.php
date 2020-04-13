@@ -14,7 +14,18 @@ use vova07\prisons\Module;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'type_id')->dropDownList(\vova07\documents\models\Document::getTypesForCombo(),['prompt' => Module::t('default','SELECT')])?>
-<?=$form->field($model,'person_id')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt' => Module::t('default','SELECT')])?>
+
+<?=$form->field($model,'person_id')->widget(
+    \kartik\select2\Select2::class,[
+        'data' => \vova07\users\models\Prisoner::getListForCombo(),
+        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+
+    ]
+)
+
+?>
+
+
 <?=$form->field($model,'country_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt' => Module::t('default','SELECT')])?>
 <?=$form->field($model,'seria')?>
 <?= $form->field($model, 'dateIssueJui')->widget(\kartik\widgets\DatePicker::class)?>

@@ -14,6 +14,8 @@ class DocumentSearch extends \vova07\documents\models\Document
 {
     public $issuedFrom;
     public $issuedTo;
+    public $expiredFrom;
+    public $expiredTo;
     public $metaStatusId;
 
     public function rules()
@@ -22,6 +24,8 @@ class DocumentSearch extends \vova07\documents\models\Document
             [['person_id','type_id'],'integer'],
             [['issuedFrom','issuedTo'],'integer'],
             [['issuedToJui','issuedFromJui'],'date'],
+            [['expiredFrom','expiredTo'],'integer'],
+            [['expiredToJui','expiredFromJui'],'date'],
             [['metaStatusId', 'status_id'], 'integer'],
     //        [['issuedToJui'],'date','format' => 'dd-mm-yyyy']
 
@@ -41,6 +45,17 @@ class DocumentSearch extends \vova07\documents\models\Document
                 'attribute' => 'issuedTo',
                 'juiAttribute' => 'issuedToJui',
               //  'dateFormat' => 'dd-mm-yyyy'
+            ],
+            'expiredFromJui'=>[
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'expiredFrom',
+                'juiAttribute' => 'expiredFromJui'
+            ],
+            'expiredToJui'=>[
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'expiredTo',
+                'juiAttribute' => 'expiredToJui',
+                //  'dateFormat' => 'dd-mm-yyyy'
             ],
             'dateIssueJui'=>[
                 'class' => DateJuiBehavior::className(),
@@ -94,8 +109,12 @@ class DocumentSearch extends \vova07\documents\models\Document
                 $dataProvider->query->expired();
 
 
-        $dataProvider->query->andFilterWhere(['>=','date_issue',$this->issuedFrom])
+        $dataProvider->query
+            ->andFilterWhere(['>=','date_issue',$this->issuedFrom])
             ->andFilterWhere(['<=','date_issue',$this->issuedTo]);
+        $dataProvider->query
+            ->andFilterWhere(['>=','date_expiration',$this->expiredFrom])
+            ->andFilterWhere(['<=','date_expiration',$this->expiredTo]);
         return $dataProvider;
 
     }

@@ -17,6 +17,7 @@ use vova07\documents\Module;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\Prison;
 use yii\base\DynamicModel;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 class DefaultController extends BackendController
 {
@@ -57,6 +58,7 @@ class DefaultController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->returnUrl = Url::current();
         $searchModel = new DocumentSearch();
         $searchModel->status_id = DocumentSearch::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
@@ -76,7 +78,7 @@ class DefaultController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()) {
                 if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->getPrimaryKey()]);
+                    return $this->goBack();
                 }
             };
         }

@@ -86,19 +86,19 @@ $this->params['breadcrumbs'] = [
             'filter' => \vova07\documents\models\Document::getMetaStatusesForCombo(),
         ],
         [
-          'attribute' => 'date_issue',
+          'attribute' => 'date_expiration',
             'format' => 'date',
             'filter' => \kartik\widgets\DatePicker::widget([
                 'model' => $searchModel,
-                'attribute' => 'issuedFromJui',
-                'attribute2' => 'issuedToJui',
+                'attribute' => 'expiredFromJui',
+                'attribute2' => 'expiredToJui',
                 'type' => \kartik\widgets\DatePicker::TYPE_RANGE,
                 'separator' => '-',
                 'pluginOptions' => [
                     'allowClear' => true,
                     'format' => 'dd-mm-yyyy']
             ]),
-            'content' => function($model){return $model->dateIssueJui . " ({$model->dateExpirationJui})";}
+            'content' => function($model){return $model->dateExpirationJui . " ({$model->dateIssueJui})";}
         ],
         [
             'attribute' => "status_id",

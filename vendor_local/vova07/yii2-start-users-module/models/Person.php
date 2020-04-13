@@ -134,10 +134,15 @@ class Person extends  Ownableitem
     {
         return $this->hasMany(Document::class,['person_id' => '__ident_id']);
     }
-    public function getBuletin()
+    public function getIdentDoc()
     {
-       return  $this->getDocuments()->orWhere(['type_id' => Document::TYPE_ID])->orWhere(['type_id' => Document::TYPE_PASSPORT])->one();
+       return  $this->getDocuments()->orWhere(['type_id' => Document::TYPE_ID])->orWhere(['type_id' => Document::TYPE_PASSPORT])->orWhere(['type_id' => Document::TYPE_F9])->orWhere(['type_id' => Document::TYPE_ID_PROV])->one();
     }
+    public function getIdentDocs()
+    {
+        return  $this->getDocuments()->orWhere(['type_id' => Document::TYPE_ID])->orWhere(['type_id' => Document::TYPE_PASSPORT])->orWhere(['type_id' => Document::TYPE_F9])->orWhere(['type_id' => Document::TYPE_ID_PROV])->all();
+    }
+
 
     public function getOfficer()
     {

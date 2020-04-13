@@ -182,22 +182,25 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'visible' => $isLight === false,
             'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
             'content' => function($model){
-                if ($buletin = $model->person->buletin){
-                    $content = Html::tag('span', $buletin->type,['class'=>' label label-success ']);
-                    $content .= ' ' . Html::tag('span', $buletin->seria,['class'=>'  label label-success']);
-                    if ($buletin->isExpired()){
-                        $content .= Html::tag('span', Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>' label label-danger']);
+                $content = '';
+                foreach($model->person->identDocs as $doc)
+                {
+
+                    $content .= Html::tag('span', $doc->type,['class'=>' label label-success ']);
+                    $content .= ' ' . Html::tag('span', $doc->seria,['class'=>'  label label-success']);
+                    if ($doc->isExpired()){
+                        $content .= Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
                     } else {
 //                        $content = Html::tag('span', $content,['class'=>'label label-success']);
-                        if ($buletin->isAboutExpiration()){
-                            $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($buletin->date_expiration ),['class'=>'label label-warning']);
+                        if ($doc->isAboutExpiration()){
+                            $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>'label label-warning']);
 
                         }
                     };
-                    return $content;
-
-
+                    $content .= "<br/>";
                 }
+             return $content;
+
             }
         ],
 
@@ -212,13 +215,16 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
         [
 
-          'attribute' => 'article'
+          'attribute' => 'article',
+           'visible' => $isLight === true,
+
         ],
 
         [
 
 
             'attribute' => 'termStartJui',
+            'visible' => $isLight === true,
             //'filterType' => GridView::FILTER_DATE,
             'filter' => \kartik\widgets\DatePicker::widget([
                 'model' => $searchModel,
@@ -235,6 +241,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
             'attribute' => 'termFinishJui',
+            'visible' => $isLight === true,
+
             'filter' => \kartik\widgets\DatePicker::widget([
                 'model' => $searchModel,
                 'attribute' => 'termFinishFromJui',
@@ -251,6 +259,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
             'attribute' => 'termUdoJui',
+            'visible' => $isLight === true,
+
             'filter' => \kartik\widgets\DatePicker::widget([
                 'model' => $searchModel,
                 'attribute' => 'termUdoFromJui',
