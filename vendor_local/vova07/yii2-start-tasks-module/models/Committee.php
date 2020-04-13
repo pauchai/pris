@@ -43,7 +43,9 @@ class Committee extends  Ownableitem
     const SUBJECT_92 = 2;
     const SUBJECT_248_2 = 3;
     const SUBJECT_251 = 4;
-    const SUBJECT_JOB_DAYS_COMPENSATION = 5;
+    const SUBJECT_AMNISTIA = 5;
+    const SUBJECT_POMILOVANIE = 6;
+
 
     const STATUS_INIT = 1;
     const STATUS_MATERIALS_ARE_READY = 5;
@@ -197,7 +199,8 @@ class Committee extends  Ownableitem
             self::SUBJECT_92 => Module::t('default', 'SUBJECT_92'),
             self::SUBJECT_248_2 => Module::t('default', 'SUBJECT_248_2'),
             self::SUBJECT_251 => Module::t('default', 'SUBJECT_251'),
-            self::SUBJECT_JOB_DAYS_COMPENSATION => Module::t('default', 'SUBJECT_JOB_DAYS_COMPENSATION'),
+            self::SUBJECT_AMNISTIA => Module::t('default', 'SUBJECT_AMNISTIA'),
+            self::SUBJECT_POMILOVANIE => Module::t('default', 'SUBJECT_POMILOVANIE'),
 
         ];
     }

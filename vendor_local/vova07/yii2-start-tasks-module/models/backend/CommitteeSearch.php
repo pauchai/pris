@@ -33,6 +33,7 @@ class CommitteeSearch extends \vova07\tasks\models\Committee
                     'prisoner_id' => $this->prisoner_id,
                     'assigned_to' => $this->assigned_to,
                     'status_id' => $this->status_id,
+                    'mark_id' => $this->mark_id,
                 ]);
         }
         return $dataProvider;
