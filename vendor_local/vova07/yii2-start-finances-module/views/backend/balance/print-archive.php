@@ -90,13 +90,26 @@ $this->params['breadcrumbs'] = [
             }
 
         ],
-        'at:date',
-        'reason',
-        'debit',
-        'credit',
         [
-            'header' => 'remain',
-            'value' => function($model)use(&$remain, &$lastPrisonerId){
+          'attribute' => 'at',
+          'format' => 'date',
+          'header' => Module::t('default', 'AT_TITLE')
+        ],
+        [
+            'attribute' => 'reason',
+            'header' => Module::t('default', 'REASON_TITLE')
+        ],
+        [
+            'attribute' => 'debit',
+            'header' => Module::t('default', 'DEBIT_TITLE')
+        ],
+        [
+            'attribute' => 'credit',
+            'header' => Module::t('default', 'CREDIT_TITLE')
+        ],
+        [
+            'header' => Module::t('default', 'REMAIN_TITLE'),
+             'value' => function($model)use(&$remain, &$lastPrisonerId){
 
 
                 if (is_null($lastPrisonerId) || $model['prisoner_id'] <> $lastPrisonerId){
