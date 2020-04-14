@@ -137,25 +137,30 @@ use vova07\site\Module;
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS),
                         'items' => [
                             ['label' => Module::t('menu','BALANCE_LIST'),'icon' => 'circle','url'=>['/finances/default/index']],
+                            [
+                                'label' => Module::t('menu','BALANCE_IMPORT'),'icon' => 'circle','url'=>['/electricity/balance-import/index'],
+                                'template' => '<a href="{url}">{icon} {label}' .((\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count()>0)?\yii\helpers\Html::tag('span',
+                                        \yii\helpers\Html::tag('span',\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count(),['class' => "label label-danger pull-right"])
+                                        ,['class' =>  "pull-right-container"]):""). '</a>',
+
+
+                            ],
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'ELECTRICITY_MENU'),'icon' => 'tv','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_ACCESS),
                         'items' => [
-                            ['label' => Module::t('menu','DEVICES_LIST'),'icon' => 'circle','url'=>['/electricity/devices/index'],
+                            [
+                                    'label' => Module::t('menu','DEVICES_LIST'),'icon' => 'circle','url'=>['/electricity/devices/index'],
+                                    'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_ACCESS),
+
                             ],
                             ['label' => Module::t('menu','DEVICES_ACCOUNTING_LIST'),'icon' => 'circle','url'=>['/electricity/default/index'],
+                               'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_ACCESS),
 
                             ],
 
-                            [
-                                    'label' => Module::t('menu','BALANCE_IMPORT'),'icon' => 'circle','url'=>['/electricity/balance-import/index'],
-                                    'template' => '<a href="{url}">{icon} {label}' .((\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count()>0)?\yii\helpers\Html::tag('span',
-                                            \yii\helpers\Html::tag('span',\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count(),['class' => "label label-danger pull-right"])
-                                            ,['class' =>  "pull-right-container"]):""). '</a>'
 
-
-                            ],
 
                         ]
                     ],

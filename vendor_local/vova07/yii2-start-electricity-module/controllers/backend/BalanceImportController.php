@@ -35,8 +35,8 @@ class BalanceImportController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','do-process'],
-                'roles' => ['@']
+                'actions' => ['index', 'do-process'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS]
             ],
 
         ];

@@ -29,27 +29,27 @@ class CommitteeController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_LIST]
+                'roles' => [\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST]
             ],
             [
                 'allow' => true,
                 'actions' => ['create'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_CREATE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_COMMITTIEE_CREATE]
             ],
             [
                 'allow' => true,
                 'actions' => ['update'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_UPDATE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_COMMITTIEE_UPDATE]
             ],
             [
                 'allow' => true,
                 'actions' => ['delete'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_DELETE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_COMMITTIEE_DELETE]
             ],
             [
                 'allow' => true,
                 'actions' => ['view'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_VIEW]
+                'roles' => [\vova07\rbac\Module::PERMISSION_COMMITTIEE_VIEW]
             ],
         ];
         return $behaviors;

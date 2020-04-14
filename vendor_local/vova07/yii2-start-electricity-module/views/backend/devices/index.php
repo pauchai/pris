@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
 <?php echo $this->render('_search',['model' => $searchModel])?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
+  //  'filterModel' => $searchModel,
     'striped' => true,
     'hover' => true,
     'showPageSummary' => true,
@@ -45,13 +45,7 @@ $this->params['breadcrumbs'] = [
                     else
                         return null;
                 },
-             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
-            'filterType' => GridView::FILTER_SELECT2,
-            'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true ],
-            ],
-            'filterInputOptions' => [ 'prompt' => \vova07\electricity\Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
-            'group' => true,
+             'group' => true,
             'groupedRow' => true,
             'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
             'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class

@@ -22,11 +22,11 @@ use yii\bootstrap\Html;
 
         ],
         'options' => [
-            [
-                'class' => 'no-print',
-                'prompt' => \vova07\electricity\Module::t('default', 'SELECT_PRISONER_PROMPT'),
 
-            ]
+                'class' => 'no-print',
+                'placeholder' => \vova07\electricity\Module::t('default', 'SELECT_PRISONER_PROMPT'),
+
+
         ],
 
         'data' => \vova07\users\models\Prisoner::getListForCombo()
