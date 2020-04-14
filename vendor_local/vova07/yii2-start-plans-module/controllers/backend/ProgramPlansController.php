@@ -48,7 +48,7 @@ class ProgramPlansController extends BackendController
 
         $searchModel = new ProgramPrisonerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->query->planned();
+        $dataProvider->query->planned()->forPrisonersActiveAndEtapped();
 
         $programQuery = Program::find()->andFilterWhere(
             [
