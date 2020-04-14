@@ -17,13 +17,11 @@ use vova07\electricity\Module;
 
 
 <?=$form->field($model,'prisoner_id')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['id' => 'prisoner_id', 'prompt'=>Module::t('default','SELECT_PRISONER_PROMPT')])?>
-<?=$form->field($model,'device_id')->widget(\kartik\depdrop\DepDrop::class, [
+<?php echo
+    $form->field($model,'device_id')->widget(\kartik\widgets\Select2::class, [
     'data' => \vova07\electricity\models\Device::getListForCombo($model->prisoner_id),
     'options'=>['id'=>'device_id', 'placeholder'=>Module::t('default','SELECT_DEVICE_PROMPT')],
-    'pluginOptions'=>[
-        'depends'=>['prisoner_id'],
-        'url'=>\yii\helpers\Url::to(['prisoner-devices'])
-    ]
+
 ]);?>
 
 <?php echo $form->field($model,'dateRange')->widget(\kartik\daterange\DateRangePicker::class,[

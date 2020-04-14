@@ -95,7 +95,7 @@ class DevicesController extends BackendController
     }
     public function actionDelete($id)
     {
-        if (is_null($model = Committee::findOne($id)))
+        if (is_null($model = Device::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

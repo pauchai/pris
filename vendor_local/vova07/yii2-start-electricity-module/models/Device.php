@@ -22,6 +22,7 @@ use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Officer;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use vova07\users\models\PrisonerQuery;
 use yii\behaviors\SluggableBehavior;
@@ -152,6 +153,10 @@ class Device extends  Ownableitem
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
     }
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id'=>'prisoner_id']);
+    }
     public function getSector()
     {
         return $this->hasOne(Sector::class,['__ownableitem_id'=>'sector_id']);
@@ -170,14 +175,20 @@ class Device extends  Ownableitem
              self::CALCULATION_METHOD_HOURS1 => Module::t('default','CALCULATION_METHOD_HOURS1'),
             self::CALCULATION_METHOD_HOURS0_5 => Module::t('default','CALCULATION_METHOD_HOURS0_5')
         ];
-        if ($key)
-            return $ret[$key];
-        else
+        if (!is_null($key) ) {
+            if (isset($ret[$key]))
+                return $ret[$key];
+            else
+                throw new \LogicException('Key Doesnt exists');
+        } else
             return $ret;
     }
     public function getCalculationMethod()
     {
-        return self::getCalculationMethodsListForCombo($this->calculation_method_id);
+        if (is_null($this->calculation_method_id))
+            return null;
+        else
+            return self::getCalculationMethodsListForCombo($this->calculation_method_id);
     }
 
     public function attributeLabels()
@@ -188,6 +199,7 @@ class Device extends  Ownableitem
             'unassigned_at' => Module::t('labels','ASSIGNED_AT_LABEL'),
             'power' => Module::t('labels','DEVICE_POWER_LABEL'),
             'enable_auto_calculation' => Module::t('labels','ENABLE_AUTO_CALCULATION'),
+            'calculationMethod' => Module::t('labels','CALCULATION_METHOD_TITLE'),
         ];
     }
 

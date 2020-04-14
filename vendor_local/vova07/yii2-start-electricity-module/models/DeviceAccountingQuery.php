@@ -22,6 +22,6 @@ class DeviceAccountingQuery extends ActiveQuery
 */
     public function readyForProcessing()
     {
-        return $this->andWhere(['status_id' => DeviceAccounting::STATUS_READY_FOR_PROCESSING]);
+        return $this->andWhere(['device_accountings.status_id' => DeviceAccounting::STATUS_READY_FOR_PROCESSING]);
     }
 }

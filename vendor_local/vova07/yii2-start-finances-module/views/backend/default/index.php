@@ -150,6 +150,20 @@ foreach ($credirColumnNames as $columnName){
             },
 
         ];
+$gridColumns[] = [
+    'label'=>false,
+
+    'attribute' => 'hasDevices',
+    'filterType' => GridView::FILTER_CHECKBOX,
+    'filterInputOptions' => ['class'=>''],
+    'content' => function($model){
+
+        return Html::a($model->prisoner->getDevices()->count(),['/electricity/devices/index', 'DeviceSearch[prisoner_id]' => $model->prisoner_id],['label label-default']);
+    }
+
+
+];
+
         $gridColumns[] = [
             'visible' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_FINANCES_LIST),
             'class' => \yii\grid\ActionColumn::class,

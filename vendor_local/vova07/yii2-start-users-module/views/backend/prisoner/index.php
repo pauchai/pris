@@ -44,7 +44,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
             'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
 
             //'header' => '',
-           'content' => function($model){return Html::a($model->person->fio . ' ' . $model->person->birth_year, ['view','id' => $model->primaryKey]);},
+           'content' => function($model){return Html::a($model->person->getFio(false,true), ['view','id' => $model->primaryKey]);},
            //
            //  'value' => 'person.fio'
         ],

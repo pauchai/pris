@@ -1,6 +1,8 @@
 <?php
 namespace vova07\finances\models\backend;
 
+use vova07\electricity\models\Device;
+use vova07\electricity\models\DeviceAccounting;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\jobs\Module;
 use vova07\users\models\Prisoner;
@@ -17,7 +19,9 @@ use yii\db\Query;
 
 class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCategoryView
 {
+
     public $only_debt = false;
+    public $hasDevices;
   //  public $sector_id;
 
     public function init()
@@ -27,7 +31,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
     public function rules()
     {
         return [
-            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id'],'safe']
+            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id' ,'hasDevices'],'safe']
         ];
     }
     public function search($params)
@@ -67,6 +71,13 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
                'remain<0'
             );
         }
+        if ($this->hasDevices == true)
+        {
+            $query->andFilterWhere(
+                ['in', 'prisoner_id', Device::find()->select('prisoner_id')->distinct()]
+            );
+        }
+
 
 
 
@@ -77,8 +88,14 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['prisoner.sector_id', 'prisoner.status_id']);
+        return array_merge(parent::attributes(),[
+            'prisoner.sector_id',
+            'prisoner.status_id'
+        ]);
     }
+
+
+
 
 
 

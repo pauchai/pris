@@ -61,20 +61,30 @@ class BalanceImportController extends BackendController
             $selectedIds = \Yii::$app->request->post('selection');
             $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
             $models = $query->all();
-            foreach ($models as $deviceAccounting)
+            $groupedByPrisonerModels = [];
+            foreach ($models as $deviceAccounting){
+                $groupedByPrisonerModels[$deviceAccounting->prisoner_id][] = $deviceAccounting;
+            }
+            foreach ($groupedByPrisonerModels as $prisonerId => $prisonerDeviceAccountings)
             {
+                $groupedSum = 0;
+                foreach ($prisonerDeviceAccountings as $deviceAccounting){
+                    $groupedSum += $deviceAccounting->getPrice();
+                }
                 $balance = new Balance();
                 $balance->type_id = Balance::TYPE_CREDIT;
                 $balance->category_id =  BalanceCategory::CATEGORY_CREDIT_OTHER;
-                $balance->prisoner_id = $deviceAccounting->prisoner_id;
-                $balance->amount = $deviceAccounting->getPrice();
+                $balance->prisoner_id = $prisonerId;
+                $balance->amount = $groupedSum;
                 $balance->reason = \vova07\electricity\Module::t('default','ELECTRICITY_FOR_MONTH {0, date, MMM, Y}', $deviceAccounting->to_date) ;
                 $balance->atJui = date('d-m-Y');
                 if ($balance->save())
                 {
-                    $deviceAccounting->balance_id = $balance->primaryKey;
-                    $deviceAccounting->status_id = DeviceAccounting::STATUS_PROCESSED;
-                    $deviceAccounting->save();
+                    foreach ($prisonerDeviceAccountings as $deviceAccounting){
+                        $deviceAccounting->balance_id = $balance->primaryKey;
+                        $deviceAccounting->status_id = DeviceAccounting::STATUS_PROCESSED;
+                        $deviceAccounting->save();                    }
+
                 }
 
             }

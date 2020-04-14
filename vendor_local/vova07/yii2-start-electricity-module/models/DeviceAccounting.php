@@ -254,7 +254,10 @@ class DeviceAccounting extends  Ownableitem
             }
             return $value;
         } else {
-            return $this->value;
+            if (is_null($this->value))
+                return 0;
+            else
+                return $this->value;
         }
     }
 

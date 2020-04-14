@@ -39,16 +39,24 @@ class GenerateTabularDataForm extends Model
         ];
     }
 
-    public function generateDevicesAccounting()
+    public function generateOrSyncDevicesAccounting()
     {
 
         foreach (Device::find()->all() as $device)
         {
+            if (DeviceAccounting::find()->andWhere([
+                'device_id' => $device->primaryKey,
+                'from_date' => $this->from_date,
+                'to_date' => $this->to_date,
+            ])->one())
+                continue;
+
             $deviceAccounting  = new DeviceAccounting();
             $deviceAccounting->prisoner_id = $device->prisoner_id;
             $deviceAccounting->device_id = $device->primaryKey;
             $deviceAccounting->from_date = $this->from_date;
             $deviceAccounting->to_date = $this->to_date;
+
             $deviceAccounting->save();
            // $deviceAccounting->autoCalculation();
 

@@ -24,7 +24,14 @@ class DeviceSearch extends \vova07\electricity\models\Device
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()
+            'query' => self::find()->joinWith([
+                'person' => function($query){
+                    return $query->from(['person' => 'person']);
+                }
+            ])
+        ]);
+        $dataProvider->query->orderBy([
+            'person.second_name' => SORT_ASC,
         ]);
         if ($this->load($params) && $this->validate() ){
             $dataProvider->query->andFilterWhere(
@@ -33,6 +40,7 @@ class DeviceSearch extends \vova07\electricity\models\Device
 //
                 ]);
         }
+
         return $dataProvider;
 
     }

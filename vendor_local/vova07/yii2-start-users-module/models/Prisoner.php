@@ -19,6 +19,7 @@ use vova07\base\models\Ownableitem;
 use vova07\concepts\models\ConceptParticipant;
 use vova07\countries\models\Country;
 
+use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
 use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
@@ -329,6 +330,11 @@ class Prisoner extends  OwnableItem
     public function getBalances()
     {
         return $this->hasMany(Balance::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getBalance()
+    {
+        return $this->hasOne(BalanceByPrisonerView::class, ['prisoner_id' => '__person_id']);
     }
     public function getPrisonerSecurity()
     {

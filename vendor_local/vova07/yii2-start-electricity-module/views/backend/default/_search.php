@@ -46,9 +46,44 @@ $ranges = array_merge(array_reverse($prevRanges), $ranges, $nextRanges);
 
 <?php $form = \kartik\form\ActiveForm::begin(['type' => 'inline','method' => 'get'])?>
 <?php echo $form->field($model,'dateRange')->dropDownList(
-    $ranges, ['prompt' => \vova07\electricity\Module::t('default','SELECT_RANGE_PROMPT')]
+    $ranges, ['prompt' => \vova07\electricity\Module::t('default','SELECT_RANGE_PROMPT'),'class' =>'no-print']
 )?>
-<?php echo Html::submitButton('SELECT_MONTH',['class' => 'form-control btn btn-info'])?>
+<?php echo $form->field($model,'prisoner.sector_id')->widget(
+    \kartik\select2\Select2::class,
+    [
+        'options'=>[
+            'id' => 'sector_id' . $model->primaryKey,
+            'placeholder'=>\vova07\electricity\Module::t('default','SELECT_SECTOR_PROMPT'),
+            'class' => 'no-print'
+        ],
+        'pluginOptions'=>['allowClear'=>true],
+        'data' => \vova07\prisons\models\Sector::getListForCombo()
+    ]
+
+)?>
+<?php echo $form->field($model,'prisoner.cell_id')->widget(
+    \kartik\depdrop\DepDrop::class,
+    [
+        'select2Options'=> [
+            'pluginOptions'=>['allowClear'=>true],
+            ['class' => 'no-print']
+        ],
+        'options'=>[
+            'id' => 'cell_id' . $model->primaryKey,
+            'placeholder'=>\vova07\electricity\Module::t('default','SELECT_CELLS_PROMPT'),
+
+        ],
+        'pluginOptions'=>[
+            'depends'=>['sector_id' .  $model->primaryKey],
+            'url'=>\yii\helpers\Url::to(['/users/prisoner/sector-cells'])
+
+        ],
+        'data' => \vova07\prisons\models\Cell::getListForCombo()
+    ]
+
+)?>
+
+<?php echo Html::submitButton('SELECT_MONTH',['class' => 'form-control btn btn-info no-print '])?>
 
 <?php \kartik\form\ActiveForm::end()?>
 

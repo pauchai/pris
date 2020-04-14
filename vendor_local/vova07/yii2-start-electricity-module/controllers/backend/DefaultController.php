@@ -83,6 +83,10 @@ class DefaultController extends BackendController
         $searchModel = new DeviceAccountingSearch();
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+
+
+        if ($this->isPrintVersion)
+            $dataProvider->pagination = false;
         //$dataProvider->query->planing();
         $newModel = new DeviceAccounting();
         $generateTabularDataFormModel = new GenerateTabularDataForm();
@@ -154,11 +158,18 @@ class DefaultController extends BackendController
 
     public function actionMassChangeStatuses()
     {
-        $models = DeviceAccounting::find()->indexBy(DeviceAccounting::primaryKey())->all();
-        if (Model::loadMultiple($models, \Yii::$app->request->post()) && Model::validateMultiple($models)){
-            foreach($models as $deviceAccaunting){
-                $deviceAccaunting->save(false);
+        if (\Yii::$app->request->isPost){
+
+            $selectedIds = \Yii::$app->request->post('selection');
+            $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
+            $models = $query->all();
+            foreach ($models as $deviceAccounting)
+            {
+                    $deviceAccounting->status_id = \Yii::$app->request->post('status_id');
+                    $deviceAccounting->save();
             }
+
+
 
         }
         return $this->goBack();
@@ -169,7 +180,7 @@ class DefaultController extends BackendController
         $model = new GenerateTabularDataForm();
         $model->load(\Yii::$app->request->post());
         $model->validate();
-        $model->generateDevicesAccounting();
+        $model->generateOrSyncDevicesAccounting();
 
         return $this->goBack();
     }

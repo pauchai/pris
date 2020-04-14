@@ -18,18 +18,26 @@ use vova07\users\models\Officer;
 
 <?=$form->field($model,'title')?>
 <?=$form->field($model,'calculation_method_id')->dropDownList(\vova07\electricity\models\Device::getCalculationMethodsListForCombo(),['prompt'=>Module::t('default','SELECT_CALCULATION_METHOD_PROMPT')])?>
-<?=$form->field($model,'prisoner_id')->dropDownList(\vova07\users\models\Prisoner::getListForCombo(),['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER_PROMPT')])?>
+
+<?=$form->field($model,'prisoner_id')->widget(
+    \kartik\select2\Select2::class,[
+        'data' => \vova07\users\models\Prisoner::getListForCombo(),
+        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+
+    ]
+)?>
+
 <?=$form->field($model,'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'unassignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
-<?=$form->field($model,'sector_id')->dropDownList(\vova07\prisons\models\Sector::getListForCombo(),['id' => 'sector_id','prompt'=>\vova07\plans\Module::t('events','SELECT_ASSIGNED_TO')])?>
-<?= $form->field($model, 'cell_id')->widget(\kartik\depdrop\DepDrop::class, [
+<?php //echo $form->field($model,'sector_id')->dropDownList(\vova07\prisons\models\Sector::getListForCombo(),['id' => 'sector_id','prompt'=>\vova07\plans\Module::t('events','SELECT_ASSIGNED_TO')])?>
+<?php /*echo $form->field($model, 'cell_id')->widget(\kartik\depdrop\DepDrop::class, [
     'data' => \vova07\prisons\models\Cell::getListForCombo($model->sector_id),
     'options'=>['id'=>'cell_id', 'placeholder'=>Module::t('default','SELECT_CELLS_PROMPT')],
     'pluginOptions'=>[
         'depends'=>['sector_id'],
         'url'=>\yii\helpers\Url::to(['/users/prisoner/sector-cells'])
     ]
-]);?>
+]);*/?>
 <?=$form->field($model,'power')?>
 <?=$form->field($model,'enable_auto_calculation')->checkbox()?>
 
