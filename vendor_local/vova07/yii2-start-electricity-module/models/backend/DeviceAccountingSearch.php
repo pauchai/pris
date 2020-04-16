@@ -20,6 +20,7 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
             [['from_date'],'default', 'value' => Calendar::getRangeForDate(time())[0]->getTimeStamp()],
             [['to_date'],'default', 'value' => Calendar::getRangeForDate(time())[1]->getTimeStamp()],
             [['dateRange'],'string'],
+
             [['prisoner.sector_id', 'prisoner.cell_id'], 'safe']
             //DefaultValueValidator::
 

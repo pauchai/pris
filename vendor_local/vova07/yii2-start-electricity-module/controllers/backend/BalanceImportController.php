@@ -57,6 +57,7 @@ class BalanceImportController extends BackendController
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->query->readyForProcessing();
+        $dataProvider->pagination = false;
         //$dataProvider->query->planing();
         $newModel = new DeviceAccounting();
 
