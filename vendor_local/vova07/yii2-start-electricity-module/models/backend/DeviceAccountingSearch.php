@@ -51,8 +51,8 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
         ]);
 
 
-
-        if ($this->load($params    ) && $this->validate()   ) {
+        $this->load($params    );
+        if ($this->validate()   ) {
 
             $dataProvider->query->andFilterWhere([
                'prisoner.sector_id' => $this->getAttribute('prisoner.sector_id'),

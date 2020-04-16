@@ -46,7 +46,6 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
-
             'header' => "EDUCATOR",
             'content' => function($model){
                 /**
@@ -56,7 +55,6 @@ $this->params['breadcrumbs'] = [
             }
         ],
         [
-
             'header' => "PSYCHOLOGIST",
             'content' => function($model){
                 return contentField($model, $model->getPrisonerProgramsByPsychologist());
@@ -129,7 +127,7 @@ $this->params['breadcrumbs'] = [
         );
 
         $totalButtonContent = Html::tag('span',$totalCnt ."($realizedCnt + $notRealizedCnt)", $totalOptions);
-        return  $totalButtonContent . $progressBarContent ;
+        return  $progressBarContent ;
     }
 ?>
 
@@ -147,6 +145,14 @@ $this->params['breadcrumbs'] = [
         margin:-1px;
         border: solid 1px red
     }
+}
+table.kv-grid-table thead tr th:nth-child(3),
+table.kv-grid-table tbody tr td:nth-child(3),
+table.kv-grid-table thead tr th:nth-child(4),
+table.kv-grid-table tbody tr td:nth-child(4),
+table.kv-grid-table thead tr th:nth-child(5),
+table.kv-grid-table tbody tr td:nth-child(5) {
+    width: 10em;
 }
 CSS
 
