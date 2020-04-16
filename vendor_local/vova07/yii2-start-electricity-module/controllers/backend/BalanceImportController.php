@@ -35,9 +35,15 @@ class BalanceImportController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'do-process'],
+                'actions' => ['index', 'do-process', 'delete'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS]
             ],
+            [
+                'allow' => true,
+                'actions' => [ 'delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_DELETE]
+            ],
+
 
         ];
         return $behaviors;
@@ -45,6 +51,8 @@ class BalanceImportController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
         $searchModel = new DeviceAccountingSearch();
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
@@ -91,6 +99,19 @@ class BalanceImportController extends BackendController
             return $this->redirect(\yii\helpers\Url::to(['index']));
         }
     }
+
+    public function actionDelete($id)
+    {
+        if (is_null($model = DeviceAccounting::findOne($id)))
+        {
+            throw new NotFoundHttpException(\vova07\finances\Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        if ($model->delete()){
+            return $this->redirect(['index']);
+        };
+        throw new \LogicException(Module::t('default',"CANT_DELETE"));
+    }
+
 
 
 }

@@ -110,6 +110,7 @@ class Module extends \vova07\base\components\Module
 
 
 
+
     public const PERMISSION_ELECTRICITY_ACCESS = 'BPermissionElectricityAccess';
     public const PERMISSION_ELECTRICITY_CREATE = 'BPermissionElectricityCreate';
     public const PERMISSION_ELECTRICITY_UPDATE = 'BPermissionElectricityUpdate';

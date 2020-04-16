@@ -55,8 +55,8 @@ $this->params['breadcrumbs'] = [
 
         'assigned_at:date',
         'unassigned_at:date',
-        'sector.title',
-        'cell.number',
+        'prisoner.sector.title',
+        'prisoner.cell.number',
         'power',
         'enable_auto_calculation',
         'calculationMethod',

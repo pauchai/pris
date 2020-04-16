@@ -58,15 +58,15 @@ $this->params['breadcrumbs'] = [
                         2 => Module::t('default','TOTAL_TITLE'),
                         // 2 => GridView::F_SUM,
                         //   3 => GridView::F_SUM,
-                        3 => GridView::F_SUM,
                         4 => GridView::F_SUM,
-                        5 =>" " . $remain,
+                        5 => GridView::F_SUM,
+                        6 =>" " . $remain,
                     ],
                     'contentFormats' => [      // content reformatting for each summary cell
                         //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
                         //    3 => ['format' => 'number', 'decimals' => 2],
-                        3 => ['format' => 'number', 'decimals' => 2],
-                        4 => ['format' => 'number', 'decimals' => 2]
+                        4 => ['format' => 'number', 'decimals' => 2],
+                        5 => ['format' => 'number', 'decimals' => 2]
                     ],
                     'contentOptions' => [      // content html attributes for each summary cell
                         2 => ['style' => 'text-align:right'],
@@ -105,6 +105,10 @@ $this->params['breadcrumbs'] = [
             }
         ],
         [
+                'header' => 'remain',
+                'content' => function($model){return '';} ,
+        ],
+        [
                 'attribute' => 'status',
                 'content' => function($model)use($form){
                     if ($model->status_id >= \vova07\electricity\models\DeviceAccounting::STATUS_READY_FOR_PROCESSING)
@@ -115,6 +119,12 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' =>  \yii\grid\CheckboxColumn::class,
+
+
+        ],
+         [
+            'class' =>  \yii\grid\ActionColumn::class,
+            'template' => '{delete}'
 
 
         ]

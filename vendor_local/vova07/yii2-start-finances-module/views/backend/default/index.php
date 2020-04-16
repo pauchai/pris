@@ -223,13 +223,41 @@ $gridBeforeHeader = [
         ]
     ]
 ];
+$gridBeforeFooter = [
+    [
+        'columns' => [
+            [],
+            [],
+            [],
+            [],
+
+            [ 'options' => [
+                'colspan' => $debitCnt,
+
+            ]
+            ],//debit
+            [ 'options' => [
+                'colspan' => $creditCnt,
+
+            ]
+            ],//credit
+
+            [
+                'content' => $dataProvider->query->sum('remain'),
+
+
+            ], //remain
+        ]
+    ]
+];
 ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel'=>$searchModel,
     'pjax'=>true,
-
+    'showFooter' => true,
     'beforeHeader' => $gridBeforeHeader,
+    'beforeFooter' => $gridBeforeFooter,
     'columns' => $gridColumns
 ])?>
 

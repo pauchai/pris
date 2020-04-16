@@ -10,6 +10,9 @@ use vova07\electricity\models\DeviceAccounting;
 use vova07\electricity\models\DeviceAccountingQuery;
 use vova07\events\models\Event;
 use vova07\events\Module;
+use vova07\finances\models\backend\BalanceByPrisonerView;
+use vova07\finances\models\backend\BalanceByPrisonerViewSearch;
+use vova07\finances\models\Balance;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
 use vova07\users\models\backend\User;
@@ -85,7 +88,8 @@ class DefaultController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
 
-        if ($this->isPrintVersion)
+
+       // if ($this->isPrintVersion)
             $dataProvider->pagination = false;
         //$dataProvider->query->planing();
         $newModel = new DeviceAccounting();
