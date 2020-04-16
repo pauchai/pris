@@ -3,6 +3,7 @@ namespace vova07\plans\controllers\backend;
 use http\Url;
 use vova07\base\components\BackendController;
 
+use vova07\plans\models\backend\SummarizedProgramsSearch;
 use vova07\plans\models\backend\SummarizedSearch;
 
 
@@ -23,7 +24,7 @@ class SummarizedController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','index-print'],
+                'actions' => ['index','index-print','programs'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST],
             ],
 
@@ -37,6 +38,14 @@ class SummarizedController extends BackendController
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         return $this->render('index',['searchModel' => $searchModel,'dataProvider' => $dataProvider ]);
 
+    }
+
+    public function actionPrograms()
+    {
+        $searchModel = new SummarizedProgramsSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->active();
+        return $this->render('programs',['searchModel' => $searchModel,'dataProvider' => $dataProvider ]);
 
     }
 

@@ -17,6 +17,7 @@ use vova07\events\models\Event;
 use vova07\plans\components\SummarizedDataProvider;
 use vova07\plans\controllers\backend\ProgramVisitsController;
 use vova07\rbac\Module;
+use vova07\users\helpers\UserHelper;
 use vova07\users\models\User;
 use yii\base\Model;
 
@@ -170,14 +171,7 @@ class SummarizedModel extends  Model
     }
     private function getUserIdsByRolesQuery($roles)
     {
-        $query = User::find()->select(['__ident_id']);
-
-        foreach ($roles as $role ){
-            $query->orWhere([
-                'role' => $role,
-            ]);
-        }
-        return $query;
+        return UserHelper::getUserIdsByRolesQuery($roles);
     }
 
 

@@ -72,7 +72,30 @@ $this->params['breadcrumbs'] = [
         ],
 
         'date_plan',
-        'status',
+        [
+            'attribute' => 'status_id',
+            'value' => 'status',
+            'filter' => false,//\vova07\plans\models\ProgramPrisoner::getStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_STATUS_FILTER_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+
+        ],
+        [
+            'attribute' => 'mark_id',
+            'value' => 'markTitle',
+            'filter' => false, //\vova07\plans\models\ProgramPrisoner::getMarksForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_MARKS_FILTER_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+        ],
+
         [
             'header' => \vova07\plans\Module::t('default','CREATED_BY'),
             'attribute' => 'ownableitem.created_by',
@@ -83,6 +106,12 @@ $this->params['breadcrumbs'] = [
                 'pluginOptions' => ['allowClear' => true],
             ],
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_USER_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+        ],
+        [
+
+            'attribute' => 'program.assignedTo.person.fio',
+
 
         ],
 

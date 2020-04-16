@@ -22,6 +22,7 @@ use vova07\finances\models\Balance;
 use vova07\plans\models\Program;
 use vova07\plans\models\ProgramPlan;
 use vova07\plans\models\ProgramPrisoner;
+use vova07\plans\models\ProgramPrisonerQuery;
 use vova07\plans\models\Requirement;
 use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
@@ -51,5 +52,13 @@ class PrisonerView extends  Prisoner
     public static function find()
     {
         return new PrisonerQuery(PrisonerView::class);
+    }
+
+    /**
+     * @return ProgramPrisonerQuery
+     */
+    public function getPrisonerPrograms()
+    {
+        return $this->hasMany(ProgramPrisoner::class, ['prisoner_id' => '__person_id']);
     }
 }

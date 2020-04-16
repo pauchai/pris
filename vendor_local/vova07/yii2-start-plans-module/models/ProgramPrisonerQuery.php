@@ -46,4 +46,23 @@ class ProgramPrisonerQuery extends ActiveQuery
         )]);
     }
 
+    public function realized()
+    {
+         $this->andWhere(new Expression('program_prisoners.status_id = :status_id AND  program_prisoners.mark_id >= :mark_id',[
+             ':status_id' => ProgramPrisoner::STATUS_FINISHED,
+             ':mark_id' => ProgramPrisoner::MARK_SATISFACTORY,
+         ]));
+
+         return $this;
+    }
+    public function notRealized()
+    {
+        $this->andWhere(new Expression('not(program_prisoners.status_id = :status_id AND  program_prisoners.mark_id >= :mark_id)',[
+            ':status_id' => ProgramPrisoner::STATUS_FINISHED,
+            ':mark_id' => ProgramPrisoner::MARK_SATISFACTORY,
+        ]));
+        return $this;
+    }
+
+
 }

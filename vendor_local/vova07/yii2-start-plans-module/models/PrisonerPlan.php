@@ -121,11 +121,17 @@ class PrisonerPlan extends  Ownableitem
         return $this->hasOne(Person::class,['__ident_id' => '__prisoner_id']);
     }
 
+    /**
+     * @return ProgramPrisonerQuery
+     */
     public function getPrisonerPrograms()
     {
         return $this->hasMany(ProgramPrisoner::class, ['prisoner_id' => '__prisoner_id']);
     }
 
+    /**
+     * @return RequirementsQuery
+     */
     public function getRequirements()
     {
         return $this->hasMany(Requirement::class, ['prisoner_id' => '__prisoner_id']);
