@@ -57,6 +57,8 @@ class DevicesController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
         $searchModel = new \vova07\electricity\models\backend\DeviceSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         //$dataProvider->query->planing();
@@ -100,7 +102,7 @@ class DevicesController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
@@ -116,7 +118,7 @@ class DevicesController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 };
             };
         }

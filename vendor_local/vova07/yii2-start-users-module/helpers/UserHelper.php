@@ -16,12 +16,12 @@ class UserHelper
     public static function getUserIdsByRolesQuery($roles)
     {
         $query = User::find()->select(['__ident_id']);
-
-        foreach ($roles as $role ){
+        $query->andWhere(['role' => $roles]);
+        /*foreach ($roles as $role ){
             $query->orWhere([
                 'role' => $role,
             ]);
-        }
+        }*/
         return $query;
     }
 }

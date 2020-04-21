@@ -42,5 +42,16 @@ class Rbac
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
             \vova07\rbac\helpers\Rbac::addChildToPermission(Module::PERMISSION_ELECTRICITY_ACCESS,$permissionName);
         }
+
+        $permissions = [
+            Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT,
+
+        ];
+
+        foreach($permissions as $permissionName){
+            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT,$permissionName);
+
+        }
     }
 }

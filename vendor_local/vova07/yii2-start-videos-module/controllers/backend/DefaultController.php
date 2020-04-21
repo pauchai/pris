@@ -4,6 +4,7 @@ namespace vova07\videos\controllers\backend;
 
 
 use Done\Subtitles\Subtitles;
+use vova07\base\components\BackendController;
 use vova07\videos\models\Import;
 use vova07\videos\models\Video;
 use vova07\videos\models\VideoSearch;
@@ -15,7 +16,7 @@ use yii\web\Response;
 use yii2tech\csvgrid\CsvGrid;
 use YoutubeDl\Exception\NotFoundException;
 
-class DefaultController extends \yii\web\Controller
+class DefaultController extends BackendController
 {
 
     public function actions()

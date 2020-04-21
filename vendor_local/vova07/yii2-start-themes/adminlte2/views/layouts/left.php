@@ -143,6 +143,7 @@ use vova07\site\Module;
                                         \yii\helpers\Html::tag('span',\vova07\electricity\models\DeviceAccounting::find()->readyForProcessing()->count(),['class' => "label label-danger pull-right"])
                                         ,['class' =>  "pull-right-container"]):""). '</a>',
 
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT),
 
                             ],
                         ]

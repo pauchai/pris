@@ -36,12 +36,12 @@ class BalanceImportController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index', 'do-process', 'delete'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS]
+                'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT]
             ],
             [
                 'allow' => true,
                 'actions' => [ 'delete'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_DELETE]
+                'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT]
             ],
 
 

@@ -117,6 +117,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_ELECTRICITY_DELETE = 'BPermissionElectricityDelete';
     public const PERMISSION_ELECTRICITY_LIST = 'BPermissionElectricityList';
     public const PERMISSION_ELECTRICITY_VIEW = 'BPermissionElectricityView';
+    public const PERMISSION_ELECTRICITY_BALANCE_IMPORT = 'BPermissionElectricityBalanceImportV';
 
     public const PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE = "BPermissionProgramPrisonersCommentCreate";
 

@@ -83,6 +83,7 @@ return [
             'appContext' => 'backend'
         ],
 
+
         'translations' => [
             'class' => uran1980\yii\modules\i18n\Module::className(),
             'controllerMap' => [

@@ -14,6 +14,8 @@
 use kartik\grid\GridView;
 use \vova07\plans\Module;
 use yii\bootstrap\Html;
+use vova07\plans\models\SummarizedModel;
+use vova07\plans\models\backend\SummarizedProgramsSearch;
 $this->title = \vova07\plans\Module::t("default","SUMMARIZED_PROGRAMS");
 $this->params['subtitle'] = '';
 $this->params['breadcrumbs'] = [
@@ -40,9 +42,14 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
-            'attribute' => 'fio',
-            'value' => function($model){return $model->person->getFio(false,true);}
-
+            'attribute' => '__person_id',
+            'value' => 'fullTitle',
+            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PRISONER_PROMPT'), 'class'=> 'form-control', 'id' => null]
         ],
 
         [
@@ -67,15 +74,38 @@ $this->params['breadcrumbs'] = [
                 return contentField($model, $model->getPrisonerProgramsBySociologist());
             }
         ],
+
         [
-                'class' => \kartik\grid\ActionColumn::class,
-                'template' => "{view}",
-                'buttons' => [
-                    'view' => function ($url, $model, $key) {
-                        $url =  ['/plans/program-prisoners/index','ProgramPrisonerSearch[prisoner_id]'=>$model->primaryKey];
-                         return  Html::a('', $url,['class' => 'fa fa-list']);
-                     } ,
-                    ]
+                'attribute' => 'metaStatusId',
+                'content' => function($model) {
+
+                    switch ($model->getMetaStatusId()){
+                        case SummarizedProgramsSearch::META_STATUS_REALIZED:
+                            $options = ['class' => 'btn btn-success'];
+                            break;
+                        case SummarizedProgramsSearch::META_STATUS_AMBIGUOUS:
+                            $options = ['class' => 'btn btn-warning'];
+                            break;
+                        case SummarizedProgramsSearch::META_STATUS_NOT_REALIZED:
+                            $options = ['class' => 'btn btn-danger'];
+                            break;
+                        default:
+                            throw new LogicException('metaStatus cant be resolved');
+                    }
+
+                    $url =  ['/plans/program-prisoners/index','ProgramPrisonerSearch[prisoner_id]'=>$model->primaryKey];
+                    return  Html::a($model->getPrisonerPrograms()->count(), $url,$options);
+
+                },
+            'filter' => SummarizedProgramsSearch::getMetaStatusesForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_META_STATUS_PROMPT'), 'class'=> 'form-control', 'id' => null]
+
+
+
 
 
 
@@ -99,29 +129,35 @@ $this->params['breadcrumbs'] = [
                 return '';
 
         if ($totalCnt == $realizedCnt)
-            $totalOptions = ['class' => 'btn btn-success', 'style'=>['width'=>'100%']];
+            $totalOptions = ['class' => ' btn-success', 'style'=>['width'=>'100%']];
         else
             $totalOptions =  ['class' => 'btn btn-danger', 'style'=>['width'=>'100%']];
 
+        $realizedPercent = round($realizedCnt/$totalCnt * 100);
+        $notRealizedPercent = round($notRealizedCnt/$totalCnt * 100);
+
+        $realizedSrOptions = [];
+        $notRealizedSrOptions = [];
+
+        if (!$realizedPercent)
+            $realizedSrOptions['class']  = 'sr-only';
+        if (!$notRealizedPercent)
+            $notRealizedSrOptions['class']  = 'sr-only';
 
         $progressBarContent = Html::tag('div',
             Html::tag('div',
                 Html::tag('span',
                     $realizedCnt,
-                    [
-                    //    'class' => "sr-only"
-                    ]
+                    $realizedSrOptions
                 ),
-                ['style'=>['width'=> round($realizedCnt/$totalCnt * 100) .'%'],'class' => " progress-bar-striped progress-bar progress-bar-success"]
+                ['style'=>['width'=> $realizedPercent .'%'],'class' => " progress-bar-striped progress-bar progress-bar-success"]
             ) .
             Html::tag('div',
                 Html::tag('span',
                     $notRealizedCnt,
-                    [
-                    //    'class' => "sr-only"
-                    ]
+                    $notRealizedSrOptions
                 ),
-                ['style'=>['width'=>round($notRealizedCnt/$totalCnt * 100) .'%'],'class' => "progress-bar-striped  progress-bar progress-bar-danger"]
+                ['style'=>['width'=>$notRealizedPercent .'%'],'class' => "progress-bar-striped  progress-bar progress-bar-danger"]
             ),
             ['class' => " active" ]
         );
