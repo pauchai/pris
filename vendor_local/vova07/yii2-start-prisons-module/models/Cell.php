@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\prisons\Module;
+use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Schema;
@@ -25,6 +26,9 @@ use yii\helpers\ArrayHelper;
 
 class Cell extends  OwnableItem
 {
+
+    const PRISONERS_PER_SQUARE_3 = 3;
+    const PRISONERS_PER_SQUARE_4 = 4;
 
     use SaveRelationsTrait;
 
@@ -35,7 +39,8 @@ class Cell extends  OwnableItem
     public function rules()
     {
         return [
-            [['number'],'required']
+            [['number'],'required'],
+            [['square'],'number'],
         ];
     }
     /**
@@ -48,6 +53,7 @@ class Cell extends  OwnableItem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'number' => Schema::TYPE_STRING . ' NOT NULL',
                 'sector_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'square' => Schema::TYPE_DOUBLE,
             ],
             'indexes' => [
                 [self::class, ['sector_id','number'], true],
@@ -97,9 +103,12 @@ class Cell extends  OwnableItem
 
     public function getSector()
     {
-        return $this->hasOne(Prison::class,['__ownableitem_id' => 'sector_id']);
+        return $this->hasOne(Sector::class,['__ownableitem_id' => 'sector_id']);
     }
-
+    public function getPrisoners()
+    {
+        return $this->hasMany(Prisoner::class, ['cell_id' => '__ownableitem_id']);
+    }
     public static function getListForCombo($sector_id = null)
     {
         if ($sector_id){
@@ -107,6 +116,7 @@ class Cell extends  OwnableItem
         } else {
             $filter  = [];
         }
+
         return ArrayHelper::map(self::find()->andFilterWhere($filter)->all(),'__ownableitem_id','number');
     }
 
@@ -115,6 +125,12 @@ class Cell extends  OwnableItem
         return [
             'number' => Module::t('labels','CELL_NUMBER_LABEL')
         ];
+    }
+    public function getEstimatePrisonersCount($estimatePrisonersPerSquare = self::PRISONERS_PER_SQUARE_4)
+    {
+        if (is_null($this->square ))
+            return null;
+        return $this->square / $estimatePrisonersPerSquare;
     }
 
 }

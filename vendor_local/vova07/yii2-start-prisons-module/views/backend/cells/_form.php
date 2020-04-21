@@ -16,6 +16,7 @@ use vova07\prisons\Module;
 <?=$form->field($model,'sector_id')->hiddenInput()->label(false)?>
 
 <?=$form->field($model,'number')?>
+<?=$form->field($model,'square')?>
 
 
 <?php $box->beginFooter();?>

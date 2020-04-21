@@ -43,6 +43,21 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'number',
+        'square',
+        [
+            'header' => 'prisoners count',
+            'content' => function($model){
+                return $model->getPrisoners()->count();
+            }
+        ],
+
+        [
+            'header' => 'estimate prisoners count',
+            'content' => function($model){
+                return $model->getEstimatePrisonersCount();
+            }
+        ],
+
         [
             'class' => \yii\grid\ActionColumn::class,
             'template' => '{view}{update}{delete}'
