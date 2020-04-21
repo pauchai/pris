@@ -35,6 +35,7 @@ class SummarizedProgramsSearch extends  PrisonerView
     const META_STATUS_AMBIGUOUS = 3;
     public $metaStatusId;
 
+
     public function rules()
     {
         return [
@@ -63,7 +64,7 @@ class SummarizedProgramsSearch extends  PrisonerView
             ));
             if ($this->metaStatusId == self::META_STATUS_REALIZED) {
                 $query->andWhere(
-                    ['__person_id' => $actualProgramsQuery->realized()->select('prisoner_id')->distinct()]
+                    ['__person_id' => $actualProgramsQuery->hasProgram()->realized()->select('prisoner_id')->distinct()]
                 );
             }
             if ($this->metaStatusId == self::META_STATUS_NOT_REALIZED) {
@@ -73,9 +74,12 @@ class SummarizedProgramsSearch extends  PrisonerView
             }
 
             if ($this->metaStatusId == self::META_STATUS_AMBIGUOUS) {
+
                 $query->andWhere(
                     ['not in', '__person_id' , $actualProgramsQuery->select('prisoner_id')->distinct()]
                 );
+
+
             }
         }
 

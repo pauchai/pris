@@ -31,10 +31,7 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 <?php echo \kartik\grid\GridView::widget([
-    'dataProvider' => (new \yii\data\ActiveDataProvider([
-        'query' => $model->getPrisoners(),
-        'pagination' => false,
-    ])),
+    'dataProvider' => $dataProvider,
    'columns' => [
         'fullTitle'
    ]

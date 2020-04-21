@@ -27,8 +27,8 @@ use yii\helpers\ArrayHelper;
 class Cell extends  OwnableItem
 {
 
-    const PRISONERS_PER_SQUARE_3 = 3;
-    const PRISONERS_PER_SQUARE_4 = 4;
+    const SQUARE_PER_PRISONER_3 = 3;
+    const SQUARE_PER_PRISONER_4 = 4;
 
     use SaveRelationsTrait;
 
@@ -126,11 +126,20 @@ class Cell extends  OwnableItem
             'number' => Module::t('labels','CELL_NUMBER_LABEL')
         ];
     }
-    public function getEstimatePrisonersCount($estimatePrisonersPerSquare = self::PRISONERS_PER_SQUARE_4)
+    public function getEstimatePrisonersCount($estimatePrisonersPerSquare = self::SQUARE_PER_PRISONER_4)
     {
         if (is_null($this->square ))
             return null;
-        return $this->square / $estimatePrisonersPerSquare;
+        return round($this->square / $estimatePrisonersPerSquare);
+    }
+
+    public static function getSquarePerPrisonerForCombo()
+    {
+        return [
+            self::SQUARE_PER_PRISONER_3 => Module::t('default','SQUARE_PER_PRISONER_3_LABEL'),
+            self::SQUARE_PER_PRISONER_4 => Module::t('default','SQUARE_PER_PRISONER_4_LABEL'),
+
+        ];
     }
 
 }

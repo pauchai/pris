@@ -8,7 +8,7 @@ use vova07\prisons\Module;
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 $this->title = Module::t("default","SECTOR_CELLS");
-$this->params['subtitle'] = $model->title;
+$this->params['subtitle'] = $searchModel->sector->title;
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'] = [
         'buttonsTemplate' => '{create}',
          'buttons' => [
             'create' => [
-                'url' => ['create','sector_id' => $model->primaryKey],
+                'url' => ['create','sector_id' => $searchModel->sector->primaryKey],
                 'icon' => 'fa-plus',
                 'options' => [
                     'class' => 'btn-default',
@@ -40,6 +40,7 @@ $this->params['breadcrumbs'] = [
 );?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'number',
@@ -52,9 +53,10 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
-            'header' => 'estimate prisoners count',
-            'content' => function($model){
-                return $model->getEstimatePrisonersCount();
+            'attribute' => 'squarePerPrisoner',
+            'filter' => \vova07\prisons\models\Cell::getSquarePerPrisonerForCombo(),
+            'content' => function($model)use ($searchModel){
+                return $model->getEstimatePrisonersCount($searchModel->squarePerPrisoner);
             }
         ],
 

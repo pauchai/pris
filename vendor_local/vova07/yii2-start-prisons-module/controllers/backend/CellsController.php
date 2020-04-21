@@ -11,6 +11,7 @@ namespace vova07\prisons\controllers\backend;
 
 use lajax\translatemanager\models\Language;
 use vova07\base\components\BackendController;
+use vova07\prisons\models\backend\CellSearch;
 use vova07\prisons\models\backend\CompanyDepartmentSearch;
 use vova07\prisons\models\backend\CompanySearch;
 use vova07\prisons\models\backend\PrisonSearch;
@@ -48,9 +49,10 @@ class CellsController extends BackendController
         {
             throw new NotFoundHttpException(Module::t("default","ITEM_NOT_FOUND"));
         };
-
-        $dataProvider = new ActiveDataProvider(['query' => $sector->getCells()]);
-        return $this->render("index", ['dataProvider'=>$dataProvider,'model'=>$sector]);
+        $searchModel = new CellSearch();
+        $searchModel->sector = $sector;
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
     }
 
     public function actionCreate($sector_id)
@@ -97,8 +99,12 @@ class CellsController extends BackendController
         if (is_null($model = Cell::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
-        };
-        return $this->render('view', ['model'=>$model]);
+        }
+        $dataProvider = (new \yii\data\ActiveDataProvider([
+            'query' => $model->getPrisoners(),
+            'pagination' => false,
+        ]));
+        return $this->render('view', ['model'=>$model, 'dataProvider' => $dataProvider]);
     }
 
 
