@@ -23,6 +23,8 @@
             'placeholder' => Yii::t('default','SELECT_ISSUED_TO_PROMPT'),
         ]
     ]) ?>
+
+
     <?php echo $form->field($model,'expiredFromJui')->widget(\kartik\widgets\DatePicker::class,[
         'options'=>[
             'autocomplete' => 'off',

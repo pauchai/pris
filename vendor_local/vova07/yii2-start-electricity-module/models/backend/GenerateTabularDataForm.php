@@ -42,7 +42,7 @@ class GenerateTabularDataForm extends Model
     public function generateOrSyncDevicesAccounting()
     {
 
-        foreach (Device::find()->all() as $device)
+        foreach (Device::find()->hasPrisoner()->all() as $device)
         {
             if (DeviceAccounting::find()->andWhere([
                 'device_id' => $device->primaryKey,
@@ -61,5 +61,28 @@ class GenerateTabularDataForm extends Model
            // $deviceAccounting->autoCalculation();
 
         }
+    }
+    public function getDeviceAccountingsWithoutPrisoner()
+    {
+        $res = [];
+        foreach (Device::find()->withoutPrisoner()->all() as $device)
+        {
+            if (DeviceAccounting::find()->andWhere([
+                'device_id' => $device->primaryKey,
+                'from_date' => $this->from_date,
+                'to_date' => $this->to_date,
+            ])->one())
+                continue;
+
+            $deviceAccounting  = new DeviceAccounting();
+            $deviceAccounting->device_id = $device->primaryKey;
+            $deviceAccounting->from_date = $this->from_date;
+            $deviceAccounting->to_date = $this->to_date;
+            $deviceAccounting->status_id = DeviceAccounting::STATUS_INIT;
+            $res[] = $deviceAccounting;
+
+
+        }
+        return $res;
     }
 }

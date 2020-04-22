@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var $generateTabularDataFormModel \vova07\electricity\models\backend\GenerateTabularDataForm
+ */
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use vova07\jobs\helpers\Calendar;
@@ -43,6 +46,9 @@ $this->params['breadcrumbs'] = [
 <?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()->label(false)?>
 <?php echo \yii\bootstrap\Html::submitButton("SYNC_TABULAR_DATA",['class' => 'no-print'])?>
 <?php ActiveForm::end();?>
+<?php
+ echo $this->render('_devices_without_prisoner', ['deviceAccountings' => $generateTabularDataFormModel->getDeviceAccountingsWithoutPrisoner()]);
+?>
 
 
     <?php $form = ActiveForm::begin([
@@ -74,7 +80,7 @@ $this->params['breadcrumbs'] = [
                     $remain = ($model->prisoner->balance instanceof \vova07\finances\models\backend\BalanceByPrisonerView)?$model->prisoner->balance->remain:0;
 
                     return [
-                        //  'mergeColumns' => [[2,3]], // columns to merge in summary
+                          //'mergeColumns' => [[2,3]], // columns to merge in summary
 
                         'content' => [             // content to show in each summary cell
                              2 => Module::t('default','TOTAL_TITLE'),

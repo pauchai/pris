@@ -10,6 +10,7 @@ namespace vova07\electricity\models;
 
 
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 class DeviceQuery extends ActiveQuery
 {
@@ -26,5 +27,17 @@ class DeviceQuery extends ActiveQuery
         return $this->andWhere([
             'prisoner_id' => $prisonerId,
         ]);
+    }
+    public function hasPrisoner()
+    {
+        return $this->andWhere(
+          new Expression('not isnull(prisoner_id)')
+        );
+    }
+    public function withoutPrisoner()
+    {
+        return $this->andWhere(
+            new Expression('isnull(prisoner_id)')
+        );
     }
 }

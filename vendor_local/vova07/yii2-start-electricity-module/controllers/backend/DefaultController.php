@@ -3,9 +3,11 @@ namespace vova07\electricity\controllers\backend;
 use common\fixtures\DeviceAccountingFixture;
 use DeepCopyTest\Matcher\Y;
 use http\Url;
+use phpDocumentor\Reflection\Types\Array_;
 use vova07\base\components\BackendController;
 use vova07\electricity\models\backend\DeviceAccountingSearch;
 use vova07\electricity\models\backend\GenerateTabularDataForm;
+use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
 use vova07\electricity\models\DeviceAccountingQuery;
 use vova07\events\models\Event;
@@ -18,6 +20,8 @@ use vova07\tasks\models\Committee;
 use vova07\users\models\backend\User;
 use vova07\users\models\Prisoner;
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -95,6 +99,9 @@ class DefaultController extends BackendController
         $newModel = new DeviceAccounting();
         $generateTabularDataFormModel = new GenerateTabularDataForm();
         $generateTabularDataFormModel->dateRange = $searchModel->dateRange;
+        $generateTabularDataFormModel->validate();
+
+
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
         return $this->render("index", ['dataProvider'=>$dataProvider, 'newModel' => $newModel,'searchModel' => $searchModel,'generateTabularDataFormModel' => $generateTabularDataFormModel]);
@@ -111,7 +118,7 @@ class DefaultController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['index']);
+                return $this->goBack();
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
@@ -186,7 +193,9 @@ class DefaultController extends BackendController
         $model->validate();
         $model->generateOrSyncDevicesAccounting();
 
+
         return $this->goBack();
+
     }
 
 
