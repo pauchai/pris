@@ -25,7 +25,7 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?php //echo $this->render('_search', ['model' => $searchModel])?>
+<?php echo $this->render('_search', ['model' => $searchModel])?>
 
 <?php echo \kartik\grid\GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -86,8 +86,15 @@ $this->params['breadcrumbs'] = [
             'filter' => \vova07\documents\models\Document::getMetaStatusesForCombo(),
         ],
         [
+            'attribute' => 'date_issued',
+            'format' => 'date',
+            'filter' => false,
+            'content' => function($model){return $model->dateIssueJui;}
+        ],
+        [
           'attribute' => 'date_expiration',
             'format' => 'date',
+            /*
             'filter' => \kartik\widgets\DatePicker::widget([
                 'model' => $searchModel,
                 'attribute' => 'expiredFromJui',
@@ -97,8 +104,17 @@ $this->params['breadcrumbs'] = [
                 'pluginOptions' => [
                     'allowClear' => true,
                     'format' => 'dd-mm-yyyy']
-            ]),
-            'content' => function($model){return $model->dateExpirationJui . " ({$model->dateIssueJui})";}
+            ]),*/
+            'filter' => false,
+            'content' => function($model){return $model->dateExpirationJui;}
+        ],
+        [
+          'attribute' => 'assigned_to',
+          'value' => function($model){
+            if ($model->assigned_to){
+                return $model->assignedTo->person->getFio('true');
+            }
+          }
         ],
         [
             'attribute' => "status_id",

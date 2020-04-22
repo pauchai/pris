@@ -30,6 +30,14 @@ use vova07\prisons\Module;
 <?=$form->field($model,'seria')?>
 <?= $form->field($model, 'dateIssueJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?= $form->field($model, 'dateExpirationJui')->widget(\kartik\widgets\DatePicker::class)?>
+<?= $form->field($model, 'assigned_to')->widget(
+    \kartik\select2\Select2::class,[
+        'data' => \vova07\users\models\Officer::getListForCombo(),
+        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_OFFICER')]
+
+    ]
+)?>
+<?= $form->field($model, 'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 
 <?=$form->field($model,'status_id')->dropDownList(\vova07\documents\models\Document::getStatusesForCombo(),['prompt' => Module::t('default','SELECT')])?>
 

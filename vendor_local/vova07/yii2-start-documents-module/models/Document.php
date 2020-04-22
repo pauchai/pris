@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\documents\Module;
+use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
@@ -81,8 +82,10 @@ class Document extends  Ownableitem
         return [
             [['type_id', 'country_id', 'status_id','person_id'], 'required'],
             [['seria','IDNP'],'string'],
-            [['date_issue', 'date_expiration'], 'integer'],
-            [['dateIssueJui','dateExpirationJui'],'date'],
+            [['date_issue', 'date_expiration','assigned_at'], 'integer'],
+            [['dateIssueJui','dateExpirationJui', 'assignedAtJui'],'date'],
+            [['assigned_to'],'integer'],
+            [['assigned_at'],'default' , 'value' => time()]
         ];
     }
 
@@ -101,6 +104,8 @@ class Document extends  Ownableitem
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL' ,
                 'seria' => Schema::TYPE_STRING . ' NOT NULL' ,
                 'IDNP' =>  Schema::TYPE_STRING. ' ',
+                'assigned_to' => $migration->integer(),
+                'assigned_at' => $migration->bigInteger(),
 
                 'date_issue' => $migration->bigInteger()->notNull(),
                 'date_expiration' => $migration->bigInteger()->notNull() ,
@@ -111,10 +116,14 @@ class Document extends  Ownableitem
                 [self::class, ['status_id']],
                 [self::class, ['date_issue']],
                 [self::class, ['date_expiration']],
+                [self::class, ['assigned_to']],
+                [self::class, ['assigned_at']],
+
             ],
             'foreignKeys' => [
                 [get_called_class(), 'country_id',Country::class,Country::primaryKey()],
-                [get_called_class(), ['person_id'],Person::class, Person::primaryKey()]
+                [get_called_class(), ['person_id'],Person::class, Person::primaryKey()],
+                [get_called_class(), ['assigned_to'],Officer::class, Officer::primaryKey()]
             ],
 
         ];
@@ -146,6 +155,11 @@ class Document extends  Ownableitem
                     'class' => DateJuiBehavior::className(),
                     'attribute' => 'date_expiration',
                     'juiAttribute' => 'dateExpirationJui'
+                ],
+                'assignedAtJui'=>[
+                    'class' => DateJuiBehavior::className(),
+                    'attribute' => 'assigned_at',
+                    'juiAttribute' => 'assignedAtJui'
                 ]
 
             ];
@@ -183,6 +197,13 @@ class Document extends  Ownableitem
     {
         return $this->hasOne(Person::class, ['__ident_id'=>'person_id']);
     }
+    public function getAssignedTo()
+    {
+        return $this->hasOne(Officer::class, ['__person_id'=>'assigned_to']);
+
+    }
+
+
 
     public static function getTypesForCombo()
     {
@@ -266,6 +287,7 @@ class Document extends  Ownableitem
             'title' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
         ];
     }
+
 
     public static function getMetaStatusesForCombo()
     {

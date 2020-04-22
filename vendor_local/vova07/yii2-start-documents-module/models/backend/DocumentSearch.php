@@ -1,6 +1,7 @@
 <?php
 namespace vova07\documents\models\backend;
 use vova07\base\components\DateJuiBehavior;
+use vova07\prisons\models\Company;
 use yii\validators\DateValidator;
 
 /**
@@ -17,6 +18,7 @@ class DocumentSearch extends \vova07\documents\models\Document
     public $expiredFrom;
     public $expiredTo;
     public $metaStatusId;
+    public $companyId;
 
     public function rules()
     {
@@ -27,6 +29,8 @@ class DocumentSearch extends \vova07\documents\models\Document
             [['expiredFrom','expiredTo'],'integer'],
             [['expiredToJui','expiredFromJui'],'date'],
             [['metaStatusId', 'status_id'], 'integer'],
+            [['companyId'], 'integer'],
+           // ['companyId','default','value' => \Yii::$app->base->company->primaryKey]
     //        [['issuedToJui'],'date','format' => 'dd-mm-yyyy']
 
         ];
@@ -94,9 +98,11 @@ class DocumentSearch extends \vova07\documents\models\Document
                     'type_id' => SORT_ASC,
 
         ];
-        if (!($this->load($params) && $this->validate())) {
-            return $dataProvider;
-        }
+        //if (!($this->load($params) && $this->validate())) {
+           // return $dataProvider;
+        //}
+        $this->load($params);
+        $this->validate();
         $dataProvider->query->andFilterWhere([
             'person_id' => $this->person_id,
             'type_id' => $this->type_id,
@@ -115,8 +121,19 @@ class DocumentSearch extends \vova07\documents\models\Document
         $dataProvider->query
             ->andFilterWhere(['>=','date_expiration',$this->expiredFrom])
             ->andFilterWhere(['<=','date_expiration',$this->expiredTo]);
+        if ($this->companyId && ($company = Company::findOne($this->companyId))){
+
+
+            $dataProvider->query->andWhere(
+              [
+                  'assigned_to' => $company->getOfficers()->select('__person_id')
+              ]
+            );
+        }
         return $dataProvider;
 
     }
+
+
 
 }

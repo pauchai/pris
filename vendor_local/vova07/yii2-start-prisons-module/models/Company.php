@@ -16,6 +16,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\prisons\Module;
+use vova07\users\models\Officer;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Schema;
@@ -184,6 +185,11 @@ class Company extends  Ownableitem
         return [
           'title' =>  Module::t('label','COMPANY_TITLE_LABEL'),
         ];
+    }
+
+    public function getOfficers()
+    {
+        return $this->hasMany(Officer::class,['company_id'=>'__ownableitem_id']);
     }
 
 
