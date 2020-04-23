@@ -221,6 +221,74 @@ $this->params['breadcrumbs'] = [
                 ],
             ]
         ]
+    ],
+    'afterHeader' => [
+        [
+            'columns' => [
+                [],
+                [],
+                [],
+                /* [
+                     'content' =>  Module::t('labels','RISC_LABEL'),
+                     'options' => [
+
+                         'style' => 'text-align:center',
+                         'class' => 'label-danger'
+                     ]
+                 ],*/
+
+
+                [
+                    'content' =>   \vova07\psycho\models\PsyCharacteristic::find()
+                        ->andWhere([
+                            '__person_id' => \vova07\users\models\Prisoner::find()->select('__person_id')->active()
+                        ])
+                        ->andWhere(
+                                new \yii\db\Expression('feature_violent=1')
+                        )->count(),
+                ],
+
+                [
+                    'content' =>   \vova07\psycho\models\PsyCharacteristic::find()
+                        ->andWhere([
+                            '__person_id' => \vova07\users\models\Prisoner::find()->select('__person_id')->active()
+                        ])
+                        ->andWhere(
+                                new \yii\db\Expression('feature_self_torture=1')
+                        )->count(),
+                ],
+                [
+                    'content' =>   \vova07\psycho\models\PsyCharacteristic::find()
+                        ->andWhere([
+                            '__person_id' => \vova07\users\models\Prisoner::find()->select('__person_id')->active()
+                        ])
+                        ->andWhere(
+                            new \yii\db\Expression('feature_sucide=1')
+                        )->count(),
+                ],
+                [
+                    'content' =>   \vova07\psycho\models\PsyCharacteristic::find()
+                        ->andWhere([
+                            '__person_id' => \vova07\users\models\Prisoner::find()->select('__person_id')->active()
+                        ])
+                        ->andWhere(
+                            new \yii\db\Expression('feature_addiction_alcohol=1')
+                        )->count(),
+                ],
+                [
+                    'content' =>   \vova07\psycho\models\PsyCharacteristic::find()
+                        ->andWhere([
+                            '__person_id' => \vova07\users\models\Prisoner::find()->select('__person_id')->active()
+                        ])
+                        ->andWhere(
+                            new \yii\db\Expression('feature_addiction_drug=1')
+                        )->count(),
+                ],
+                [
+
+                ],
+            ]
+        ]
     ]
 ])?>
 
