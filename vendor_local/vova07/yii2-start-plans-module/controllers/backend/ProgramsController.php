@@ -31,8 +31,23 @@ class ProgramsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view', 'view-print', 'delete','update'],
-                'roles' => ['@']
+                'actions' => ['index','view', 'view-print'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DELETE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['create'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_CREATE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_UPDATE]
             ]
         ];
         return $behaviors;

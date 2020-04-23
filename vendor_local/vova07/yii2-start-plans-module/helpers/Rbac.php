@@ -48,7 +48,6 @@ class Rbac
        $permissions = [
 
            Module::PERMISSION_PROGRAM_PLANING_LIST,
-           Module::PERMISSION_PROGRAM_LIST,
 
 
        ];
@@ -63,6 +62,35 @@ class Rbac
        $permissions = [
            Module::PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE,
            Module::PERMISSION_PRISONER_PLAN_COMMENT_CREATE,
+
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+       }
+
+       $permissions = [
+           Module::PERMISSION_PROGRAM_DELETE,
+
+
+
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+       }
+
+       $permissions = [
+           Module::PERMISSION_PROGRAM_CREATE,
+           Module::PERMISSION_PROGRAM_UPDATE,
+           Module::PERMISSION_PROGRAM_LIST,
+
 
 
        ];
