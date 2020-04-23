@@ -3,6 +3,7 @@ return [
    // 'language' => "ro-RO",
     //'sourceLanguage' => 'ro-RO',
     'sourceLanguage' => 'en-EN',
+    //'sourceLanguage' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

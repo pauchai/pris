@@ -46,9 +46,7 @@ $this->params['breadcrumbs'] = [
 <?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()->label(false)?>
 <?php echo \yii\bootstrap\Html::submitButton("SYNC_TABULAR_DATA",['class' => 'no-print'])?>
 <?php ActiveForm::end();?>
-<?php
- echo $this->render('_devices_without_prisoner', ['deviceAccountings' => $generateTabularDataFormModel->getDeviceAccountingsWithoutPrisoner()]);
-?>
+
 
 
     <?php $form = ActiveForm::begin([
@@ -76,8 +74,10 @@ $this->params['breadcrumbs'] = [
             'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
                 'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
-
-                    $remain = ($model->prisoner->balance instanceof \vova07\finances\models\backend\BalanceByPrisonerView)?$model->prisoner->balance->remain:0;
+                    if ($model->prisoner)
+                        $remain = ($model->prisoner->balance instanceof \vova07\finances\models\backend\BalanceByPrisonerView)?$model->prisoner->balance->remain:0;
+                    else
+                        $remain = 0;
 
                     return [
                           //'mergeColumns' => [[2,3]], // columns to merge in summary
@@ -145,7 +145,21 @@ $this->params['breadcrumbs'] = [
                 'attribute' => 'status',
                 'visible' => !$this->context->isPrintVersion,
             ],
+            [
+                'label' =>Module::t('default','PAID_LABEL'),
+                'visible' => !$this->context->isPrintVersion,
 
+                'content' => function($model)
+                {
+                    //ArrayHelper::map(self::find()->asArray()->all(), '__ownableitem_id', 'title');
+                    $arr = [];
+                    foreach ($model->getBalances()->select('prisoner_id')->distinct()->all() as $balance)
+
+                        $arr[] = Html::a($balance->person->second_name,['/finances/default/view','id' => $balance->prisoner_id]);
+
+                    return join('<br/>', $arr);
+                }
+            ],
 
              [
 
@@ -153,16 +167,17 @@ $this->params['breadcrumbs'] = [
                  'visible' => !$this->context->isPrintVersion,
 
              ],
-            [
+/*            [
                 'hAlign' => GridView::ALIGN_CENTER,
 
                 'visible' => !$this->context->isPrintVersion,
                  'attribute' =>'balance.atJui',
-            ],
+            ],*/
 
             [
 
                 'class' => \yii\grid\ActionColumn::class,
+                'template' => '{update}{delete}',
                 'visible' => !$this->context->isPrintVersion,
             ],
             [

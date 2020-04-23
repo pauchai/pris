@@ -13,6 +13,7 @@ use vova07\concepts\models\ConceptVisit;
 use vova07\countries\models\Country;
 use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
+use vova07\electricity\models\DeviceAccountingBalance;
 use vova07\events\models\Event;
 use vova07\events\models\EventParticipant;
 use vova07\finances\models\Balance;
@@ -154,8 +155,10 @@ class ModelsGeneratorController extends \yii\console\Controller
 
             PsyTest::class,
 
-*/
+
             PrisonerPlan::class,
+*/
+            DeviceAccountingBalance::class
 
         ];
     }

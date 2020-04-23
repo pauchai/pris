@@ -42,7 +42,7 @@ class GenerateTabularDataForm extends Model
     public function generateOrSyncDevicesAccounting()
     {
 
-        foreach (Device::find()->hasPrisoner()->all() as $device)
+        foreach (Device::find()->all() as $device)
         {
             if (DeviceAccounting::find()->andWhere([
                 'device_id' => $device->primaryKey,

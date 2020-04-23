@@ -5,6 +5,7 @@ use http\Url;
 use vova07\base\components\BackendController;
 use vova07\electricity\models\backend\DeviceAccountingSearch;
 use vova07\electricity\models\DeviceAccounting;
+use vova07\electricity\models\DeviceAccountingBalance;
 use vova07\electricity\models\DeviceAccountingQuery;
 use vova07\events\models\Event;
 use vova07\events\Module;
@@ -15,6 +16,7 @@ use vova07\tasks\models\Committee;
 use vova07\users\models\backend\User;
 use vova07\users\models\Prisoner;
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\web\NotFoundHttpException;
 
@@ -35,12 +37,12 @@ class BalanceImportController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'do-process', 'delete'],
+                'actions' => ['index','view'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT]
             ],
             [
                 'allow' => true,
-                'actions' => [ 'delete'],
+                'actions' => [ 'do-process', 'delete'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT]
             ],
 
@@ -90,14 +92,15 @@ class BalanceImportController extends BackendController
                 if ($balance->save())
                 {
                     foreach ($prisonerDeviceAccountings as $deviceAccounting){
-                        $deviceAccounting->balance_id = $balance->primaryKey;
                         $deviceAccounting->status_id = DeviceAccounting::STATUS_PROCESSED;
-                        $deviceAccounting->save();                    }
+                        $deviceAccounting->save();
+                    }
+
 
                 }
 
             }
-            return $this->redirect(\yii\helpers\Url::to(['index']));
+            return $this->goBack();
         }
     }
 
@@ -111,6 +114,57 @@ class BalanceImportController extends BackendController
             return $this->redirect(['index']);
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
+    }
+
+    public function actionView($id)
+    {
+        if (is_null($model = DeviceAccounting::findOne($id)))
+        {
+            throw new NotFoundHttpException(\vova07\finances\Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        $balance = new balance();
+        $balance->type_id = Balance::TYPE_CREDIT;
+        $balance->category_id = BalanceCategory::CATEGORY_CREDIT_OTHER;
+        $oldSourceLanguage = \Yii::$app->sourceLanguage;
+        \Yii::$app->sourceLanguage = 'ru-RU';
+        $balance->reason = \vova07\electricity\Module::t('default','ELECTRICITY_FOR_MONTH {0, date, MMM, Y}', $model->to_date) ;
+
+        if ($model->device->prisoner)
+
+            $balance->reason = \vova07\electricity\Module::t('default','ELECTRICITY_FOR_MONTH {0, date, MMM, Y}', $model->to_date) ;
+        else
+            $balance->reason = \vova07\electricity\Module::t('default','ELECTRICITY_FOR_MONTH {0, date, MMM, Y}', $model->to_date) . ' ' . $model->device->title ;
+
+        \Yii::$app->sourceLanguage = $oldSourceLanguage;
+
+
+        $balance->prisoner_id = $model->prisoner_id??$model->device->prisoner_id;
+        $balance->amount = $model->getUnPaid();
+        $balance->atJui = date('d-m-Y');
+
+        if ($balance->load(\Yii::$app->request->post()) && $balance->validate() ){
+            if ($balance->save())
+            {
+                $deviceAccountingBalance  = new DeviceAccountingBalance();
+                $deviceAccountingBalance->balance_id = $balance->primaryKey;
+                $deviceAccountingBalance->device_accounting_id = $model->primaryKey;
+                $deviceAccountingBalance->save();
+            }
+
+
+
+            $this->redirect(['view', 'id' => $model->primaryKey]);
+        }
+        if ($model->getBalances()->sum('amount') >= $model->getPrice())
+        {
+            $model->status_id = DeviceAccounting::STATUS_PROCESSED;
+            $model->save();
+        }
+
+        $balanceDataProvider = new ActiveDataProvider([
+            'query' => $model->getBalances()
+        ]);
+        return $this->render('view',['model' => $model,'balance' => $balance,'balanceDataProvider'=>$balanceDataProvider]);
     }
 
 

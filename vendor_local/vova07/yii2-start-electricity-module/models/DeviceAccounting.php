@@ -64,7 +64,7 @@ class DeviceAccounting extends  Ownableitem
     public function rules()
     {
         return [
-            [['prisoner_id', 'device_id', 'dateRange'], 'required'],
+            [['device_id', 'dateRange'], 'required'],
             //   [['from_date'],'default', 'value' => Calendar::getRangeForDate(time())[0]->getTimeStamp()],
             //   [['to_date'],'default', 'value' => Calendar::getRangeForDate(time())[1]->getTimeStamp()],
             [['value'], 'number'],
@@ -92,7 +92,7 @@ class DeviceAccounting extends  Ownableitem
                 'to_date' => $migration->bigInteger()->notNull(),
                 'value' => $migration->double('4,2')->notNull(),
                 'status_id' => $migration->tinyInteger()->notNull(),
-                'balance_id' => $migration->integer(),
+               // 'balance_id' => $migration->integer(),
 
             ],
             'indexes' => [
@@ -106,7 +106,7 @@ class DeviceAccounting extends  Ownableitem
             'foreignKeys' => [
                 [self::class, 'prisoner_id', Prisoner::class, Prisoner::primaryKey()],
                 [self::class, 'device_id', Device::class, Device::primaryKey()],
-                [self::class, 'balance_id', Balance::class, Balance::primaryKey()],
+                //[self::class, 'balance_id', Balance::class, Balance::primaryKey()],
             ],
 
         ];
@@ -193,10 +193,25 @@ class DeviceAccounting extends  Ownableitem
         return $this->hasOne(Prisoner::class, ['__person_id' => 'prisoner_id']);
     }
 
-    public function getBalance()
+
+    public function getBalances()
+    {
+        return $this->hasMany(Balance::class, ['__ownableitem_id' => 'balance_id'])
+            ->via('deviceAccountingBalances');
+    }
+    public function getUnPaid()
+    {
+        return $this->getPrice() - $this->getBalances()->sum('amount');
+    }
+    public function getDeviceAccountingBalances()
+    {
+        return $this->hasMany(DeviceAccountingBalance::class, ['device_accounting_id' => '__ownableitem_id']);
+    }
+
+/*    public function getBalance()
     {
         return $this->hasOne(Balance::class, ['__ownableitem_id' => 'balance_id']);
-    }
+    }*/
 
     public static function getStatusesForCombo($key = null)
     {
@@ -297,6 +312,9 @@ class DeviceAccounting extends  Ownableitem
         return [
           'dateRange' => Module::t('labels','DATE_RANGE'),
             'value' => Module::t('labels','DEVICE_ACCOUNTING_VALUE'),
+            'status' => Module::t('labels','STATUS_LABEL'),
+            'status_id' => Module::t('labels','STATUS_LABEL'),
+
 
         ];
     }

@@ -49,7 +49,10 @@ $this->params['breadcrumbs'] = [
 
             'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
 
-                $remain = ($model->prisoner->balance instanceof \vova07\finances\models\backend\BalanceByPrisonerView)?$model->prisoner->balance->remain:0;
+                if ($model->prisoner)
+                    $remain = ($model->prisoner->balance instanceof \vova07\finances\models\backend\BalanceByPrisonerView)?$model->prisoner->balance->remain:0;
+                else
+                    $remain = 0;
 
                 return [
                       'mergeColumns' => [[2,3]], // columns to merge in summary
@@ -105,26 +108,28 @@ $this->params['breadcrumbs'] = [
             }
         ],
         [
-                'header' => 'remain',
+                'header' => Module::t('default','REMAIN_LABEL'),
                 'content' => function($model){return '';} ,
         ],
         [
                 'attribute' => 'status',
-                'content' => function($model)use($form){
+                'content' => function($model){
                     if ($model->status_id >= \vova07\electricity\models\DeviceAccounting::STATUS_READY_FOR_PROCESSING)
                         return $model->status;
 
 
                 }
         ],
+
         [
             'class' =>  \yii\grid\CheckboxColumn::class,
 
 
         ],
+
          [
             'class' =>  \yii\grid\ActionColumn::class,
-            'template' => '{delete}'
+            'template' => '{view}{delete}'
 
 
         ]

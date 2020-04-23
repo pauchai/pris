@@ -15,6 +15,7 @@ use vova07\base\components\DateConvertJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Ownableitem;
 use vova07\finances\Module;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\Schema;
@@ -145,6 +146,10 @@ class Balance extends  Ownableitem
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
     }
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id'=>'prisoner_id']);
+    }
     public function getCategory()
     {
         return $this->hasOne(BalanceCategory::class,['category_id'=>'category_id' , 'type_id'=>'type_id']);
@@ -159,6 +164,7 @@ class Balance extends  Ownableitem
             'category_id' => Module::t('labels','BALANCE_CATEGORY_VALUE'),
             'amount' => Module::t('labels','BALANCE_AMOUNT_VALUE'),
             'reason' => Module::t('labels','BALANCE_REASON_VALUE'),
+
 
         ];
     }
