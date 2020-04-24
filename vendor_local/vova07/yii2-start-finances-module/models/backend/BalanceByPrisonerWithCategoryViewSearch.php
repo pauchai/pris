@@ -104,10 +104,16 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
     }
     public function attributeLabels()
     {
-        return [
-            'hasDevices' => Module::t('default','HAS_DEVICE_LABEL'),
-            'withoutJobs' => Module::t('default','WITHOUT_JOBS_LABEL'),
-        ];
+        return array_merge(
+            parent::attributeLabels(),
+            [
+                'hasDevices' => Module::t('default','HAS_DEVICE_LABEL'),
+                'withoutJobs' => Module::t('default','WITHOUT_JOBS_LABEL'),
+            ]
+        ) ;
+
+
+
     }
 
 
