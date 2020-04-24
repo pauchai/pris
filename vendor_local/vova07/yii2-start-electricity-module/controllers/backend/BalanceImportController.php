@@ -94,6 +94,11 @@ class BalanceImportController extends BackendController
                     foreach ($prisonerDeviceAccountings as $deviceAccounting){
                         $deviceAccounting->status_id = DeviceAccounting::STATUS_PROCESSED;
                         $deviceAccounting->save();
+
+                        $deviceAccountingBalance  = new DeviceAccountingBalance();
+                        $deviceAccountingBalance->balance_id = $balance->primaryKey;
+                        $deviceAccountingBalance->device_accounting_id = $deviceAccounting->primaryKey;
+                        $deviceAccountingBalance->save();
                     }
 
 
