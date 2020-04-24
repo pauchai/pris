@@ -13,6 +13,7 @@ use vova07\plans\models\ProgramPrisoner;
  */
 class ProgramPrisonerSearch extends ProgramPrisoner
 {
+    const SCENARIO_PLANNING = 'planning';
 
     public function init()
     {
@@ -24,7 +25,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
         return [
             [['programdict_id', 'prison_id', 'planned_by', 'prisoner_id', 'program_id', 'date_plan', 'status_id', 'mark_id'], 'integer'],
             [['ownableitem.created_by'],'safe'],
-            [['date_plan'], 'default', 'value' => date('Y')],
+            [['date_plan'], 'default', 'value' => date('Y'),'on' => self::SCENARIO_PLANNING],
 
         ];
     }

@@ -4,6 +4,7 @@ namespace vova07\finances\models\backend;
 use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
 use vova07\finances\models\backend\BalanceByPrisonerView;
+use vova07\jobs\models\JobPaidList;
 use vova07\jobs\Module;
 use vova07\users\models\Prisoner;
 use yii\db\Expression;
@@ -22,6 +23,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
 
     public $only_debt = false;
     public $hasDevices;
+    public $withoutJobs = true;
   //  public $sector_id;
 
     public function init()
@@ -31,7 +33,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
     public function rules()
     {
         return [
-            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id' ,'hasDevices'],'safe']
+            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id' ,'hasDevices', 'withoutJobs'],'safe']
         ];
     }
     public function search($params)
@@ -77,6 +79,12 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
                 ['in', 'prisoner_id', Device::find()->select('prisoner_id')->distinct()]
             );
         }
+        if ($this->withoutJobs == true)
+        {
+            $query->andFilterWhere(
+                ['not in', 'prisoner_id', JobPaidList::find()->select('assigned_to')->distinct()]
+            );
+        }
 
 
 
@@ -91,13 +99,16 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
         return array_merge(parent::attributes(),[
             'prisoner.sector_id',
             'prisoner.status_id'
+
         ]);
     }
-
-
-
-
-
+    public function attributeLabels()
+    {
+        return [
+            'hasDevices' => Module::t('default','HAS_DEVICE_LABEL'),
+            'withoutJobs' => Module::t('default','WITHOUT_JOBS_LABEL'),
+        ];
+    }
 
 
 }

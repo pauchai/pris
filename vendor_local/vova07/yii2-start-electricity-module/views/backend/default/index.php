@@ -55,11 +55,15 @@ $this->params['breadcrumbs'] = [
     <?php echo GridView::widget(['dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'layout' => $this->context->isPrintVersion?"{items}\n{pager}":"{summary}\n{items}\n{pager}",
-
+        'showPageSummary' => true,
+        //'showFooter' => true,
         'columns' => [
-            ['class' => yii\grid\SerialColumn::class],
+            [
+                'class' => \kartik\grid\SerialColumn::class,
+            ],
             [
                 'attribute' => 'prisoner_id',
+                'pageSummary' => '',
                 'value' => function($model){
                     if ($model->prisoner)
                         return $model->prisoner->person->getFio(false, true);
@@ -107,16 +111,25 @@ $this->params['breadcrumbs'] = [
                     ];
                 }
             ],
-            'device.title',
+            [
+                'attribute' => 'device.title',
+                'pageSummary' => Module::t('default', "PAGE_SUMMARY"),
+                //'pageSummaryFunc' => function(),
+            ],
+
           //  'dateRange',
             [
                'attribute' => 'value',
                 'hAlign' => GridView::ALIGN_CENTER,
+                'pageSummary' => true,
+                'pageSummaryFunc' => GridView::F_SUM,
              ],
 
             [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'header' => Module::t('labels','PRICE_ACCOUNTING_VALUE'),
+                'pageSummary' => true,
+                'pageSummaryFunc' => GridView::F_SUM,
                 'value' => function($model){
                     $ret = $model->getPrice();
                     //return  Yii::$app->formatter->asDecimal($ret,2);
@@ -190,6 +203,25 @@ $this->params['breadcrumbs'] = [
             ]
 
         ],
+        /*'beforeFooter' => [
+            [
+                'columns' => [
+
+
+                    [ 'options' => [
+                        'colspan' => 5,
+                        ]
+                    ],
+
+
+                    [
+                        'content' => $dataProvider->query->sum('remain'),
+
+
+                    ],
+                ]
+            ]
+        ]*/
 
     ]);
 

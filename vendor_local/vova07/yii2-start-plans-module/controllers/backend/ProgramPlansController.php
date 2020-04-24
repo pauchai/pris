@@ -46,7 +46,7 @@ class ProgramPlansController extends BackendController
     {
         \Yii::$app->user->returnUrl  = Url::current();
 
-        $searchModel = new ProgramPrisonerSearch();
+        $searchModel = new ProgramPrisonerSearch(['scenario' => ProgramPrisonerSearch::SCENARIO_PLANNING]);
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->query->planned()->forPrisonersActiveAndEtapped();
 

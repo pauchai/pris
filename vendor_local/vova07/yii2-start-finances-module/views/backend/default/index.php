@@ -163,7 +163,22 @@ $gridColumns[] = [
 
 
 ];
+$gridColumns[] = [
+    'label'=>false,
 
+    'attribute' => 'withoutJobs',
+    'filterType' => GridView::FILTER_CHECKBOX,
+    'filterInputOptions' => ['class'=>''],
+    'content' => function($model){
+        $cnt = $model->prisoner->getJobs()->count();
+        if ($cnt)
+            return Html::a($cnt,['/jobs/job-list/index', 'JobPaidListSearch[assigned_to]' => $model->prisoner_id],['label label-default']);
+        else
+            return '';
+    }
+
+
+];
         $gridColumns[] = [
             'visible' => Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_FINANCES_LIST),
             'class' => \yii\grid\ActionColumn::class,
