@@ -23,7 +23,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
 
     public $only_debt = false;
     public $hasDevices;
-    public $withoutJobs = true;
+    public $withoutJobs = false;
   //  public $sector_id;
 
     public function init()

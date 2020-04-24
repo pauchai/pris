@@ -39,7 +39,8 @@ $this->params['breadcrumbs'] = [
         [
             'attribute' => 'concept_id',
 
-
+            'group' => true,
+            //'groupedRow' => true,
             'content' => function ($model) {
                 return \yii\helpers\Html::a($model->concept->title, ['/concepts/default/view','id' => $model->concept_id]);
             },
