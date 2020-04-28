@@ -14,5 +14,8 @@ use yii\db\ActiveQuery;
 class JobPaidListQuery extends ActiveQuery
 {
 
-
+    public function active()
+    {
+        return $this->andWhere(['status_id' => JobPaidList::STATUS_ID_ACTIVE]);
+    }
 }

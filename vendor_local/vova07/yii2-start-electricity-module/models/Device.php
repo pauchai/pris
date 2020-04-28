@@ -30,8 +30,6 @@ use yii\db\BaseActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
-use vova07\tasks\models\CommitteeQuery;
-use yii\validators\DateValidator;
 
 
 class Device extends  Ownableitem
@@ -42,6 +40,9 @@ class Device extends  Ownableitem
     const CALCULATION_METHOD_HOURS1 = 4;
     const CALCULATION_METHOD_HOURS0_5 = 5;
 
+    const STATUS_ID_ACTIVE = 1;
+
+
     public static function tableName()
     {
         return 'devices';
@@ -50,10 +51,11 @@ class Device extends  Ownableitem
     public function rules()
     {
         return [
-            [[ 'title', 'power','enable_auto_calculation'], 'required'],
+            [[ 'title', 'power','enable_auto_calculation', 'status_id'], 'required'],
             [['prisoner_id','sector_id','calculation_method_id'],'safe'],
             [['assignedAtJui','unassignedAtJui'],'date'],
-            [['cell_id'],'integer']
+            [['cell_id'],'integer'],
+            [['status_id'], 'default', 'value' => Device::STATUS_ID_ACTIVE]
 
         ];
 
@@ -72,12 +74,14 @@ class Device extends  Ownableitem
                 'title' => $migration->string()->notNull(),
                 'calculation_method_id' => $migration->tinyInteger(),
                 'prisoner_id' => $migration->integer() ,
-                'assigned_at' => $migration->integer(),
-                'unassigned_at' => $migration->integer(),
+                'assigned_at' => $migration->bigInteger(),
+                'unassigned_at' => $migration->bigInteger(),
                 'sector_id' => $migration->integer(),
                 'cell_id' => $migration->integer(),
                 'power' => $migration->integer()->notNull(),
                 'enable_auto_calculation' => $migration->boolean()->notNull()->defaultValue(true),
+                'status_id' => $migration->tinyInteger()->notNull(),
+
 
             ],
             'indexes' => [
@@ -88,6 +92,7 @@ class Device extends  Ownableitem
                 [self::class, 'assigned_at'],
                 [self::class, 'unassigned_at'],
                 [self::class, ['title','prisoner_id','power','sector_id','cell_id'],'unique'],
+                [self::class, 'status_id'],
             ],
             'foreignKeys' => [
                 [self::class, 'prisoner_id', Prisoner::class, Prisoner::primaryKey()],
@@ -200,13 +205,26 @@ class Device extends  Ownableitem
         return [
             'title' => Module::t('labels','DEVICE_TITLE_LABEL'),
             'assigned_at' => Module::t('labels','ASSIGNED_AT_LABEL'),
-            'unassigned_at' => Module::t('labels','ASSIGNED_AT_LABEL'),
+            'unassigned_at' => Module::t('labels','UNASSIGNED_AT_LABEL'),
             'power' => Module::t('labels','DEVICE_POWER_LABEL'),
             'enable_auto_calculation' => Module::t('labels','ENABLE_AUTO_CALCULATION'),
             'calculationMethod' => Module::t('labels','CALCULATION_METHOD_TITLE'),
         ];
     }
-
+    public static function getStatusesForCombo()
+    {
+        return [
+            self::STATUS_ID_ACTIVE => Module::t('default', 'STATUS_ACTIVE_LABEL'),
+            self::STATUS_ID_DELETED => Module::t('default', 'STATUS_DELETED_LABEL')
+        ];
+    }
+    public function getStatus()
+    {
+        if ($this->status_id)
+            return self::getStatusesForCombo()[$this->status_id];
+        else
+            return null;
+    }
 
 }
 

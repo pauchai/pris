@@ -28,7 +28,7 @@ use vova07\users\models\Officer;
 )?>
 
 <?=$form->field($model,'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
-<?=$form->field($model,'unassignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
+
 <?php //echo $form->field($model,'sector_id')->dropDownList(\vova07\prisons\models\Sector::getListForCombo(),['id' => 'sector_id','prompt'=>\vova07\plans\Module::t('events','SELECT_ASSIGNED_TO')])?>
 <?php /*echo $form->field($model, 'cell_id')->widget(\kartik\depdrop\DepDrop::class, [
     'data' => \vova07\prisons\models\Cell::getListForCombo($model->sector_id),
@@ -40,6 +40,8 @@ use vova07\users\models\Officer;
 ]);*/?>
 <?=$form->field($model,'power')?>
 <?=$form->field($model,'enable_auto_calculation')->checkbox()?>
+<?=$form->field($model,'unassignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
+<?=$form->field($model,'status_id')->dropDownList(\vova07\electricity\models\Device::getStatusesForCombo(),['prompt' => '--'])?>
 
 
 

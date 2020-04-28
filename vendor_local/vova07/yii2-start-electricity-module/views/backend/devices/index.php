@@ -30,7 +30,7 @@ $this->params['breadcrumbs'] = [
 <?php echo $this->render('_search',['model' => $searchModel])?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-  //  'filterModel' => $searchModel,
+    'filterModel' => $searchModel,
     'striped' => true,
     'hover' => true,
     'showPageSummary' => true,
@@ -54,12 +54,18 @@ $this->params['breadcrumbs'] = [
         'title',
 
         'assigned_at:date',
-        'unassigned_at:date',
         'prisoner.sector.title',
         'prisoner.cell.number',
         'power',
         'enable_auto_calculation',
         'calculationMethod',
+        'unassigned_at:date',
+
+        [
+          'attribute' => 'status_id',
+          'value' => 'status',
+          'filter' => \vova07\electricity\models\Device::getStatusesForCombo(),
+        ],
         ['class' => \yii\grid\ActionColumn::class]
 
     ]

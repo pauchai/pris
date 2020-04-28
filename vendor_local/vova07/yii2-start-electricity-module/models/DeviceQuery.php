@@ -49,4 +49,9 @@ class DeviceQuery extends ActiveQuery
             ['prisoner_id' => $subQuery]
         );
     }
+
+    public function active()
+    {
+        return $this->andWhere(['status_id' => Device::STATUS_ID_ACTIVE]);
+    }
 }

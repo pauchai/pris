@@ -14,7 +14,7 @@ class DeviceSearch extends \vova07\electricity\models\Device
     {
         return [
 
-            [['prisoner_id','sector_id','cell_id',],'integer'],
+            [['prisoner_id','sector_id','cell_id', 'status_id'],'integer'],
 
 
         ];
@@ -36,7 +36,8 @@ class DeviceSearch extends \vova07\electricity\models\Device
         if ($this->load($params) && $this->validate() ){
             $dataProvider->query->andFilterWhere(
                 [
-                    'prisoner_id' => $this->prisoner_id
+                    'prisoner_id' => $this->prisoner_id,
+                    'status_id' => $this->status_id,
 //
                 ]);
         }

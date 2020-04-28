@@ -12,6 +12,10 @@ class JobPaidListSearch extends \vova07\jobs\models\JobPaidList
 
             [['assigned_to'],'safe'],
             [['assignedAtJui'],'date'],
+            [['status_id'],'integer'],
+            [['deletedAtJui'],'date'],
+            ['status_id','default','value'=> self::STATUS_ID_ACTIVE]
+
 
 
         ];
@@ -26,12 +30,13 @@ class JobPaidListSearch extends \vova07\jobs\models\JobPaidList
         ]);
         $dataProvider->query->orderBy('person.second_name, person.first_name');
         $dataProvider->sort = false;
+        $this->load($params);
 
-
-        if ($this->load($params) && $this->validate()){
+        if ( $this->validate()){
             $dataProvider->query->andFilterWhere(
                 [
                     'assigned_to' => $this->assigned_to,
+                    'status_id' => $this->status_id
 
                 ]);
         }

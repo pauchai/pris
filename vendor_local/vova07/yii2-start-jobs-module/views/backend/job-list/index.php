@@ -56,6 +56,14 @@ $this->params['breadcrumbs'] = [
             }
         ],
         'assigned_at:date',
+        'deleted_at:date',
+        [
+            'attribute' => 'status_id',
+            'value' => 'status',
+            'filter' => \vova07\jobs\models\JobPaidList::getStatusesForCombo()
+        ]
+        ,
+
 
         ['class' => \yii\grid\ActionColumn::class]
 

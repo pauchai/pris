@@ -26,6 +26,7 @@ use yii\validators\RequiredValidator;
 
 class JobPaidList extends  Ownableitem
 {
+    const STATUS_ID_ACTIVE = 1;
 
 
     public static function tableName()
@@ -35,9 +36,10 @@ class JobPaidList extends  Ownableitem
     public function rules()
     {
         return [
-            [[ 'prison_id', 'type_id','half_time'], 'required'],
+            [[ 'prison_id', 'type_id','half_time','status_id'], 'required'],
             [['assigned_to'],'safe'],
-            [['assignedAtJui'],'date'],
+            [['assignedAtJui','deletedAtJui'],'date'],
+            ['status_id','default','value'=> self::STATUS_ID_ACTIVE]
 
 
         ];
@@ -58,11 +60,15 @@ class JobPaidList extends  Ownableitem
                 'half_time' => $migration->tinyInteger()->notNull(),
                 'assigned_to' => $migration->integer(),
                 'assigned_at' => $migration->bigInteger(),
+                'status_id' => $migration->tinyInteger()->notNull(),
+                'deleted_at' => $migration->bigInteger()
 
 
             ],
             'indexes' => [
-                [self::class, ['assigned_to','prison_id','type_id','half_time'],'unique','assigned_prison_type_half']
+                [self::class, ['assigned_to','prison_id','type_id','half_time'],'unique','assigned_prison_type_half'],
+                [self::class, 'status_id'],
+
             ],
             'foreignKeys' => [
                 [get_called_class(), 'prison_id', Prison::class, Prison::primaryKey()],
@@ -97,6 +103,14 @@ class JobPaidList extends  Ownableitem
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'assigned_at',
                 'juiAttribute' => 'assignedAtJui',
+                'preserveNonEmptyValues' => true
+            ],
+        ]);
+        $behaviors = ArrayHelper::merge($behaviors,[
+            'deletedAtJui' => [
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'deleted_at',
+                'juiAttribute' => 'deletedAtJui',
                 'preserveNonEmptyValues' => true
             ],
         ]);
@@ -138,5 +152,22 @@ class JobPaidList extends  Ownableitem
             'assigned_at' => \vova07\jobs\Module::t('label','ASSIGNED_AT')
         ];
     }
+
+    public static function getStatusesForCombo()
+    {
+        return [
+            self::STATUS_ID_ACTIVE => \vova07\jobs\Module::t('default', 'STATUS_ACTIVE_LABEL'),
+            self::STATUS_ID_DELETED => \vova07\jobs\Module::t('default', 'STATUS_DELETED_LABEL')
+        ];
+    }
+    public function getStatus()
+    {
+        if ($this->status_id)
+            return self::getStatusesForCombo()[$this->status_id];
+        else
+            return null;
+    }
+
+
 
 }

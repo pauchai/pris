@@ -1,10 +1,9 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\events\Module;
-use vova07\events\models\Event;
+use vova07\jobs\Module;
 use vova07\prisons\models\Prison;
-use vova07\users\models\Officer;
+use vova07\jobs\models\JobPaidList;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\events\models\Event
@@ -23,6 +22,8 @@ use vova07\users\models\Officer;
 <?=$form->field($model,'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'type_id')->dropDownList(\vova07\jobs\models\JobPaidType::getListForCombo(),['prompt'=>\vova07\jobs\Module::t('forms','SELECT_JOB_TYPE_PROMPT')])?>
 <?=$form->field($model,'half_time')->checkbox()?>
+<?=$form->field($model,'deletedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
+<?=$form->field($model,'status_id')->dropDownList(JobPaidList::getStatusesForCombo(),['prompt' => '--'])?>
 
 
 <?php $box->beginFooter();?>

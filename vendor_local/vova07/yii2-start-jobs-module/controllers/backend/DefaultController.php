@@ -305,7 +305,7 @@ class DefaultController extends BackendController
 
     public function actionCreateTabular($prison_id, $year, $month_no)
     {
-        $jobList = JobPaidList::find()->all();
+        $jobList = JobPaidList::find()->active()->all();
         foreach ($jobList as $jobItem)
         {
             $model = JobPaid::findOne([

@@ -18,7 +18,7 @@ use yii\db\Schema;
 
 class Item extends ActiveRecordMetaModel
 {
-
+    const STATUS_ID_DELETED =  99;
     public static function tableName()
     {
         return "item";
@@ -62,6 +62,8 @@ class Item extends ActiveRecordMetaModel
 
     public function delete()
     {
+
+
         if (get_called_class() == Item::class){
             return parent::delete();
         } else {
@@ -72,6 +74,19 @@ class Item extends ActiveRecordMetaModel
                 return $item->delete();
             }
         }
+
+    }
+
+    public function markDeletedStatus()
+    {
+
+            if ($this->hasAttribute('status_id'))
+            {
+                $this->status_id = self::STATUS_ID_DELETED;
+                return $this->save();
+            } else {
+                throw new \LogicException('field status_id doesnt exists');
+            }
 
     }
 
