@@ -159,7 +159,7 @@ class DefaultController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['index']);
+                    return $this->goBack();
                 };
             };
         }
@@ -169,16 +169,28 @@ class DefaultController extends BackendController
 
     public function actionMassChangeStatuses()
     {
-        if (\Yii::$app->request->isPost){
-
-            $selectedIds = \Yii::$app->request->post('selection');
-            $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
-            $models = $query->all();
-            foreach ($models as $deviceAccounting)
-            {
+        if (\Yii::$app->request->isPost) {
+            if (!is_null(\Yii::$app->request->post('change_status'))){
+                $selectedIds = \Yii::$app->request->post('selection');
+                $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
+                $models = $query->all();
+                foreach ($models as $deviceAccounting)
+                {
                     $deviceAccounting->status_id = \Yii::$app->request->post('status_id');
                     $deviceAccounting->save();
-            }
+                }
+
+            } elseif (!is_null(\Yii::$app->request->post('mass_delete'))) {
+                $selectedIds = \Yii::$app->request->post('selection');
+                $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
+                $models = $query->all();
+                foreach ($models as $deviceAccounting)
+                {
+                    $deviceAccounting->delete();
+
+                }            }
+
+
 
 
 

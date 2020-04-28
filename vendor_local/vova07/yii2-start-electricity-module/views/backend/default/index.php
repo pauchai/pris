@@ -133,7 +133,7 @@ $this->params['breadcrumbs'] = [
                 'value' => function($model){
                     $ret = $model->getPrice();
                     //return  Yii::$app->formatter->asDecimal($ret,2);
-                    return $ret;
+                    return round($ret, 2);
                 }
             ],
             [
@@ -227,7 +227,8 @@ $this->params['breadcrumbs'] = [
 
     ?>
     <?=Html::dropDownList('status_id',null, \vova07\electricity\models\DeviceAccounting::getStatusesForCombo(), ['prompt' => Module::t('default','SELECT_STATUS_PROMPT'),'class' => 'no-print'])?>
-    <?= Html::submitButton(Module::t('default', 'SUBMIT'), ['class' => 'btn btn-primary no-print']) ?>
+    <?= Html::submitButton(Module::t('default', Module::t('default','CHANGE_STATUS')), ['name' => 'change_status','class' => 'btn btn-primary no-print']) ?>
+    <?= Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
     <?php ActiveForm::end()?>
 
 

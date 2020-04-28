@@ -161,6 +161,10 @@ use vova07\site\Module;
 
                             ],
 
+                            ['label' => Module::t('menu','DEVICES_SUMMARIZED_LIST'),'icon' => 'circle','url'=>['/electricity/summarized/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_SUMMARIZED_LIST),
+
+                            ],
 
 
                         ]

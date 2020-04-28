@@ -60,9 +60,24 @@ class BalanceImportController extends BackendController
         //$dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider = new ActiveDataProvider(
             [
-                'query' => DeviceAccounting::find()
+                'query' =>DeviceAccounting::find()->joinWith(
+                    [
+                        'prisoner' => function ($query){
+                            $query->from(['prisoner' => 'prisoner']);
+                            $query->joinWith([
+                                'person' => function($query){
+                                    return $query->from(['person' => 'person']);
+                                }
+                            ]);
+                            return $query;
+
+                        }
+                    ])
             ]
         );
+        $dataProvider->query->orderBy([
+            'person.second_name' => SORT_ASC,
+        ]);
         $dataProvider->query->readyForProcessing();
         $dataProvider->pagination = false;
         //$dataProvider->query->planing();

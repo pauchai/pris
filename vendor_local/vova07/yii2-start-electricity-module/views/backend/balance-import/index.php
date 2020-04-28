@@ -104,7 +104,7 @@ $this->params['breadcrumbs'] = [
             'header' =>  Module::t('labels','PRICE_ACCOUNTING_VALUE'),
             'content' => function($model){
              $ret = $model->value * \vova07\site\models\Setting::getValue(\vova07\site\models\Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE);
-             return  Yii::$app->formatter->asDecimal($ret,2);
+             return  round($ret,2);
             }
         ],
         [

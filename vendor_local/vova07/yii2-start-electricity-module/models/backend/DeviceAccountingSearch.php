@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 
 class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
 {
+
     public function rules()
     {
         return [

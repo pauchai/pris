@@ -61,6 +61,7 @@ class DevicesController extends BackendController
 
         $searchModel = new \vova07\electricity\models\backend\DeviceSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->activePrisoners();
         //$dataProvider->query->planing();
 
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);

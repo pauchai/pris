@@ -9,6 +9,7 @@
 namespace vova07\electricity\models;
 
 
+use vova07\users\models\Prisoner;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 
@@ -38,6 +39,14 @@ class DeviceQuery extends ActiveQuery
     {
         return $this->andWhere(
             new Expression('isnull(prisoner_id)')
+        );
+    }
+
+    public function activePrisoners()
+    {
+        $subQuery = Prisoner::find()->select('__person_id')->active();
+        return  $this->andWhere(
+            ['prisoner_id' => $subQuery]
         );
     }
 }

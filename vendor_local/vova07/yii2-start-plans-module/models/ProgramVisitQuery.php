@@ -19,7 +19,7 @@ class ProgramVisitQuery extends ActiveQuery
      */
     public function distinctDates()
     {
-        return $this->distinct('date_visit')->select('date_visit')->column();
+        return $this->distinct('date_visit')->select('date_visit')->orderBy('date_visit')->column();
 
     }
 

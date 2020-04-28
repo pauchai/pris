@@ -153,6 +153,10 @@ class Device extends  Ownableitem
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
     }
+    public function getDeviceAccountings()
+    {
+        return $this->hasMany(DeviceAccounting::class, ['device_id' => '__ownableitem_id']);
+    }
     public function getPerson()
     {
         return $this->hasOne(Person::class,['__ident_id'=>'prisoner_id']);
