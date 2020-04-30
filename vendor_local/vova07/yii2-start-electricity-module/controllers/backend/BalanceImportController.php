@@ -72,11 +72,12 @@ class BalanceImportController extends BackendController
                             return $query;
 
                         }
-                    ])->orderBy('from_date')
+                    ])
             ]
         );
         $dataProvider->query->orderBy([
             'person.second_name' => SORT_ASC,
+            'from_date' => SORT_ASC,
         ]);
         $dataProvider->query->readyForProcessing();
         $dataProvider->pagination = false;
