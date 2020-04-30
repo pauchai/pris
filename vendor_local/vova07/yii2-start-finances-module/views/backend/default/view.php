@@ -84,7 +84,7 @@ $initRemain = 0;
             } else {
                 $initRemain -= $model->amount;
             }*/
-            return $value;
+            return round($value,2);
         }
     ]
 
