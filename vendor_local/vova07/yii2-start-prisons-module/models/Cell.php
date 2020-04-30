@@ -123,7 +123,12 @@ class Cell extends  OwnableItem
     public function attributeLabels()
     {
         return [
+            'square' => Module::t('labels','CELL_SQUARE_LABEL'),
+            'prisonersCount' => Module::t('labels','PRISONERS_COUNT_LABEL'),
+            'squarePerPrisoner' => Module::t('labels','ESTIMATE_SQUARE_PER_PRISONER'),
             'number' => Module::t('labels','CELL_NUMBER_LABEL')
+
+
         ];
     }
     public function getEstimatePrisonersCount($estimatePrisonersPerSquare = self::SQUARE_PER_PRISONER_4)
@@ -140,6 +145,11 @@ class Cell extends  OwnableItem
             self::SQUARE_PER_PRISONER_4 => Module::t('default','SQUARE_PER_PRISONER_4_LABEL'),
 
         ];
+    }
+
+    public function getPrisonersCount()
+    {
+        return $this->getPrisoners()->count();
     }
 
 }

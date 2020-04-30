@@ -2,6 +2,7 @@
 namespace vova07\prisons\models\backend;
 
 use vova07\prisons\models\Cell;
+use vova07\prisons\Module;
 
 /**
  * Created by PhpStorm.
@@ -35,5 +36,10 @@ class CellSearch extends Cell
         return $dataProvider;
 
     }
+    public function getAttributeLabel($attribute)
+    {
+        return array_merge(parent::getAttributeLabel($attribute),[
 
+        ]);
+    }
 }

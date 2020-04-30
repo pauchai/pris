@@ -46,9 +46,10 @@ $this->params['breadcrumbs'] = [
         'number',
         'square',
         [
-            'header' => 'prisoners count',
+
+            'attribute' => 'prisonersCount',
             'content' => function($model){
-                return $model->getPrisoners()->count();
+                return $model->getPrisonersCount();
             }
         ],
 
@@ -56,7 +57,14 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'squarePerPrisoner',
             'filter' => \vova07\prisons\models\Cell::getSquarePerPrisonerForCombo(),
             'content' => function($model)use ($searchModel){
-                return $model->getEstimatePrisonersCount($searchModel->squarePerPrisoner);
+                $estimateCount = $model->getEstimatePrisonersCount($searchModel->squarePerPrisoner);
+                if ($model->getPrisonersCount() > $estimateCount)
+                    $options = ['class' => 'label label-danger'];
+                elseif ($model->getPrisonersCount() < $estimateCount)
+                    $options = ['class' => 'label label-info'];
+                else
+                    $options = ['class' => 'label label-success'];
+                return Html::tag('span', $estimateCount, $options);
             }
         ],
 
