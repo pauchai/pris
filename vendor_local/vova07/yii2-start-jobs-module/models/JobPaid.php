@@ -113,7 +113,12 @@ class JobPaid extends  JobAbstract
     {
         return [
             'half_time' => Module::t('labels', 'HALF_TIME_LABEL'),
-            'type.category_id' => Module::t('labels', 'CATEGORY')
+            'type.category_id' => Module::t('labels', 'CATEGORY'),
+            'prison_id' => Module::t('labels','PRISON'),
+            'month_no' => Module::t('labels','MONTH'),
+            'year' => Module::t('labels','YEAR'),
+            'prisoner_id' => Module::t('labels','PRISONER'),
+            'type_id' => Module::t('labels','TYPE'),
         ];
     }
 

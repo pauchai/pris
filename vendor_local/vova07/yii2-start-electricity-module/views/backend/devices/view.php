@@ -1,12 +1,12 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\prisons\Module;
+use vova07\electricity\Module;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\plans\models\Program
  */
-$this->title = Module::t("default","EVENTS_TITLE");
+$this->title = Module::t("default","DEVICES_TITLE");
 $this->params['subtitle'] = $model->title;
 $this->params['breadcrumbs'] = [
     [
@@ -27,7 +27,15 @@ $this->params['breadcrumbs'] = [
     'model' => $model,
     'attributes' => [
         'title',
-        'slug',
+        'prisoner.sector.title',
+        'prisoner.cell.number',
+        'power',
+        'prisoner.fullTitle',
+        'assigned_at:date',
+        'unassigned_at',
+        'status',
+        'enable_auto_calculation:boolean',
+        'calculationMethod'
 
     ]
 ])?>

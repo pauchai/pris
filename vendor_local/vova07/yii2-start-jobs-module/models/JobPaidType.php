@@ -141,7 +141,14 @@ class JobPaidType extends  ActiveRecordMetaModel
     public function attributeLabels()
     {
         return [
-          'title' => Module::t('labels','JOB_TITLE_LABEL')
+          'title' => Module::t('labels','JOB_TITLE_LABEL'),
+            'compensationTitle' => Module::t('labels','JOB_COMPENSATION_TITLE_LABEL'),
+            'compensation_id' => Module::t('labels','JOB_COMPENSATION_TITLE_LABEL'),
+            'category_id' => Module::t('labels','JOB_CATEGORY_TITLE_LABEL'),
+            'categoryTitle' => Module::t('labels','JOB_CATEGORY_TITLE_LABEL'),
+            'hours_per_day' => Module::t('labels','JOB_HOURS_PER_DAY_LABEL'),
+            'hours_per_sa' => Module::t('labels','JOB_HOURS_PER_SA_LABEL'),
+
         ];
     }
 

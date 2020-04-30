@@ -57,7 +57,7 @@ $initRemain = 0;
             if ($model->type_id == \vova07\finances\models\Balance::TYPE_DEBIT){
                 $value = $model->amount;
                 $initRemain += $value;
-                return $value;
+                return round($value,2);
             } else {
                 return 0;
             }
@@ -69,7 +69,7 @@ $initRemain = 0;
             if ($model->type_id == \vova07\finances\models\Balance::TYPE_CREDIT){
                 $value = $model->amount;
                 $initRemain -= $value;
-                return $value;
+                return round($value,2);
             } else {
                 return 0;
             }

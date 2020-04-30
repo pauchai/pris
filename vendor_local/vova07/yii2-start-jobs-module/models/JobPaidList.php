@@ -39,7 +39,8 @@ class JobPaidList extends  Ownableitem
             [[ 'prison_id', 'type_id','half_time','status_id'], 'required'],
             [['assigned_to'],'safe'],
             [['assignedAtJui','deletedAtJui'],'date'],
-            ['status_id','default','value'=> self::STATUS_ID_ACTIVE]
+            ['status_id','default','value'=> self::STATUS_ID_ACTIVE],
+            [['comment'], 'string']
 
 
         ];
@@ -61,12 +62,13 @@ class JobPaidList extends  Ownableitem
                 'assigned_to' => $migration->integer(),
                 'assigned_at' => $migration->bigInteger(),
                 'status_id' => $migration->tinyInteger()->notNull(),
-                'deleted_at' => $migration->bigInteger()
+                'deleted_at' => $migration->bigInteger(),
+                'comment' => $migration->string()
 
 
             ],
             'indexes' => [
-                [self::class, ['assigned_to','prison_id','type_id','half_time'],'unique','assigned_prison_type_half'],
+              //  [self::class, ['assigned_to','prison_id','type_id','half_time'],'unique','assigned_prison_type_half'],
                 [self::class, 'status_id'],
 
             ],
@@ -149,7 +151,17 @@ class JobPaidList extends  Ownableitem
     {
         return [
             'assignedTo.person.fio' => \vova07\jobs\Module::t('label','ASSIGNED_TO_PERSON_FIO'),
-            'assigned_at' => \vova07\jobs\Module::t('label','ASSIGNED_AT')
+            'assigned_at' => \vova07\jobs\Module::t('label','ASSIGNED_AT'),
+            'assigned_to' => \vova07\jobs\Module::t('label','ASSIGNED_TO'),
+            'half_time' => \vova07\jobs\Module::t('label','HALF_TIME'),
+            'deleted_at' => \vova07\jobs\Module::t('label','DELETED_AT'),
+            'comment' => \vova07\jobs\Module::t('label','COMMENT'),
+            'status_id' => \vova07\jobs\Module::t('label','STATUS'),
+            'prison_id' => \vova07\jobs\Module::t('label','PRISON_ID'),
+            'assignedAtJui' => \vova07\jobs\Module::t('label','ASSIGNED_AT_JUI'),
+            'type_id' => \vova07\jobs\Module::t('label','TYPE'),
+            'deletedAtJui' => \vova07\jobs\Module::t('label','DELETED_AT_JUI'),
+
         ];
     }
 

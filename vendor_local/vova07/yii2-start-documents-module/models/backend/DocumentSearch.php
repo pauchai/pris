@@ -1,6 +1,7 @@
 <?php
 namespace vova07\documents\models\backend;
 use vova07\base\components\DateJuiBehavior;
+use vova07\documents\Module;
 use vova07\prisons\models\Company;
 use yii\validators\DateValidator;
 
@@ -134,6 +135,12 @@ class DocumentSearch extends \vova07\documents\models\Document
 
     }
 
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(),[
+            'metaStatusId' => Module::t('labels', "DOCUMENT_META_STATUS_LABEL"),
 
+        ]);
+    }
 
 }

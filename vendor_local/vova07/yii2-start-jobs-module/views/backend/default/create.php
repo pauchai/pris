@@ -1,7 +1,7 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\plans\Module;
+use vova07\jobs\Module;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\jobs\models\JobPaidForm

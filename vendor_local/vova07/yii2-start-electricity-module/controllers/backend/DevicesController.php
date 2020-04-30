@@ -3,7 +3,7 @@ namespace vova07\electricity\controllers\backend;
 use vova07\base\components\BackendController;
 use vova07\electricity\models\backend\DeviceAccountingSearch;
 use vova07\electricity\models\Device;
-use vova07\electro\models\backend\DeviceSearch;
+
 use vova07\events\models\Event;
 use vova07\events\Module;
 use vova07\tasks\models\backend\CommitteeSearch;
@@ -89,7 +89,7 @@ class DevicesController extends BackendController
 
     public function actionView($id)
     {
-        if (is_null($model = Committee::findOne($id)))
+        if (is_null($model = Device::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
         };

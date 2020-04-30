@@ -32,7 +32,7 @@ CSS
 
 )?>
 <?php
-
+$balanceRemain  = $model->getBalances()->debit()->sum('amount') - $model->getBalances()->credit()->sum('amount');
   \yii\bootstrap\NavBar::begin();
   echo \yii\bootstrap\Nav::widget([
       'encodeLabels' => false,
@@ -72,9 +72,8 @@ CSS
               'label' => Module::t('default','PRISONER_BALANCE') .
                   Html::tag('span',
                       Html::tag('span',
-                          Yii::$app->formatter->asDecimal($model->getBalances()->debit()->sum('amount') -
-                          $model->getBalances()->credit()->sum('amount'))
-                          , ['class' => "label label-primary pull-right"] ),
+                          Yii::$app->formatter->asDecimal($balanceRemain,2)
+                          , ['class' => "label " . (($balanceRemain<0)?'label-danger':'label-success'). " pull-right"] ),
                       ['class' => 'pull-right-container']),
 
               'url' => ['/finances/default/view', 'id'=>$model->primaryKey],

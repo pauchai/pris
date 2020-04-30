@@ -1,5 +1,6 @@
 <?php
 namespace vova07\electricity\models\backend;
+use vova07\electricity\models\Device;
 
 /**
  * Created by PhpStorm.
@@ -16,6 +17,7 @@ class DeviceSearch extends \vova07\electricity\models\Device
 
             [['prisoner_id','sector_id','cell_id', 'status_id'],'integer'],
 
+            [['status_id'], 'default', 'value' => Device::STATUS_ID_ACTIVE]
 
         ];
 
@@ -33,7 +35,8 @@ class DeviceSearch extends \vova07\electricity\models\Device
         $dataProvider->query->orderBy([
             'person.second_name' => SORT_ASC,
         ]);
-        if ($this->load($params) && $this->validate() ){
+        $this->load($params);
+        if ( $this->validate() ){
             $dataProvider->query->andFilterWhere(
                 [
                     'prisoner_id' => $this->prisoner_id,

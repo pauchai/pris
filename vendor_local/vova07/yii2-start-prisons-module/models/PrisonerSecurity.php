@@ -17,7 +17,7 @@ use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
-use vova07\plans\Module;
+use vova07\prisons\Module;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
@@ -192,6 +192,8 @@ class PrisonerSecurity extends  Ownableitem
             'type_id' => Module::t('labels','SECURITY_TYPE_LABEL'),
             'dateStartJui' => Module::t('labels','DATE_START_LABEL'),
             'dateEndJui' => Module::t('labels','DATE_END_LABEL'),
+            'type' =>  Module::t('labels','SECURITY_TYPE_LABEL'),
+            'type_id' =>  Module::t('labels','SECURITY_TYPE_LABEL')
         ];
     }
 

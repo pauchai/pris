@@ -95,7 +95,7 @@ $gridColumns = [
 
 ?>
 <?php echo \vova07\jobs\components\job_grid\JobGrid::widget([
-    'showOnEmpty' => false,
+    'showOnEmpty' => true,
     'dataProvider' => $dataProvider,
     'filterModel'=> $searchModel,
     'columns' => $gridColumns,

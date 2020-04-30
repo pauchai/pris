@@ -165,7 +165,7 @@ $this->params['breadcrumbs'] = [
                 } else {
                     $options = ['class' => 'text-danger','style'=>"font-weight:bolder"];
                 }
-                return \yii\helpers\Html::tag('span',$model->amount,$options);
+                return \yii\helpers\Html::tag('span',round($model->amount,2),$options);
             },
 
         ],

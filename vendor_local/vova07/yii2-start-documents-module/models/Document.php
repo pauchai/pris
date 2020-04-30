@@ -285,6 +285,11 @@ class Document extends  Ownableitem
             'dateExpirationJui' => Module::t('labels', "DOCUMENT_DATE_EXPIRATION_LABEL"),
             'status_id' => Module::t('labels', "DOCUMENT_STATUS_LABEL"),
             'title' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
+
+            'date_issued' => Module::t('labels', "DOCUMENT_DATE_ISSUE_LABEL"),
+            'date_expiration' => Module::t('labels', "DOCUMENT_DATE_EXPIRATION_LABEL"),
+            'assigned_to' => Module::t('labels', "DOCUMENT_ASSIGNED_TO_LABEL"),
+
         ];
     }
 

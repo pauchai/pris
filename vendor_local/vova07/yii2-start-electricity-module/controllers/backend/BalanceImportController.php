@@ -72,7 +72,7 @@ class BalanceImportController extends BackendController
                             return $query;
 
                         }
-                    ])
+                    ])->orderBy('from_date')
             ]
         );
         $dataProvider->query->orderBy([

@@ -27,6 +27,7 @@ $this->params['breadcrumbs'] = [
     'model' => $model,
     'attributes' => [
         'assignedTo.person.fio',
+        'comment'
 
 
     ]

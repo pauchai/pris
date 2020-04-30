@@ -62,6 +62,16 @@ class JobNotPaid extends  JobAbstract
     }
 
 
+    public function attributeLabels()
+    {
+        return [
+            'prison_id' => \vova07\jobs\Module::t('labels','PRISON'),
+            'month_no' => \vova07\jobs\Module::t('labels','MONTH'),
+            'year' => \vova07\jobs\Module::t('labels','YEAR'),
+            'prisoner_id' => \vova07\jobs\Module::t('labels','PRISONER'),
+            'type_id' => \vova07\jobs\Module::t('labels','TYPE'),
+        ];
+    }
 
 
 

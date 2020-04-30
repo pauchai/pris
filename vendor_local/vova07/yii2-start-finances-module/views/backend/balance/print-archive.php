@@ -101,11 +101,13 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'attribute' => 'debit',
+            'value' => function($model){return round($model['debit'], 2);},
             'header' => Module::t('default', 'DEBIT_TITLE')
         ],
         [
             'attribute' => 'credit',
-            'header' => Module::t('default', 'CREDIT_TITLE')
+            'header' => Module::t('default', 'CREDIT_TITLE'),
+            'value' => function($model){return round($model['credit'], 2);},
         ],
         [
             'header' => Module::t('default', 'REMAIN_TITLE'),
@@ -119,7 +121,7 @@ $this->params['breadcrumbs'] = [
 
                 $remain += $model['debit'] - $model['credit'];
 
-                return $remain;
+                return round($remain,2);
             }
         ]
 

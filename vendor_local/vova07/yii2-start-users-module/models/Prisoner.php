@@ -323,6 +323,8 @@ class Prisoner extends  OwnableItem
             'termUdoJui' => Module::t('labels', 'TERM_UDO_LABEL'),
             'fullTitle' => Module::t('labels', 'FULL_TITLE_LABEL'),
             'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
+            'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
+
 
         ];
     }

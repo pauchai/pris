@@ -24,6 +24,7 @@ use vova07\jobs\models\JobPaidList;
 <?=$form->field($model,'half_time')->checkbox()?>
 <?=$form->field($model,'deletedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'status_id')->dropDownList(JobPaidList::getStatusesForCombo(),['prompt' => '--'])?>
+<?=$form->field($model,'comment')?>
 
 
 <?php $box->beginFooter();?>
