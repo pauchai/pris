@@ -6,7 +6,7 @@ use vova07\jobs\models\JobPaidList;
 /**
  * Class m200428_094439_jobPaidListStatusDeletedAt
  */
-class m200428_094439_jobPaidListStatusDeletedAt extends Migration
+class m200429_122701_jobPaidListStatusDeletedAt extends Migration
 {
     /**
      * {@inheritdoc}

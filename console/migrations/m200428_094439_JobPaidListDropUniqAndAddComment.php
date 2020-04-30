@@ -6,7 +6,7 @@ use vova07\jobs\models\JobPaidList;
 /**
  * Class m200429_122701_JobPaidListDropUniqAndAddComment
  */
-class m200429_122701_JobPaidListDropUniqAndAddComment extends Migration
+class m200428_094439_JobPaidListDropUniqAndAddComment extends Migration
 {
     /**
      * {@inheritdoc}
