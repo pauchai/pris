@@ -39,6 +39,7 @@ $this->params['breadcrumbs'] = [
         'company.title',
         'department.title',
         'rank',
+        'post'
 
     ]
 ])?>

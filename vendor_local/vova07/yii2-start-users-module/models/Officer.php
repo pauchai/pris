@@ -56,6 +56,7 @@ class Officer extends  OwnableItem
         return [
             [['company_id','department_id'],'required'],
             [['rank_id'],'integer'],
+            ['post','string']
         ];
     }
     /**
@@ -69,6 +70,7 @@ class Officer extends  OwnableItem
                 'company_id' => Schema::TYPE_INTEGER,
                 'department_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
+                'post' => Schema::TYPE_STRING,
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],
