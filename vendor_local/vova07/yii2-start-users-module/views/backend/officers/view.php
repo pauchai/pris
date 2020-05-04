@@ -37,7 +37,8 @@ $this->params['breadcrumbs'] = [
         'person.fio',
         'person.birth_year',
         'company.title',
-        'department.title'
+        'department.title',
+        'rank',
 
     ]
 ])?>

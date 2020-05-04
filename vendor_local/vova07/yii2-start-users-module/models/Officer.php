@@ -20,6 +20,7 @@ use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
 use vova07\prisons\models\Department;
 use vova07\users\models\Person;
+use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Schema;
@@ -28,7 +29,21 @@ use yii\helpers\ArrayHelper;
 
 class Officer extends  OwnableItem
 {
+    const RANK_CHESTOR_DE_JUSTITIE = 1;
+    const RANK_COMISAR_SEF_DE_JUSTITIE = 2;
+    const RANK_COMISAR_PRINCIPAL_DE_JUSTITIE = 3;
+    const RANK_COMISAR_DE_JUSTITIE = 4;
+    const RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE = 5;
+    const RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE = 6;
+    const RANK_INSPECTOR_DE_JUSTITIE = 7;
+    const RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE = 8;
+    const RANK_AGENT_SEF_DE_JUSTITIE = 9;
+    const RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE = 10;
+    const RANK_AGENT_PRINCIPAL_DE_JUSTITIE = 11;
+    const RANK_AGENT_SUPERIOR_DE_JUSTITIE = 12;
+
     use SaveRelationsTrait;
+
 
 
     public static function tableName()
@@ -39,7 +54,8 @@ class Officer extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id','department_id'],'required']
+            [['company_id','department_id'],'required'],
+            [['rank_id'],'integer'],
         ];
     }
     /**
@@ -52,11 +68,16 @@ class Officer extends  OwnableItem
                 Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
                 'company_id' => Schema::TYPE_INTEGER,
                 'department_id' => Schema::TYPE_INTEGER,
+                'rank_id' => Schema::TYPE_TINYINT,
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],
             'dependsOn' => [
                 Person::class
+            ],
+            'indexes' => [
+                [self::class, 'rank_id'],
+
             ],
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
@@ -113,6 +134,33 @@ class Officer extends  OwnableItem
     public static function getListForCombo()
     {
         return ArrayHelper::map(self::find()->select(['__person_id','fio'=>'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic)' ])->joinWith('person')->asArray()->all(),'__person_id','fio');
+    }
+
+    public static  function getRanksForCombo()
+    {
+        return [
+            self::RANK_CHESTOR_DE_JUSTITIE => Module::t('default','RANK_CHESTOR_DE_JUSTITIE'),
+            self::RANK_COMISAR_SEF_DE_JUSTITIE => Module::t('default','RANK_COMISAR_SEF_DE_JUSTITIE'),
+            self::RANK_COMISAR_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_COMISAR_PRINCIPAL_DE_JUSTITIE'),
+            self::RANK_COMISAR_DE_JUSTITIE => Module::t('default','RANK_COMISAR_DE_JUSTITIE'),
+            self::RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE'),
+            self::RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE'),
+            self::RANK_INSPECTOR_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_DE_JUSTITIE'),
+            self::RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE'),
+            self::RANK_AGENT_SEF_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_DE_JUSTITIE'),
+            self::RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE'),
+            self::RANK_AGENT_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_AGENT_PRINCIPAL_DE_JUSTITIE'),
+            self::RANK_AGENT_SUPERIOR_DE_JUSTITIE => Module::t('default','RANK_AGENT_SUPERIOR_DE_JUSTITIE'),
+        ];
+
+
+    }
+    public function getRank()
+    {
+        if ($this->rank_id)
+            return self::getRanksForCombo()[$this->rank_id];
+        else
+            return null;
     }
 
 }

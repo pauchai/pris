@@ -15,6 +15,7 @@ use vova07\prisons\Module;
 <?php $form = ActiveForm::begin()?>
 <?=$form->field($model,'company_id')->dropDownList(\vova07\prisons\models\Company::getListForCombo(),['prompt'=>Module::t('default','SELECT')])?>
 <?=$form->field($model,'department_id')->dropDownList(\vova07\prisons\models\Department::getListForCombo(),['prompt'=>Module::t('default','SELECT')])?>
+<?=$form->field($model,'rank_id')->dropDownList(\vova07\users\models\Officer::getRanksForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 <?php if (!$model->isNewRecord):?>
 
    <?=$form->field($model->person,'__ident_id')->hiddenInput()?>
