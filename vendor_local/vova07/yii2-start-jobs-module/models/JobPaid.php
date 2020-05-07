@@ -80,6 +80,17 @@ class JobPaid extends  JobAbstract
 
     }
 
+    public  function getJobItem()
+    {
+        return $this->hasOne(JobPaidList::class, [
+            'assigned_to' => 'prisoner_id',
+            'prison_id' => 'prison_id',
+            'type_id' => 'type_id',
+            'half_time' => 'half_time',
+
+        ])->andWhere(['status_id' => JobPaidList::STATUS_ID_ACTIVE]);
+    }
+
     public function getType()
     {
         return $this->hasOne(JobPaidType::class, ['id' => 'type_id']);
@@ -93,7 +104,21 @@ class JobPaid extends  JobAbstract
     public function autoFillDaysHours()
     {
 
-        for ($i = 1; $i <= Calendar::getMonthDaysNumber($this->getDateTime()); $i++) {
+        $jobItem = $this->getJobItem()->one();
+        if ($jobItem->assigned_at)
+            $jobItemFromDate = (new \DateTime())->setTimestamp($jobItem->assigned_at);
+        if ($jobItem->deleted_at)
+            $jobItemToDate = (new \DateTime())->setTimestamp($jobItem->deleted_at);
+
+        $dayFromNo = 1;
+        $dayToNo = Calendar::getMonthDaysNumber($this->getDateTime());
+        if ($jobItemFromDate->format('m-Y') == $this->month_no .'-'. $this->year )
+            $dayFromNo = $jobItemFromDate->format('d');
+
+        if ($jobItemToDate->format('m-Y') == $this->month_no .'-'. $this->year )
+            $dayToNo = $jobItemToDate->format('d');
+
+        for ($i = $dayFromNo; $i <= $dayToNo; $i++) {
             $dayColumn = $i . 'd';
             $dateTime = (new \DateTime())->setDate($this->year, $this->month_no, $i);
 
