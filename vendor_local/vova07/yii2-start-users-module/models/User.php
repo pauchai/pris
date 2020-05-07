@@ -191,5 +191,8 @@ class User extends  Ownableitem implements IdentityInterface
         return ArrayHelper::map(self::find()->select(['__ident_id','username'])->asArray()->all(),'__ident_id','username');
     }
 
-
+    public function getOfficer()
+    {
+        return $this->hasOne(Officer::class,[ '__person_id'  => '__ident_id']);
+    }
 }

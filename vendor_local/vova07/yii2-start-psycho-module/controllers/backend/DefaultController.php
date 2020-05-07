@@ -15,6 +15,8 @@ use vova07\psycho\models\backend\PrisonerCharacteristicSearch;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\Module;
 use vova07\users\models\backend\PrisonerViewSearch;
+use vova07\users\models\Officer;
+use vova07\users\models\User;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
@@ -56,7 +58,15 @@ class DefaultController extends BackendController
         if ($this->isPrintVersion)
             $dataProvider->pagination = false;
 
-        return $this->render("index_print", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
+        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
+
+        return $this->render("index_print", [
+            'searchModel'=>$searchModel,'dataProvider'=>$dataProvider,
+            'director' => $director,
+            'officer' => $officer,
+
+        ]);
     }
 
 

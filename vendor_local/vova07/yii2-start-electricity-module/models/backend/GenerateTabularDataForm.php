@@ -13,15 +13,17 @@ use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
 use yii\base\Model;
 
-class GenerateTabularDataForm extends Model
+class GenerateTabularDataForm extends DeviceAccountingSearch
 {
     public $from_date;
     public $to_date;
+    public $devices;
 
     public function rules()
     {
         return [
           [['dateRange'],'required'],
+
         ];
     }
     public function behaviors()

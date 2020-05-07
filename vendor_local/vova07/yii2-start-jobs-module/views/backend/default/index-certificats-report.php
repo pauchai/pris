@@ -45,5 +45,10 @@ CSS
         'dataProvider' => $dataProvider,
     'itemView' => '_certificat',
       'summary' => '',
+    'viewParams' => [
+        'sefSLA' => $sefSLA,
+        'educator' => $educator,
+        'sefSF' => $sefSF,
+    ]
 
 ])?>

@@ -22,7 +22,7 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
           //  [['to_date'],'default', 'value' => Calendar::getRangeForDate(time())[1]->getTimeStamp()],
             [['dateRange'],'string'],
 
-            [['prisoner.sector_id', 'prisoner.cell_id'], 'safe']
+            [['prisoner.sector_id', 'prisoner.cell_id','prisoner_id'], 'safe']
             //DefaultValueValidator::
 
 
@@ -58,6 +58,7 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
             $dataProvider->query->andFilterWhere([
                'prisoner.sector_id' => $this->getAttribute('prisoner.sector_id'),
                 'prisoner.cell_id' => $this->getAttribute('prisoner.cell_id'),
+                'prisoner_id' =>  $this->getAttribute('prisoner_id'),
             ]);
             $dataProvider->query->andFilterWhere(['>=','from_date',$this->from_date ]);
             $dataProvider->query->andFilterWhere(['<=','to_date',$this->to_date ]);

@@ -10,6 +10,7 @@ use vova07\plans\Module;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
+use vova07\users\models\Officer;
 use yii\helpers\Json;
 use yii\web\Application;
 use yii\web\NotFoundHttpException;
@@ -122,7 +123,12 @@ class ProgramsController extends BackendController
         $dataProvider->pagination = false;
         $dataProvider->query->forPrisonersActiveAndEtapped();
 
-        return $this->render('view_print', ['model'=>$model,'dataProvider' => $dataProvider]);
+        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
+
+        return $this->render('view_print', [
+            'model'=>$model,'dataProvider' => $dataProvider,
+            'officer' => $officer
+        ]);
     }
     public function actionDelete($id)
     {

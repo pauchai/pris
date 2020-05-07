@@ -140,7 +140,7 @@ class Device extends  Ownableitem
 
     public static function find()
     {
-        return new DeviceQuery(get_called_class());
+        return new DeviceQuery(self::class);
     }
 
     public function getOwnableitem()

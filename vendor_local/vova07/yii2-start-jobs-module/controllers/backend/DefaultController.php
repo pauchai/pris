@@ -120,7 +120,15 @@ class DefaultController extends BackendController
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
         \Yii::$app->user->returnUrl = \yii\helpers\Url::current();
 
-        return $this->render("index-print", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+        $sefSLA = User::findOne(['role' => \vova07\rbac\Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD])->officer;
+
+
+        return $this->render("index-print", [
+            'dataProvider' => $dataProvider, 'searchModel'=>$searchModel,
+            'director' => $director,
+            'sefSLA' => $sefSLA
+        ]);
     }
 
     public function actionIndexOrdersReport()
@@ -150,7 +158,15 @@ class DefaultController extends BackendController
 
         };
 
-        $res =  $this->render("index-orders-report", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+        $educator = User::findOne(['role' => \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR])->officer;
+
+        $res =  $this->render("index-orders-report", [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+            'director' => $director,
+            'educator' => $educator,
+        ]);
         \Yii::$app->sourceLanguage = $oldSourceLanguage;
         return $res;
     }
@@ -181,7 +197,16 @@ class DefaultController extends BackendController
 
         };
 
-        $res =  $this->render("index-certificats-report", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+        $sefSLA = User::findOne(['role' => \vova07\rbac\Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD])->officer;
+        $educator = User::findOne(['role' => \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR])->officer;
+        $sefSF = User::findOne(['role' => \vova07\rbac\Module::ROLE_FINANCE_DEPARTMENT_HEAD])->officer;
+
+        $res =  $this->render("index-certificats-report", [
+            'dataProvider' => $dataProvider, 'searchModel'=>$searchModel,
+            'sefSLA' => $sefSLA,
+            'educator' => $educator,
+            'sefSF' => $sefSF
+        ]);
         \Yii::$app->sourceLanguage = $oldSourceLanguage;
         return $res;
     }

@@ -40,5 +40,10 @@ CSS
         'dataProvider' => $dataProvider,
     'itemView' => '_order',
       'summary' => '',
+    'viewParams' => [
+        'director' => $director,
+        'educator' => $educator,
+
+        ]
 
 ])?>

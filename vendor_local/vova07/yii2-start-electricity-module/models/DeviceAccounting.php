@@ -67,7 +67,8 @@ class DeviceAccounting extends  Ownableitem
             [['device_id', 'dateRange'], 'required'],
             //   [['from_date'],'default', 'value' => Calendar::getRangeForDate(time())[0]->getTimeStamp()],
             //   [['to_date'],'default', 'value' => Calendar::getRangeForDate(time())[1]->getTimeStamp()],
-            [['value'], 'number'],
+            [['value','prisoner_id'], 'number'],
+           // [['fromDateJui','toDateJui'],'string'],
             [['status_id'], 'default', 'value' => DeviceAccounting::STATUS_INIT]
             //DefaultValueValidator::
 
@@ -129,7 +130,7 @@ class DeviceAccounting extends  Ownableitem
                 'autoCalculation' => [
                     'class' => AttributeBehavior::class,
                     'attributes' => [
-                        \yii\db\ActiveRecord::EVENT_BEFORE_VALIDATE => 'value',
+                        \yii\db\ActiveRecord::EVENT_AFTER_VALIDATE => 'value',
                         //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
                     ],
                     'value' => function ($event) {
@@ -142,7 +143,16 @@ class DeviceAccounting extends  Ownableitem
         } else {
             $behaviors = [];
         }
-        /*        $behaviors['fromDateJui']      = [
+        $behaviors['dateRange'] = [
+            'class' => \vova07\base\components\DateRangeBehavior::class,
+            'attribute' => 'dateRange',
+            'dateStartAttribute' => 'from_date',
+            'dateEndAttribute' => 'to_date',
+            'displayFormat' => 'd-m-Y'
+
+
+        ];/*
+                $behaviors['fromDateJui']      = [
                 'class' => DateConvertJuiBehavior::class,
                 'attribute' => 'from_date',
                 'juiAttribute' => 'fromDateJui'
@@ -152,15 +162,7 @@ class DeviceAccounting extends  Ownableitem
                 'attribute' => 'to_date',
                 'juiAttribute' => 'toDateJui'
                 ];*/
-        $behaviors['dateRange'] = [
-            'class' => \vova07\base\components\DateRangeBehavior::class,
-            'attribute' => 'dateRange',
-            'dateStartAttribute' => 'from_date',
-            'dateEndAttribute' => 'to_date',
-            'displayFormat' => 'd-m-Y'
 
-
-        ];
 
 
         return $behaviors;

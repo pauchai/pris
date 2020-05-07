@@ -18,6 +18,7 @@ use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
+use vova07\users\models\Officer;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -145,9 +146,16 @@ class NotPaidJobsController extends BackendController
         $dataProvider->pagination->pageSize = 0;
         //$dataProvider->query->andFilterWhere(compact(['year', 'month_no']));
 
+        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+
+        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
 
 
-        return $this->render("table-individual-report", ['dataProvider' => $dataProvider, 'searchModel'=>$searchModel]);
+        return $this->render("table-individual-report", [
+            'dataProvider' => $dataProvider, 'searchModel'=>$searchModel,
+            'director' => $director,
+            'officer' => $officer
+        ]);
     }
 
     public function actionCloneList()

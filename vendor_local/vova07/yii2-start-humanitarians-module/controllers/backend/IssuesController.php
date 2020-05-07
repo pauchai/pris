@@ -11,6 +11,7 @@ use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
+use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\db\Query;
 use yii\helpers\Url;
@@ -130,9 +131,16 @@ class IssuesController extends BackendController
             $dataProvider->pagination->setPageSize(100);
 
         //
+        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
 
 
-            return $this->render('view-print', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
+
+        return $this->render('view-print', [
+                'model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch,
+                'director' => $director,
+                'officer' => $officer,
+            ]);
 
 
 

@@ -26,20 +26,18 @@ CSS
 ?>
 <table width="100%">
     <tr>
-        <td width="70%">
+        <td width="50%">
 
         </td>
-        <td width="30%">
-            <p style="text-align: center;font-size:100%">
+        <td width="50%">
+            <p style="text-align: center;font-size:120%">
                 "APROB"
             </p>
-
-            <p style="text-align: right">
-                __________________________________________________
+            <p style="text-align: center;font-size:120%">
+                <?=$director->post?>
             </p>
-
-            <p style="text-align: right">
-                __________________________________________________
+            <p style="text-align: center;font-size:120%">
+                <?=$director->rank?>_______________<?=$director->person->getFio(true,false)?>
             </p>
 
 
@@ -106,9 +104,17 @@ CSS
     </tr>
 </table>-->
 
-<p ><b>Secţia Reintegrare Socială</b></p>
-<br/>
-<p ><span class="field" style="width:100%" value="" ></span>
+
+<p ><b><?=$officer->post?></b></p>
+
+<table>
+    <tr>
+        <td style="text-align:right"><?=$officer->rank?> /</td>
+        <td>_________________</td>
+        <td style="text-align:left">/ <?=$officer->person->fio?></td>
+    </tr>
+</table>
+<p >«___»____________<?=date('Y')?>
 </p>
 
 <br/>

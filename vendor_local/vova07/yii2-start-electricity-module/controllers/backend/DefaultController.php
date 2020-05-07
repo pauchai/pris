@@ -6,6 +6,7 @@ use http\Url;
 use phpDocumentor\Reflection\Types\Array_;
 use vova07\base\components\BackendController;
 use vova07\electricity\models\backend\DeviceAccountingSearch;
+use vova07\electricity\models\backend\DeviceSearch;
 use vova07\electricity\models\backend\GenerateTabularDataForm;
 use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
@@ -22,6 +23,7 @@ use vova07\users\models\Prisoner;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -66,7 +68,12 @@ class DefaultController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['prisoner-devices','mass-change-statuses','generate-tabular-data'],
+                'actions' => ['generate-tabular-data'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_ELECTRICITY_CREATE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['prisoner-devices','mass-change-statuses'],
                 'roles' => ['@']
             ],
         ];
@@ -200,13 +207,47 @@ class DefaultController extends BackendController
 
     public function actionGenerateTabularData()
     {
-        $model = new GenerateTabularDataForm();
-        $model->load(\Yii::$app->request->post());
-        $model->validate();
-        $model->generateOrSyncDevicesAccounting();
+
+        $deviceAccountingSearch = new DeviceAccountingSearch;
+        $deviceAccountingProvider = $deviceAccountingSearch->search(\Yii::$app->request->get());
+
+        $searchModel = new DeviceSearch();
+
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->andWhere(['not in', 'devices.__ownableitem_id' , $deviceAccountingProvider->query->select('device_accountings.device_id')->distinct()]);
+        $dataProvider->pagination = false;
+
+        //$count = count(\Yii::$app->request->post('DeviceAccounting', []));
+        $deviceAccountings = [];
+        foreach(\Yii::$app->request->post('DeviceAccounting', []) as $i=>$arr){
+            if (is_integer($i))
+                $deviceAccountings[$i] = new DeviceAccounting();
+        }
+        if (Model::loadMultiple($deviceAccountings, \Yii::$app->request->post()) &&
+            Model::validateMultiple($deviceAccountings)) {
+            foreach ($deviceAccountings as $deviceAccounting) {
+                $deviceAccounting->save(false);
+            }
+            return $this->goBack();
+        }
+        //$model->load(\Yii::$app->request->post());
+
+      //  if ($model->validate()){
+      //      $model->generateOrSyncDevicesAccounting();
+     ///       return $this->goBack();
+     //   };
 
 
-        return $this->goBack();
+
+
+
+        return $this->render('generate_tabular_data', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'deviceAccountingSearch' => $deviceAccountingSearch,
+
+
+        ]);
 
     }
 

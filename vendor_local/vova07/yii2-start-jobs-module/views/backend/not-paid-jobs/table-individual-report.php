@@ -25,6 +25,8 @@ CSS
       'viewParams'=> [
           'dataProvider' => $dataProvider,
           'searchModel' => $searchModel,
+          'director' => $director,
+          'officer' => $officer,
       ],
       'summary' => '',
 

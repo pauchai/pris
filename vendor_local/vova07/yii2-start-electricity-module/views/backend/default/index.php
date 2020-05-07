@@ -40,14 +40,7 @@ $this->params['breadcrumbs'] = [
 <?php echo $this->render('_search',['model' => $searchModel])?>
 
 
-<?php $formGenerateTabularData = ActiveForm::begin([
-    'action' => \yii\helpers\Url::to(['generate-tabular-data'])
-])?>
-<?php echo $formGenerateTabularData->field($generateTabularDataFormModel,'dateRange')->hiddenInput()->label(false)?>
-<?php echo \yii\bootstrap\Html::submitButton("SYNC_TABULAR_DATA",['class' => 'no-print'])?>
-<?php ActiveForm::end();?>
-
-
+<?php echo \yii\bootstrap\Html::a(Module::t('default' , 'SYNC_TABULAR_DATA'),['generate-tabular-data','DeviceAccountingSearch'=>['dateRange' => $searchModel->dateRange]],['class' => 'no-print btn btn-default'])?>
 
     <?php $form = ActiveForm::begin([
         'action' => \yii\helpers\Url::to(['mass-change-statuses'])

@@ -33,30 +33,26 @@ $this->params['breadcrumbs'] = [
 
 <table width="100%">
     <tr>
-        <td width="70%">
+        <td width="50%">
 
         </td>
-        <td width="30%">
-            <p style="text-align: center;font-size:160%">
+        <td width="50%">
+            <p style="text-align: center;font-size:180%">
                 "APROB"
             </p>
+            <p style="text-align: center;font-size:180%">
+                <?=$director->post?>
+            </p>
+            <p style="text-align: center;font-size:180%">
+                <?=$director->rank?>________________________<?=$director->person->getFio(true,false)?>
+            </p>
 
-            <p style="text-align: right">
-                ___________________________________________________________________________________
-            </p>
-            <br/>
-            <p style="text-align: right">
-                ___________________________________________________________________________________
-            </p>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
 
         </td>
     </tr>
 </table>
 
+<br/><br/><br/>
 <?php $box = Box::begin();?>
 
 <?php echo $this->render('_search',['model' => $searchModel])?>
@@ -232,4 +228,13 @@ $this->params['breadcrumbs'] = [
 
 
 <?php  Box::end()?>
+<br/>
+<p style="font-size:180%" ><b><?=$officer->post?></b></p>
 
+<table>
+    <tr>
+        <td style="text-align:right;font-size:180%"><?=$officer->rank?> /</td>
+        <td>________________________________________________</td>
+        <td style="text-align:left;font-size:180%">/ <?=$officer->person->fio?></td>
+    </tr>
+</table>

@@ -45,23 +45,23 @@ $this->params['breadcrumbs'] = [
 ?>
 <table width="100%">
     <tr>
-        <td width="70%">
-            <p>
+        <td width="50%">
+            <p style="font-size:160%">
                 <b>Instituţia:</b> <u>Penitenciarul nr.1 Taraclia</u>
-            </p>
-            <p>
+            </p >
+            <p style="font-size:160%">
                  <b>Detaşamentul:</b> <u>deservirea gospodărească</u>
             </p>
         </td>
-        <td width="30%">
-            <p style="text-align: center;font-size:120%">
+        <td width="50%">
+            <p style="text-align: center;font-size:200%">
 "APROB"
             </p>
-            <p style="text-align: right">
-______________________________________________________________
+            <p style="text-align: center;font-size:200%">
+<?=$director->post?>
             </p>
-            <p style="text-align: right">
-______________________________________________________________
+            <p style="text-align: center;font-size:200%">
+<?=$director->rank?>________________________<?=$director->person->getFio(true,false)?>
             </p>
 
 
@@ -69,10 +69,10 @@ ______________________________________________________________
     </tr>
 </table>
 
+<br/><br/>
 
-
-<h3 style="text-align: center">TABEL DE PONTAJ</h3>
-<h4 style="text-align: center">
+<h3 style="text-align: center;font-size:200%">TABEL DE PONTAJ</h3>
+<h4 style="text-align: center;font-size:200%">
 al detaşamentului deservirii gospodăreşti pe luna: <b><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . $searchModel->month_no)?></b> anului: <?=$searchModel->getYearMonth(false)->format("Y")?>
 </h4>
 
@@ -113,10 +113,9 @@ $gridColumns = [
 
 
 
-<p style="text-align: right">
-    __________________________________________________________________________
-</p>
-<p style="text-align: right">
-    __________________________________________________________________________
+<p style="text-align: left;font-size:200%">
+    <?=$sefSLA->post?>,
+
+    <?=$sefSLA->rank?> ____________________ <?=$sefSLA->person->fio?>
 </p>
 

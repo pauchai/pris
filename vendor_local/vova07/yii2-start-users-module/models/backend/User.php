@@ -9,6 +9,7 @@
 namespace vova07\users\models\backend;
 
 
+use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\base\Security;
 
@@ -85,6 +86,8 @@ class User extends \vova07\users\models\User
         $security = new Security();
         return $security->generatePasswordHash($password);
     }
+
+
 
 
 

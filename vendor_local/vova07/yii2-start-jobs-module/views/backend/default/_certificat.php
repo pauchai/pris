@@ -77,21 +77,25 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 <table width="100%">
     <tr>
         <td width="50%" style="padding-right:10px;">
-            <p ><b>Secţia Logistică şi Administrare</b></p>
+            <p ><b><?=$sefSLA->post?></b></p>
+             <p><?=$sefSLA->rank?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
+            <p><?=$sefSLA->person->fio?></p>
             <p >«___»____________<?=date('Y')?>
             </p>
         </td>
 
         <td width="50%"  style="padding-left:10px;" >
-            <p ><b>Secţia Reintegrare Socială</b></p>
+            <p ><b><?=$educator->post?></b></p>
+            <p><?=$educator->rank?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
+            <p><?=$educator->person->fio?></p>
             <p >«___»____________<?=date('Y')?>
             </p>
 
@@ -101,13 +105,13 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 
 <br/>
 
-<p ><b>Serviciul Financiar</b></p>
+<p ><b><?=$sefSF->post?></b></p>
 
 <table>
     <tr>
-        <td style="text-align:right">________________________/</td>
+        <td style="text-align:right"><?=$sefSF->rank?> /</td>
         <td>_________________</td>
-        <td style="text-align:left">/_________________________</td>
+        <td style="text-align:left">/ <?=$sefSF->person->fio?></td>
     </tr>
 </table>
 <br/>

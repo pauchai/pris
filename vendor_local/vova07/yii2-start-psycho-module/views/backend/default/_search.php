@@ -6,11 +6,11 @@
             'method' => 'get'
         ])?>
 
-    <?php echo $form->field($model,'hasPsycho')->checkbox()?>
+    <?php echo $form->field($model,'hasPsycho')->checkbox(['class' => 'no-print'])->label(null,['class' => 'no-print'])?>
 
 
     <div class="form-group">
-        <?php echo \yii\helpers\Html::submitButton('Search',['class' => 'btn btn-primary'])?>
+        <?php echo \yii\helpers\Html::submitButton('Search',['class' => 'btn btn-primary no-print'])?>
 
 
     </div>

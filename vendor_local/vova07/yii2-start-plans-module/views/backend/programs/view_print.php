@@ -125,6 +125,16 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 <p><b>n</b> - absenţa nemotivată,</p>
 <p><b>m</b> - absenţa motivată,</p>
 
+<br/>
+<table>
+    <tr>
+        <td width="60%">
 
-<p style="text-align:right;">______________________________________________________________________________________________</p>
-<p style="text-align:right;">______________________________________________________________________________________________</p>
+        </td>
+        <td width="40%">
+            <p style="font-size:140%" ><b><?=$officer->post?></b></p>
+
+            <?=$officer->rank?> _______________________________ <?=$officer->person->fio?>
+        </td>
+
+</table>
