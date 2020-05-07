@@ -52,6 +52,7 @@ class CellsController extends BackendController
         $searchModel = new CellSearch();
         $searchModel->sector = $sector;
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->pagination = false;
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
     }
 

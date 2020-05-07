@@ -204,11 +204,19 @@ class Device extends  Ownableitem
     {
         return [
             'title' => Module::t('labels','DEVICE_TITLE_LABEL'),
+            'prisoner_id' => Module::t('labels','DEVICE_PRISONER_ID_LABEL'),
             'assigned_at' => Module::t('labels','ASSIGNED_AT_LABEL'),
+            'assignedAtJui' => Module::t('labels','ASSIGNED_AT_LABEL'),
+            'unassignedAtJui' => Module::t('labels','UNASSIGNED_AT_LABEL'),
             'unassigned_at' => Module::t('labels','UNASSIGNED_AT_LABEL'),
+
             'power' => Module::t('labels','DEVICE_POWER_LABEL'),
             'enable_auto_calculation' => Module::t('labels','ENABLE_AUTO_CALCULATION'),
             'calculationMethod' => Module::t('labels','CALCULATION_METHOD_TITLE'),
+            'calculation_method_id' => Module::t('labels','CALCULATION_METHOD_TITLE'),
+            'status_id' => Module::t('labels','DEVICE_STATUS_TITLE'),
+            'status' => Module::t('labels','DEVICE_STATUS_TITLE'),
+
         ];
     }
     public static function getStatusesForCombo()
