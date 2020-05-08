@@ -14,5 +14,9 @@ use yii\db\ActiveQuery;
 class JobPaidQuery extends ActiveQuery
 {
 
+    public function active()
+    {
 
+                return $this->andWhere(['in', 'status_id', [JobPaid::STATUS_PROCESSED, JobPaid::STATUS_INIT, JobPaid::STATUS_READY_PROCESSING]]);
+    }
 }

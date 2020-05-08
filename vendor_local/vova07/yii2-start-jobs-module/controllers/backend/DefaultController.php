@@ -333,13 +333,14 @@ class DefaultController extends BackendController
         $jobList = JobPaidList::find()->active()->all();
         foreach ($jobList as $jobItem)
         {
-            $model = JobPaid::findOne([
+            $model = JobPaid::find()->andWhere([
+                'type_id' => $jobItem['type_id'],
                 'prison_id'=>$jobItem['prison_id'],
                 'prisoner_id' => $jobItem['assigned_to'],
                 'half_time' => $jobItem['half_time'],
                 'month_no' => $month_no,
                 'year' => $year,
-            ]);
+            ])->active()->one();
             if (is_null($model)){
                 $newModel = new JobPaid();
                 $newModel->prison_id = $prison_id;
@@ -350,6 +351,8 @@ class DefaultController extends BackendController
                 $newModel->year = $year;
                 $newModel->autoFillDaysHours();
                 $newModel->save();
+                if ($newModel->getErrors())
+                    throw new \LogicException(var_export($newModel->getErrors(), true));
             }
 
 
