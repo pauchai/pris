@@ -103,15 +103,20 @@ class JobPaid extends  JobAbstract
 
     public function autoFillDaysHours()
     {
+        $dayFromNo = 1;
+        $dayToNo = Calendar::getMonthDaysNumber($this->getDateTime());
 
         $jobItem = $this->getJobItem()->one();
         if ($jobItem->assigned_at)
             $jobItemFromDate = (new \DateTime())->setTimestamp($jobItem->assigned_at);
+        else
+            $jobItemFromDate = (new \DateTime())->setDate($this->year, $this->month_no,$dayFromNo);
         if ($jobItem->deleted_at)
             $jobItemToDate = (new \DateTime())->setTimestamp($jobItem->deleted_at);
+        else
+            $jobItemToDate = (new \DateTime())->setDate($this->year, $this->month_no,$dayToNo);
 
-        $dayFromNo = 1;
-        $dayToNo = Calendar::getMonthDaysNumber($this->getDateTime());
+
         if ($jobItemFromDate->format('m-Y') == $this->month_no .'-'. $this->year )
             $dayFromNo = $jobItemFromDate->format('d');
 
@@ -119,7 +124,7 @@ class JobPaid extends  JobAbstract
             $dayToNo = $jobItemToDate->format('d');
 
         for ($i = $dayFromNo; $i <= $dayToNo; $i++) {
-            $dayColumn = $i . 'd';
+            $dayColumn = ((integer) $i) . 'd';
             $dateTime = (new \DateTime())->setDate($this->year, $this->month_no, $i);
 
             if ($dateTime->format('N') == 6) {
