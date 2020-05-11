@@ -114,7 +114,7 @@ class JobGrid extends GridView
                 'content' => function($model) use($attributeName,$btnClass, $btnDateTime, $htmlOptions){
                         //$htmlOptions['style'] = 'text-align:center;';
                             if (Calendar::checkDateInPenaltyForPrisoner($model->prisoner,$btnDateTime ))
-                                $htmlOptions['style'] .= 'color:green;';
+                                $htmlOptions['style'] .= 'color:lightgreen;';
 
 
                         return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);

@@ -84,7 +84,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
                 <span class="field" style="width:100%" value="" ></span>
             </p>
             <p><?=$sefSLA->person->fio?></p>
-            <p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
+            <p >«___»    <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?> <?=date('Y')?>
             </p>
         </td>
 
@@ -96,7 +96,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
                 <span class="field" style="width:100%" value="" ></span>
             </p>
             <p><?=$educator->person->fio?></p>
-            <p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
+            <p >«___»   <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?></u><?=date('Y')?>
             </p>
 
         </td>
@@ -115,12 +115,12 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     </tr>
 </table>
 <br/>
-<p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
+<p >«___»   <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?> <?=date('Y')?>
 </p>
 
 
 <?php if ($penalty = $model->getActualPenalty()):?>
-    <?php echo Module::t('default','HAS_PENALTY_FROM_DATE')?> :
+    <?php echo Module::t('default','HAS_PENALTY_FOR_CURRENT_DATE')?> :
     <?=$penalty->comment?> <?=$penalty->dateStartJui?> - <?=$penalty->dateFinishJui?>
 
 <?php  endif;?>

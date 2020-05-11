@@ -39,6 +39,7 @@ class Penalty extends  Ownableitem
     {
         return [
             [['prison_id', 'prisoner_id',  'dateStartJui', 'dateFinishJui'], 'required'],
+            [['comment'] , 'string'],
 
             [['dateStartJui', 'dateFinishJui'], 'date']
         ];

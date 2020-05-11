@@ -27,12 +27,12 @@ $this->params['breadcrumbs'] = [
 );?>
 
 
-<?php //echo $this->render('_search',['model' => $searchModel])?>
+<?php echo $this->render('_search',['model' => $searchModel])?>
 
 
 
     <?php echo GridView::widget(['dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'layout' => $this->context->isPrintVersion?"{items}\n{pager}":"{summary}\n{items}\n{pager}",
         'showPageSummary' => true,
         //'showFooter' => true,
@@ -42,7 +42,6 @@ $this->params['breadcrumbs'] = [
             ],
             [
                 'attribute' => 'prisoner_id',
-                'pageSummary' => '',
                 'value' => function($model){
                     if ($model->prisoner)
                         return $model->prisoner->person->getFio(false, true);
@@ -50,6 +49,7 @@ $this->params['breadcrumbs'] = [
                         return null;
 
                 },
+                'filter' => false
 
             ],
             [
@@ -57,6 +57,7 @@ $this->params['breadcrumbs'] = [
                 'value' => 'prison.company.title'
                 //'pageSummaryFunc' => function(),
             ],
+            'comment',
 
             'date_start:date',
             'date_finish:date',

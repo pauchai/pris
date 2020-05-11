@@ -133,7 +133,17 @@ $balanceRemain  = $model->getBalances()->debit()->sum('amount') - $model->getBal
               'url' => ['/concepts/participants/index', 'ConceptParticipantSearch[prisoner_id]'=>$model->primaryKey],
 
           ],
+          [
+              'label' => Module::t('default','PRISONER_PENALTIES') .
+                  Html::tag('span',
+                      Html::tag('span',$model->getPenalties()->count(), ['class' => "label label-primary pull-right"] ),
+                      ['class' => 'pull-right-container']
+                  ),
 
+
+              'url' => ['/prisons/penalties/index', 'PenaltySearch[prisoner_id]'=>$model->primaryKey],
+
+          ],
 
       ],
       'options' => ['class' => 'navbar-nav'],

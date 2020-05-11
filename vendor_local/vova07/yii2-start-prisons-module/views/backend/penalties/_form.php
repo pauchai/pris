@@ -29,6 +29,7 @@ use vova07\users\models\Prisoner;
 
 <?php echo $form->field($model, 'dateStartJui')->widget(DatePicker::class)?>
 <?php echo $form->field($model, 'dateFinishJui')->widget(DatePicker::class)?>
+<?php echo $form->field($model, 'comment')?>
 <?php $box->beginFooter();?>
 <div class="form-group">
     <?php if ($model->isNewRecord):?>

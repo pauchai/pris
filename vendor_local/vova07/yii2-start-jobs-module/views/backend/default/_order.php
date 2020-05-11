@@ -107,7 +107,7 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
 
 
 <?php if ($penalty = $model->getActualPenalty()):?>
-    <?php echo Module::t('default','HAS_PENALTY_FROM_DATE')?> :
+    <?php echo Module::t('default','HAS_PENALTY_FOR_CURRENT_MONTH')?> :
     <?=$penalty->comment?> <?=$penalty->dateStartJui?> - <?=$penalty->dateFinishJui?>
 
 <?php  endif;?>

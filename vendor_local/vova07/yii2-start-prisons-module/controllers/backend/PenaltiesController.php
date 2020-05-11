@@ -57,6 +57,7 @@ class PenaltiesController extends BackendController
    public function actionIndex()
     {
         $searchModel = new PenaltySearch();
+        $searchModel->prison_id = \Yii::$app->base->company->primaryKey;
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
