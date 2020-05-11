@@ -27,6 +27,7 @@ use vova07\plans\models\ProgramPlan;
 use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\Requirement;
 use vova07\prisons\models\Cell;
+use vova07\prisons\models\Penalty;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\PrisonerSecurity;
 use vova07\psycho\models\PsyCharacteristic;
@@ -372,6 +373,12 @@ class Prisoner extends  OwnableItem
     public function getTests()
     {
         return $this->hasMany(PsyTest::class, ['prisoner_id' => '__person_id']);
+    }
+
+    public function getPenalties()
+    {
+        return $this->hasMany(Penalty::class, ['prisoner_id' => '__person_id']);
+
     }
 
 

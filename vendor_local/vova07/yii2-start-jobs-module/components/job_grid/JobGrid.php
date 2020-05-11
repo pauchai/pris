@@ -78,6 +78,8 @@ class JobGrid extends GridView
             } else {
                 $btnClass = 'btn-default';
             }
+
+
             $htmlOptions['class'] = $btnClass .  ' form-control';
 
 
@@ -110,7 +112,11 @@ class JobGrid extends GridView
                 'header' => $buttonContent,
                 //'attribute' => $attributeName
                 'content' => function($model) use($attributeName,$btnClass, $btnDateTime, $htmlOptions){
-                        //$htmlOptions['style'] = 'text-align:center';
+                        //$htmlOptions['style'] = 'text-align:center;';
+                            if (Calendar::checkDateInPenaltyForPrisoner($model->prisoner,$btnDateTime ))
+                                $htmlOptions['style'] .= 'color:green;';
+
+
                         return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);
 
                 }
@@ -121,12 +127,18 @@ class JobGrid extends GridView
         $this->columns[] = [
             'header' => Module::t('labels','TOTAL_HOURS_LABEL'),
             'content' => function($model){
-                return $model->hours;
+                if ( $model->getHours(false) != $model->getHours(true))
+                    return $model->getHours(false) . '/' . Html::tag('span', $model->getHours(true),['style' => 'color:green']);
+                else
+                    return $model->getHours(false);
             }];
         $this->columns[] = [
             'header' => Module::t('labels','TOTAL_DAYS_LABEL'),
             'content' => function($model){
-                return $model->days;
+                if ($model->getDays(false) != $model->getDays(true))
+                    return $model->getDays(false)  . '/' . Html::tag('span', $model->getDays(true),['style' => 'color:green']);
+                else
+                    return $model->getDays(false);
             }];
     }
 

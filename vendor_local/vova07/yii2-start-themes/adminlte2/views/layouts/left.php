@@ -129,6 +129,7 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','NOT_PAID_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-jobs/index']],
                             ['label' => Module::t('menu','NOT_PAID_TYPES_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-types/index']],
                             ['label' => Module::t('menu','PAID_TYPES_LIST'),'icon' => 'circle','url'=>['/jobs/paid-types/index']],
+                            ['label' => Module::t('menu','PENALTY_LIST'),'icon' => 'circle','url'=>['/prisons/penalties/index']],
 
 
                         ]

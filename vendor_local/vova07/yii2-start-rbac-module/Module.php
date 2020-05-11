@@ -152,6 +152,13 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PRISONER_PLAN_COMMENT_CREATE = 'BPermissionPrisonerPlanCommentCreate';
 
     public const PERMISSION_PROGRAMS_SUMMARIZED_LIST  = 'BPermissionProgramsSummarizedList';
+
+    public const PERMISSION_PENALTIES_LIST = 'BPermissionPenaltiesList';
+    public const PERMISSION_PENALTY_CREATE = 'BPermissionPenaltyCreate';
+    public const PERMISSION_PENALTY_UPDATE = 'BPermissionPenaltyUpdate';
+    public const PERMISSION_PENALTY_DELETE = 'BPermissionPenaltyDelete';
+    public const PERMISSION_PENALTY_VIEW = 'BPermissionPenaltyView';
+
     /**
      * @inheritdoc
      */

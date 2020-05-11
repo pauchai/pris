@@ -31,5 +31,19 @@ class Rbac
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
         }
 
+
+       // Permissions
+       $permissions = [
+           Module::PERMISSION_PENALTIES_LIST,
+           Module::PERMISSION_PENALTY_CREATE,
+           Module::PERMISSION_PENALTY_VIEW,
+           Module::PERMISSION_PENALTY_UPDATE,
+           Module::PERMISSION_PENALTY_DELETE,
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+       }
    }
 }

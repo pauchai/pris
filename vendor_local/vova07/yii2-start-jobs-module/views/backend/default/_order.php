@@ -40,7 +40,7 @@ use vova07\site\models\Setting;
 <p >În
 decurs de
     <span style="font-weight: bolder; text-align:center;width:15em" class="field" >
-        <?=$model->days?>
+        <?=$model->getDays(true)?>
         <?php if ($model->half_time):?>
          / 0.5
         <?php endif;?>
@@ -74,14 +74,14 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
 <p >
     Se efectuează compensarea privilegiată
    <span class="field" style="width:10em">
-    <?=$model->days?>
+    <?=$model->getDays(true)?>
     <?php if ($model->half_time):?>
         / 0.5
     <?php endif;?>
    </span>
     zile de muncă
     <?php
-    $value = $model->getWorkDaysWithCompensation();
+    $value = $model->getWorkDaysWithCompensation(true);
     $floorValue = floor($value);
     $fractionValue = floor(($value - $floorValue) * 100);
     ?>
@@ -106,6 +106,11 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
 </div>
 
 
+<?php if ($penalty = $model->getActualPenalty()):?>
+    <?php echo Module::t('default','HAS_PENALTY_FROM_DATE')?> :
+    <?=$penalty->comment?> <?=$penalty->dateStartJui?> - <?=$penalty->dateFinishJui?>
+
+<?php  endif;?>
 
 
 <div style="page-break-after: always"></div>

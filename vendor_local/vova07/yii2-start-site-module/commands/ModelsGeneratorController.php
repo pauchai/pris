@@ -29,6 +29,7 @@ use vova07\jobs\models\JobPaidList;
 use vova07\jobs\models\JobPaidType;
 use vova07\jobs\models\WorkDay;
 use vova07\plans\models\PrisonerPlan;
+use vova07\prisons\models\Penalty;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyRiskQuery;
@@ -157,8 +158,10 @@ class ModelsGeneratorController extends \yii\console\Controller
 
 
             PrisonerPlan::class,
-*/
+
             DeviceAccountingBalance::class
+*/
+            Penalty::class
 
         ];
     }

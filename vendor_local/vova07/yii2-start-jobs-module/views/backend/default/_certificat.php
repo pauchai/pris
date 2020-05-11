@@ -45,7 +45,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
   (specialitatea)</i></span></p>
 <p >în decurs de
     <span style="font-weight: bolder; text-align:center;width:15em" class="field" >
-        <?=$model->days?>
+        <?=$model->getDays(true)?>
         <?php if ($model->half_time):?>
          / 0.5
         <?php endif;?>
@@ -63,7 +63,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 
 
         <?php
-            $value = $model->getWorkDaysWithCompensation();
+            $value = $model->getWorkDaysWithCompensation(true);
             $floorValue = floor($value);
             $fractionValue = floor(($value - $floorValue) * 100);
         ?>
@@ -84,7 +84,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
                 <span class="field" style="width:100%" value="" ></span>
             </p>
             <p><?=$sefSLA->person->fio?></p>
-            <p >«___»____________<?=date('Y')?>
+            <p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
             </p>
         </td>
 
@@ -96,7 +96,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
                 <span class="field" style="width:100%" value="" ></span>
             </p>
             <p><?=$educator->person->fio?></p>
-            <p >«___»____________<?=date('Y')?>
+            <p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
             </p>
 
         </td>
@@ -115,10 +115,14 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     </tr>
 </table>
 <br/>
-<p >«___»____________<?=date('Y')?>
+<p >«___»   <u><?=date('M')?></u> <?=date('Y')?>
 </p>
 
 
+<?php if ($penalty = $model->getActualPenalty()):?>
+    <?php echo Module::t('default','HAS_PENALTY_FROM_DATE')?> :
+    <?=$penalty->comment?> <?=$penalty->dateStartJui?> - <?=$penalty->dateFinishJui?>
 
+<?php  endif;?>
 
 <div style="page-break-after: always"></div>

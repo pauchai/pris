@@ -127,10 +127,14 @@ abstract class JobAbstract extends  Ownableitem
     {
         return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
     }
-    public function getDays()
+    public function getDays($exceptPenalty = false)
     {
         $result = 0;
         for ($i = 1; $i<=31;$i++){
+            $dateTime = (new \DateTime())->setDate($this->year,$this->month_no, $i);
+            if ($exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
+                continue;
+
             $colName = strtr(self::dayColFormat,['{day}' => $i]);
             if ($this->$colName){
                 $result++;
@@ -138,10 +142,13 @@ abstract class JobAbstract extends  Ownableitem
         }
         return $result;
     }
-    public function getHours()
+    public function getHours($exceptPenalty = false)
     {
         $result = 0;
         for ($i = 1; $i<=31;$i++){
+            $dateTime = (new \DateTime())->setDate($this->year,$this->month_no, $i);
+            if ($exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
+                continue;
             $colName = strtr(self::dayColFormat,['{day}' => $i]);
             if ($this->$colName){
                 $result += $this->$colName;

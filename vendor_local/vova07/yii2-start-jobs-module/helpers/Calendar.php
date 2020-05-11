@@ -11,6 +11,8 @@ namespace vova07\jobs\helpers;
 
 use vova07\jobs\models\Holiday;
 use vova07\jobs\models\WorkDay;
+use vova07\prisons\models\Penalty;
+use vova07\users\models\Prisoner;
 
 class Calendar
 {
@@ -102,5 +104,17 @@ class Calendar
         }
 
 
+    }
+
+    public static function checkDateInPenaltyForPrisoner(Prisoner $prisoner, \DateTime $date)
+    {
+        $query = $prisoner->getPenalties()
+            ->andWhere(
+            ['<=', 'date_start', $date->getTimestamp()]
+        )
+            ->andWhere(
+            ['>=', 'date_finish', $date->getTimestamp() - 3600 * 24]
+        );
+        return $query->count()>0;
     }
 }

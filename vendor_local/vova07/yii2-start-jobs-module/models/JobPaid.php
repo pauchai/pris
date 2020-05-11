@@ -19,6 +19,7 @@ use vova07\jobs\helpers\Calendar;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
+use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -37,10 +38,11 @@ class JobPaid extends  JobAbstract
     {
         return 'jobs_paid';
     }
+
     public function rules()
     {
-        return ArrayHelper::merge(parent::rules(),[
-           [['status_id'] ,'default','value' => self::STATUS_PROCESSED]
+        return ArrayHelper::merge(parent::rules(), [
+            [['status_id'], 'default', 'value' => self::STATUS_PROCESSED]
         ]);
     }
 
@@ -80,7 +82,7 @@ class JobPaid extends  JobAbstract
 
     }
 
-    public  function getJobItem()
+    public function getJobItem()
     {
         return $this->hasOne(JobPaidList::class, [
             'assigned_to' => 'prisoner_id',
@@ -110,21 +112,21 @@ class JobPaid extends  JobAbstract
         if ($jobItem->assigned_at)
             $jobItemFromDate = (new \DateTime())->setTimestamp($jobItem->assigned_at);
         else
-            $jobItemFromDate = (new \DateTime())->setDate($this->year, $this->month_no,$dayFromNo);
+            $jobItemFromDate = (new \DateTime())->setDate($this->year, $this->month_no, $dayFromNo);
         if ($jobItem->deleted_at)
             $jobItemToDate = (new \DateTime())->setTimestamp($jobItem->deleted_at);
         else
-            $jobItemToDate = (new \DateTime())->setDate($this->year, $this->month_no,$dayToNo);
+            $jobItemToDate = (new \DateTime())->setDate($this->year, $this->month_no, $dayToNo);
 
 
-        if ($jobItemFromDate->format('m-Y') == $this->month_no .'-'. $this->year )
+        if ($jobItemFromDate->format('m-Y') == $this->month_no . '-' . $this->year)
             $dayFromNo = $jobItemFromDate->format('d');
 
-        if ($jobItemToDate->format('m-Y') == $this->month_no .'-'. $this->year )
+        if ($jobItemToDate->format('m-Y') == $this->month_no . '-' . $this->year)
             $dayToNo = $jobItemToDate->format('d');
 
         for ($i = $dayFromNo; $i <= $dayToNo; $i++) {
-            $dayColumn = ((integer) $i) . 'd';
+            $dayColumn = ((integer)$i) . 'd';
             $dateTime = (new \DateTime())->setDate($this->year, $this->month_no, $i);
 
             if ($dateTime->format('N') == 6) {
@@ -144,17 +146,28 @@ class JobPaid extends  JobAbstract
         return [
             'half_time' => Module::t('labels', 'HALF_TIME_LABEL'),
             'type.category_id' => Module::t('labels', 'CATEGORY'),
-            'prison_id' => Module::t('labels','PRISON'),
-            'month_no' => Module::t('labels','MONTH'),
-            'year' => Module::t('labels','YEAR'),
-            'prisoner_id' => Module::t('labels','PRISONER'),
-            'type_id' => Module::t('labels','TYPE'),
+            'prison_id' => Module::t('labels', 'PRISON'),
+            'month_no' => Module::t('labels', 'MONTH'),
+            'year' => Module::t('labels', 'YEAR'),
+            'prisoner_id' => Module::t('labels', 'PRISONER'),
+            'type_id' => Module::t('labels', 'TYPE'),
         ];
     }
 
-    public function getWorkDaysWithCompensation()
+    public function getWorkDaysWithCompensation($exceptPanalty = false)
     {
-        return ($this->half_time?0.5:1) * $this->getDays() * $this->type->getCompensationRatio();
+        return ($this->half_time ? 0.5 : 1) * $this->getDays($exceptPanalty) * $this->type->getCompensationRatio();
+    }
+
+    public function getActualPenalty()
+    {
+       return $this->prisoner->getPenalties()
+            ->orWhere(
+                new Expression('YEAR(FROM_UNIXTIME(date_start))=:year AND MONTH(FROM_UNIXTIME(date_start))=:month_no',[':year' => $this->year,':month_no'=>$this->month_no])
+        )
+            ->orWhere(
+                new Expression('YEAR(FROM_UNIXTIME(date_finish))=:year AND MONTH(FROM_UNIXTIME(date_finish))=:month_no',[':year' => $this->year,':month_no'=>$this->month_no])
+        )->one();
     }
 
 
