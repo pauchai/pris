@@ -12,6 +12,7 @@ namespace vova07\jobs\components\job_grid;
 use kartik\form\ActiveForm;
 use vova07\jobs\helpers\Calendar;
 use vova07\jobs\models\Holiday;
+use vova07\jobs\models\JobNotPaid;
 use vova07\jobs\Module;
 use vova07\prisons\widgets\ActionColumn;
 use yii\db\ActiveRecord;
@@ -28,6 +29,7 @@ class JobGrid extends GridView
     public $fixedColumnsWidth = [];
     public $enableControlls = true;
     public $filterPosition  = self::FILTER_POS_FOOTER;
+
 
 
     public $form;
@@ -113,8 +115,8 @@ class JobGrid extends GridView
                 //'attribute' => $attributeName
                 'content' => function($model) use($attributeName,$btnClass, $btnDateTime, $htmlOptions){
                         //$htmlOptions['style'] = 'text-align:center;';
-                            if (Calendar::checkDateInPenaltyForPrisoner($model->prisoner,$btnDateTime ))
-                                $htmlOptions['style'] .= 'color:lightgreen;';
+                            if (!($model instanceof JobNotPaid) && Calendar::checkDateInPenaltyForPrisoner($model->prisoner,$btnDateTime ))
+                                $htmlOptions['style'] .= 'color:green;';
 
 
                         return   $this->form->field($model,'[' . $model->primaryKey .']'. $attributeName)->input('text',$htmlOptions)->label(false);
@@ -128,7 +130,7 @@ class JobGrid extends GridView
             'header' => Module::t('labels','TOTAL_HOURS_LABEL'),
             'content' => function($model){
                 if ( $model->getHours(false) != $model->getHours(true))
-                    return $model->getHours(false) . '/' . Html::tag('span', $model->getHours(true),['style' => 'color:green']);
+                    return $model->getHours(false) . '/' . Html::tag('span', $model->getHours(true),['class' => 'no-print', 'style' => 'color:green']);
                 else
                     return $model->getHours(false);
             }];
@@ -136,7 +138,7 @@ class JobGrid extends GridView
             'header' => Module::t('labels','TOTAL_DAYS_LABEL'),
             'content' => function($model){
                 if ($model->getDays(false) != $model->getDays(true))
-                    return $model->getDays(false)  . '/' . Html::tag('span', $model->getDays(true),['style' => 'color:green']);
+                    return $model->getDays(false)  . '/' . Html::tag('span', $model->getDays(true),['class' => 'no-print', 'style' => 'color:green']);
                 else
                     return $model->getDays(false);
             }];

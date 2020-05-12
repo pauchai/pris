@@ -45,7 +45,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
   (specialitatea)</i></span></p>
 <p >în decurs de
     <span style="font-weight: bolder; text-align:center;width:15em" class="field" >
-        <?=$model->getDays(true)?>
+        <?=$model->getDays(false)?>
         <?php if ($model->half_time):?>
          / 0.5
         <?php endif;?>
@@ -63,7 +63,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 
 
         <?php
-            $value = $model->getWorkDaysWithCompensation(true);
+            $value = $model->getWorkDaysWithCompensation(false);
             $floorValue = floor($value);
             $fractionValue = floor(($value - $floorValue) * 100);
         ?>
@@ -77,27 +77,25 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 <table width="100%">
     <tr>
         <td width="50%" style="padding-right:10px;">
-            <p ><b><?=$sefSLA->post?></b></p>
-             <p><?=$sefSLA->rank?></p>
+            <p style="margin:0px"><b><?=$sefSLA->post?></b></p>
+             <p style="margin:0px"><?=$sefSLA->rank?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
-            <p><?=$sefSLA->person->fio?></p>
-            <p >«___»    <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?> <?=date('Y')?>
-            </p>
+            <p style="margin:0px"><?=$sefSLA->person->fio?></p>
+            <p style="margin:0px"><?=date('d.m.Y')?></p>
         </td>
 
         <td width="50%"  style="padding-left:10px;" >
-            <p ><b><?=$educator->post?></b></p>
-            <p><?=$educator->rank?></p>
+            <p style="margin:0px"><b><?=$educator->post?></b></p>
+            <p style="margin:0px"><?=$educator->rank?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
-            <p><?=$educator->person->fio?></p>
-            <p >«___»   <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?></u><?=date('Y')?>
-            </p>
+            <p style="margin:0px"><?=$educator->person->fio?></p>
+            <p style="margin:0px"><?=date('d.m.Y')?></p>
 
         </td>
     </tr>
@@ -114,14 +112,22 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
         <td style="text-align:left">/ <?=$sefSF->person->fio?></td>
     </tr>
 </table>
-<br/>
-<p >«___»   <?php echo \vova07\site\Module::t('calendar', 'MONTH_' . date('m'))?> <?=date('Y')?>
+<p >
+    <?=date('d.m.Y')?>
 </p>
 
 
 <?php if ($penalty = $model->getActualPenalty()):?>
-    <?php echo Module::t('default','HAS_PENALTY_FOR_CURRENT_DATE')?> :
-    <?=$penalty->comment?> <?=$penalty->dateStartJui?> - <?=$penalty->dateFinishJui?>
+<br/>
+<table style="width:100%">
+    <tr>
+        <td style="width:20%; vertical-align:top"><b> Menţiune: </b></td>
+        <td style="width:80%">Sancţiunea disciplinară activă în perioada <?=date('d.m.Y',$penalty->date_start)?> - <?=date('d.m.Y', $penalty->date_finish)?>
+            <p><?=$educator->rank?>  ___________________ <?=$educator->person->getFio(true,false)?></p>
+
+        </td>
+    </tr>
+</table>
 
 <?php  endif;?>
 

@@ -24,7 +24,7 @@ use yii\validators\RequiredValidator;
 
 abstract class JobAbstract extends  Ownableitem
 {
-
+    const IGNORE_PENALTY = false;
     const dayColFormat = '{day}d';
     const RATE_POLSTAVKI = 0.5;
     const RATE_STAVKA = 1;
@@ -132,7 +132,7 @@ abstract class JobAbstract extends  Ownableitem
         $result = 0;
         for ($i = 1; $i<=31;$i++){
             $dateTime = (new \DateTime())->setDate($this->year,$this->month_no, $i);
-            if ($exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
+            if (!constant(get_called_class() . '::IGNORE_PENALTY' ) && $exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
                 continue;
 
             $colName = strtr(self::dayColFormat,['{day}' => $i]);
@@ -147,7 +147,7 @@ abstract class JobAbstract extends  Ownableitem
         $result = 0;
         for ($i = 1; $i<=31;$i++){
             $dateTime = (new \DateTime())->setDate($this->year,$this->month_no, $i);
-            if ($exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
+            if (!constant(get_called_class() . '::IGNORE_PENALTY' ) && $exceptPenalty && Calendar::checkDateInPenaltyForPrisoner($this->prisoner,$dateTime))
                 continue;
             $colName = strtr(self::dayColFormat,['{day}' => $i]);
             if ($this->$colName){

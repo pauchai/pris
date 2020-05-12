@@ -23,6 +23,9 @@ use yii\validators\RequiredValidator;
 
 class JobNotPaid extends  JobAbstract
 {
+    const IGNORE_PENALTY = true;
+
+
     public $ignoreHolidayWeekDays = true;
 
     public static function tableName()
@@ -72,6 +75,8 @@ class JobNotPaid extends  JobAbstract
             'type_id' => \vova07\jobs\Module::t('labels','TYPE'),
         ];
     }
+
+
 
 
 

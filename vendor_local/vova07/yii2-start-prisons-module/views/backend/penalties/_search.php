@@ -26,7 +26,7 @@ use kartik\select2\Select2;
     ]
 );?>
 
-<?php echo Html::submitButton('SELECT_MONTH',['class' => 'form-control btn btn-info no-print '])?>
+<?php echo Html::submitButton('SEARCH',['class' => 'form-control btn btn-info no-print '])?>
 
 <?php \kartik\form\ActiveForm::end()?>
 
