@@ -69,14 +69,35 @@ $this->params['breadcrumbs'] = [
         [
             'header' => '',
             'content' => function($model, $key, $index)use (&$form, &$deviceAccountingSearch){
+
+
                 $deviceAccounting = new \vova07\electricity\models\DeviceAccounting([
                    'device_id' => $model->primaryKey,
                     'prisoner_id' => $model->prisoner_id,
-                    'dateRange' => $deviceAccountingSearch->dateRange,
-
-
-
                 ]);
+
+                /**
+                 * @TODO make correct date format for from_date and to_date
+                 */
+                $deviceAccountingSearchFromDateTime = DateTime::createFromFormat('d-m-Y',$deviceAccountingSearch->from_date );
+                $deviceAccountingSearchToDateTime = DateTime::createFromFormat('d-m-Y',$deviceAccountingSearch->to_date );
+
+                $deviceAssignedDateTime = (new DateTime)->setTimestamp($deviceAccounting->device->assigned_at);
+                $deviceUnAssignedDateTime = (new DateTime)->setTimestamp($deviceAccounting->device->unassigned_at);
+
+                if ($deviceAssignedDateTime > $deviceAccountingSearchFromDateTime && $deviceAssignedDateTime < $deviceAccountingSearchToDateTime)
+                    $deviceAccounting->from_date = $deviceAssignedDateTime->getTimestamp();
+                else
+                    $deviceAccounting->from_date = $deviceAccountingSearchFromDateTime->getTimestamp();
+
+
+                if ($deviceUnAssignedDateTime > $deviceAccountingSearchFromDateTime && $deviceUnAssignedDateTime < $deviceAccountingSearchToDateTime)
+                    $deviceAccounting->to_date = $deviceUnAssignedDateTime->getTimestamp();
+                else
+                    $deviceAccounting->to_date = $deviceAccountingSearchToDateTime->getTimestamp();
+
+
+
                 $html = $form->field($deviceAccounting,'['.$index . ']dateRange')->widget(\kartik\daterange\DateRangePicker::class,[
                         'startAttribute' => 'from_date',
                         'endAttribute' => 'to_date',

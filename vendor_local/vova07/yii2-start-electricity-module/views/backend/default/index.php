@@ -135,6 +135,24 @@ $this->params['breadcrumbs'] = [
                 'header' =>  Module::t('default','REMAIN_TITLE')
             ],
             [
+              'attribute' => 'dateRange',
+                'content' => function($model)use($searchModel){
+                    $deviceAccountingSearchFromDateTime = (new DateTime)->setTimestamp($searchModel->from_date );
+                    $deviceAccountingSearchToDateTime =  (new DateTime)->setTimestamp($searchModel->to_date );
+
+                    $deviceAssignedDateTime = (new DateTime)->setTimestamp($model->device->assigned_at);
+                    $deviceUnAssignedDateTime = (new DateTime)->setTimestamp($model->device->unassigned_at);
+
+                    if ($deviceAssignedDateTime > $deviceAccountingSearchFromDateTime && $deviceAssignedDateTime < $deviceAccountingSearchToDateTime)
+                        return $model->dateRange;
+
+
+                    if ($deviceUnAssignedDateTime > $deviceAccountingSearchFromDateTime && $deviceUnAssignedDateTime < $deviceAccountingSearchToDateTime)
+                        return $model->dateRange;
+
+                }
+            ],
+            [
                 'hAlign' => GridView::ALIGN_CENTER,
                 'attribute' => 'prisoner.sector.title'
             ],
