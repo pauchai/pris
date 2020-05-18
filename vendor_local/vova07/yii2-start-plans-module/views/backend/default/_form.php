@@ -14,9 +14,10 @@ use vova07\plans\models\PrisonerPlan;
 
 <?php $form = ActiveForm::begin()?>
 
-<?php echo $form->field($model, '__prisoner_id')->hiddenInput()?>
 
+<?php echo $form->field($model, '__prisoner_id')->hiddenInput()->label(false)?>
 
+<?php echo $form->field($model, 'dateFinishedJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?=$form->field($model,'status_id')->dropDownList(PrisonerPlan::getStatusesForCombo())?>
 
 

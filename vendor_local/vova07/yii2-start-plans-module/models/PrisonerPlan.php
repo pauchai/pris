@@ -47,6 +47,7 @@ class PrisonerPlan extends  Ownableitem
     {
         return [
             [['__prisoner_id','status_id'],'required'],
+            [['dateFinishedJui'],'date'],
             [['status_id'],'default', 'value' => self::STATUS_ACTIVE]
         ];
     }
@@ -98,6 +99,14 @@ class PrisonerPlan extends  Ownableitem
         } else {
             $behaviors = [];
         }
+        $behaviors = ArrayHelper::merge($behaviors,[
+            [
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'date_finished',
+                'juiAttribute' => 'dateFinishedJui'
+
+            ]
+        ]);
 
         return $behaviors;
     }
