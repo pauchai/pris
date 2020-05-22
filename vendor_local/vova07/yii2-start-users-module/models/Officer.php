@@ -19,6 +19,7 @@ use vova07\countries\models\Country;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
 use vova07\prisons\models\Department;
+use vova07\prisons\models\Division;
 use vova07\users\models\Person;
 use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
@@ -54,7 +55,7 @@ class Officer extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id','department_id'],'required'],
+            [['company_id','division_id'],'required'],
             [['rank_id'],'integer'],
             ['post','string']
         ];
@@ -68,7 +69,7 @@ class Officer extends  OwnableItem
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
                 'company_id' => Schema::TYPE_INTEGER,
-                'department_id' => Schema::TYPE_INTEGER,
+                'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
                 'post' => Schema::TYPE_STRING,
                 'status_id' => Schema::TYPE_TINYINT,
@@ -83,7 +84,7 @@ class Officer extends  OwnableItem
             ],
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
-                [get_called_class(), ['company_id','department_id'],CompanyDepartment::class, ['company_id','department_id']]
+                [get_called_class(), ['company_id','division_id'],Division::class, ['company_id','division_id']]
             ],
 
         ];
@@ -99,7 +100,7 @@ class Officer extends  OwnableItem
                     'person',
                     'ownableitem',
                     'company',
-                    'department'
+                    'division'
                 ],
             ]
         ];
@@ -123,10 +124,13 @@ class Officer extends  OwnableItem
     {
         return $this->hasOne(Company::class,['__ownableitem_id' => 'company_id']);
     }
-
     public function getDepartment()
     {
         return $this->hasOne(Department::class,['__ownableitem_id' => 'department_id']);
+    }
+    public function getDivision()
+    {
+        return $this->hasOne(Division::class,['company_id' => 'company_id', 'division_id' => 'division_id']);
     }
     public function getUser()
     {

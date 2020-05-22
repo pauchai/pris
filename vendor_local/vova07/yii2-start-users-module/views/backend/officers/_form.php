@@ -3,6 +3,7 @@ use kartik\form\ActiveForm;
 use kartik\builder\Form;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
+use kartik\depdrop\DepDrop;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -13,8 +14,31 @@ use vova07\prisons\Module;
 
 
 <?php $form = ActiveForm::begin()?>
-<?=$form->field($model,'company_id')->dropDownList(\vova07\prisons\models\Company::getListForCombo(),['prompt'=>Module::t('default','SELECT')])?>
-<?=$form->field($model,'department_id')->dropDownList(\vova07\prisons\models\Department::getListForCombo(),['prompt'=>Module::t('default','SELECT')])?>
+<?=$form->field($model,'company_id')->dropDownList(
+        \vova07\prisons\models\Company::getListForCombo(),
+        ['prompt'=>Module::t('default','SELECT'), 'id' => 'company_id']
+)?>
+<?=$form->field($model,'division_id')->widget(DepDrop::class,[
+    'type' => DepDrop::TYPE_SELECT2,
+
+    'data' => $model->company->getDivisionsForCombo(),
+    'pluginOptions' => [
+        'depends'=>['company_id'],
+        'url'=>\yii\helpers\Url::to(['/prisons/divisions/company-divisions']),
+
+    ],
+
+    'select2Options' => [
+        'pluginOptions' => [
+            'allowClear'=>true
+
+        ],
+        'options' => [
+            'placeholder' => Module::t('default','SELECT_DIVISIONS'),
+        ],
+    ],
+]) ?>
+
 <?=$form->field($model,'rank_id')->dropDownList(\vova07\users\models\Officer::getRanksForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 <?=$form->field($model,'post')?>
 <?php if (!$model->isNewRecord):?>

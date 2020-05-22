@@ -16,17 +16,11 @@ use kartik\widgets\DepDrop;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'company_id')->hiddenInput(['id' => 'company_id'])->label($model->company->title)?>
-<?=$form->field($model,'department_id')->widget(DepDrop::class,[
-    'type' => DepDrop::TYPE_SELECT2,
+<?=$form->field($model,'division_id')->widget(\kartik\select2\Select2::class,[
 
-    'data' => $model->company->getDivisionsForCombo(),
-    'pluginOptions' => [
-        'depends'=>['company_id' .  $model->primaryKey],
-        'url'=>\yii\helpers\Url::to(['sector-cells']),
+    'data' => \vova07\prisons\models\DivisionDict::getListForCombo(),
 
-    ],
 
-    'select2Options' => [
         'pluginOptions' => [
             'allowClear'=>true
 
@@ -34,7 +28,7 @@ use kartik\widgets\DepDrop;
         'options' => [
             'placeholder' => Module::t('default','SELECT_DIVISIONS'),
         ],
-    ],
+
 ]) ?>
 
 

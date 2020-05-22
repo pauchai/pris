@@ -104,7 +104,7 @@ class Company extends  Ownableitem
                     'class' => SaveRelationsBehavior::class,
                     'relations' => [
                         'ownableitem',
-                        'departments',
+                        'divisions',
 
                     ],
                 ]
@@ -134,16 +134,14 @@ class Company extends  Ownableitem
     }*/
 
 
-    public function getDepartments()
+    public function getDivisions()
     {
-        return $this->hasMany(Department::class, ['__ownableitem_id' => 'department_id'])->viaTable('company_department', ['company_id' => '__ownableitem_id']);
-        //return $this->hasMany(Company)
+
+            return $this->hasMany(Division::class, ['company_id' => '__ownableitem_id']);
+
     }
 
-    public function getCompanyDepartments()
-    {
-        return $this->hasMany(CompanyDepartment::class, ['company_id'=>'__ownableitem_id']);
-    }
+
 
     public function getPrison()
     {
@@ -192,5 +190,12 @@ class Company extends  Ownableitem
         return $this->hasMany(Officer::class,['company_id'=>'__ownableitem_id']);
     }
 
+    public function getDivisionsForCombo()
+    {
+
+         return ArrayHelper::map($this->getDivisions()->asArray()->all(),'division_id','title');
+
+
+    }
 
 }
