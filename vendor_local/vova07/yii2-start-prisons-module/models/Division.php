@@ -109,7 +109,13 @@ class Division extends  OwnableItem
         return $this->hasMany(Post::class,['company_id'=>'company_id','division_id' => 'division_id']);
 
     }
+    public function getPostsForCombo()
+    {
 
+        return ArrayHelper::map($this->getPosts()->asArray()->all(),'post_id','title');
+
+
+    }
 
 
 

@@ -19,6 +19,7 @@ use kartik\depdrop\DepDrop;
         ['prompt'=>Module::t('default','SELECT'), 'id' => 'company_id']
 )?>
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
+
     'type' => DepDrop::TYPE_SELECT2,
 
     'data' => $model->company->getDivisionsForCombo(),
@@ -28,19 +29,46 @@ use kartik\depdrop\DepDrop;
 
     ],
 
+
     'select2Options' => [
         'pluginOptions' => [
             'allowClear'=>true
 
         ],
-        'options' => [
-            'placeholder' => Module::t('default','SELECT_DIVISIONS'),
-        ],
+
+    ],
+    'options' => [
+        'id' => 'division_id',
+
+        'placeholder' => Module::t('default','SELECT_DIVISIONS'),
     ],
 ]) ?>
 
+<?=$form->field($model,'post_id')->widget(DepDrop::class,[
+    'type' => DepDrop::TYPE_SELECT2,
+
+    'data' => $model->division->getPostsForCombo(),
+    'pluginOptions' => [
+        'depends'=>['company_id', 'division_id'],
+        'url'=>\yii\helpers\Url::to(['/prisons/posts/division-posts']),
+
+    ],
+
+    'select2Options' => [
+        'pluginOptions' => [
+            'allowClear'=>true
+
+        ],
+
+    ],
+    'options' => [
+        'placeholder' => Module::t('default','SELECT_POSTS'),
+    ],
+
+]) ?>
+
 <?=$form->field($model,'rank_id')->dropDownList(\vova07\users\models\Officer::getRanksForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
-<?=$form->field($model,'post')?>
+
 <?php if (!$model->isNewRecord):?>
 
    <?=$form->field($model->person,'__ident_id')->hiddenInput()?>

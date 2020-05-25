@@ -49,8 +49,9 @@ class PostsController extends BackendController
         return [
             'division-posts' => [
                 'class' => \kartik\depdrop\DepDropAction::class,
+                'otherParam' => 'depdrop_all_params',
                 'outputCallback' => function ($selectedId, $params) {
-                    return Division::findOne($selectedId)->getPosts()->select(['post_id as id','title as name'])->asArray()->all();
+                    return Division::findOne($params)->getPosts()->select(['post_id as id','title as name'])->asArray()->all();
 
 
                 }

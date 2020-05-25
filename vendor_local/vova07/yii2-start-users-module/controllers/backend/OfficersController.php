@@ -20,6 +20,7 @@ use vova07\prisons\models\Prison;
 use vova07\prisons\Module;
 use vova07\users\models\Ident;
 use vova07\users\models\Person;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -44,6 +45,7 @@ class OfficersController extends BackendController
     {
         $searchModel = new OfficerSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        \Yii::$app->user->setReturnUrl(Url::current());
 
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
@@ -66,7 +68,7 @@ class OfficersController extends BackendController
            // $model->loadRelations(\Yii::$app->request->post());
          //   $validatedModel = $model->validate();
             if ( $model->save()){
-                return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                return $this->goBack();
             } else {
                 foreach($model->getErrorSummary(true) as $errorStr){
                     \Yii::$app->session->setFlash("error",$errorStr);
@@ -114,7 +116,7 @@ class OfficersController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->person->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }

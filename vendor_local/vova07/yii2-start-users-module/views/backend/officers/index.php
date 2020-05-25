@@ -26,7 +26,7 @@ $this->params['subtitle'] = 'LIST';
         'company.title',
         'division.title',
         'rank',
-        'post',
+        'post.title',
         ['class' => yii\grid\ActionColumn::class]
     ]
 ])?>

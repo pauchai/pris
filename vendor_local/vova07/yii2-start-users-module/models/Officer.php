@@ -20,10 +20,13 @@ use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
 use vova07\prisons\models\Department;
 use vova07\prisons\models\Division;
+use vova07\prisons\models\Post;
+use vova07\prisons\models\PostDict;
 use vova07\users\models\Person;
 use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -56,8 +59,8 @@ class Officer extends  OwnableItem
     {
         return [
             [['company_id','division_id'],'required'],
-            [['rank_id'],'integer'],
-            ['post','string']
+            [['rank_id', 'post_id'],'integer'],
+
         ];
     }
     /**
@@ -65,13 +68,14 @@ class Officer extends  OwnableItem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
                 'company_id' => Schema::TYPE_INTEGER,
                 'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
-                'post_id' => Schema::TYPE_STRING,
+                'post_id' => $migration->tinyInteger(3),
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],
@@ -84,7 +88,9 @@ class Officer extends  OwnableItem
             ],
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
-                [get_called_class(), ['company_id','division_id'],Division::class, ['company_id','division_id']]
+                [get_called_class(), ['company_id','division_id'],Division::class, ['company_id','division_id']],
+                [get_called_class(), ['company_id','division_id','post_id'],Post::class, ['company_id','division_id', 'post_id']]
+
             ],
 
         ];
@@ -167,6 +173,16 @@ class Officer extends  OwnableItem
             return self::getRanksForCombo()[$this->rank_id];
         else
             return null;
+    }
+
+    public function getPost()
+    {
+        return $this->hasOne(Post::class, ['company_id' => 'company_id', 'division_id' => 'division_id', 'post_id' => 'post_id']);
+    }
+
+    public function getPostDict()
+    {
+        return new PostDict(['id' => $this->post_id]);
     }
 
 }
