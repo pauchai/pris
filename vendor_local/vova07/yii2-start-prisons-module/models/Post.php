@@ -22,12 +22,12 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
-class Division extends  OwnableItem
+class Post extends  OwnableItem
 {
 
     public static function tableName()
     {
-        return 'divisions';
+        return 'posts';
     }
     /**
      *
@@ -37,23 +37,23 @@ class Division extends  OwnableItem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-               // Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
+                //Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'company_id' => $migration->integer()->notNull(),
                 'division_id' => $migration->tinyInteger(3)->notNull(),
+                'post_id' => $migration->tinyInteger(3)->notNull(),
                 'title' => $migration->string()->notNull(),
                 'order' => $migration->tinyInteger(3),
                 'rbac_role' => $migration->string(),
 
             ],
             'primaries' => [
-                [self::class, ['company_id','division_id']]
+                [self::class, ['company_id','division_id', 'post_id']]
             ],
-            'indexes' => [
-                [self::class, ['company_id', 'title'], true],
 
-            ],
             'foreignKeys' => [
-                [get_called_class(), 'company_id',Company::class,Company::primaryKey()]
+                [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
+                [get_called_class(), ['company_id','division_id'],Division::class,Division::primaryKey()]
+
             ],
 
 
@@ -64,7 +64,7 @@ class Division extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id', 'division_id', 'title'],'required'],
+            [['company_id', 'division_id', 'post_id', 'title'],'required'],
            // [['company_id', 'title'],'unique'],
         ];
     }
@@ -83,7 +83,7 @@ class Division extends  OwnableItem
 
     public static function find()
     {
-        return new DivisionQuery(get_called_class());
+        return new PostQuery(get_called_class());
     }
 
     public function getOwnableitem()
@@ -93,9 +93,9 @@ class Division extends  OwnableItem
 
 
 
-    public  function getDivisionDict()
+    public  function getPostDict()
     {
-        return new DivisionDict(['id' => $this->division_id]);
+        return new PostDict(['id' => $this->post_id]);
 
     }
 
@@ -103,11 +103,12 @@ class Division extends  OwnableItem
     {
         return $this->hasOne(Company::class, ['__ownableitem_id' => 'company_id']);
     }
-
-    public function getPosts()
+    public function getDivision()
     {
-        return $this->hasMany(Post::class,['company_id'=>'company_id','division_id' => 'division_id']);
-
+        return $this->hasOne(Division::class, [
+            'company_id' => 'company_id',
+            'division_id' => 'division_id',
+            ]);
     }
 
 

@@ -16,7 +16,6 @@ use kartik\widgets\DepDrop;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'company_id')->hiddenInput(['id' => 'company_id'])->label($model->company->title)?>
-
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
     'type' => DepDrop::TYPE_SELECT2,
 
@@ -34,10 +33,27 @@ use kartik\widgets\DepDrop;
         ],
         'options' => [
             'placeholder' => Module::t('default','SELECT_DIVISIONS'),
+            'id' => 'division_id'
         ],
     ],
 ])
 ?>
+<?=$form->field($model,'post_id')->widget(\kartik\widgets\Select2::class,[
+
+    'data' => \vova07\prisons\models\PostDict::getListForCombo(),
+    'pluginOptions' => [
+        'allowClear'=>true
+    ],
+
+
+
+   'options' => [
+            'placeholder' => Module::t('default','SELECT_POSTS'),
+        ],
+
+])
+?>
+<?=$form->field($model,'title')?>
 
 
 

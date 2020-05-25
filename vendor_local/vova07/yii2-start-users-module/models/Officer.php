@@ -71,7 +71,7 @@ class Officer extends  OwnableItem
                 'company_id' => Schema::TYPE_INTEGER,
                 'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
-                'post' => Schema::TYPE_STRING,
+                'post_id' => Schema::TYPE_STRING,
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],

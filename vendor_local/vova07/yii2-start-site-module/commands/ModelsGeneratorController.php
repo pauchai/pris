@@ -31,6 +31,7 @@ use vova07\jobs\models\WorkDay;
 use vova07\plans\models\PrisonerPlan;
 use vova07\prisons\models\Division;
 use vova07\prisons\models\Penalty;
+use vova07\prisons\models\Post;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyRiskQuery;
@@ -163,9 +164,10 @@ class ModelsGeneratorController extends \yii\console\Controller
             DeviceAccountingBalance::class
 
             Penalty::class
-*/
-            Division::class
 
+            Division::class
+*/
+            Post::class
         ];
     }
 
