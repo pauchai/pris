@@ -65,9 +65,11 @@ class PostsController extends BackendController
 
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $newModel = new Post();
+        $newModel->attributes = $searchModel->getAttributes(['company_id','division_id']);
         \Yii::$app->user->setReturnUrl(Url::current());
 
-        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel, 'newModel' => $newModel]);
     }
 
     public function actionCreate($company_id, $division_id)
@@ -96,7 +98,7 @@ class PostsController extends BackendController
 
     public function actionDelete($company_id,$division_id, $post_id)
     {
-        if (is_null($model = Division::findOne(['company_id'=>$company_id, 'division_id'=>$division_id , 'post_id' => $post_id])))
+        if (is_null($model = Post::findOne(['company_id'=>$company_id, 'division_id'=>$division_id , 'post_id' => $post_id])))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

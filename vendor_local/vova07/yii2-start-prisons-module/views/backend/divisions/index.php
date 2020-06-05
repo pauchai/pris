@@ -1,5 +1,5 @@
 <?php
-use yii\bootstrap\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
 /**
@@ -61,3 +61,50 @@ $this->params['breadcrumbs'] = [
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
+<?php $form = ActiveForm::begin([
+    'type' => ActiveForm::TYPE_INLINE,
+    'action' => ['create','company_id' => $company->primaryKey]
+])?>
+
+<?=$form->field($newModel,'company_id')->hiddenInput(['id' => 'company_id'])->label($newModel->company->title)?>
+
+<?=$form->field($newModel,'division_id')->widget(\kartik\depdrop\DepDrop::class,[
+    'type' => \kartik\depdrop\DepDrop::TYPE_SELECT2,
+
+    'data' => \vova07\prisons\models\DivisionDict::getListForCombo(),
+    'pluginOptions' => [
+        'depends'=>['company_id' ],
+        'url'=>\yii\helpers\Url::to(['companies/company-divisions']),
+
+    ],
+
+    'select2Options' => [
+        'pluginOptions' => [
+            'allowClear'=>true
+
+        ],
+
+    ],
+    'options' => [
+        'placeholder' => Module::t('default','SELECT_DIVISIONS'),
+    ],
+])
+?>
+
+<?=$form->field($newModel,'title')->widget(\vova07\base\components\widgets\DepInput::class,[
+    'depends' => 'division-division_id'
+])?>
+
+
+
+
+    <div class="form-group">
+        <?php if ($newModel->isNewRecord):?>
+            <?= Html::submitButton(Module::t('default', 'CREATE'), ['class' => 'btn btn-primary']) ?>
+        <?php else: ?>
+
+            <?= Html::submitButton(Module::t('default', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
+        <?php endif ?>
+    </div>
+
+<?php ActiveForm::end()?>

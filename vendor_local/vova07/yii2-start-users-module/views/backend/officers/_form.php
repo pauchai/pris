@@ -4,6 +4,7 @@ use kartik\builder\Form;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
 use kartik\depdrop\DepDrop;
+use vova07\prisons\models\Rank;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -67,7 +68,7 @@ use kartik\depdrop\DepDrop;
 
 ]) ?>
 
-<?=$form->field($model,'rank_id')->dropDownList(\vova07\users\models\Officer::getRanksForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
+<?=$form->field($model,'rank_id')->dropDownList(Rank::getListForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 
 <?php if (!$model->isNewRecord):?>
 

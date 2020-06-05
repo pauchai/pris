@@ -159,6 +159,11 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PENALTY_DELETE = 'BPermissionPenaltyDelete';
     public const PERMISSION_PENALTY_VIEW = 'BPermissionPenaltyView';
 
+    public const PERMISSION_SALARY_ACCEPT = 'BPERMISSION_SALARY_ACCEPT';
+    public const PERMISSION_SALARY_CHARGE_SALARY_LIST = 'BPERMISSION_SALARY_CHARGE_SALARY_LIST';
+
+
+
     /**
      * @inheritdoc
      */

@@ -60,16 +60,20 @@ class DivisionsController extends BackendController
     {
         //$company = Company::findOne($id);
         $searchModel = new DivisionSearch();
+
         //$params = [
         //    'CompanyDepartment' => ['company_id' => $id],
         //];
 
         $params = \Yii::$app->request->get();
         $company = Company::findOne($params['DivisionSearch']['company_id']);
+        $newModel = new Division([
+            'company_id' => $company->primaryKey
+        ]);
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
-        return $this->render("index", ['dataProvider'=>$dataProvider,'company'=>$company]);
+        return $this->render("index", ['dataProvider'=>$dataProvider,'company'=>$company,'newModel' => $newModel]);
     }
 
     public function actionCreate($company_id)
@@ -89,7 +93,7 @@ class DivisionsController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
                 $params[0] = 'index';
-                return $this->redirect($params);
+                return $this->goBack();
             }
         } else {
             $model->load($params);

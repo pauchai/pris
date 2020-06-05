@@ -32,6 +32,26 @@ use yii\helpers\ArrayHelper;
 class Company extends  Ownableitem
 {
 
+    const ID_PRISON_PU1 = '11374';
+    const ID_PRISON_PU2 = '11376';
+    const ID_PRISON_PU3 = '11378';
+    const ID_PRISON_PU4 = '11380';
+    const ID_PRISON_PU5 = '11382';
+    const ID_PRISON_PU6 = '11384';
+    const ID_PRISON_PU7 = '11386';
+    const ID_PRISON_PU8 = '11388';
+    const ID_PRISON_PU9 = '11390';
+    const ID_PRISON_PU10 = '11392';
+    const ID_PRISON_PU11 = '11394';
+    const ID_PRISON_PU12 = '11396';
+    const ID_PRISON_PU13 = '11398';
+    const ID_PRISON_PU14 = '11400';
+    const ID_PRISON_PU15 = '11402';
+    const ID_PRISON_PU16 = '11404';
+    const ID_PRISON_PU17 = '11406';
+    const ID_PRISON_PU18 = '11408';
+    const ID_DEPARTMENT = '45295';
+
     const PRISON_PU1 = 'pu-1';
     const PRISON_PU2 = 'pu-2';
     const PRISON_PU3 = 'pu-3';
@@ -145,9 +165,13 @@ class Company extends  Ownableitem
 
     public function getPrison()
     {
-        return $this->hasOne(Prison::class, ['__company_Id' => '__ownableitem_id']);
+        return $this->hasOne(Prison::class, ['__company_id' => '__ownableitem_id']);
     }
 
+    public function isPrison()
+    {
+        return $this->prison instanceof Prison;
+    }
     public static function getListForCombo()
     {
         return ArrayHelper::map(self::find()->asArray()->all(),'__ownableitem_id','title');

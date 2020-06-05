@@ -22,6 +22,7 @@ use vova07\prisons\models\Department;
 use vova07\prisons\models\Division;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
+use vova07\prisons\models\Rank;
 use vova07\users\models\Person;
 use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
@@ -33,18 +34,6 @@ use yii\helpers\ArrayHelper;
 
 class Officer extends  OwnableItem
 {
-    const RANK_CHESTOR_DE_JUSTITIE = 1;
-    const RANK_COMISAR_SEF_DE_JUSTITIE = 2;
-    const RANK_COMISAR_PRINCIPAL_DE_JUSTITIE = 3;
-    const RANK_COMISAR_DE_JUSTITIE = 4;
-    const RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE = 5;
-    const RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE = 6;
-    const RANK_INSPECTOR_DE_JUSTITIE = 7;
-    const RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE = 8;
-    const RANK_AGENT_SEF_DE_JUSTITIE = 9;
-    const RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE = 10;
-    const RANK_AGENT_PRINCIPAL_DE_JUSTITIE = 11;
-    const RANK_AGENT_SUPERIOR_DE_JUSTITIE = 12;
 
     use SaveRelationsTrait;
 
@@ -59,7 +48,7 @@ class Officer extends  OwnableItem
     {
         return [
             [['company_id','division_id'],'required'],
-            [['rank_id', 'post_id'],'integer'],
+            [['rank_id'],'integer'],
 
         ];
     }
@@ -75,7 +64,7 @@ class Officer extends  OwnableItem
                 'company_id' => Schema::TYPE_INTEGER,
                 'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
-                'post_id' => $migration->tinyInteger(3),
+                'post_id' => $migration->integer(),
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],
@@ -89,9 +78,12 @@ class Officer extends  OwnableItem
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
                 [get_called_class(), ['company_id','division_id'],Division::class, ['company_id','division_id']],
-                [get_called_class(), ['company_id','division_id','post_id'],Post::class, ['company_id','division_id', 'post_id']]
+                [get_called_class(), ['company_id','division_id','post_id'],Post::class, ['company_id','division_id', '__ownableitem_id']],
+                [get_called_class(), ['__ownableitem_id'],Post::class, ['__ownableitem_id']],
+                [get_called_class(), 'rank_id',Rank::class, 'id']
 
-            ],
+
+        ],
 
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
@@ -148,41 +140,21 @@ class Officer extends  OwnableItem
         return ArrayHelper::map(self::find()->select(['__person_id','fio'=>'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic)' ])->joinWith('person')->asArray()->all(),'__person_id','fio');
     }
 
-    public static  function getRanksForCombo()
-    {
-        return [
-            self::RANK_CHESTOR_DE_JUSTITIE => Module::t('default','RANK_CHESTOR_DE_JUSTITIE'),
-            self::RANK_COMISAR_SEF_DE_JUSTITIE => Module::t('default','RANK_COMISAR_SEF_DE_JUSTITIE'),
-            self::RANK_COMISAR_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_COMISAR_PRINCIPAL_DE_JUSTITIE'),
-            self::RANK_COMISAR_DE_JUSTITIE => Module::t('default','RANK_COMISAR_DE_JUSTITIE'),
-            self::RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE'),
-            self::RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE'),
-            self::RANK_INSPECTOR_DE_JUSTITIE => Module::t('default','RANK_INSPECTOR_DE_JUSTITIE'),
-            self::RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE'),
-            self::RANK_AGENT_SEF_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_DE_JUSTITIE'),
-            self::RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE => Module::t('default','RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE'),
-            self::RANK_AGENT_PRINCIPAL_DE_JUSTITIE => Module::t('default','RANK_AGENT_PRINCIPAL_DE_JUSTITIE'),
-            self::RANK_AGENT_SUPERIOR_DE_JUSTITIE => Module::t('default','RANK_AGENT_SUPERIOR_DE_JUSTITIE'),
-        ];
-
-
-    }
-    public function getRank()
-    {
-        if ($this->rank_id)
-            return self::getRanksForCombo()[$this->rank_id];
-        else
-            return null;
-    }
 
     public function getPost()
     {
-        return $this->hasOne(Post::class, ['company_id' => 'company_id', 'division_id' => 'division_id', 'post_id' => 'post_id']);
+        return $this->hasOne(Post::class, ['__ownableitem_id' => 'post_id']);
     }
 
     public function getPostDict()
     {
         return new PostDict(['id' => $this->post_id]);
+    }
+
+    public function getRank()
+    {
+        return new Rank(['id' => $this->rank_id]);
+
     }
 
 }

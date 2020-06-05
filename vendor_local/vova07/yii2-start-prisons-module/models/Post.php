@@ -24,6 +24,13 @@ use yii\helpers\ArrayHelper;
 
 class Post extends  OwnableItem
 {
+    const EXTRA_CLASS_POINT_0TO2_ANI = 0;
+    const EXTRA_CLASS_POINT_2TO5_ANI = 2;
+    const EXTRA_CLASS_POINT_5TO10_ANI = 3;
+    const EXTRA_CLASS_POINT_10TO15_ANI = 4;
+    const EXTRA_CLASS_POINT_15TO20_ANI = 5;
+    const EXTRA_CLASS_POINT_OVER20_ANI = 6;
+
 
     public static function tableName()
     {
@@ -37,22 +44,23 @@ class Post extends  OwnableItem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                //Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
+                Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'company_id' => $migration->integer()->notNull(),
                 'division_id' => $migration->tinyInteger(3)->notNull(),
-                'post_id' => $migration->tinyInteger(3)->notNull(),
+                'postdict_id' => $migration->smallInteger()->notNull(),
                 'title' => $migration->string()->notNull(),
-                'order' => $migration->tinyInteger(3),
+                'order' => $migration->smallInteger(),
                 'rbac_role' => $migration->string(),
 
             ],
-            'primaries' => [
+          /*  'primaries' => [
                 [self::class, ['company_id','division_id', 'post_id']]
-            ],
+            ],*/
 
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
-                [get_called_class(), ['company_id','division_id'],Division::class,Division::primaryKey()]
+                [get_called_class(), ['company_id','division_id'],Division::class,Division::primaryKey()],
+                [get_called_class(), 'postdict_id',PostDict::class,PostDict::primaryKey()],
 
             ],
 
@@ -64,7 +72,7 @@ class Post extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id', 'division_id', 'post_id', 'title'],'required'],
+            [['company_id', 'division_id', 'postdict_id', 'title'],'required'],
            // [['company_id', 'title'],'unique'],
         ];
     }
@@ -95,7 +103,7 @@ class Post extends  OwnableItem
 
     public  function getPostDict()
     {
-        return new PostDict(['id' => $this->post_id]);
+        return $this->hasOne(PostDict::class,['id' => 'postdict_id']);
 
     }
 
@@ -110,6 +118,7 @@ class Post extends  OwnableItem
             'division_id' => 'division_id',
             ]);
     }
+
 
 
 

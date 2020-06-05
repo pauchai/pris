@@ -4,6 +4,7 @@ use yii\bootstrap\Html;
 use vova07\prisons\Module;
 use vova07\prisons\models\Division;
 use kartik\widgets\DepDrop;
+use \vova07\base\components\widgets\DepInput;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -53,7 +54,9 @@ use kartik\widgets\DepDrop;
 
 ])
 ?>
-<?=$form->field($model,'title')?>
+<?=$form->field($model,'title')->widget(DepInput::class,[
+        'depends' => 'post-post_id'
+])?>
 
 
 

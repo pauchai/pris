@@ -82,6 +82,10 @@ return [
         'concepts' => [
             'appContext' => 'backend'
         ],
+        'salary' => [
+            'appContext' => 'backend'
+        ],
+
 
 
         'translations' => [

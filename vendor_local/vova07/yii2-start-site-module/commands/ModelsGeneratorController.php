@@ -2,6 +2,7 @@
 namespace vova07\site\commands;
 use Faker\Factory;
 use vova07\base\ModelGenerator\Facade;
+use vova07\base\ModelGenerator\Helper;
 use vova07\base\ModelGenerator\ModelTableGenerator;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
@@ -32,12 +33,18 @@ use vova07\plans\models\PrisonerPlan;
 use vova07\prisons\models\Division;
 use vova07\prisons\models\Penalty;
 use vova07\prisons\models\Post;
+use vova07\prisons\models\PostDict;
+use vova07\prisons\models\PostDictQuery;
+use vova07\prisons\models\Rank;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyRiskQuery;
 use vova07\psycho\models\PsyTest;
 use vova07\rbac\helpers\Rbac;
 use vova07\rbac\Module;
+use vova07\salary\models\SalaryCharge;
+use vova07\salary\models\SalaryClass;
+use vova07\salary\models\SalaryWithHold;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\PrisonerSecurity;
 use vova07\site\models\Setting;
@@ -164,10 +171,30 @@ class ModelsGeneratorController extends \yii\console\Controller
             DeviceAccountingBalance::class
 
             Penalty::class
+//
+           // Division::class ,// move to migration
+            \vova07\salary\models\Balance::class,
 
-            Division::class
+
+
+            Rank::class,
 */
-            Post::class
+
+
+/////// this models are generated in migration
+                    //    SalaryClass::class,
+                    //   PostDict::class,
+                    //   Post::class,
+                /*
+
+
+
+                     \vova07\salary\models\Rate::class,
+
+                     SalaryCharge::class,
+                     SalaryWithHold::class,
+            */
+
         ];
     }
 
@@ -622,13 +649,6 @@ class ModelsGeneratorController extends \yii\console\Controller
     public function actionDropData()
     {
 
-        \Yii::$app->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
-        foreach (self::getModelClasses() as $modelClass){
-            if (\Yii::$app->db->getTableSchema($modelClass::tableName()))
-                \Yii::$app->db->createCommand('DROP TABLE ' . $modelClass::tableName())->execute();
-
-        }
-
-        \Yii::$app->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
+        Helper::dropTablesForModels(self::getModelClasses());
     }
 }

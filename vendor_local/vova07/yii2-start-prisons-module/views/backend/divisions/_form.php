@@ -20,7 +20,7 @@ use kartik\widgets\DepDrop;
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
     'type' => DepDrop::TYPE_SELECT2,
 
-    'data' => $model->company->getDivisionsForCombo(),
+    'data' => \vova07\prisons\models\DivisionDict::getListForCombo(),
     'pluginOptions' => [
         'depends'=>['company_id' ],
         'url'=>\yii\helpers\Url::to(['companies/company-divisions']),
@@ -37,7 +37,11 @@ use kartik\widgets\DepDrop;
         ],
     ],
 ])
+
 ?>
+<?=$form->field($model,'title')->widget(\vova07\base\components\widgets\DepInput::class,[
+        'depends' => 'division-division_id'
+])?>
 
 
 

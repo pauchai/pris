@@ -116,4 +116,10 @@ return [
         'bootstrap' => \pauk\recurinput\Bootstrap::class,
         'alias' => ['@pauk/recurinput' => '@vendor_local/pauk/yii2-recurinput']
     ],
+    'vova07/salary' => [
+        'name' => 'Salary Module',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\salary\Bootstrap::class,
+        'alias' => ['@vova07/salary' => '@vendor_local/vova07/yii2-start-salary-module']
+    ],
 ];

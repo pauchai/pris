@@ -27,7 +27,8 @@ class Helper
     }
     public static function getTableNameByModelClass($className)
     {
-        return Inflector::camel2id(StringHelper::basename($className), '_');
+        //return Inflector::camel2id(StringHelper::basename($className), '_');
+        return $className::tableName();
     }
 
     public static function checkClassInheritsFromBase($className)
@@ -68,4 +69,18 @@ class Helper
         return false;
 
     }
+
+    public static function dropTablesForModels($modelClasses)
+    {
+        \Yii::$app->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
+        foreach ($modelClasses as $modelClass){
+            if (\Yii::$app->db->getTableSchema($modelClass::tableName()))
+                \Yii::$app->db->createCommand('DROP TABLE ' . $modelClass::tableName())->execute();
+
+        }
+
+        \Yii::$app->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
+
+    }
+
 }

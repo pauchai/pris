@@ -165,6 +165,10 @@ return [
             'class' => \vova07\concepts\Module::class,
 
         ],
+        'salary' => [
+            'class' => \vova07\salary\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(
