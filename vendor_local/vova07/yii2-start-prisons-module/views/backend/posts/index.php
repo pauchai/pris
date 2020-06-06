@@ -118,7 +118,7 @@ $createParam[0] = 'create';
         <?= Html::submitButton(Module::t('default', 'UPDATE'), ['class' => 'btn btn-primary']) ?>
     <?php endif ?>
 </div>
->
+
 <?php ActiveForm::end()?>
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
 

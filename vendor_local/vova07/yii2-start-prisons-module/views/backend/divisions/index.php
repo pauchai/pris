@@ -45,16 +45,17 @@ $this->params['breadcrumbs'] = [
         'company.title',
         'title',
         [
+            'header' => 'posts',
+            'content' => function($model,$key){
+                 return Html::a($model->getPosts()->count(), ['posts/index','PostSearch'=>$key], [
+                    'title' => \vova07\prisons\Module::t('default', 'POSTS'),
+                    'data-pjax' => '0',
+                ]);
+            }
+        ],
+        [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{posts} {delete}',
-            'buttons' => [
-                'posts' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-list-alt"></span>', ['posts/index','PostSearch'=>$key], [
-                        'title' => \vova07\prisons\Module::t('default', 'POSTS'),
-                        'data-pjax' => '0',
-                    ]);
-                },
-            ],
+
         ]
     ]
 ])?>

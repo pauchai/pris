@@ -31,16 +31,17 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         'title',
         [
+            'header' => 'divisions',
+            'content' => function($model,$key){
+                return Html::a($model->getDivisions()->count(), ['divisions/index','DivisionSearch[company_id]' => $key], [
+                    'title' => \vova07\prisons\Module::t('default', 'DIVISIONS'),
+                    'data-pjax' => '0',
+                ]);
+            }
+        ],
+        [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{view} {update} {divisions} {delete}',
-            'buttons' => [
-                'divisions' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-list-alt"></span>', ['divisions/index','DivisionSearch[company_id]' => $key], [
-                        'title' => \vova07\prisons\Module::t('default', 'DIVISIONS'),
-                        'data-pjax' => '0',
-                    ]);
-                },
-            ],
+
 
         ]
     ]
