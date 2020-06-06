@@ -507,12 +507,12 @@ class ModelsGeneratorController extends \yii\console\Controller
         $ident = $user->ident;
         \Yii::$app->user->setIdentity($ident);
         $setting = new Setting();
-        $setting->prison_id = Company::findOne(['alias' => Company::PRISON_DEPARTMENT])->primaryKey;
+        $setting->prison_id = Company::findOne(Company::ID_DEPARTMENT)->primaryKey;
         $setting->{Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE} = 1.95;
         $setting->save();
 
         $setting = new Setting();
-        $setting->prison_id = Company::findOne(['alias' => Company::PRISON_PU1])->primaryKey;
+        $setting->prison_id = Company::findOne(Company::ID_PRISON_PU1)->primaryKey;
         $setting->{Setting::SETTING_FIELD_COMPANY_DIRECTOR} = User::findOne(['role' => Module::ROLE_COMPANY_HEAD])->primaryKey;
         $setting->{Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE} = 1.95;
         $setting->save();

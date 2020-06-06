@@ -25,7 +25,7 @@ return [
         }
         $matches  = [];
         preg_match("#index-(\w+\-\w+)\.php#", $_SERVER['PHP_SELF'], $matches);
-        Yii::$app->base->company = \vova07\prisons\models\Company::findOne(['alias' => \vova07\prisons\models\Company::PRISON_PU1]);
+        Yii::$app->base->company = \vova07\prisons\models\Company::findOne(\vova07\prisons\models\Company::ID_PRISON_PU1);
         if (isset($matches[1])){
             Yii::$app->language = $matches[1];
         } else {

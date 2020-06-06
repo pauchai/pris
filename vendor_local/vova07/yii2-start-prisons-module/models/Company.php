@@ -50,7 +50,7 @@ class Company extends  Ownableitem
     const ID_PRISON_PU16 = '11404';
     const ID_PRISON_PU17 = '11406';
     const ID_PRISON_PU18 = '11408';
-    const ID_DEPARTMENT = '45295';
+    const ID_DEPARTMENT = '11410';
 
     const PRISON_PU1 = 'pu-1';
     const PRISON_PU2 = 'pu-2';

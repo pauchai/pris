@@ -135,7 +135,7 @@ class PrisonerController extends BackendController
     public function actionCells()
     {
         $searchModel = new PrisonerSearch();
-        $searchModel->prison_id = Company::findOne(['alias' => Company::PRISON_PU1])->__ownableitem_id;
+        $searchModel->prison_id = Company::findOne(Company::ID_PRISON_PU1)->__ownableitem_id;
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
