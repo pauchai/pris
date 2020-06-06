@@ -553,7 +553,7 @@ class ModelsGeneratorController extends \yii\console\Controller
         $ident = $user->ident;
         \Yii::$app->user->setIdentity($ident);
 
-        $prison = Prison::find()->joinWith('company')->where(['company.alias'=>Company::PRISON_PU1])->one();
+        $prison = Prison::findOne(Company::ID_PRISON_PU1);
         $prison->sectors = [
             new Sector(['title' => 'sector 1']),
             new Sector(['title' => 'sector 2']),
@@ -596,7 +596,7 @@ class ModelsGeneratorController extends \yii\console\Controller
         $prisoner->person->country = Country::findOne(['iso'=>'md']);
         $prisoner->person->ident = new Ident();
 
-        $prisoner->prison = Prison::find()->joinWith('company')->where(['company.alias'=>'pu-1'])->one();
+        $prisoner->prison = Prison::findOne(Company::ID_PRISON_PU1);
         $sector = Sector::findOne(['title'=>'sector 1']);
         $prisoner->sector = $sector;
         $prisoner->save();
