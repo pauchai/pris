@@ -7,8 +7,9 @@ use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
 use vova07\finances\Module;
-use vova07\salary\models\backend\SalaryChargeSearch;
-use vova07\salary\models\SalaryCharge;
+use vova07\prisons\models\OfficerPost;
+use vova07\salary\models\backend\SalarySearch;
+use vova07\salary\models\Salary;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\base\DynamicModel;
@@ -22,7 +23,7 @@ use yii\data\ActiveDataProvider;
  * Time: 3:22 PM
  */
 
-class ChargesController extends BackendController
+class DefaultController extends BackendController
 {
 
     public function behaviors()
@@ -42,11 +43,11 @@ class ChargesController extends BackendController
     public function actionIndex()
     {
 
-        $searchModel = new SalaryChargeSearch();
+        $searchModel = new SalarySearch();
 
         $salaryChargesDataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider = new ActiveDataProvider([
-            'query' =>  Officer::find()
+            'query' =>  OfficerPost::find()
         ]);
         if ($this->isPrintVersion)
             $dataProvider->pagination->pageSize = false;

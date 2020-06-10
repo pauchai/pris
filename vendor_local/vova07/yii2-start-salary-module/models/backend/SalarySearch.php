@@ -3,7 +3,7 @@ namespace vova07\salary\models\backend;
 
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
-use vova07\salary\models\SalaryCharge;
+use vova07\salary\models\Salary;
 
 
 /**
@@ -13,7 +13,7 @@ use vova07\salary\models\SalaryCharge;
  * Time: 2:40 PM
  */
 
-class SalaryChargeSearch extends SalaryCharge
+class SalarySearch extends Salary
 {
 
     public $atFormat = 'Y-m-01';

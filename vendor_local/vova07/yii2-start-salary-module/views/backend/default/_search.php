@@ -6,7 +6,7 @@ use vova07\jobs\helpers\Calendar;
 use yii\bootstrap\Html;
 
 /**
- * @var $model \vova07\salary\models\backend\SalaryChargeSearch
+ * @var $model \vova07\salary\models\backend\SalarySearch
  */
 ?>
 <?php

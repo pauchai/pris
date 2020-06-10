@@ -156,7 +156,11 @@ class ModelTableGenerator extends BaseObject
             }
             $name = $columnsJoined;
         }
-        $indexName = 'idx_' . Helper::getTableNameByModelClass($className) . '_' . $name;
+        if (strlen($name)>32){
+            $indexName = 'idx_' . Helper::getTableNameByModelClass($className) . '_' . crc32($name);
+        } else {
+            $indexName = 'idx_' . Helper::getTableNameByModelClass($className) . '_' . $name;
+        }
         if (!isset(static::$_indexes[$indexName])){
                 $this->db->createCommand()->createIndex($indexName, $className::tableName(),$columns, $unique)->execute();
                 static::$_indexes[$indexName] = true;
@@ -188,7 +192,12 @@ class ModelTableGenerator extends BaseObject
         $refTableName = Helper::getTableNameByModelClass($refClassName);
         $refColumnsStr = is_array($refColumns)?join('_',$refColumns):$refColumns;
         //$fkName = "fk" . $tableName . '_' . $columnsStr. "_" . $refTableName . '_' . $refColumnsStr ;
-        $fkName = "fk_" . $tableName . crc32($columnsStr. "_" . $refTableName . '_' . $refColumnsStr );
+        if (strlen($columnsStr. "_" . $refTableName . '_' . $refColumnsStr) > 32){
+            $fkName = "fk_" . $tableName . crc32($columnsStr. "_" . $refTableName . '_' . $refColumnsStr );
+        } else {
+            $fkName = "fk_" . $tableName . $columnsStr. "_" . $refTableName . '_' . $refColumnsStr ;
+        }
+
         if (!isset(static::$_relations[$fkName]))
         {
             \Yii::$app->db->createCommand()->addForeignKey($fkName,  $className::tableName() ,$columns, $refClassName::tableName(),$refColumns, 'cascade')->execute();

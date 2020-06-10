@@ -20,9 +20,12 @@ use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
 use vova07\prisons\models\Department;
 use vova07\prisons\models\Division;
+use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
 use vova07\prisons\models\Rank;
+use vova07\salary\models\SalaryBenefit;
+use vova07\salary\models\SalaryClass;
 use vova07\users\models\Person;
 use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
@@ -32,11 +35,11 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
+
 class Officer extends  OwnableItem
 {
 
     use SaveRelationsTrait;
-
 
 
     public static function tableName()
@@ -47,11 +50,12 @@ class Officer extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id','division_id'],'required'],
-            [['rank_id'],'integer'],
+            [['company_id', 'division_id'], 'required'],
+            [['rank_id', 'postdict_id'], 'integer'],
 
         ];
     }
+
     /**
      *
      */
@@ -64,7 +68,8 @@ class Officer extends  OwnableItem
                 'company_id' => Schema::TYPE_INTEGER,
                 'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
-                'post_id' => $migration->integer(),
+                'postdict_id' => $migration->smallInteger()->notNull(),
+              //  'benefit_id' => $migration->tinyInteger(),
                 'status_id' => Schema::TYPE_TINYINT,
 
             ],
@@ -74,19 +79,21 @@ class Officer extends  OwnableItem
             'indexes' => [
                 [self::class, 'rank_id'],
 
+
             ],
             'foreignKeys' => [
-                [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
-                [get_called_class(), ['company_id','division_id'],Division::class, ['company_id','division_id']],
-                [get_called_class(), ['company_id','division_id','post_id'],Post::class, ['company_id','division_id', '__ownableitem_id']],
-                [get_called_class(), ['__ownableitem_id'],Post::class, ['__ownableitem_id']],
-                [get_called_class(), 'rank_id',Rank::class, 'id']
+                [get_called_class(), 'company_id', Company::class, Company::primaryKey()],
+                [get_called_class(), ['company_id', 'division_id'], Division::class, ['company_id', 'division_id']],
+                [get_called_class(), ['company_id', 'division_id', 'post_id'], Post::class, ['company_id', 'division_id', '__ownableitem_id']],
+                [get_called_class(), ['company_id','division_id','postdict_id'], Post::class, Post::primaryKey()],
+                [get_called_class(), ['officer_id', 'company_id', 'division_id', 'post_id'], OfficerPost::class, ['officer_id', 'company_id', 'division_id', 'post_id']],
+                [get_called_class(), 'rank_id', Rank::class, 'id']
 
 
-        ],
+            ],
 
         ];
-        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
+        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
     }
 
     public function behaviors()
@@ -112,48 +119,100 @@ class Officer extends  OwnableItem
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class,[ '__ident_id'  => '__person_id']);
+        return $this->hasOne(Person::class, ['__ident_id' => '__person_id']);
     }
+
     public function getOwnableitem()
     {
-        return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
+        return $this->hasOne(Ownableitem::class, ['__item_id' => '__ownableitem_id']);
     }
+
     public function getCompany()
     {
-        return $this->hasOne(Company::class,['__ownableitem_id' => 'company_id']);
+        return $this->hasOne(Company::class, ['__ownableitem_id' => 'company_id']);
     }
+
     public function getDepartment()
     {
-        return $this->hasOne(Department::class,['__ownableitem_id' => 'department_id']);
+        return $this->hasOne(Department::class, ['__ownableitem_id' => 'department_id']);
     }
+
     public function getDivision()
     {
-        return $this->hasOne(Division::class,['company_id' => 'company_id', 'division_id' => 'division_id']);
+        return $this->hasOne(Division::class, ['company_id' => 'company_id', 'division_id' => 'division_id']);
     }
+
     public function getUser()
     {
-        return $this->hasOne(User::class,[ '__ident_id'  => '__person_id']);
+        return $this->hasOne(User::class, ['__ident_id' => '__person_id']);
     }
 
     public static function getListForCombo()
     {
-        return ArrayHelper::map(self::find()->select(['__person_id','fio'=>'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic)' ])->joinWith('person')->asArray()->all(),'__person_id','fio');
+        return ArrayHelper::map(self::find()->select(['__person_id', 'fio' => 'CONCAT(person.second_name, " ", person.first_name," " , person.patronymic)'])->joinWith('person')->asArray()->all(), '__person_id', 'fio');
     }
 
 
     public function getPost()
     {
-        return $this->hasOne(Post::class, ['__ownableitem_id' => 'post_id']);
+        return $this->hasOne(Post::class, ['company_id' => 'company_id','division_id' => 'division_id','postdict_id'=>'postdict_id']);
     }
 
     public function getPostDict()
     {
-        return new PostDict(['id' => $this->post_id]);
+        return $this->hasOne(PostDict::class, ['id' => 'postdict_id']);
     }
 
     public function getRank()
     {
-        return new Rank(['id' => $this->rank_id]);
+        return $this->hasOne(Rank::class, ['id' => 'rank_id']);
+
+    }
+
+    public function getBenefit()
+    {
+        return new SalaryBenefit(['value' => $this->benefit_id]);
+    }
+
+
+
+    public function beforeSave($insert) {
+
+        if (parent::beforeSave($insert)) {
+            if (!$insert){
+                if ($this->company_id && $this->division_id && $this->postdict_id )
+                {
+                    if (!OfficerPost::findOne([
+                    'officer_id' => $this->primaryKey,
+                       'company_id' => $this->company_id,
+                       'division_id' => $this->division_id,
+                       'postdict_id' => $this->postdict_id
+                        ])){
+                        $officerPost = new OfficerPost([
+                            'officer_id' => $this->primaryKey,
+                            'company_id' => $this->company_id,
+                            'division_id' => $this->division_id,
+                            'postdict_id' => $this->postdict_id
+
+                        ]);
+                        return $officerPost->save();
+                    }
+
+
+
+                }
+            }
+
+
+
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
 
     }
 

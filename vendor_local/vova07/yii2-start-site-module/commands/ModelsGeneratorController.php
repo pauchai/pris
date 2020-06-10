@@ -42,7 +42,7 @@ use vova07\psycho\models\PsyRiskQuery;
 use vova07\psycho\models\PsyTest;
 use vova07\rbac\helpers\Rbac;
 use vova07\rbac\Module;
-use vova07\salary\models\SalaryCharge;
+use vova07\salary\models\Salary;
 use vova07\salary\models\SalaryClass;
 use vova07\salary\models\SalaryWithHold;
 use vova07\users\models\PrisonerLocationJournal;
@@ -185,15 +185,15 @@ class ModelsGeneratorController extends \yii\console\Controller
                     //    SalaryClass::class,
                     //   PostDict::class,
                     //   Post::class,
-                /*
+            //\vova07\salary\models\Rate::class,
 
 
 
-                     \vova07\salary\models\Rate::class,
 
-                     SalaryCharge::class,
-                     SalaryWithHold::class,
-            */
+            /*
+                                 SalaryCharge::class,
+                                 SalaryWithHold::class,
+                        */
 
         ];
     }

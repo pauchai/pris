@@ -1,10 +1,9 @@
 <?php
-use kartik\form\ActiveForm;
-use kartik\builder\Form;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
-use kartik\depdrop\DepDrop;
-use vova07\prisons\models\Rank;
+use vova07\prisons\models\Division;
+use kartik\widgets\DepDrop;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -15,10 +14,9 @@ use vova07\prisons\models\Rank;
 
 
 <?php $form = ActiveForm::begin()?>
-<?=$form->field($model,'company_id')->dropDownList(
-        \vova07\prisons\models\Company::getListForCombo(),
-        ['prompt'=>Module::t('default','SELECT'), 'id' => 'company_id']
-)?>
+<?=$form->field($newModel,'officer_id')->hiddenInput()?>
+<?=$form->field($model,'company_id')->hiddenInput(['id' => 'company_id'])->label($model->company->title)?>
+
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
 
     'type' => DepDrop::TYPE_SELECT2,
@@ -67,20 +65,17 @@ use vova07\prisons\models\Rank;
     ],
 
 ]) ?>
+<?=$form->field($model,'full_time')->checkbox()?>
 
-<?=$form->field($model,'rank_id')->dropDownList(Rank::getListForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 
-<?php if (!$model->isNewRecord):?>
 
-   <?=$form->field($model->person,'__ident_id')->hiddenInput()?>
-<?php endif;?>
-<?=$form->field($model->person,'first_name')?>
-<?=$form->field($model->person,'second_name')?>
-<?=$form->field($model->person,'patronymic')?>
-<?=$form->field($model->person,'birth_year')?>
-<?=$form->field($model->person,'photo_url')?>
-<?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
-<?=$form->field($model->person,'address')?>
+<?=$form->field($newModel,'benefit_class')->dropDownList(
+    \vova07\salary\models\SalaryBenefit::getListForCombo(),
+    [
+        'prompt' => \vova07\salary\Module::t('default','BENEFIT_CLASS')
+    ]
+)?>
+
 
 
 <?php $box->beginFooter();?>

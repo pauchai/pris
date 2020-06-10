@@ -12,9 +12,15 @@ namespace vova07\prisons\models;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\ModelGenerator\Helper;
+use vova07\base\models\ActiveRecordMetaModel;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
+use vova07\jobs\helpers\Calendar;
+use vova07\salary\models\Salary;
+use vova07\salary\models\SalaryBenefit;
+use vova07\salary\models\SalaryClass;
+use vova07\users\models\Officer;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
@@ -22,11 +28,11 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
-class Post extends  OwnableItem
+class OfficerPost extends  ActiveRecordMetaModel
 {
     public static function tableName()
     {
-        return 'posts';
+        return 'officer_posts';
     }
     /**
      *
@@ -36,24 +42,25 @@ class Post extends  OwnableItem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                //Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
+               // Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
+                'officer_id' => $migration->integer()->notNull(),
                 'company_id' => $migration->integer()->notNull(),
-                'division_id' => $migration->tinyInteger(3)->notNull(),
-                'postdict_id' => $migration->smallInteger()->notNull(),
-                'title' => $migration->string()->notNull(),
-                'rates' => $migration->double('2,1')->comment('number of rates (ex: 1, 0.5, 2.5 etc)'),
-                 'order' => $migration->smallInteger(),
+                'division_id' => $migration->tinyInteger()->notNull(),
+                'postdict_id' => $migration->smallInteger(),
+                'full_time' => $migration->boolean()->defaultValue(true),
+                'benefit_class' => $migration->tinyInteger(3)->notNull()->defaultValue(SalaryBenefit::EXTRA_CLASS_POINT_0TO2_ANI),
                 'rbac_role' => $migration->string(),
-
             ],
             'primaries' => [
-                [self::class, ['company_id','division_id', 'postdict_id']]
+                [self::class, ['officer_id', 'company_id','division_id','postdict_id']]
             ],
 
             'foreignKeys' => [
                 [get_called_class(), 'company_id',Company::class,Company::primaryKey()],
                 [get_called_class(), ['company_id','division_id'],Division::class,Division::primaryKey()],
-                [get_called_class(), 'postdict_id',PostDict::class,PostDict::primaryKey()],
+                [get_called_class(), ['company_id', 'division_id', 'postdict_id'], Post::class, Post::primaryKey()],
+                [get_called_class(), ['postdict_id'], PostDict::class, PostDict::primaryKey()],
+                [get_called_class(), 'officer_id', Officer::class, Officer::primaryKey()],
 
             ],
 
@@ -65,7 +72,9 @@ class Post extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id', 'division_id', 'postdict_id', 'title'],'required'],
+            [['officer_id', 'company_id', 'division_id', 'postdict_id'],'required'],
+            [['full_time'],'boolean'],
+            [['benefit_class'], 'integer']
            // [['company_id', 'title'],'unique'],
         ];
     }
@@ -76,7 +85,7 @@ class Post extends  OwnableItem
             'saveRelations' => [
                 'class' => SaveRelationsBehavior::class,
                 'relations' => [
-                    'ownableitem',
+                   // 'ownableitem',
                 ],
             ]
         ];
@@ -84,13 +93,9 @@ class Post extends  OwnableItem
 
     public static function find()
     {
-        return new PostQuery(get_called_class());
+        return new OfficerPostQuery(get_called_class());
     }
 
-    public function getOwnableitem()
-    {
-        return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
-    }
 
 
 
@@ -111,8 +116,16 @@ class Post extends  OwnableItem
             'division_id' => 'division_id',
             ]);
     }
+    public function getOfficer()
+    {
+        return $this->hasOne(Officer::class, ['__person_id' => 'officer_id']);
+    }
 
 
+    public function getTimeRate()
+    {
+        return $this->full_time?1:0.5;
+    }
 
 
 

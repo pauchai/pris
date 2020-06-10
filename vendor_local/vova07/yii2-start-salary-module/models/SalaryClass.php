@@ -27,6 +27,7 @@ use yii\helpers\ArrayHelper;
 class SalaryClass extends  ActiveRecordMetaModel
 {
 
+
     public static function tableName()
     {
         return 'salary_class';
@@ -78,6 +79,8 @@ class SalaryClass extends  ActiveRecordMetaModel
     {
       return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
     }
+
+
 
 
 

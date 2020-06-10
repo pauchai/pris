@@ -106,6 +106,10 @@ class PostDict extends  ActiveRecordMetaModel
 
         return ArrayHelper::map(self::find()->orderBy('title')->asArray()->all(),'id','title');
 
-
     }
+    public function getSalaryClass()
+    {
+        return $this->hasOne(SalaryClass::class, ['id' => 'salary_class_id']);
+    }
+
 }

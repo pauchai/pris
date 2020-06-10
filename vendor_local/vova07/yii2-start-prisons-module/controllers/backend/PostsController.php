@@ -19,6 +19,7 @@ use vova07\prisons\models\backend\PrisonSearch;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
 use vova07\prisons\models\Division;
+use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\Prison;
 use vova07\prisons\Module;
@@ -51,7 +52,7 @@ class PostsController extends BackendController
                 'class' => \kartik\depdrop\DepDropAction::class,
                 'otherParam' => 'depdrop_all_params',
                 'outputCallback' => function ($selectedId, $params) {
-                    return Division::findOne($params)->getPosts()->select(['post_id as id','title as name'])->asArray()->all();
+                    return Division::findOne($params)->getPosts()->select(['postdict_id as id','title as name'])->asArray()->all();
 
 
                 }
@@ -71,6 +72,7 @@ class PostsController extends BackendController
 
         return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel, 'newModel' => $newModel]);
     }
+
 
     public function actionCreate($company_id, $division_id)
     {
@@ -95,10 +97,9 @@ class PostsController extends BackendController
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
-
-    public function actionDelete($company_id,$division_id, $post_id)
+    public function actionDelete($company_id,$division_id, $postdict_id)
     {
-        if (is_null($model = Post::findOne(['company_id'=>$company_id, 'division_id'=>$division_id , 'post_id' => $post_id])))
+        if (is_null($model = Post::findOne(['company_id'=>$company_id, 'division_id'=>$division_id , 'postdict_id' => $postdict_id])))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

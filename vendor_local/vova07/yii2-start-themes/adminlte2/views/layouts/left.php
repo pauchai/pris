@@ -223,7 +223,7 @@ use vova07\site\Module;
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
                         'items' => [
                             [
-                                'label' => Module::t('menu','SALARY_CHARGE_LIST'),'icon' => 'circle','url'=>['/salary/charges'],
+                                'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
                                 'visible' => true,
                             ],
 
@@ -263,6 +263,9 @@ use vova07\site\Module;
                         'items' => [
                             ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
                             ['label' => Module::t('menu','COMPANIES_LIST'),'icon' => 'circle','url'=>['/prisons/companies'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
                             ['label' => Module::t('menu','DEPARTMENTS_LIST'),'icon' => 'circle','url'=>['/prisons/departments'],

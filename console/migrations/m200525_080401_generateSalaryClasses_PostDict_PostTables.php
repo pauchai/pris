@@ -24,7 +24,6 @@ class m200525_080401_generateSalaryClasses_PostDict_PostTables extends \vova07\b
     public function safeUp()
     {
         $this->generateModelTables();
-      //  $this->importSalaryClasses();
 
 
     }
@@ -41,23 +40,6 @@ class m200525_080401_generateSalaryClasses_PostDict_PostTables extends \vova07\b
     }
 
 
-    private function importSalaryClasses()
-    {
-        $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
-        $csvFile = $dataDir . self::FILENAME_SALARY_CLASSES;
-        $fileHandler = fopen($csvFile,'r');
-        $csv = new CsvFile(['fileName' =>$csvFile,'cellDelimiter'=>"\t"]);
-
-        while($csv->eof === false){
-            $csv->read();
-            $salaryClass = new SalaryClass();
-            $salaryClass->id = $csv->getField('id');
-            $salaryClass->rate = $csv->getField('rate');
-            $salaryClass->level = $csv->getField('level');
-            $salaryClass->save();
-     }
-
-    }
 
 
 }

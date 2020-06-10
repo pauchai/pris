@@ -112,7 +112,7 @@ class Division extends  OwnableItem
     public function getPostsForCombo()
     {
 
-        return ArrayHelper::map($this->getPosts()->asArray()->all(),'post_id','title');
+        return ArrayHelper::map($this->getPosts()->asArray()->all(),'postdict_id','title');
 
 
     }

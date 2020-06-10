@@ -31,6 +31,14 @@ $this->params['breadcrumbs'] = [
 
 <?php $box->beginBody(['title']);?>
 
+<?php
+$urlParams[0] = '/prisons/officer-posts/index';
+$urlParams['OfficerPostSearch'] = [
+        'officer_id' => $model->primaryKey,
+        'company_id' => $model->company_id,
+        ];
+
+?>
 <?php echo \yii\widgets\DetailView::widget([
     'model' => $model,
     'attributes' => [
@@ -38,8 +46,16 @@ $this->params['breadcrumbs'] = [
         'person.birth_year',
         'company.title',
         'department.title',
-        'rank',
-        'post'
+        'rank.title',
+        [
+            'label' => 'postdict_id',
+            'format' => 'html',
+            'value' => ($model->postDict?$model->postDict->title:'') .
+                \yii\helpers\Html::a('>>>',
+                    $urlParams)
+
+        ]
+
 
     ]
 ])?>
