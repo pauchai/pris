@@ -61,6 +61,25 @@ $createParam[0] = 'create';
         'company.title',
         'division.title',
         'postDict.title',
+        [
+          'header' => '',
+          'content' => function($model){
+              $officerMainPost = $model->officer->officerPost;
+              if (isset($officerMainPost) &&
+                $officerMainPost->officer_id == $model->officer_id &&
+                  $officerMainPost->company_id == $model->company_id &&
+                  $officerMainPost->division_id == $model->division_id &&
+                  $officerMainPost->postdict_id == $model->postdict_id
+
+              )
+                    return Html::tag('i',
+                            '',
+                        [
+                            'class' => 'fa fa-check'
+                    ]);
+
+          }
+        ],
         'full_time:boolean',
         [
             'class' => \yii\grid\ActionColumn::class,

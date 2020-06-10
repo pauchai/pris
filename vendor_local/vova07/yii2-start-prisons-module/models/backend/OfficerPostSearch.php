@@ -1,5 +1,6 @@
 <?php
 namespace vova07\prisons\models\backend;
+use vova07\prisons\models\OfficerPost;
 
 /**
  * Created by PhpStorm.
@@ -19,7 +20,7 @@ class OfficerPostSearch extends \vova07\prisons\models\OfficerPost
 
     public function search($params)
     {
-        $query = self::find();
+        $query = OfficerPost::find();
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
         ]);

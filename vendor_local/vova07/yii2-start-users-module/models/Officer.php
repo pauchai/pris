@@ -163,6 +163,16 @@ class Officer extends  OwnableItem
         return $this->hasOne(PostDict::class, ['id' => 'postdict_id']);
     }
 
+    public function getOfficerPost()
+    {
+        return $this->hasOne(OfficerPost::class, [
+            'officer_id' => '__person_id',
+            'company_id' => 'company_id',
+            'division_id' => 'division_id',
+            'postdict_id'=>'postdict_id'
+        ]);
+
+    }
     public function getRank()
     {
         return $this->hasOne(Rank::class, ['id' => 'rank_id']);
