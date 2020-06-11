@@ -74,12 +74,20 @@ $urlParams['OfficerPostSearch'] = [
     <?php echo \yii\widgets\DetailView::widget([
         'model' => $model->user,
         'attributes' => [
-            'username',
+                [
+                        'attribute' => 'username',
+                    'format' => 'html',
+                    'value' => \yii\bootstrap\Html::a($model->user->username,
+                        ['/users/default/view' , 'id' => $model->user->primaryKey]
+                        )
+                ]
+
 
         ]
     ])?>
 
 
-<?php endif;?>
+<?php else:?>
     <a href="<?=\yii\helpers\Url::to(['default/create','__ident_id'=>$model->getPrimaryKey()])?>" type="button" class="btn btn-default btn-block"><?=Module::t('default','CREATE_AUTH_USER')?></a>
+<?php endif;?>
 <?php Box::end();?>

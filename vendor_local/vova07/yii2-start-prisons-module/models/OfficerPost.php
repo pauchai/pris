@@ -126,7 +126,12 @@ class OfficerPost extends  ActiveRecordMetaModel
     {
         return $this->full_time?1:0.5;
     }
-
+    public function getBenefitClass()
+    {
+        return (new SalaryBenefit([
+            'value' => $this->benefit_class
+        ]));
+    }
 
 
 

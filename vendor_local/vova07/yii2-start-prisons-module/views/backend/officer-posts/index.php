@@ -81,6 +81,7 @@ $createParam[0] = 'create';
           }
         ],
         'full_time:boolean',
+        'benefitClass.title',
         [
             'class' => \yii\grid\ActionColumn::class,
             'template' => '{delete}',
