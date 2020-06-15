@@ -66,6 +66,7 @@ class Post extends  OwnableItem
     {
         return [
             [['company_id', 'division_id', 'postdict_id', 'title'],'required'],
+            [['rates'],'number']
            // [['company_id', 'title'],'unique'],
         ];
     }
@@ -110,6 +111,14 @@ class Post extends  OwnableItem
             'company_id' => 'company_id',
             'division_id' => 'division_id',
             ]);
+    }
+    public function getOfficerPosts()
+    {
+        return $this->hasMany(OfficerPost::class, [
+            'company_id' => 'company_id',
+            'division_id' => 'division_id',
+            'postdict_id' => 'postdict_id',
+        ]);
     }
 
 

@@ -53,7 +53,23 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 <?=$form->field($newModel,'id')?>
-<?=$form->field($newModel,'title')?>
+<?=$form->field($newModel,'iso_id')->widget(
+    \kartik\select2\Select2::class,
+    [
+        'data' => \vova07\prisons\models\PostIso::getListForCombo(),
+        'pluginOptions' => [
+            'allowClear'=>true
+
+        ],
+        'options' => [
+            'placeholder' => Module::t('default','SELECT_POST_ISO'),
+        ],
+    ]
+)?>
+
+<?=$form->field($newModel,'title')->widget(\vova07\base\components\widgets\DepInput::class,[
+    'depends' => 'postdict-iso_id'
+])?>
 
 
 <?php $box->beginFooter();?>

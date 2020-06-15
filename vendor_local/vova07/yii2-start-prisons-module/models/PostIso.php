@@ -27,12 +27,30 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
-class PostDict extends  ActiveRecordMetaModel
+class PostIso extends  ActiveRecordMetaModel
 {
+  const POST_COMPANY_HEAD = 1;
+  const POST_COMPANY_HEAD_ASSISTENT = 2;
+  const POST_HEAD_SECTION = 3;
+  const POST_HEAD_SERVICE = 4;
+  const POST_HEAD_GROUP = 5;
+  const POST_HEAD_GROUP_ASSISTENT = 6;
+  const POST_HEAD_POST = 7;
+  const POST_OFFICER_PRINCIPAL = 8;
+  const POST_OFFICER_LEADER = 9;
+  const POST_OFFICER = 10;
+  const POST_AGENT_PRINCIPAL = 11;
+  const POST_AGENT_LEADER = 12;
+  const POST_AGENT = 13;
+  const POST_SPECIALIST_PRINCIPAL_ = 14;
+  const POST_HEAD_DEPOT = 15;
+  const POST_MEDIC_PSYCHIATRIST  = 16;
+  const POST_MEDIC_DANTIST = 17;
+  const POST_PHARMACIST = 18;
 
     public static function tableName()
     {
-        return 'post_dicts';
+        return 'post_iso';
     }
 
 
@@ -45,16 +63,16 @@ class PostDict extends  ActiveRecordMetaModel
             'fields' => [
                 //Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'id' => $migration->smallInteger()->notNull(),
+                'code' => $migration->string(5),
                 'title' => $migration->string()->notNull(),
                 'order' => $migration->smallInteger(),
-                'rbac_role' => $migration->string(),
-                'iso_id' =>  $migration->smallInteger()->notNull()
+                'salary_class_id' => $migration->smallInteger(),
             ],
             'primaries' => [
                 [self::class, ['id']]
             ],
             'foreignKeys' => [
-                [get_called_class(), 'iso_id',PostIso::class,PostIso::primaryKey()],
+                [get_called_class(), 'salary_class_id',SalaryClass::class,SalaryClass::primaryKey()],
             ],
 
 
@@ -67,9 +85,9 @@ class PostDict extends  ActiveRecordMetaModel
     public function rules()
     {
         return [
-            [['id', 'title', 'iso_id'],'required'],
-            [[ 'title'],'string'],
-            ['iso_id', 'integer']
+            [['id', 'title'],'required'],
+            [['code', 'title'],'string'],
+            ['salary_class_id', 'integer']
             // [['company_id', 'title'],'unique'],
         ];
     }
@@ -78,19 +96,19 @@ class PostDict extends  ActiveRecordMetaModel
 
     public static function find()
     {
-        return new PostDictQuery(get_called_class());
+        return new PostIsoQuery(get_called_class());
     }
 
 
-    public function getListForCombo()
+    public  static function getListForCombo()
     {
 
         return ArrayHelper::map(self::find()->orderBy('title')->asArray()->all(),'id','title');
 
     }
-    public function getPostIso()
+    public function getSalaryClass()
     {
-        return $this->hasOne(PostIso::class, ['id' => 'iso_id']);
+        return $this->hasOne(SalaryClass::class, ['id' => 'salary_class_id']);
     }
 
 }

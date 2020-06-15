@@ -59,7 +59,7 @@ use \vova07\base\components\widgets\DepInput;
 ])?>
 
 
-
+<?=$form->field($newModel,'rates')?>
 
 
 <?php $box->beginFooter();?>

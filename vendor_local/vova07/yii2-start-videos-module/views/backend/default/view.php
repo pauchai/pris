@@ -49,12 +49,12 @@
 </style>
 <div class="row">
 
-<div class="col-sm-5">
-    <video crossorigin="anonymous" id="video" controls    style="width:100%"p class="col-sm-8" >
+<div class="col-sm-8">
+    <video crossorigin="anonymous" id="video" controls    style="width:100%" class="col-sm-8" >
 
         <source src="<?php echo $model->getFullSrcUrl()?>" type="<?php echo $model['type']?>">
 
-        <track  label="English" kind="captions" srclang="en" src="<?php echo $model->getFullSubTitleTrackUrl()?>" default>
+        <track  label="English" kind="subtitles" srclang="en" src="<?php echo $model->getFullSubTitleTrackUrl()?>" default>
     </video>
     <button id="video-speed-0_75">0.75</button>
     <button id="video-speed-1">normal</button>
@@ -71,7 +71,7 @@
     <?php $form = \yii\bootstrap\ActiveForm::begin(['layout' => 'inline','id'=>'words',
         'options' => ['data' => ['pjax' => true]]
         ])?>
-    <div id='row_for_clone'>
+    <div id='row_for_clone' style="display:none">
         <?php $sampleWord = new \vova07\videos\models\Word()?>
         <?=$form->field($sampleWord, "[]title")?>
     </div>
@@ -85,7 +85,7 @@
 
 </div >
 
-    <div  id="subtitles_container"  class="class="col-sm-7"" style="height:500px;overflow-y: scroll">
+    <div  id="subtitles_container"  class="class="col-sm-4" style="height:500px;overflow-y: scroll">
 
     </div>
 

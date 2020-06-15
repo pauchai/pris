@@ -122,4 +122,10 @@ return [
         'bootstrap' => \vova07\salary\Bootstrap::class,
         'alias' => ['@vova07/salary' => '@vendor_local/vova07/yii2-start-salary-module']
     ],
+    'vova07/biblio' => [
+        'name' => 'Biblio Module',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\biblio\Bootstrap::class,
+        'alias' => ['@vova07/biblio' => '@vendor_local/vova07/yii2-start-biblio-module']
+    ],
 ];

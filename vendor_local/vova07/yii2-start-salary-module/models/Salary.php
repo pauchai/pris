@@ -179,7 +179,7 @@ class Salary extends  Ownableitem
     public function getBaseAmount()
     {
 
-        return self::SALARY_MIN_AMOUNT * ($this->postDict->salaryClass->rate + $this->officerPost->benefit_class )  * $this->officerPost->getTimeRate()  ;
+        return self::SALARY_MIN_AMOUNT * ($this->postDict->postIso->salaryClass->rate + $this->officerPost->benefit_class )  * $this->officerPost->getTimeRate()  ;
     }
 
     public function calculateAmountRate()

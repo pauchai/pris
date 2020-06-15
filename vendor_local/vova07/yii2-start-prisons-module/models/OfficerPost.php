@@ -49,6 +49,7 @@ class OfficerPost extends  ActiveRecordMetaModel
                 'postdict_id' => $migration->smallInteger(),
                 'full_time' => $migration->boolean()->defaultValue(true),
                 'benefit_class' => $migration->tinyInteger(3)->notNull()->defaultValue(SalaryBenefit::EXTRA_CLASS_POINT_0TO2_ANI),
+                'title' => $migration->string(),
                 'rbac_role' => $migration->string(),
             ],
             'primaries' => [
@@ -74,7 +75,8 @@ class OfficerPost extends  ActiveRecordMetaModel
         return [
             [['officer_id', 'company_id', 'division_id', 'postdict_id'],'required'],
             [['full_time'],'boolean'],
-            [['benefit_class'], 'integer']
+            [['benefit_class'], 'integer'],
+            [['title'], 'string'],
            // [['company_id', 'title'],'unique'],
         ];
     }

@@ -1,7 +1,7 @@
 <?php
 namespace vova07\base\components\widgets;
 use yii\bootstrap\Html;
-use yii\jui\InputWidget;
+use yii\bootstrap\InputWidget;
 
 /**
  * Created by PhpStorm.

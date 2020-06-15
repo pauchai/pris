@@ -42,7 +42,7 @@ class OfficerPostsController extends BackendController
         $searchModel->company_id = \Yii::$app->base->company->primaryKey;
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $newModel = new OfficerPost();
-        $newModel->attributes = $searchModel->getAttributes(['officer_id', 'company_id','division_id']);
+        $newModel->attributes = $searchModel->getAttributes(['officer_id', 'company_id','division_id','postdict_id']);
         $newModel->full_time = true;
         \Yii::$app->user->setReturnUrl(Url::current());
 

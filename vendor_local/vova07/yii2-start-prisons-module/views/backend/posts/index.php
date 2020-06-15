@@ -2,6 +2,7 @@
 use kartik\form\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
+use vova07\prisons\models\OfficerPost;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\backend\PostSearch
@@ -49,11 +50,29 @@ $createParam[0] = 'create';
         'division.title',
         'postDict.title',
         'title',
+        'rates',
+        [
+                'header' => 'actual_rates',
+            'format' => 'html',
+            'content' => function($model){
+                $urlParam[0] = '/prisons/officer-posts/index';
+                $urlParam['OfficerPostSearch'] = [
+                    'company_id'=>$model->company_id,
+                    'division_id'=>$model->division_id,
+                    'postdict_id'=>$model->postdict_id
+                ];
+                return \yii\helpers\Html::a(
+                        $model->getOfficerPosts()->sumRates(),
+                    $urlParam
+                );
+            }
+        ],
         [
             'class' => \yii\grid\ActionColumn::class,
             'template' => '{delete}',
 
-        ]
+        ],
+
     ]
 ])?>
 
@@ -104,6 +123,7 @@ $createParam[0] = 'create';
 <?=$form->field($newModel,'title')->widget(\vova07\base\components\widgets\DepInput::class,[
     'depends' => 'post-postdict_id'
 ])?>
+<?=$form->field($newModel,'rates')?>
 
 
 

@@ -92,7 +92,7 @@ class DefaultController extends BackendController
                 $model->link('words',$word);
 
             }
-
+            $newWords = [];
         }
 
 

@@ -9,6 +9,7 @@
 namespace vova07\videos\commands;
 
 
+use Done\Subtitles\Subtitles;
 use vova07\videos\models\Word;
 use yii\console\Controller;
 
@@ -31,6 +32,11 @@ class SubsController extends Controller
     $command = "ffmpeg -v warning -i \"$fromFile\" -c copy -map 0 -f segment -segment_times \"$splitsConvertedStr\" \"$toFileTemplate\"";
     echo $command;
     system($command);
+    }
+
+    public function actionConvert($fromFile, $toFile)
+    {
+        Subtitles::convert($fromFile, $toFile);
     }
 
 }

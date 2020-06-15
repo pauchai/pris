@@ -14,7 +14,23 @@ use vova07\prisons\Module;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'id')?>
-<?=$form->field($model,'title')?>
+<?=$form->field($model,'iso_id')->widget(
+        \kartik\select2\Select2::class,
+        [
+            'data' => \vova07\prisons\models\PostIso::getListForCombo(),
+            'pluginOptions' => [
+                'allowClear'=>true
+
+            ],
+            'options' => [
+                'placeholder' => Module::t('default','SELECT_POST_ISO'),
+            ],
+        ]
+)?>
+
+<?=$form->field($model,'title')->widget(\vova07\base\components\widgets\DepInput::class,[
+    'depends' => 'post_dict_iso_id'
+])?>
 
 
 <?php $box->beginFooter();?>

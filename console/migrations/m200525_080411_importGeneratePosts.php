@@ -1,8 +1,6 @@
 <?php
 
-use yii\db\Migration;
-use vova07\prisons\models\Company;
-use vova07\prisons\models\Prison;
+use vova07\prisons\models\PostIso;
 use vova07\prisons\models\PostDict;
 use vova07\prisons\models\Post;
 use vova07\base\components\CsvFile;
@@ -16,6 +14,7 @@ class m200525_080411_importGeneratePosts extends \vova07\base\components\Migrati
     const FILENAME_POST_DICTS = "prisons_officer_post_dict.tsv";
 
     public $models = [
+        PostIso::class,
         PostDict::class,
         Post::class
     ];
@@ -25,7 +24,7 @@ class m200525_080411_importGeneratePosts extends \vova07\base\components\Migrati
     public function safeUp()
     {
         $this->generateModelTables();
-        $this->importPostDict();
+        $this->importPostIso();
       //  $this->login();
        // $this->generatePosts();
 
@@ -46,7 +45,7 @@ class m200525_080411_importGeneratePosts extends \vova07\base\components\Migrati
 
 
 
-    private function importPostDict()
+    private function importPostIso()
     {
         $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
         $csvFile = $dataDir . self::FILENAME_POST_DICTS;
@@ -55,7 +54,7 @@ class m200525_080411_importGeneratePosts extends \vova07\base\components\Migrati
 
         while($csv->eof === false){
             $csv->read();
-            $model = new PostDict();
+            $model = new PostIso();
             $model->id = $csv->getField('id');
             $model->code = $csv->getField('code');
             $model->title = $csv->getField('title');
