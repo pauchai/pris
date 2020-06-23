@@ -34,7 +34,7 @@ class BalanceController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','print-receipt','delete', 'print-archive'],
+                'actions' => ['index','print-receipt','delete', 'print-archive', 'update'],
                 'roles' => [Module::PERMISSION_FINANCES_ACCESS]
             ]
         ];
@@ -124,6 +124,27 @@ class BalanceController extends BackendController
             return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
+    }
+
+    public function actionUpdate($id)
+    {
+        if (is_null($model = Balance::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+
+        if (\Yii::$app->request->isPost){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate()){
+                if ($model->save()){
+
+                    return $this->goBack();
+
+                };
+            };
+        }
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
 }

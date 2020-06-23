@@ -109,6 +109,21 @@ $this->params['breadcrumbs'] = [
 
 <?php \kartik\form\ActiveForm::end()?>
 
+<?php $syncForm = \kartik\form\ActiveForm::begin([
+    'action' => ['create-tabular']
+])?>
+
+
+<?php $syncForm->field($syncModel,'year')->hiddenInput() ?>
+<?php $syncForm->field($syncModel,'month_no')->hiddenInput() ?>
+<?php             echo \yii\helpers\Html::submitButton(
+    Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
+
+    ['class' => 'btn btn-info']
+);
+?>
+<?php \kartik\form\ActiveForm::end()?>
+
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 
 

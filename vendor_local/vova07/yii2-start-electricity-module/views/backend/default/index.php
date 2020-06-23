@@ -27,13 +27,12 @@ $this->params['breadcrumbs'] = [
 
 );?>
 <?php if ($this->context->isPrintVersion):?>
-<h1 align="center">Lista</h1>
-<h2 align="center">spre achitare al energiei electrice folosită de către condamnaţi </h2>
-<h2 align="center">
-    pe perioada <?=$searchModel->dateRange?>
-    / <?=Module::t('labels','KWT_PRICE_LABEL')?>:<a class="" href="<?=\yii\helpers\Url::to(['/site/settings/index'])?>"><?php echo \vova07\site\models\Setting::getValue(\vova07\site\models\Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE)?></a> kwt
+<h1 align="center"><b>LISTA</b></h1>
+<h2 align="center">achitării energiei electrice pentru aparatajul electric </h2>
+    <h2 align="center">aflat în gestiunea condamnaţilor Penitenciarului nr.1 Taraclia  pe perioada <?=$searchModel->dateRange?>
+        / <?=Module::t('labels','KWT_PRICE_LABEL')?>:<a class="" href="<?=\yii\helpers\Url::to(['/site/settings/index'])?>"><?php echo \vova07\site\models\Setting::getValue(\vova07\site\models\Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE)?></a> kwt
+    </h2>
 
-</h2>
 <br/>
 <?php endif;?>
 
@@ -204,14 +203,7 @@ $this->params['breadcrumbs'] = [
                 'template' => '{update}{delete}',
                 'visible' => !$this->context->isPrintVersion,
             ],
-            [
-                'hAlign' => GridView::ALIGN_CENTER,
 
-                'header' => Module::t('default','SIGNE_TITLE'),
-                    'value' => function($model){return '';},
-                    'visible' => $this->context->isPrintVersion,
-
-            ]
 
         ],
         /*'beforeFooter' => [

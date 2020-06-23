@@ -9,6 +9,7 @@ use vova07\finances\models\Balance;
 use vova07\finances\Module;
 use vova07\prisons\models\OfficerPost;
 use vova07\salary\models\backend\SalarySearch;
+use vova07\salary\models\SyncModel;
 use vova07\salary\models\Salary;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
@@ -33,7 +34,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'view'],
+                'actions' => ['index', 'view','create-tabular'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
         ];
@@ -44,6 +45,7 @@ class DefaultController extends BackendController
     {
 
         $searchModel = new SalarySearch();
+        $syncModel = new SyncModel;
 
         $salaryChargesDataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider = new ActiveDataProvider([
@@ -52,7 +54,7 @@ class DefaultController extends BackendController
         if ($this->isPrintVersion)
             $dataProvider->pagination->pageSize = false;
             $dataProvider->sort = false;
-        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel, 'syncModel' => $syncModel]);
     }
 
 
@@ -83,4 +85,11 @@ class DefaultController extends BackendController
     }
 
 
+    public function actionCreateTabular()
+    {
+        $syncModel = new SyncModel;
+        if ($syncModel->load(\Yii::$app->request->post()) && $syncModel->validate()){
+            $syncModel->synchronize()
+        }
+    }
 }
