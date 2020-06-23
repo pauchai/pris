@@ -117,7 +117,10 @@ class Committee extends  Ownableitem
              */
             $committee = $event->sender;
             if ($committee->status_id == Committee::STATUS_FINISHED) {
-                if ($prisonerSecurity = PrisonerSecurity::findOne($committee->prisoner_id))
+                if ($prisonerSecurity = PrisonerSecurity::findOne([
+                    'prisoner_id' => $committee->prisoner_id,
+                    'type_id' => [PrisonerSecurity::TYPE_251, PrisonerSecurity::TYPE_250]
+                ]))
                     $prisonerSecurity->delete();
             }
         });
