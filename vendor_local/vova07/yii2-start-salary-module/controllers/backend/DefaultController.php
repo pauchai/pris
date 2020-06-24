@@ -89,7 +89,7 @@ class DefaultController extends BackendController
     {
         $syncModel = new SyncModel;
         if ($syncModel->load(\Yii::$app->request->post()) && $syncModel->validate()){
-            $syncModel->synchronize()
+            //$syncModel->synchronize();
         }
     }
 }
