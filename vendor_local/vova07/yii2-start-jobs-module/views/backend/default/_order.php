@@ -90,8 +90,8 @@ de prevederile articolului 238 Cod de Executare al R.M.,</p>
     prin <span class="field" style="width:30em"  ><?=Module::t('default','{n,number},{f,number} ({n,spellout}, {f,number} ) ',['v' => $value, 'n'=>$floorValue,'f'=>$fractionValue ])?> zile</span>
     </p>
 <br/>
-<p ><b><?=$director->post?></b></p>
-<p><?=$director->rank?> ____________________________ <?=$director->person->getFio(true,false)?></p>
+<p ><b><?=$director->post->title?></b></p>
+<p><?=$director->rank->title?> ____________________________ <?=$director->person->getFio(true,false)?></p>
 <p >«___»____________<?=date('Y')?>
 </p>
 <br/>

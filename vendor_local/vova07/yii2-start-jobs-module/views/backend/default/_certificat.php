@@ -77,8 +77,8 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 <table width="100%">
     <tr>
         <td width="50%" style="padding-right:10px;">
-            <p style="margin:0px"><b><?=$sefSLA->post?></b></p>
-             <p style="margin:0px"><?=$sefSLA->rank?></p>
+            <p style="margin:0px"><b><?=$sefSLA->post->title?></b></p>
+             <p style="margin:0px"><?=$sefSLA->rank->title?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
@@ -88,8 +88,8 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
         </td>
 
         <td width="50%"  style="padding-left:10px;" >
-            <p style="margin:0px"><b><?=$educator->post?></b></p>
-            <p style="margin:0px"><?=$educator->rank?></p>
+            <p style="margin:0px"><b><?=$educator->post->title?></b></p>
+            <p style="margin:0px"><?=$educator->rank->title?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
@@ -103,11 +103,11 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 
 <br/>
 
-<p ><b><?=$sefSF->post?></b></p>
+<p ><b><?=$sefSF->post->title?></b></p>
 
 <table>
     <tr>
-        <td style="text-align:right"><?=$sefSF->rank?> /</td>
+        <td style="text-align:right"><?=$sefSF->rank->title?> /</td>
         <td>_________________</td>
         <td style="text-align:left">/ <?=$sefSF->person->fio?></td>
     </tr>
@@ -123,7 +123,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     <tr>
         <td style="width:20%; vertical-align:top"><b> Menţiune: </b></td>
         <td style="width:80%">Sancţiunea disciplinară activă în perioada <?=date('d.m.Y',$penalty->date_start)?> - <?=date('d.m.Y', $penalty->date_finish)?>
-            <p><?=$educator->rank?>  ___________________ <?=$educator->person->getFio(true,false)?></p>
+            <p><?=$educator->rank->title?>  ___________________ <?=$educator->person->getFio(true,false)?></p>
 
         </td>
     </tr>

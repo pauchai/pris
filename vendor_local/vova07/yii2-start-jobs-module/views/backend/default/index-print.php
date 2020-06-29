@@ -58,10 +58,10 @@ $this->params['breadcrumbs'] = [
 "APROB"
             </p>
             <p style="text-align: center;font-size:200%">
-<?=$director->post?>
+<?=$director->post->title?>
             </p>
             <p style="text-align: center;font-size:200%">
-<?=$director->rank?>________________________<?=$director->person->getFio(true,false)?>
+<?=$director->rank->title?>________________________<?=$director->person->getFio(true,false)?>
             </p>
 
 
@@ -114,8 +114,8 @@ $gridColumns = [
 
 
 <p style="text-align: left;font-size:200%">
-    <?=$sefSLA->post?>,
+    <?=$sefSLA->post->title?>,
 
-    <?=$sefSLA->rank?> ____________________ <?=$sefSLA->person->fio?>
+    <?=$sefSLA->rank->title?> ____________________ <?=$sefSLA->person->fio?>
 </p>
 

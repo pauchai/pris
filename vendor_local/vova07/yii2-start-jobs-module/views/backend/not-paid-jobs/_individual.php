@@ -34,10 +34,10 @@ CSS
                 "APROB"
             </p>
             <p style="text-align: center;font-size:120%">
-                <?=$director->post?>
+                <?=$director->post->title?>
             </p>
             <p style="text-align: center;font-size:120%">
-                <?=$director->rank?>_______________<?=$director->person->getFio(true,false)?>
+                <?=$director->rank->title?>_______________<?=$director->person->getFio(true,false)?>
             </p>
 
 
@@ -105,11 +105,11 @@ CSS
 </table>-->
 
 
-<p ><b><?=$officer->post?></b></p>
+<p ><b><?=$officer->post->title?></b></p>
 
 <table>
     <tr>
-        <td style="text-align:right"><?=$officer->rank?> /</td>
+        <td style="text-align:right"><?=$officer->rank->title?> /</td>
         <td>_________________</td>
         <td style="text-align:left">/ <?=$officer->person->fio?></td>
     </tr>
