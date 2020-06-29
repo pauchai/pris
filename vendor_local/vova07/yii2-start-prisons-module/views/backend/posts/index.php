@@ -69,7 +69,7 @@ $createParam[0] = 'create';
         ],
         [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{delete}',
+            'template' => '{update}{delete}',
 
         ],
 

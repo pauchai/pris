@@ -41,7 +41,7 @@ $printUrlParams = \yii\helpers\Url::current(['print' => true]);
                 "APROB"
             </p>
             <p style="text-align: center;font-size:180%">
-                <?=$director->postDict->title?>
+                <?=$director->post->title?>
             </p>
             <p style="text-align: center;font-size:180%">
                 <?=$director->rank->title?>________________________<?=$director->person->getFio(true,false)?>

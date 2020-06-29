@@ -111,7 +111,24 @@ class PostsController extends BackendController
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
+    public function actionUpdate($company_id,$division_id, $postdict_id)
+    {
+        if (is_null($model = Post::findOne(['company_id'=>$company_id, 'division_id'=>$division_id , 'postdict_id' => $postdict_id])))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
 
+        if (\Yii::$app->request->isPost){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate()){
+                if ($model->save()){
+                    return $this->goBack();
+                };
+            };
+        }
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+    }
 
 
 }

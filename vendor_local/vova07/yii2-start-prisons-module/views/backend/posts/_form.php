@@ -39,7 +39,7 @@ use \vova07\base\components\widgets\DepInput;
     ],
 ])
 ?>
-<?=$form->field($model,'post_id')->widget(\kartik\widgets\Select2::class,[
+<?=$form->field($model,'postdict_id')->widget(\kartik\widgets\Select2::class,[
 
     'data' => \vova07\prisons\models\PostDict::getListForCombo(),
     'pluginOptions' => [
@@ -59,7 +59,7 @@ use \vova07\base\components\widgets\DepInput;
 ])?>
 
 
-<?=$form->field($newModel,'rates')?>
+<?=$form->field($model,'rates')?>
 
 
 <?php $box->beginFooter();?>
