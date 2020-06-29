@@ -72,9 +72,9 @@ class Video extends ActiveRecord
         return Module::getInstance()->videosBaseUrl . "/" . $this->video_url;
     }
 
-    public function getFullSubTitleTrackUrl()
+    public function getFullSubTitleTrackUrl($index=0)
     {
-        return Module::getInstance()->subTitlesBaseUrl . "/" . $this->sub_url;
+        return Module::getInstance()->subTitlesBaseUrl . "/" . $this->metadata['subtitles'][$index]['filename'];
     }
 
     public function getSubTitles()

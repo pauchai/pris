@@ -41,10 +41,10 @@ $printUrlParams = \yii\helpers\Url::current(['print' => true]);
                 "APROB"
             </p>
             <p style="text-align: center;font-size:180%">
-                <?=$director->post?>
+                <?=$director->postDict->title?>
             </p>
             <p style="text-align: center;font-size:180%">
-                <?=$director->rank?>________________________<?=$director->person->getFio(true,false)?>
+                <?=$director->rank->title?>________________________<?=$director->person->getFio(true,false)?>
             </p>
 
 
@@ -143,11 +143,11 @@ $gridColumns = [
     A eliberat materialele:
 </p>
 
-<p style="font-size:180%" ><b><?=$officer->post?></b></p>
+<p style="font-size:180%" ><b><?=$officer->post->title?></b></p>
 
 <table>
     <tr>
-        <td style="text-align:right;font-size:180%"><?=$officer->rank?> /</td>
+        <td style="text-align:right;font-size:180%"><?=$officer->rank->title?> /</td>
         <td>________________________________________________</td>
         <td style="text-align:left;font-size:180%">/ <?=$officer->person->fio?></td>
     </tr>

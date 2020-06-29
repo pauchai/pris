@@ -95,10 +95,6 @@ class m200522_062617_generateDivisions extends Migration
                 };
             }
         }
-
-
-
-
     }
 
 

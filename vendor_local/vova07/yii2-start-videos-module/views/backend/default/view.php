@@ -24,8 +24,10 @@
         border-color: black;
 
     }
-    #subtitles_container a.focused + span {
-        background-color: yellow;
+
+
+     #subtitles_container tr:focus-within  {
+        background-color: lightblue;
 
     }
     .word-selected{
@@ -47,30 +49,51 @@
     }
 
 </style>
+<p>
+    <?php print_r($model->metadata['subtitles'])?>
+</p>
 <div class="row">
 
-<div class="col-sm-8">
+<div class="col-sm-10">
     <video crossorigin="anonymous" id="video" controls    style="width:100%" class="col-sm-8" >
 
         <source src="<?php echo $model->getFullSrcUrl()?>" type="<?php echo $model['type']?>">
-
-        <track  label="English" kind="subtitles" srclang="en" src="<?php echo $model->getFullSubTitleTrackUrl()?>" default>
+        <?php foreach($model->metadata['subtitles'] as $index=>$subTitle):?>
+        <track  label=<?=$subTitle['name']?> kind="subtitles" srclang="en" src="<?php echo $model->getFullSubTitleTrackUrl($index)?>" default>
+        <?php endforeach;?>
     </video>
     <button id="video-speed-0_75">0.75</button>
     <button id="video-speed-1">normal</button>
 
+
+
+    <div     style="height:200px;overflow-y: scroll">
+        <table>
+            <thead>
+
+            </thead>
+            <tbody id="subtitles_container">
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div >
+
+    <div class="class="col-sm-2">
     <?=\yii\bootstrap\Html::a("To Anki", ['export-anki','id'=>$model->id]);?>
     <?php \yii\widgets\Pjax::begin()?>
     <?php $wordsJson = \yii\helpers\Json::encode($words->select('title')->column())?>
     <?php foreach ($words->all() as $word) :?>
-    <span><?=$word->title?></span>,
+        <span><?=$word->title?></span>,
     <?php endforeach ?>
 
 
 
     <?php $form = \yii\bootstrap\ActiveForm::begin(['layout' => 'inline','id'=>'words',
         'options' => ['data' => ['pjax' => true]]
-        ])?>
+    ])?>
     <div id='row_for_clone' style="display:none">
         <?php $sampleWord = new \vova07\videos\models\Word()?>
         <?=$form->field($sampleWord, "[]title")?>
@@ -82,12 +105,8 @@
     <?php \yii\bootstrap\ActiveForm::end()?>
     <button id="button_clone">CLONE</button>
     <?php \yii\widgets\Pjax::end()?>
-
-</div >
-
-    <div  id="subtitles_container"  class="class="col-sm-4" style="height:500px;overflow-y: scroll">
-
     </div>
+
 
 
 
@@ -104,6 +123,10 @@ $("#row_for_clone").remove();
 var video=$("#video");
 
 track  = video[0].textTracks[0],
+track.mode = 'showing';
+track2 = video[0].textTracks[1],
+track2.mode = 'showing';
+ cues2 = track2.cues;
 cues    = track.cues;
 
 cueEnter = function(){
@@ -126,18 +149,50 @@ cueExit = function(){
     //console.log("#" + lineId + "exit");
   }
 
-  
+  cues2Indexed = {};
+ for (var ii = 0; ii < cues2.length; ii++) {
+      
+     cues2[ii].align = "end";
+     cues2[ii].size = "40";
+     cues2[ii].line = 50;
+     
+     
+     var timeStr = '' + cues2[ii].startTime + '';
+
+     var startTimeArr = timeStr.split('.');
+         timeStr = Number.parseInt(startTimeArr[0]/60) + ':' + startTimeArr[0] % 60 ; 
+    cues2Indexed[timeStr] = cues2[ii];
+  }
   for (var i in cues) {
-        var cue = cues[i];
+         cue = cues[i];
         cue.id = i;
+        
+        cue.align = 'start';
+        cue.size = "40";
+       //cue.line = "100%";
         cue.onenter = cueEnter;
         cue.onexit = cueExit;
         var timeStr = '' + cue.startTime + '';
         var startTimeArr = timeStr.split('.');
          timeStr = Number.parseInt(startTimeArr[0]/60) + ':' + startTimeArr[0] % 60 ; 
-        $("#subtitles_container").append($("<a id='" + cue.id + "' class=cue href='#"+ cue.startTime +"'>"+ timeStr +"</a>"));
-        $("#subtitles_container").append($("<span> "+ cue.text +"</span>"));
-        $("#subtitles_container").append($("<br/>"));
+        //$("#subtitles_container").append($("<a id='" + cue.id + "' class=cue href='#"+ cue.startTime +"'>"+ timeStr +"</a>"));
+        //$("#subtitles_container").append($("<span> "+ cue.text +"</span>"));
+        //$("#subtitles_container").append($("<br/>"));
+        td1 = $('<td></td>').append($("<a id='" + cue.id + "' class=cue href='#"+ cue.startTime +"'>"+ timeStr +"</a>"));
+        td2 = $('<td></td>').append($("<span> "+ cue.text +"</span>"));
+        if (timeStr in cues2Indexed){
+            td3 = $('<td>' + cues2Indexed[timeStr].text+'</td');
+            }
+         else { 
+            td3 = $('<td></td');
+            }
+        tr = $("<tr></tr>").append(td1).append(td2).append(td3);
+        
+        
+        tr.appendTo("#subtitles_container");
+        
+        //$("#subtitles_container").append($("<tr></tr>"))
+        
     }
    
 function jumpToTime(time){
@@ -173,12 +228,15 @@ $(document).keydown(
     function(e)
     {    
         if (e.keyCode == 39) {      
-            $("a.focused").next().next().next().click();
+           aNext = $("a.focused").parent().parent().next().find("a.focused");
+           aNext.click();
 
         }
         if (e.keyCode == 37) {      
-            $("a.focused").prev().prev().prev().click();
-
+            //$("a.focused").prev().prev().prev().click();
+           aPrev = $("a.focused").parent().parent().prev().find("a.focused");
+           aPrev.click();
+           
         }
     }
 );
