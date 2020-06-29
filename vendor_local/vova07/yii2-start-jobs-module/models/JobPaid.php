@@ -161,12 +161,18 @@ class JobPaid extends  JobAbstract
 
     public function getActualPenalty()
     {
+        $monthFirstDayDate = (new \DateTime)->setDate($this->year,$this->month_no, 1);
+        $monthLastDayDate = (new \DateTime)->setDate($this->year,$this->month_no, Calendar::getMonthDaysNumber($monthFirstDayDate));
+
        return $this->prisoner->getPenalties()
             ->orWhere(
-                new Expression('YEAR(FROM_UNIXTIME(date_start))=:year AND MONTH(FROM_UNIXTIME(date_start))=:month_no',[':year' => $this->year,':month_no'=>$this->month_no])
+                new Expression('date_start>=:from  AND date_start<=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
         )
-            ->orWhere(
-                new Expression('YEAR(FROM_UNIXTIME(date_finish))=:year AND MONTH(FROM_UNIXTIME(date_finish))=:month_no',[':year' => $this->year,':month_no'=>$this->month_no])
+           ->orWhere(
+               new Expression('date_finish>=:from  AND date_finish<=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
+           )
+           ->orWhere(
+               new Expression('date_start<=:from  AND date_finish>=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
         )->one();
     }
 

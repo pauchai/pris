@@ -121,7 +121,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 <br/>
 <table style="width:100%">
     <tr>
-        <td style="width:20%; vertical-align:top"><b> Menţiune: </b></td>
+        <td style="width:20%; vertical-align:top"><b> Nota: </b></td>
         <td style="width:80%">Sancţiunea disciplinară activă în perioada <?=date('d.m.Y',$penalty->date_start)?> - <?=date('d.m.Y', $penalty->date_finish)?>
             <p><?=$educator->rank->title?>  ___________________ <?=$educator->person->getFio(true,false)?></p>
 
