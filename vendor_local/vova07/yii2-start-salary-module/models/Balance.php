@@ -25,9 +25,7 @@ use yii\helpers\ArrayHelper;
 
 class Balance extends  Ownableitem
 {
-    const CATEGORY_SALLARY = 1;
-    const CATEGORY_WITHHOLDING = 2;
-    const CATEGORY_CARD =3 ;
+
     public static function tableName()
     {
         return 'officer_balances';

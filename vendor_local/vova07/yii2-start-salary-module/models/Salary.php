@@ -46,7 +46,7 @@ class Salary extends  Ownableitem
     public function rules()
     {
         return [
-
+            [['is_conditions','is_advance'], 'default', 'value' => true]
         ];
     }
 
@@ -70,21 +70,16 @@ class Salary extends  Ownableitem
                 'amount_rate' => $migration->double('2,2'),
                 'amount_rank_rate' => $migration->double('2,2'),
                 'amount_conditions' => $migration->double('2,2'),
+                'is_conditions' => $migration->boolean()->defaultValue(true),
                 'amount_advance' => $migration->double('2,2'),
+                'is_advance' => $migration->boolean()->defaultValue(true),
                 'amount_optional' => $migration->double('2,2'),
                 'amount_diff_sallary' => $migration->double('2,2'),
                 'amount_additional' => $migration->double('2,2'),
                 'amount_maleficence' => $migration->double('2,2'),
                 'amount_vacation' => $migration->double('2,2'),
-                'amount_sick_list_ch' => $migration->double('2,2'),
+                'amount_sick_list' => $migration->double('2,2'),
                 'amount_bonus' => $migration->double('2,2'),
-
-                'amount_pension' => $migration->double('2,2'),
-                'amount_income_tax' => $migration->double('2,2'),
-                'amount_execution_list' => $migration->double('2,2'),
-                'amount_labor_union' => $migration->double('2,2'),
-                'amount_sick_list_w' => $migration->double('2,2'),
-                'amount_card' => $migration->double('2,2'),
 
                 'balance_id' => $migration->integer()->notNull(),
 
@@ -190,11 +185,11 @@ class Salary extends  Ownableitem
 
     public function calculateAmountCondition()
     {
-        return $this->amount_rate * self::CHARGE_SPECIFIC_CONDITIONS_PERCENT / 100;
+        return $this->amount_rate * $this->is_conditions * self::CHARGE_SPECIFIC_CONDITIONS_PERCENT / 100;
     }
     public function calculateAmountAdvance()
     {
-        return $this->amount_rate * self::CHARGE_ADVANCE_PERCENT / 100;
+        return $this->amount_rate * $this->is_advance * self::CHARGE_ADVANCE_PERCENT / 100;
     }
 
 

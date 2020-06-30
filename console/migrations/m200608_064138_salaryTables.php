@@ -2,6 +2,7 @@
 
 use \vova07\base\components\MigrationWithModelGenerator;
 use vova07\salary\models\Salary;
+use vova07\salary\models\SalaryWithHold;
 use \vova07\salary\models\Balance;
 
 /**
@@ -12,6 +13,7 @@ class m200608_064138_salaryTables extends MigrationWithModelGenerator
     public $models = [
         Balance::class,
         Salary::class,
+        SalaryWithHold::class,
     ];
     /**
      * {@inheritdoc}

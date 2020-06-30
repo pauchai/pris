@@ -90,7 +90,8 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'amount_conditions',
             'content' =>  function($model,$index,$key)use($searchModel, $form){
                 $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']amount_conditions')->label(false);
+                $content = $form->field($salaryCharge, '[' . $key. ']is_conditions')->checkbox()->label(false);
+                $content .= $form->field($salaryCharge, '[' . $key. ']amount_conditions')->label(false);
                 return $content;
             }
         ],
@@ -98,7 +99,8 @@ $this->params['breadcrumbs'] = [
             'attribute' => 'amount_advance',
             'content' =>  function($model,$index,$key)use($searchModel, $form){
                 $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']amount_advance')->label(false);
+                $content = $form->field($salaryCharge, '[' . $key. ']is_advance')->checkbox()->label(false);
+                $content .= $form->field($salaryCharge, '[' . $key. ']amount_advance')->label(false);
                 return $content;
             }
         ],
@@ -148,6 +150,7 @@ $this->params['breadcrumbs'] = [
 
 
             ]);
+             $salary->validate();
              $salary->amount_rate = $salary->calculateAmountRate();
             $salary->amount_conditions = $salary->calculateAmountCondition();
             $salary->amount_advance = $salary->calculateAmountAdvance();

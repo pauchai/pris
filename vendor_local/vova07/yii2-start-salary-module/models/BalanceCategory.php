@@ -21,7 +21,6 @@ class BalanceCategory extends  Ownableitem
 
     const CATEGORY_SALARY = 1;
     const CATEGORY_WITHHOLDING = 2;
-    const CATEGORY_CARD =3 ;
 
     public $id;
 
@@ -30,7 +29,6 @@ class BalanceCategory extends  Ownableitem
         return [
             self::CATEGORY_SALARY => Module::t('default', 'CATEGORY_SALARY'),
             self::CATEGORY_WITHHOLDING => Module::t('default', 'CATEGORY_WITHHOLDING'),
-            self::CATEGORY_CARD => Module::t('default', 'CATEGORY_CARD')
         ];
     }
 
