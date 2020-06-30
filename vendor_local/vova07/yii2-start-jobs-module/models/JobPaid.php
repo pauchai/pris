@@ -166,10 +166,10 @@ class JobPaid extends  JobAbstract
 
        return $this->prisoner->getPenalties()
             ->orWhere(
-                new Expression('date_start>=:from  AND date_start<=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
+                new Expression('date_start BETWEEN :from  AND :to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
         )
            ->orWhere(
-               new Expression('date_finish>=:from  AND date_finish<=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
+               new Expression('date_finish BETWEEN :from  AND :to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
            )
            ->orWhere(
                new Expression('date_start<=:from  AND date_finish>=:to',[':from' => $monthFirstDayDate->getTimestamp(),':to'=>$monthLastDayDate->getTimestamp()])
