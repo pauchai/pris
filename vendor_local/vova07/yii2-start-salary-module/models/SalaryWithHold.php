@@ -26,15 +26,12 @@ use vova07\users\models\Person;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
-
+use yii\validators\DefaultValueValidator;
 
 
 class SalaryWithHold extends  Ownableitem
 {
-    const SALARY_MIN_AMOUNT = 1750.50;
 
-    const CHARGE_SPECIFIC_CONDITIONS_PERCENT  = 20;
-    const CHARGE_ADVANCE_PERCENT = 10;
     const WIHTHOLD_PENSION  = 6;
     const WITHHOLD_LABOR_UNION = 1;
 
@@ -46,7 +43,20 @@ class SalaryWithHold extends  Ownableitem
     public function rules()
     {
         return [
+            [['amount_pension'],DefaultValueValidator::class, 'value' => function($model,$attribute){
+                return $model->calculatePension() ;
+            }],
+            [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
+                return $model->calculateLaborUnion() ;
+            }],
+            [['amount_pension',
+                'amount_income_tax',
+                'amount_execution_list',
+                'amount_labor_union',
+                'amount_sick_list',
+                'amount_card',
 
+            ], 'number']
         ];
     }
 
@@ -67,7 +77,7 @@ class SalaryWithHold extends  Ownableitem
                 'amount_sick_list' => $migration->double('2,2'),
                 'amount_card' => $migration->double('2,2'),
 
-                'balance_id' => $migration->integer()->notNull(),
+                'balance_id' => $migration->integer(),
 
             ],
             'primaries' => [
@@ -110,7 +120,7 @@ class SalaryWithHold extends  Ownableitem
 
     public static function find()
     {
-        return new SalaryWithHoldQuery(get_called_class());
+        return new SalaryWithHoldQuery(self::class);
     }
 
     public function getOwnableitem()
@@ -120,6 +130,11 @@ class SalaryWithHold extends  Ownableitem
 
 
 
+    public function getBalance()
+    {
+        return $this->hasOne(Balance::class, ['__ownableitem_id' => 'balance_id']);
+    }
+
 
 
     public function getSalary()
@@ -127,7 +142,26 @@ class SalaryWithHold extends  Ownableitem
         return $this->hasOne(Salary::class,['__ownableitem_id'=>'salary_id']);
     }
 
+    public function getTotal()
+    {
+        return
+            $this->amount_pension +
+            $this->amount_income_tax +
+            $this->amount_execution_list +
+            $this->amount_labor_union +
+            $this->amount_sick_list +
+            $this->amount_card
+            ;
+    }
 
+    public function calculatePension()
+    {
+        return $this->salary->total / 100 * self::WIHTHOLD_PENSION;
+    }
+    public function calculateLaborUnion()
+    {
+        return $this->salary->total / 100 * self::WITHHOLD_LABOR_UNION;
+    }
 
 
 

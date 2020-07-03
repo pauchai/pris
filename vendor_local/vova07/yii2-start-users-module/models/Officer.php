@@ -24,6 +24,8 @@ use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
 use vova07\prisons\models\Rank;
+use vova07\salary\models\backend\BalanceByOfficerView;
+use vova07\salary\models\Balance;
 use vova07\salary\models\SalaryBenefit;
 use vova07\salary\models\SalaryClass;
 use vova07\users\models\Person;
@@ -225,5 +227,12 @@ class Officer extends  OwnableItem
         }
 
     }
-
+    public function getBalance()
+    {
+        return $this->hasOne(BalanceByOfficerView::class, ['officer_id' => '__person_id']);
+    }
+    public function getBalances()
+    {
+        return $this->hasOne(Balance::class, ['officer_id' => '__person_id']);
+    }
 }

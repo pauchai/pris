@@ -10,6 +10,7 @@ namespace vova07\finances\models\backend;
 
 
 use vova07\finances\models\backend\BalanceByPrisonerViewQuery;
+use vova07\salary\models\backend\BalanceByOfficerViewQuery;
 use vova07\users\models\Prisoner;
 use yii\db\ActiveRecord;
 
@@ -22,7 +23,7 @@ class BalanceByPrisonerView extends ActiveRecord
 
     public static function find()
     {
-        return new BalanceByPrisonerViewQuery(get_called_class());
+        return new BalanceByOfficerViewQuery(get_called_class());
 
     }
 

@@ -39,6 +39,10 @@ class SalarySearch extends Salary
             $this->at = (new \DateTime())->format($this->atFormat);
         };
         $this->validate();
+        $query->andFilterWhere([
+            'year' => $this->year,
+            'month_no' => $this->month_no
+        ]);
 
 
         return $dataProvider;

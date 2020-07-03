@@ -9,8 +9,8 @@
  */
 use vova07\salary\Module;
 use kartik\grid\GridView;
-use kartik\grid\ActionColumn;
-use vova07\salary\models\Salary;
+use vova07\salary\models\SalaryIssue;
+
 //$this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = Module::t("default","SALARY_CHARGES");
 $this->params['breadcrumbs'] = [
@@ -22,6 +22,8 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
+<?=$this->render('_issueView',['model' => $salaryIssue])?>
+<?php if (!$salaryIssue->isNewRecord): ?>
 
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
@@ -30,134 +32,31 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?=$this->render('_search',['model' => $searchModel])?>
 
-<?php $form = \kartik\form\ActiveForm::begin()?>
+    <?php
+        if (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_SALARY])){
+            $columns = require("_salary_columns.php");
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getSalaries()]);
+        } elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_WITHHOLD])){
+            $columns = require("_withhold_columns.php");
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
+        }  elseif (in_array($salaryIssue->status_id ,[ SalaryIssue::STATUS_FINISHED])){
+            $columns = require("_finished_columns.php");
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getSalaries()]);
+        }
+
+    ?>
+
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-
-    'columns' => [
-        ['class' => yii\grid\SerialColumn::class],
-
-        [
-            'attribute' => 'officer.person.fio',
-            'format' => 'html',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $content = \yii\bootstrap\Html::a(
-                    $model->officer->person->fio . ' (' . $model->postDict->title . ' ' . ($model->full_time?'полная':'полставки') . ')',
-                    ['/users/officers/view',
-                        'id' => $model->officer_id,
-
-                    ]);
-                ;
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content .= $form->field($salaryCharge, '[' . $key. ']year')->hiddenInput()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']month_no')->hiddenInput()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']officer_id')->hiddenInput()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']company_id')->hiddenInput()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']division_id')->hiddenInput()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']postdict_id')->hiddenInput()->label(false);
-
-                return $content;
-            }
-        ],
-
-        [
-            'attribute' => 'work_days',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']work_days')->label(false);
-                return $content;
-            }
-        ],
-        [
-            'attribute' => 'amount_rate',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']amount_rate')->label(false);
-                return $content;
-            }
-        ],
-        [
-            'attribute' => 'amount_rank_rate',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']amount_rank_rate')->label(false);
-                return $content;
-            }
-        ],
-        [
-            'attribute' => 'amount_conditions',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']is_conditions')->checkbox()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']amount_conditions')->label(false);
-                return $content;
-            }
-        ],
-        [
-            'attribute' => 'amount_advance',
-            'content' =>  function($model,$index,$key)use($searchModel, $form){
-                $salaryCharge = createOrReturnSalaryForOfficerPost($model, $searchModel->year, $searchModel->month_no, $key);
-                $content = $form->field($salaryCharge, '[' . $key. ']is_advance')->checkbox()->label(false);
-                $content .= $form->field($salaryCharge, '[' . $key. ']amount_advance')->label(false);
-                return $content;
-            }
-        ],
-    ]
+    'pjax' => true,
+    'columns' => $columns
 
 
 ])?>
 
-<?php \kartik\form\ActiveForm::end()?>
 
-<?php $syncForm = \kartik\form\ActiveForm::begin([
-    'action' => ['create-tabular']
-])?>
-
-
-<?php $syncForm->field($syncModel,'year')->hiddenInput() ?>
-<?php $syncForm->field($syncModel,'month_no')->hiddenInput() ?>
-<?php             echo \yii\helpers\Html::submitButton(
-    Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
-
-    ['class' => 'btn btn-info']
-);
-?>
-<?php \kartik\form\ActiveForm::end()?>
 
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
-<?php
-    function createOrReturnSalaryForOfficerPost($officerPost, $year, $month_no, $key){
-        static $newSalaries;
-
-        if (!isset($newSalaries[$key])){
-            $monthDays = \vova07\jobs\helpers\Calendar::getMonthDaysNumber((new \DateTime())->setDate($year, $month_no, '1'));
-             $salary = new Salary([
-               'officer_id' => $officerPost->officer_id,
-                'company_id' => $officerPost->company_id,
-                'division_id' => $officerPost->division_id,
-                'postdict_id' => $officerPost->postdict_id,
-
-
-                'rank_id' => $officerPost->officer->rank_id,
-                'year' => $year,
-                'month_no' => $month_no,
-                'work_days' => $monthDays,
-                'amount_rank_rate' => $officerPost->officer->rank->rate
-
-
-            ]);
-             $salary->validate();
-             $salary->amount_rate = $salary->calculateAmountRate();
-            $salary->amount_conditions = $salary->calculateAmountCondition();
-            $salary->amount_advance = $salary->calculateAmountAdvance();
-
-
-
-            $newSalaries[$key] = $salary;
-        }
-        return $newSalaries[$key];
-    }
+<?php endif?>

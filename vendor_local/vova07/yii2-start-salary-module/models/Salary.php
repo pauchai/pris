@@ -26,7 +26,8 @@ use vova07\users\models\Person;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
-
+use yii\validators\DefaultValueValidator;
+use yii\validators\InlineValidator;
 
 
 class Salary extends  Ownableitem
@@ -38,6 +39,7 @@ class Salary extends  Ownableitem
     const WIHTHOLD_PENSION  = 6;
     const WITHHOLD_LABOR_UNION = 1;
 
+    const SCENARIO_RECALCULATE = 'recalculate';
 
     public static function tableName()
     {
@@ -46,7 +48,27 @@ class Salary extends  Ownableitem
     public function rules()
     {
         return [
-            [['is_conditions','is_advance'], 'default', 'value' => true]
+            ['work_days', function($attribute,$params,$validator)
+            {
+
+                $this->reCalculate();
+
+
+            }, 'on' => self::SCENARIO_RECALCULATE
+            ],
+            ['work_days', 'number'],
+
+            [['base_rate'],DefaultValueValidator::class, 'value' => function($model,$attribute){
+                return $model->calculateBaseRate() ;
+            }],
+            [['amount_conditions', 'amount_advance', 'amount_optional',
+                'amount_diff_sallary',
+                'amount_additional',
+                'amount_maleficence',
+                'amount_vacation',
+                'amount_sick_list',
+                'amount_bonus'
+                ], 'number']
         ];
     }
 
@@ -67,12 +89,11 @@ class Salary extends  Ownableitem
                 'year' => $migration->integer()->notNull(),
                 'month_no' => $migration->tinyInteger(2)->notNull(),
                 'work_days' => $migration->tinyInteger(3)->notNull(),
+                'base_rate' => $migration->double('2,2')->notNull(),
                 'amount_rate' => $migration->double('2,2'),
                 'amount_rank_rate' => $migration->double('2,2'),
                 'amount_conditions' => $migration->double('2,2'),
-                'is_conditions' => $migration->boolean()->defaultValue(true),
                 'amount_advance' => $migration->double('2,2'),
-                'is_advance' => $migration->boolean()->defaultValue(true),
                 'amount_optional' => $migration->double('2,2'),
                 'amount_diff_sallary' => $migration->double('2,2'),
                 'amount_additional' => $migration->double('2,2'),
@@ -81,22 +102,24 @@ class Salary extends  Ownableitem
                 'amount_sick_list' => $migration->double('2,2'),
                 'amount_bonus' => $migration->double('2,2'),
 
-                'balance_id' => $migration->integer()->notNull(),
+                'balance_id' => $migration->integer(),
 
             ],
             'indexes' => [
                 [self::class, ['officer_id', 'company_id', 'division_id', 'postdict_id','rank_id','year','month_no'], true],
             ],
 
+
             'foreignKeys' => [
                   [get_called_class(), ['officer_id'],Officer::class, Officer::primaryKey()],
                   [get_called_class(), ['balance_id'],Balance::class, Balance::primaryKey()],
                   [get_called_class(), ['company_id'],Company::class, Company::primaryKey()],
-                  [get_called_class(), ['company_id', 'division_id'],Division::class, Division::primaryKey()],
-                  [get_called_class(), ['postdict_id'],PostDict::class, PostDict::primaryKey()],
-                  [get_called_class(), ['company_id', 'division_id', 'postdict_id'],Post::class, Post::primaryKey()],
-                  [get_called_class(), ['officer_id', 'company_id', 'division_id', 'postdict_id'],OfficerPost::class, OfficerPost::primaryKey()],
-                  [get_called_class(), ['officer_id'],Officer::class, Officer::primaryKey()],
+                  [get_called_class(), ['year', 'month_no'],SalaryIssue::class, SalaryIssue::primaryKey()],
+                 // [get_called_class(), ['company_id', 'division_id'],Division::class, Division::primaryKey()],
+                //  [get_called_class(), ['postdict_id'],PostDict::class, PostDict::primaryKey()],
+                //  [get_called_class(), ['company_id', 'division_id', 'postdict_id'],Post::class, Post::primaryKey()],
+                //  [get_called_class(), ['officer_id', 'company_id', 'division_id', 'postdict_id'],OfficerPost::class, OfficerPost::primaryKey()],
+
 
 
             ],
@@ -131,7 +154,7 @@ class Salary extends  Ownableitem
 
     public static function find()
     {
-        return new SalaryQuery(get_called_class());
+        return new SalaryQuery(Salary::class);
     }
 
     public function getOwnableitem()
@@ -169,27 +192,77 @@ class Salary extends  Ownableitem
 
         ]);
     }
-
-
-    public function getBaseAmount()
+    public function getIssue()
     {
+        return $this->hasOne(SalaryIssue::class,['year' => 'year', 'month_no' => 'month_no']);
+    }
+    public function getPost()
+    {
+        return $this->hasOne(Post::class,[
+            'company_id'=>'company_id',
+            'division_id'=>'division_id',
+            'postdict_id'=>'postdict_id'
 
+        ]);
+    }
+
+    public function calculateBaseRate()
+    {
         return self::SALARY_MIN_AMOUNT * ($this->postDict->postIso->salaryClass->rate + $this->officerPost->benefit_class )  * $this->officerPost->getTimeRate()  ;
+
     }
 
     public function calculateAmountRate()
     {
         $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
-        return $this->getBaseAmount() / $monthDaysNumber * $this->work_days;
+        return $this->base_rate / $monthDaysNumber * $this->work_days;
     }
 
     public function calculateAmountCondition()
     {
-        return $this->amount_rate * $this->is_conditions * self::CHARGE_SPECIFIC_CONDITIONS_PERCENT / 100;
+        return $this->amount_rate * self::CHARGE_SPECIFIC_CONDITIONS_PERCENT / 100;
     }
     public function calculateAmountAdvance()
     {
-        return $this->amount_rate * $this->is_advance * self::CHARGE_ADVANCE_PERCENT / 100;
+        return $this->amount_rate *  self::CHARGE_ADVANCE_PERCENT / 100;
+    }
+
+
+    public function reCalculate()
+    {
+        $this->amount_rate = $this->calculateAmountRate();
+        $this->amount_conditions = $this->calculateAmountCondition();
+        $this->amount_advance = $this->calculateAmountAdvance();
+    }
+    public function getTotal()
+    {
+        return
+            $this->amount_rate +
+            $this->amount_rank_rate +
+            $this->amount_conditions +
+            $this->amount_advance +
+            $this->amount_optional +
+            $this->amount_diff_sallary +
+            $this->amount_additional +
+            $this->amount_maleficence +
+            $this->amount_vacation +
+            $this->amount_sick_list +
+            $this->amount_bonus
+            ;
+    }
+
+    public function getSalaryIssue()
+    {
+        return $this->hasOne(SalaryIssue::class, ['month_no' => 'month_no', 'year' => 'year']);
+    }
+
+    public function getBalance()
+    {
+        return $this->hasOne(Balance::class, ['__ownableitem_id' => 'balance_id']);
+    }
+    public function getWithHold()
+    {
+        return $this->hasOne(SalaryWithHold::class, ['salary_id' => '__ownableitem_id']);
     }
 
 

@@ -11,7 +11,7 @@ namespace vova07\salary\models;
 
 use yii\db\ActiveQuery;
 
-class SalaryClassQuery extends ActiveQuery
+class SalaryIssueQuery extends ActiveQuery
 {
 
 
