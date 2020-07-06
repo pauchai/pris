@@ -227,8 +227,36 @@ use vova07\site\Module;
                                 'visible' => true,
                             ],
 
+                            [
+                                'label' => Module::t('menu','SALARY_CLASSES_LIST'),'icon' => 'circle','url'=>['/salary/salary-classes'],
+                                'visible' => true,
+                            ],
+
                         ]
                     ],
+
+                    ['label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
+                        'items' => [
+                            ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+                            ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
+                             ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
+                        ]
+                    ],
+
 
                     ['label' => Module::t('menu','ADMINISTRATION_HEADER_MENU'), 'options' => ['class' => 'header'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
@@ -247,6 +275,7 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)]
                         ]
                     ],
+
                     ['label' =>  Module::t('menu', 'USERS_MENU'),'icon' => 'users','url' => '#',
                                     'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC),
                         'items' => [
@@ -261,10 +290,6 @@ use vova07\site\Module;
                     ['label' =>  Module::t('menu', 'PRISONS_MENU'),'icon' => 'cube','url' => '#',
                                     'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC),
                         'items' => [
-                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
                             ['label' => Module::t('menu','COMPANIES_LIST'),'icon' => 'circle','url'=>['/prisons/companies'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],

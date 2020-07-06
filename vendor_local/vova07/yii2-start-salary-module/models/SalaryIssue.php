@@ -114,7 +114,7 @@ class SalaryIssue extends  Ownableitem
 
     public function getSalaries()
     {
-        return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year']);
+        return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year'])->orderBy('officer_id, division_id');
     }
     public function getWithHolds()
     {
@@ -170,6 +170,15 @@ class SalaryIssue extends  Ownableitem
             'company_id' => \Yii::$app->base->company->primaryKey
         ]) as $officerPost) {
             $monthDays = \vova07\jobs\helpers\Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, '1'));
+            if (Salary::findOne([
+                'officer_id' => $officerPost->officer_id,
+                'company_id' => $officerPost->company_id,
+                'division_id' => $officerPost->division_id,
+                'postdict_id' => $officerPost->postdict_id,
+                'year' => $this->year,
+                'month_no' => $this->month_no,
+            ]))
+                continue;
 
             $salary = new Salary([
                 'officer_id' => $officerPost->officer_id,
@@ -205,7 +214,9 @@ class SalaryIssue extends  Ownableitem
             $balance->category_id = BalanceCategory::CATEGORY_SALARY;
             $balance->amount = $salary->getTotal();
             $balance->at = (new \DateTime())->format('Y-m-d');
-            $balance->reason = Module::t('default','SALARY_CHARGE');
+            //$balance->reason = Module::t('default','SALARY_CHARGE');
+            $balance->reason = Module::t('default','SALARY_CHARGE {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $salary->issue->at)->getTimestamp());
+
             if ($balance->save()){
                 $salary->balance_id = $balance->primaryKey;
                 $salary->save();
@@ -230,8 +241,7 @@ class SalaryIssue extends  Ownableitem
             $balance->category_id = BalanceCategory::CATEGORY_SALARY;
             $balance->amount = -1 * $withHold->getTotal();
             $balance->at = (new \DateTime())->format('Y-m-d');
-            $balance->reason = Module::t('default','SALARY_WITHHOLD');
-            if ($balance->save()){
+            $balance->reason = Module::t('default','SALARY_WITHHOLD {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->salary->issue->at)->getTimestamp());            if ($balance->save()){
                 $withHold->balance_id = $balance->primaryKey;
                 $withHold->save();
             };

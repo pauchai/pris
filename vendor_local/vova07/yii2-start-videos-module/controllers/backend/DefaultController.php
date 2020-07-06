@@ -4,11 +4,14 @@ namespace vova07\videos\controllers\backend;
 
 
 use Done\Subtitles\Subtitles;
+use kartik\form\ActiveForm;
 use vova07\base\components\BackendController;
 use vova07\videos\models\Import;
 use vova07\videos\models\Video;
 use vova07\videos\models\VideoSearch;
+use vova07\videos\models\VideoWordForm;
 use vova07\videos\models\Word;
+use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
@@ -30,6 +33,7 @@ class DefaultController extends BackendController
    
     public function actionIndex()
     {
+        \Yii::$app->user->setReturnUrl(Url::current());
         $searchModel = new VideoSearch();
 
         return $this->render('index', [
@@ -45,7 +49,7 @@ class DefaultController extends BackendController
 
         if ($model->load(\Yii::$app->request->post())) {
             if ($model->save()) {
-                return $this->redirect(Url::toRoute("index"));
+              //  return $this->redirect(Url::toRoute("index"));
             }
         }
         return $this->render("create", [
@@ -68,35 +72,14 @@ class DefaultController extends BackendController
 
     public function actionView($id)
     {
+        \Yii::$app->user->setReturnUrl(Url::current());
+
         $model = Video::findOne($id);
-        $words = $model->getWords();
+        $newWord = new VideoWordForm([
+            'video_id' => $id,
+        ]);
 
-
-
-        //$words = Word::find()->indexBy('id')->all();
-        $count = count(\Yii::$app->request->post('Word', []));
-
-        $newWords = [];
-        for($i = 0; $i < $count; $i++) {
-            $newWords[] = new Word();
-        }
-
-        if (Word::loadMultiple($newWords, \Yii::$app->request->post()) &&
-            Word::validateMultiple($newWords)) {
-            foreach ($newWords as $word) {
-                if (!$existWord = Word::findOne(['title' => $word])){
-                    $word->save(false);
-                } else {
-                    $word = $existWord;
-                }
-                $model->link('words',$word);
-
-            }
-            $newWords = [];
-        }
-
-
-        return $this->render('view', ['model' => $model,'words'=>$words, 'newWords' => $newWords]);
+        return $this->render('view', ['model' => $model, 'newWord' => $newWord]);
 
     }
 
@@ -234,8 +217,33 @@ class DefaultController extends BackendController
 
     }
 
+    public function actionVideoWords($video_id)
+    {
+        $video = Video::findOne($video_id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $video->getWords()
+        ]);
+
+        $newWord = new VideoWordForm([
+            'video_id' => $video->primaryKey,
+        ]);
+        $wordForm = new VideoWordForm();
+        if ($wordForm->load(\Yii::$app->request->post()) && $wordForm->validate()){
+            $wordForm->saveWord();
+        }
+
+        return $this->renderAjax("video_words", ['video' => $video, 'newWord' => $newWord]);
 
 
+    }
+/*    public function actionCreateWord()
+    {
+        $wordForm = new VideoWordForm();
+        if ($wordForm->load(\Yii::$app->request->post()) && $wordForm->validate()){
+            $wordForm->saveWord();
+        }
+        $this->redirect(['video-words', 'video_id' => $wordForm->video_id]);
+    }*/
 
 
 

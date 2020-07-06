@@ -6,7 +6,7 @@ use vova07\prisons\models\Division;
 use kartik\widgets\DepDrop;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\prisons\models\Prison
+ * @var $model \vova07\prisons\models\OfficerPost
  * @var $box \vova07\themes\adminlte2\widgets\Box
   */
 
@@ -14,7 +14,7 @@ use kartik\widgets\DepDrop;
 
 
 <?php $form = ActiveForm::begin()?>
-<?=$form->field($newModel,'officer_id')->hiddenInput()?>
+<?=$form->field($model,'officer_id')->hiddenInput()->staticControl(['value' => $model->officer->person->fio])?>
 <?=$form->field($model,'company_id')->hiddenInput(['id' => 'company_id'])->label($model->company->title)?>
 
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
@@ -69,7 +69,7 @@ use kartik\widgets\DepDrop;
 
 
 
-<?=$form->field($newModel,'benefit_class')->dropDownList(
+<?=$form->field($model,'benefit_class')->dropDownList(
     \vova07\salary\models\SalaryBenefit::getListForCombo(),
     [
         'prompt' => \vova07\salary\Module::t('default','BENEFIT_CLASS')

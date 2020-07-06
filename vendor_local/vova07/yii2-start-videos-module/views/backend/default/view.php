@@ -3,7 +3,7 @@
  * @var \vova07\videos\models\Video $model
  * @var \yii\web\View $this
  */
-
+    $wordsJson = \yii\helpers\Json::encode($model->getWords()->select('title')->all());
 
     $assets = \vova07\videos\Asset::register($this);
     $this->title = $model->title;
@@ -11,12 +11,7 @@
 
 ?>
 <style type="text/css">
-    #subtitles_container a.focused{
-
-        border-style: solid;
-        border-width: 1px ;
-        border-color: black;
-    }
+    #subtitles_container a.focused,
     #subtitles_container a:focus {
 
         border-style: solid;
@@ -81,53 +76,28 @@
 
 </div >
 
-    <div class="class="col-sm-2">
+    <div class="col-sm-2">
     <?=\yii\bootstrap\Html::a("To Anki", ['export-anki','id'=>$model->id]);?>
     <?php \yii\widgets\Pjax::begin()?>
-    <?php $wordsJson = \yii\helpers\Json::encode($words->select('title')->column())?>
-    <?php foreach ($words->all() as $word) :?>
-        <span><?=$word->title?></span>,
-    <?php endforeach ?>
-
-
-
-    <?php $form = \yii\bootstrap\ActiveForm::begin(['layout' => 'inline','id'=>'words',
-        'options' => ['data' => ['pjax' => true]]
-    ])?>
-    <div id='row_for_clone' style="display:none">
-        <?php $sampleWord = new \vova07\videos\models\Word()?>
-        <?=$form->field($sampleWord, "[]title")?>
-    </div>
-
-
-    <?php echo \yii\bootstrap\Html::submitButton("SUMBIT",['id'=>'submit_words'])?>
-
-    <?php \yii\bootstrap\ActiveForm::end()?>
-    <button id="button_clone">CLONE</button>
-    <?php \yii\widgets\Pjax::end()?>
-    </div>
+    <?php echo $this->render("video_words", ['newWord' => $newWord, 'video' => $model])?>
+    <?php  \yii\widgets\Pjax::end()?>
+</div>
+</div>
 
 
 
 
 <?php
 $this->registerJs( <<< JS
-    rowForCloneEl = $("#row_for_clone").clone().removeAttr('id')
-    rowForCloneEl.find("input").each(function() {
-        this.id="";
-        this.value = "";
-    });
 
-var createNewWordHtml = rowForCloneEl.html(); 
-$("#row_for_clone").remove();
 var video=$("#video");
 
 track  = video[0].textTracks[0],
 track.mode = 'showing';
 track2 = video[0].textTracks[1],
 track2.mode = 'showing';
- cues2 = track2.cues;
-cues    = track.cues;
+var cues2 = track2.cues;
+var cues    = track.cues;
 
 cueEnter = function(){
     //var lineId = Number.parseFloat(this.startTime).toFixed(2)+Number.parseFloat(this.endTime).toFixed(2);
@@ -150,26 +120,30 @@ cueExit = function(){
   }
 
   cues2Indexed = {};
- for (var ii = 0; ii < cues2.length; ii++) {
-      
-     cues2[ii].align = "end";
-     cues2[ii].size = "40";
-     cues2[ii].line = 50;
+ //for (var ii  = 0; ii < cues2.length; ii++) {
+ for (var ii in cues2) {
+      cue2 = cues2[ii];
+    // cue2.align = "left";
+    // cue2.size = "48";
+    cue2.line = 0;
+     //cues2[ii].line = 50;
      
      
-     var timeStr = '' + cues2[ii].startTime + '';
+     var timeStr = '' + cue2.startTime + '';
 
      var startTimeArr = timeStr.split('.');
          timeStr = Number.parseInt(startTimeArr[0]/60) + ':' + startTimeArr[0] % 60 ; 
-    cues2Indexed[timeStr] = cues2[ii];
+    cues2Indexed[timeStr] = cue2;
   }
   for (var i in cues) {
          cue = cues[i];
         cue.id = i;
         
-        cue.align = 'start';
-        cue.size = "40";
-       //cue.line = "100%";
+        
+        //e.line = 10';
+        //cue.align = 'right';
+        //cue.size = "48";
+        cue.line = 100;
         cue.onenter = cueEnter;
         cue.onexit = cueExit;
         var timeStr = '' + cue.startTime + '';
@@ -206,6 +180,17 @@ $(".cue").on("click", function(e){
     return false;
     
 });
+ 
+
+ $("a.cue").parent().parent().on("click", function(e){
+    e.preventDefault();
+    $(this).find('.cue').click();
+    
+    return false;
+    
+});
+ 
+ 
 
 function highlightWords(terms)
 {
@@ -228,13 +213,13 @@ $(document).keydown(
     function(e)
     {    
         if (e.keyCode == 39) {      
-           aNext = $("a.focused").parent().parent().next().find("a.focused");
+           aNext = $("a:focus").parent().parent().next().find("a");
            aNext.click();
 
         }
         if (e.keyCode == 37) {      
             //$("a.focused").prev().prev().prev().click();
-           aPrev = $("a.focused").parent().parent().prev().find("a.focused");
+           aPrev = $("a:focus").parent().parent().prev().find("a");
            aPrev.click();
            
         }
@@ -254,13 +239,8 @@ $("#subtitles_container").on("mouseup", function (e) {
         //range.surroundContents(newNode);
         $('#subtitles_container').highlight(selText);
         
-        
-         var createdEl = createNewWordField();
-        
-        window.setTimeout(function(){
-            inputEl = createdEl.find("input[name='Word[][title]']").last();
-             inputEl.val(selText);     
-                  }, 600);
+        $('input#videowordform-title').val(selText);
+        $('form#words').submit();
         
         
     }
@@ -279,16 +259,7 @@ function getSelection() {
     return seltxt;
 };
 
-function createNewWordField()
-{
-    el = $("<div></div>").html(createNewWordHtml);
-    el.insertBefore($("#submit_words"));
-    return el
-}
 
-$("#button_clone").on("click",function(e){
-    createNewWordField();
-});
 
 highlightWords($wordsJson);
 

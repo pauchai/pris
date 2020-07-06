@@ -67,7 +67,7 @@ class WordController extends Controller
         $model = new Word();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->goBack();
         }
 
         return $this->render('create', [
@@ -124,4 +124,7 @@ class WordController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
 }

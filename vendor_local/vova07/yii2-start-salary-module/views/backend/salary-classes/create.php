@@ -4,9 +4,9 @@ use yii\bootstrap\Html;
 use vova07\prisons\Module;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\prisons\models\Prison
+ * @var $model \vova07\salary\models\SalaryClass
   */
-$this->title = Module::t("default","OFFICER_POSTS");
+$this->title = Module::t("default","SALARY_CLASS");
 $this->params['subtitle'] = Module::t("default","CREATE");;
 ?>
 

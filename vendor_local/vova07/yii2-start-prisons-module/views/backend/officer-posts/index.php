@@ -84,7 +84,7 @@ $createParam[0] = 'create';
         'benefitClass.title',
         [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{delete}',
+            'template' => '{update}{delete}',
 
         ]
     ]

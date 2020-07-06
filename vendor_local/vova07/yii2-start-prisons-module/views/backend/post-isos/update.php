@@ -6,8 +6,8 @@ use vova07\prisons\Module;
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
   */
-$this->title = Module::t("default","OFFICER_POSTS");
-$this->params['subtitle'] = Module::t("default","CREATE");;
+$this->title = Module::t("default","POST_ISO");
+$this->params['subtitle'] = Module::t("default","UPDATE");;
 ?>
 
 

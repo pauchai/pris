@@ -138,7 +138,7 @@ class Balance extends  Ownableitem
         return new BalanceCategory(['id' => $this->category_id]);
     }
 
-    public function attributeLabels()
+   /* public function attributeLabels()
     {
         return [
             'atJui' => Module::t('labels','BALANCE_AT_VALUE'),
@@ -149,7 +149,7 @@ class Balance extends  Ownableitem
 
 
         ];
-    }
+    }*/
 
 
 }
