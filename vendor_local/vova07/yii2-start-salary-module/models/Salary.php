@@ -48,6 +48,7 @@ class Salary extends  Ownableitem
     public function rules()
     {
         return [
+            ['work_days', 'number'],
             ['work_days', function($attribute,$params,$validator)
             {
 
@@ -56,7 +57,7 @@ class Salary extends  Ownableitem
 
             }, 'on' => self::SCENARIO_RECALCULATE
             ],
-            ['work_days', 'number'],
+
 
             [['base_rate'],DefaultValueValidator::class, 'value' => function($model,$attribute){
                 return $model->calculateBaseRate() ;
@@ -208,14 +209,20 @@ class Salary extends  Ownableitem
 
     public function calculateBaseRate()
     {
-        return self::SALARY_MIN_AMOUNT * ($this->postDict->postIso->salaryClass->rate + $this->officerPost->benefit_class )  * $this->officerPost->getTimeRate()  ;
+        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class;
+        $salaryClass = SalaryClass::findOne($resultSalaryClassid);
+
+
+        return self::SALARY_MIN_AMOUNT * $salaryClass->rate    ;
 
     }
 
     public function calculateAmountRate()
     {
-        $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
-        return $this->base_rate / $monthDaysNumber * $this->work_days;
+        //$monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
+       // $monthDaysNumber = 22;
+        //return $this->base_rate / $monthDaysNumber * $this->work_days;
+        return $this->base_rate * $this->officerPost->getTimeRate() ;
     }
 
     public function calculateAmountCondition()

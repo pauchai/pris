@@ -49,6 +49,14 @@ $columns =
             ];
         },
     ],
+        [
+            'attribute' => 'base_rate',
+            'content' => function($model,$key, $index, $column)
+            {
+                $attribute =  $column->attribute;
+                return round($model->$attribute,2);
+            }
+        ],
     [
         'attribute' => 'amount_rate',
         'content' => function($model,$key, $index, $column)
