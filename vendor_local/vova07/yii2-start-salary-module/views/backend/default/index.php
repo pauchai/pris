@@ -48,6 +48,7 @@ $this->params['breadcrumbs'] = [
     ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'floatHeader' => true,
     'pjax' => true,
     'columns' => $columns
 

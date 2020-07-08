@@ -21,7 +21,35 @@ $columns =
         'groupedRow' => true,
         'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
         'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+        'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
 
+
+            return [
+                'mergeColumns' => [[2,14]], // columns to merge in summary
+
+                'content' => [             // content to show in each summary cell
+                    2 => \vova07\salary\Module::t('default','TOTAL_TITLE'),
+                    // 2 => GridView::F_SUM,
+                    //   3 => GridView::F_SUM,
+                    15 => \kartik\grid\GridView::F_SUM,
+
+
+
+                ],
+                'contentFormats' => [      // content reformatting for each summary cell
+                    //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
+                    //    3 => ['format' => 'number', 'decimals' => 2],
+                    15 => ['format' => 'number', 'decimals' => 2],
+                ],
+                'contentOptions' => [      // content html attributes for each summary cell
+                    2 => ['style' => 'text-align:right'],
+                    15 => ['style' => 'text-align:center'],
+
+                ],
+                // html attributes for group summary row
+                'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
+            ];
+        }
     ],
     [
         'header' => 'post',
