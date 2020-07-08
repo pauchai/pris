@@ -89,9 +89,9 @@ class DefaultController extends BackendController
 
             ],
             'change-withhold-column' => [                                   // identifier for your editable column action
-                'class' => EditableColumnAction::class, // action class name
+                'class' => \vova07\base\components\EditableColumnAction::class, // action class name
                 'modelClass' => SalaryWithHold::class,            // the model for the record being edited
-                'scenario' => Salary::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
+                'scenario' => SalaryWithHold::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
                     return  $model->$attribute ;  // return a calculated output value if desired
                 },
