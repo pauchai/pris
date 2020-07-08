@@ -114,11 +114,12 @@ class SalaryIssue extends  Ownableitem
 
     public function getSalaries()
     {
-        return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year'])->orderBy('officer_id, division_id');
+        //return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year'])->orderBy('officer_id, division_id');
+        return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year']);
     }
     public function getWithHolds()
     {
-        $query = SalaryWithHold::find()->where(['salary_id' => $this->getSalaries()->select(Salary::primaryKey())]);
+        $query = SalaryWithHold::find()->where(['year' => $this->year, 'month_no' => $this->month_no]);
         $query->multiple = true;
         return $query;
     }
@@ -203,28 +204,56 @@ class SalaryIssue extends  Ownableitem
 
     public function salaryToBalance()
     {
+        $salaryOfficerGroup = [];
         foreach ($this->salaries as $salary)
         {
-            /**
-             * @var $salary Salary
-             */
-            if (is_null($balance = $salary->balance))
+            $officer_id = $salary->officer_id;
+            if (!isset($salaryOfficerGroup[$officer_id])) {
+                $salaryOfficerGroup[$officer_id] = [];
+                $salaryOfficerGroup[$officer_id][] = $salary;
+            } else
+                $salaryOfficerGroup[$officer_id][] = $salary;
+        }
+        foreach ($salaryOfficerGroup as $officer_id => $salaries){
+
+            $sum = 0;
+            foreach ($salaries as $salary){
+                $balance = $salary->balance;
+                $sum += $salary->total;
+            }
+            if (is_null($balance)){
                 $balance = new Balance();
-            $balance->officer_id = $salary->officer_id;
-            $balance->category_id = BalanceCategory::CATEGORY_SALARY;
-            $balance->amount = $salary->getTotal();
-            $balance->at = (new \DateTime())->format('Y-m-d');
-            //$balance->reason = Module::t('default','SALARY_CHARGE');
-            $balance->reason = Module::t('default','SALARY_CHARGE {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $salary->issue->at)->getTimestamp());
+                $balance->officer_id = $salary->officer_id;
+                $balance->category_id = BalanceCategory::CATEGORY_SALARY;
+                $balance->at = (new \DateTime())->format('Y-m-d');
+                //$balance->reason = Module::t('default','SALARY_CHARGE');
+                $balance->reason = Module::t('default','SALARY_CHARGE {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $salary->issue->at)->getTimestamp());
+            }
+                $balance->amount = $sum;
+
 
             if ($balance->save()){
-                $salary->balance_id = $balance->primaryKey;
-                $salary->save();
+                /**
+                 * @var $salary Salary
+                 */
+
+                $pk = ['officer_id' =>$balance->officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
+                $withHold = SalaryWithHold::findOne($pk);
+
+                if (is_null($withHold)){
+                    $withHold = new SalaryWithHold($pk);
+                    $withHold->salary_balance_id = $balance->primaryKey;
+                    $withHold->save();
+                }
+                foreach ($salaries as $salary){
+                    $salary->balance_id = $balance->primaryKey;
+                    $salary->save();
+                }
             };
 
-
-
         }
+
+
     }
 
     public function withHoldToBalance()
@@ -237,13 +266,14 @@ class SalaryIssue extends  Ownableitem
             if (is_null($balance = $withHold->balance))
                 $balance = new Balance();
 
-            $balance->officer_id = $withHold->salary->officer_id;
+            $balance->officer_id = $withHold->officer_id;
             $balance->category_id = BalanceCategory::CATEGORY_SALARY;
             $balance->amount = -1 * $withHold->getTotal();
             $balance->at = (new \DateTime())->format('Y-m-d');
-            $balance->reason = Module::t('default','SALARY_WITHHOLD {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->salary->issue->at)->getTimestamp());            if ($balance->save()){
-                $withHold->balance_id = $balance->primaryKey;
-                $withHold->save();
+            $balance->reason = Module::t('default','SALARY_WITHHOLD {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->issue->at)->getTimestamp());
+            if ($balance->save()){
+            $withHold->balance_id = $balance->primaryKey;
+             $withHold->save();
             };
 
 
@@ -251,17 +281,28 @@ class SalaryIssue extends  Ownableitem
         }
     }
 
+    public function getSalaryBalanceIds()
+    {
+       return  $this->getSalaries()->select('balance_id')->distinct()->column();
+    }
 
+    /**
+     * @deprecated
+     * @see salaryToBalance()
+     */
     public function generateWithHolds()
     {
-        foreach ($this->salaries as $salary){
+        $salaryBalances = Balance::find()->where(['__ownableitem_id' => self::getSalaryBalanceIds() ])->all()      ;
+        foreach ($salaryBalances as $balance){
             /**
              * @var $salary Salary
              */
-            if (is_null($withHold = $salary->withHold)){
-                $withHold = new SalaryWithHold([
-                    'salary_id' => $salary->primaryKey
-                ]);
+
+            $pk = ['officer_id' =>$balance->officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
+            $withHold = SalaryWithHold::findOne($pk);
+
+            if (is_null($withHold)){
+                $withHold = new SalaryWithHold($pk);
                 $withHold->save();
             }
 
@@ -275,7 +316,7 @@ class SalaryIssue extends  Ownableitem
             ($this->status_id == self::STATUS_WITHHOLD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
         ){
             $this->salaryToBalance();
-            $this->generateWithHolds();
+       //     $this->generateWithHolds();
         } elseif ( ($this->status_id == self::STATUS_FINISHED) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
             $this->withHoldToBalance();
         }

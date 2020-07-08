@@ -68,7 +68,9 @@ class SalaryWithHold extends  Ownableitem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                'salary_id' => $migration->integer()->notNull(),
+                'officer_id' => $migration->integer()->notNull(),
+                'year' => $migration->integer()->notNull(),
+                'month_no' => $migration->tinyInteger(2)->notNull(),
                 'amount_pension' => $migration->double('2,2'),
                 'is_pension' => $migration->boolean()->defaultValue(true),
                 'amount_income_tax' => $migration->double('2,2'),
@@ -76,16 +78,20 @@ class SalaryWithHold extends  Ownableitem
                 'amount_labor_union' => $migration->double('2,2'),
                 'amount_sick_list' => $migration->double('2,2'),
                 'amount_card' => $migration->double('2,2'),
-
+                'salary_balance_id' => $migration->integer(),
                 'balance_id' => $migration->integer(),
 
             ],
             'primaries' => [
-                [self::class, ['salary_id']]
+                [self::class, ['officer_id', 'year','month_no']]
             ],
             'foreignKeys' => [
-                  [get_called_class(), ['salary_id'],Salary::class, Salary::primaryKey()],
+                [get_called_class(), ['officer_id'],Officer::class, Officer::primaryKey()],
+                [get_called_class(), ['year', 'month_no'],SalaryIssue::class, SalaryIssue::primaryKey()],
                   [get_called_class(), ['balance_id'],Balance::class, Balance::primaryKey()],
+                [get_called_class(), ['salary_balance_id'],Balance::class, Balance::primaryKey()],
+
+
 
 
             ],
@@ -134,12 +140,24 @@ class SalaryWithHold extends  Ownableitem
     {
         return $this->hasOne(Balance::class, ['__ownableitem_id' => 'balance_id']);
     }
-
-
-
-    public function getSalary()
+    public function getSalaryBalance()
     {
-        return $this->hasOne(Salary::class,['__ownableitem_id'=>'salary_id']);
+        return $this->hasOne(Balance::class, ['__ownableitem_id' => 'salary_balance_id']);
+    }
+
+
+
+    public function getSalaries()
+    {
+        return $this->hasMany(Salary::class, ['officer_id' => 'officer_id', 'year' => 'year', 'month_no' => 'month_no']);
+    }
+    public function getIssue()
+    {
+        return $this->hasOne(SalaryIssue::class,['year' => 'year', 'month_no' => 'month_no']);
+    }
+    public function getOfficer()
+    {
+        return $this->hasOne(Officer::class,['__person_id' => 'officer_id']);
     }
 
     public function getTotal()
@@ -156,11 +174,11 @@ class SalaryWithHold extends  Ownableitem
 
     public function calculatePension()
     {
-        return $this->salary->total / 100 * self::WIHTHOLD_PENSION;
+        return $this->salaryBalance->amount / 100 * self::WIHTHOLD_PENSION;
     }
     public function calculateLaborUnion()
     {
-        return $this->salary->total / 100 * self::WITHHOLD_LABOR_UNION;
+        return $this->salaryBalance->amount / 100 * self::WITHHOLD_LABOR_UNION;
     }
 
 

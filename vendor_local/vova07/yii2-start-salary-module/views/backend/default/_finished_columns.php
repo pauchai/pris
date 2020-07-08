@@ -16,40 +16,29 @@ $columns =
 
             return $content;
         },
-
-        'group' => true,
-        'groupedRow' => true,
-        'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
-        'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
-
     ],
-    [
-        'header' => 'post',
-        'format' => 'html',
-        'content' =>  function($model,$index,$key){
-            $content = $model->postDict->title . ' ' . ($model->officerPost->full_time?'полная':'полставки');
 
-
-            return $content;
-        },
-    ],
         [
-            'attribute' => 'balance.amount',
+            'attribute' => 'salaryBalance.amount',
             'content' => function($model){
+                $params = $model->primaryKey;
+                $params[0] = '/salary/default/salaries-view';
                 return \yii\helpers\Html::a(
-                    $model->balance->amount,
-                    ['/salary/default/view', 'id' => $model->primaryKey]
+                    $model->salaryBalance->amount,
+                    $params
 
                 );
             }
 
         ],
         [
-            'attribute' =>  'withHold.balance.amount',
+            'attribute' =>  'balance.amount',
             'content' => function($model){
+                $params = $model->primaryKey;
+                $params[0] = '/salary/default/with-hold-view';
                 return \yii\helpers\Html::a(
-                    $model->withHold->balance->amount,
-                    ['/salary/default/with-hold-view', 'id' => $model->primaryKey],
+                    $model->balance->amount,
+                    $params,
                     [
                         'class' => ['text-danger']
                     ]

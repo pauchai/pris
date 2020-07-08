@@ -32,7 +32,7 @@ use yii\validators\InlineValidator;
 
 class Salary extends  Ownableitem
 {
-    const SALARY_MIN_AMOUNT = 1750.50;
+    const SALARY_MIN_AMOUNT = 1650;
 
     const CHARGE_SPECIFIC_CONDITIONS_PERCENT  = 20;
     const CHARGE_ADVANCE_PERCENT = 10;
@@ -114,7 +114,9 @@ class Salary extends  Ownableitem
             'foreignKeys' => [
                   [get_called_class(), ['officer_id'],Officer::class, Officer::primaryKey()],
                   [get_called_class(), ['balance_id'],Balance::class, Balance::primaryKey()],
-                  [get_called_class(), ['company_id'],Company::class, Company::primaryKey()],
+                  [get_called_class(), ['officer_id', 'balance_id'],Balance::class, ['officer_id', '__ownableitem_id']],
+
+                [get_called_class(), ['company_id'],Company::class, Company::primaryKey()],
                   [get_called_class(), ['year', 'month_no'],SalaryIssue::class, SalaryIssue::primaryKey()],
                  // [get_called_class(), ['company_id', 'division_id'],Division::class, Division::primaryKey()],
                 //  [get_called_class(), ['postdict_id'],PostDict::class, PostDict::primaryKey()],

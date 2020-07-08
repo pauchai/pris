@@ -39,7 +39,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
+                'actions' => ['index', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
         ];
@@ -143,16 +143,30 @@ class DefaultController extends BackendController
 
         return $this->render('view', ['model'=>$model]);
     }
-    public function actionWithHoldView($id)
+    public function actionWithHoldView($officer_id, $year, $month_no)
     {
 
-        if (is_null($model = SalaryWithHold::findOne($id)))
+        if (is_null($model = SalaryWithHold::findOne(compact('officer_id','year', 'month_no'))))
         {
             throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
         };
 
 
         return $this->render('withhold_view', ['model'=>$model]);
+    }
+    public function actionSalariesView($officer_id, $year, $month_no)
+    {
+        $officer = Officer::findOne($officer_id);
+        $salaryIssue = SalaryIssue::findOne(compact('year','month_no'));
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => Salary::find()->where(compact('officer_id', 'year', 'month_no'))
+            ]
+        );
+
+
+
+        return $this->render('salaries_view', ['dataProvider'=>$dataProvider, 'officer' => $officer, 'salaryIssue' => $salaryIssue]);
     }
 
     public function actionCreateMultiple()
