@@ -4,7 +4,7 @@ $columns =
     ['class' => yii\grid\SerialColumn::class],
 
     [
-        'attribute' => 'officer_id',
+        'attribute' => 'officer.person.fio',
         'format' => 'html',
         'content' =>  function($model,$index,$key){
             $content = \yii\bootstrap\Html::a(

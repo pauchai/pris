@@ -52,7 +52,7 @@ $columns =
         }
     ],
     [
-        'header' => 'post',
+        'attribute' => 'postDict.title',
         'format' => 'html',
         'content' =>  function($model,$index,$key){
             $content = $model->postDict->title . ' ' . ($model->officerPost->full_time?'полная':'полставки');

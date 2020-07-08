@@ -274,7 +274,26 @@ class Salary extends  Ownableitem
         return $this->hasOne(SalaryWithHold::class, ['salary_id' => '__ownableitem_id']);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'work_days' => Module::t('default', 'WORK_DAYS_LABEL'),
+            'base_rate' => Module::t('default', 'BASE_RATE_LABEL'),
+            'amount_rate' => Module::t('default', 'AMOUNT_RATE_LABEL'),
+            'amount_rank_rate' => Module::t('default', 'AMOUNT_RANK_RATE_LABEL'),
+            'amount_conditions' => Module::t('default', 'AMOUNT_CONDITIONS_LABEL'),
+            'amount_advance' => Module::t('default', 'AMOUNT_ADVANCE_LABEL'),
+            'amount_optional' => Module::t('default', 'AMOUNT_OPTIONAL_LABEL'),
+            'amount_diff_sallary' => Module::t('default', 'AMOUNT_DIFF_SALLARY_LABEL'),
+            'amount_additional' => Module::t('default', 'AMOUNT_ADDITIONAL_LABEL'),
+            'amount_maleficence' => Module::t('default', 'AMOUNT_MALEFICENCE_LABEL'),
+            'amount_vacation' => Module::t('default', 'AMOUNT_VACATION_LABEL'),
+            'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
+            'amount_bonus' => Module::t('default', 'AMOUNT_BONUS_LABEL'),
+            'total' => Module::t('default', 'TOTAL_LABEL'),
 
+        ];
+    }
 
 
 }

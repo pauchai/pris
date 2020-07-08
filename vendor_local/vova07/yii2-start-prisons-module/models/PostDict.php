@@ -93,4 +93,10 @@ class PostDict extends  ActiveRecordMetaModel
         return $this->hasOne(PostIso::class, ['id' => 'iso_id']);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'title' => Module::t('default', 'POSTDICT_TITLE')
+        ];
+    }
 }

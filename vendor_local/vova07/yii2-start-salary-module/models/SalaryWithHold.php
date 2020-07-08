@@ -181,6 +181,22 @@ class SalaryWithHold extends  Ownableitem
         return $this->salaryBalance->amount / 100 * self::WITHHOLD_LABOR_UNION;
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'amount_pension' => Module::t('default', 'AMOUNT_PENSION_LABEL'),
+            'amount_income_tax' => Module::t('default', 'AMOUNT_INCOME_TAX_LABEL'),
+            'amount_execution_list' => Module::t('default', 'AMOUNT_EXECUTION_LIST_LABEL'),
+            'amount_labor_union' => Module::t('default', 'AMOUNT_LABOR_UNION_LABEL'),
+            'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
+            'amount_card' => Module::t('default', 'AMOUNT_CARD_LABEL'),
+            'total' => Module::t('default', 'TOTAL_LABEL'),
+            'salaryBalance.amount' => Module::t('default', 'SALARY_BALANCE_LABEL'),
+            'balance.amount' => Module::t('default', 'BALANCE_LABEL'),
+            'officer.balance.remain' => Module::t('default', 'OFFICER_BALANCE_REMAIN_LABEL'),
+
+        ];
+    }
 
 
 }
