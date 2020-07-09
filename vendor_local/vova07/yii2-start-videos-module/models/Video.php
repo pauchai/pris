@@ -36,6 +36,7 @@ class Video extends ActiveRecord
      * @var $thumbnail_url
      */
 
+    private $_metaData ;
 
     public function init()
     {
@@ -166,7 +167,10 @@ class Video extends ActiveRecord
 
 
 
+    public function getMetaData()
+    {
 
+    }
 
 
 

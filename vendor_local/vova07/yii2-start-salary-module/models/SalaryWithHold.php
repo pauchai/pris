@@ -166,10 +166,10 @@ class SalaryWithHold extends  Ownableitem
             $this->amount_pension +
             $this->amount_income_tax +
             $this->amount_execution_list +
-            $this->amount_labor_union +
-            $this->amount_sick_list +
-            $this->amount_card
-            ;
+            $this->amount_labor_union -
+            $this->amount_sick_list;
+
+
     }
 
     public function calculatePension()

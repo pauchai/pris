@@ -40,6 +40,14 @@
           'title',
            [
            'class' => \yii\grid\ActionColumn::class,
+               'template' => '{metadata} {view} {update} {delete}',
+               'buttons' => [
+                   'metadata' => function ($url, $model, $key) {
+                                $url = ['/videos/metadata/metadata', 'id' => $model->primaryKey];
+                                return  \yii\bootstrap\Html::a('metadata', $url);
+                            },
+               ]
+
            ]
       ],
   ]) ?>

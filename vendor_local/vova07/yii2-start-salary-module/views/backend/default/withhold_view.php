@@ -36,7 +36,7 @@ $this->params['breadcrumbs'] = [
 
     ];
     $attributeNames = ['amount_pension', 'amount_income_tax', 'amount_execution_list',
-        'amount_labor_union','amount_sick_list', 'amount_card','total', 'balance.amount'
+        'amount_labor_union','amount_sick_list','total', 'balance.amount'
         ];
     foreach ($attributeNames as $attributeName){
         $attributes[] = $attributeName;
