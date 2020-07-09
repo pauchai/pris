@@ -11,9 +11,13 @@ namespace vova07\prisons\controllers\backend;
 
 use vova07\base\components\BackendController;
 use vova07\prisons\models\Division;
+use vova07\prisons\models\OfficerPostView;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\backend\OfficerPostSearch;
+use vova07\users\models\Officer;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
@@ -27,7 +31,7 @@ class OfficerPostsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
+                'actions' => ['index', 'officer-posts', 'create','view','delete','update'],
                 'roles' => ['@']
             ]
         ];
@@ -50,6 +54,14 @@ class OfficerPostsController extends BackendController
     }
     public function actionOfficerPosts()
     {
+        $dataProvider = new ActiveDataProvider(
+        [
+          'query' => OfficerPostView::find()->orderBy(['second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC])
+        ]
+        );
+        \Yii::$app->user->setReturnUrl(Url::current());
+
+        return $this->render("officer_posts", ['dataProvider'=>$dataProvider]);
 
 
     }

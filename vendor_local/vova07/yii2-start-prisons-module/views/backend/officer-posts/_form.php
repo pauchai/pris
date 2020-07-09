@@ -4,6 +4,7 @@ use yii\bootstrap\Html;
 use vova07\prisons\Module;
 use vova07\prisons\models\Division;
 use kartik\widgets\DepDrop;
+use yii\helpers\ArrayHelper;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\OfficerPost
@@ -13,15 +14,15 @@ use kartik\widgets\DepDrop;
 ?>
 
 
-<?php $form = ActiveForm::begin()?>
-<?=$form->field($model,'officer_id')->hiddenInput()->staticControl(['value' => $model->officer->person->fio])?>
-<?=$form->field($model,'company_id')->hiddenInput(['id' => 'company_id'])->label($model->company->title)?>
+<?php $form = ActiveForm::begin(['method' => 'POST'])?>
+<?=$form->field($model,'officer_id')->hiddenInput()->label(ArrayHelper::getValue($model,'officer.person.fio'))?>
+<?=$form->field($model,'company_id',['inputOptions' => ['id' => 'company_id']])->hiddenInput()->label(ArrayHelper::getValue($model,'company.title'))?>
 
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
 
     'type' => DepDrop::TYPE_SELECT2,
 
-    'data' => $model->company->getDivisionsForCombo(),
+    'data' => $model->company?$model->company->getDivisionsForCombo():[],
     'pluginOptions' => [
         'depends'=>['company_id'],
         'url'=>\yii\helpers\Url::to(['/prisons/divisions/company-divisions']),
@@ -46,7 +47,7 @@ use kartik\widgets\DepDrop;
 <?=$form->field($model,'postdict_id')->widget(DepDrop::class,[
     'type' => DepDrop::TYPE_SELECT2,
 
-    'data' => $model->division->getPostsForCombo(),
+    'data' => $model->division?$model->division->getPostsForCombo():[],
     'pluginOptions' => [
         'depends'=>['company_id', 'division_id'],
         'url'=>\yii\helpers\Url::to(['/prisons/posts/division-posts']),

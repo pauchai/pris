@@ -246,6 +246,10 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
+                            ['label' => Module::t('menu','OFFICER_POSTS_EXTENDED_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/officer-posts'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
                             ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 

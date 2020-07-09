@@ -184,6 +184,14 @@ class Officer extends  OwnableItem
         ]);
 
     }
+
+    public function getOfficerPosts()
+    {
+        return $this->hasMany(OfficerPost::class, [
+           'officer_id' => '__person_id',
+           'company_id' => 'company_id',
+        ]);
+    }
     public function getRank()
     {
         return $this->hasOne(Rank::class, ['id' => 'rank_id']);

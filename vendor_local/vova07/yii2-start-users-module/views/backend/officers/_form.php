@@ -17,7 +17,7 @@ use vova07\users\models\Officer;
 
 <?php $form = ActiveForm::begin()?>
 <?php if ($model->company_id) :?>
-    <?=$form->field($model,'company_id')->staticInput()->staticValue = $model->company->title?>
+    <?=$form->field($model,'company_id')->hiddenInput()->label($model->company->title)?>
 
 <?php else:?>
     <?=$form->field($model,'company_id')->dropDownList(
