@@ -34,7 +34,7 @@ class OfficersController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
+                'actions' => ['index','create', 'create-lite','view','delete','update'],
                 'roles' => ['@']
             ]
         ];
@@ -52,15 +52,11 @@ class OfficersController extends BackendController
 
     public function actionCreate()
     {
-        //$model = new Officer();
-        //$person =  new Person();
-        //$person->ident = new Ident();
-        //$model->person = $person;
 
-        $model = new Officer();
 
-       // $model->person->ident = new Ident();
-
+        $model = new Officer([
+          //  'company_id' => \Yii::$app->base->company->primaryKey
+        ]);
 
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
@@ -74,8 +70,36 @@ class OfficersController extends BackendController
                     \Yii::$app->session->setFlash("error",$errorStr);
                 }
 
+            }
+        } else {
+            $model->person = new Person;
+            $model->person->ident = new Ident();
+        }
 
-             //   $this->refresh();
+        return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+    public function actionCreateLite()
+    {
+
+
+        $model = new Officer([
+
+            //  'company_id' => \Yii::$app->base->company->primaryKey
+        ]);
+        $model->scenario = Officer::SCENARIO_LITE;
+
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            $model->person->ident = new Ident();
+            // $model->loadRelations(\Yii::$app->request->post());
+            //   $validatedModel = $model->validate();
+            if ( $model->save()){
+                return $this->goBack();
+            } else {
+                foreach($model->getErrorSummary(true) as $errorStr){
+                    \Yii::$app->session->setFlash("error",$errorStr);
+                }
+
             }
         } else {
             $model->person = new Person;
@@ -100,7 +124,7 @@ class OfficersController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
             throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }

@@ -1,6 +1,7 @@
 <?php
 namespace vova07\users\controllers\backend;
 use budyaga\cropper\actions\UploadAction;
+use http\Url;
 use vova07\base\components\BackendController;
 use vova07\users\models\backend\PersonSearch;
 use vova07\users\models\backend\User;
@@ -52,6 +53,8 @@ class PeopleController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
+
         $searchModel = new PersonSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
@@ -67,7 +70,7 @@ class PeopleController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                return $this->goBack();
             }
         }
 
@@ -89,7 +92,7 @@ class PeopleController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
@@ -105,7 +108,7 @@ class PeopleController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }

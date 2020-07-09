@@ -5,6 +5,7 @@ use yii\bootstrap\Html;
 use vova07\prisons\Module;
 use kartik\depdrop\DepDrop;
 use vova07\prisons\models\Rank;
+use vova07\users\models\Officer;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -23,7 +24,7 @@ use vova07\prisons\models\Rank;
 
     'type' => DepDrop::TYPE_SELECT2,
 
-    'data' => $model->company->getDivisionsForCombo(),
+    'data' => $model->company?$model->company->getDivisionsForCombo():[],
     'pluginOptions' => [
         'depends'=>['company_id'],
         'url'=>\yii\helpers\Url::to(['/prisons/divisions/company-divisions']),
@@ -44,11 +45,13 @@ use vova07\prisons\models\Rank;
         'placeholder' => Module::t('default','SELECT_DIVISIONS'),
     ],
 ]) ?>
+<?php if (!$model->isNewRecord):?>
+
 
 <?=$form->field($model,'postdict_id')->widget(DepDrop::class,[
     'type' => DepDrop::TYPE_SELECT2,
 
-    'data' => $model->division->getPostsForCombo(),
+    'data' => $model->division?$model->division->getPostsForCombo():[],
     'pluginOptions' => [
         'depends'=>['company_id', 'division_id'],
         'url'=>\yii\helpers\Url::to(['/prisons/posts/division-posts']),
@@ -67,6 +70,8 @@ use vova07\prisons\models\Rank;
     ],
 
 ]) ?>
+<?php endif?>
+
 
 <?=$form->field($model,'rank_id')->dropDownList(Rank::getListForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 
@@ -77,10 +82,14 @@ use vova07\prisons\models\Rank;
 <?=$form->field($model->person,'first_name')?>
 <?=$form->field($model->person,'second_name')?>
 <?=$form->field($model->person,'patronymic')?>
+<?php if ($model->scenario != Officer::SCENARIO_LITE):?>
 <?=$form->field($model->person,'birth_year')?>
 <?=$form->field($model->person,'photo_url')?>
-<?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
+<?php //echo $form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
 <?=$form->field($model->person,'address')?>
+<?php endif?>
+<?=$form->field($model,'member_labor_union')->checkbox()?>
+
 
 
 <?php $box->beginFooter();?>

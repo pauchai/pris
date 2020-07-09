@@ -45,7 +45,7 @@ $urlParams['OfficerPostSearch'] = [
         'person.fio',
         'person.birth_year',
         'company.title',
-        'department.title',
+        'division.title',
         'rank.title',
         [
             'label' => 'postdict_id',

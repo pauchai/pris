@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
  */
 class Country extends ActiveRecord
 {
+    const ISO_MOLDOVA = 'MD';
 
     public function rules()
     {

@@ -34,6 +34,7 @@ class Person extends  Ownableitem
     public function rules()
     {
         return [
+            [['citizen_id'], 'default', 'value' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey],
             [['first_name','second_name','patronymic','citizen_id'], 'required'],
             [['birth_year'],'integer'],
             [['address','photo_url','IDNP'],'string'],

@@ -76,6 +76,7 @@ class OfficerPost extends  ActiveRecordMetaModel
             [['officer_id', 'company_id', 'division_id', 'postdict_id'],'required'],
             [['full_time'],'boolean'],
             [['benefit_class'], 'integer'],
+            [['benefit_class'], 'default', 'value' => SalaryBenefit::EXTRA_CLASS_POINT_0TO2_ANI],
             [['title'], 'string'],
            // [['company_id', 'title'],'unique'],
         ];

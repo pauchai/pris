@@ -90,7 +90,7 @@ $createParam[0] = 'create';
     ]
 ])?>
 
-
+<?=Html::a('',['/users/officers/create-lite'],['class' => 'fa fa-plus'])?>
 <?php $form = ActiveForm::begin([
     'action' => ['create', 'company_id' => $newModel->company_id,'division_id' => $newModel->division_id],
     'type' => ActiveForm::TYPE_INLINE

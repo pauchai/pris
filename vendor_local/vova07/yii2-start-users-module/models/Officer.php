@@ -40,7 +40,7 @@ use yii\helpers\ArrayHelper;
 
 class Officer extends  OwnableItem
 {
-
+    const SCENARIO_LITE = 'lite';
     use SaveRelationsTrait;
 
 
@@ -52,10 +52,18 @@ class Officer extends  OwnableItem
     public function rules()
     {
         return [
-            [['company_id', 'division_id'], 'required'],
-            [['rank_id', 'postdict_id'], 'integer'],
+            [['company_id'], 'required'],
+            [['member_labor_union'], 'boolean'],
+            [['company_id', 'division_id', 'rank_id', 'postdict_id'], 'integer'],
+
 
         ];
+    }
+    public function scenarios(){
+
+        return array_merge(parent::scenarios(),[
+            self::SCENARIO_LITE => ['company_id', 'member_labor_union', 'company_id', 'division_id', 'rank_id']
+        ]);
     }
 
     /**
@@ -71,6 +79,7 @@ class Officer extends  OwnableItem
                 'division_id' => Schema::TYPE_INTEGER,
                 'rank_id' => Schema::TYPE_TINYINT,
                 'postdict_id' => $migration->smallInteger()->notNull(),
+                'member_labor_union' => $migration->boolean()->notNull()->defaultValue(false),
               //  'benefit_id' => $migration->tinyInteger(),
                 'status_id' => Schema::TYPE_TINYINT,
 
@@ -218,6 +227,7 @@ class Officer extends  OwnableItem
 
 
 
+
             return true;
 
         } else {
@@ -227,6 +237,8 @@ class Officer extends  OwnableItem
         }
 
     }
+
+
     public function getBalance()
     {
         return $this->hasOne(BalanceByOfficerView::class, ['officer_id' => '__person_id']);

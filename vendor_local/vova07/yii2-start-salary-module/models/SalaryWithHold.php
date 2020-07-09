@@ -178,7 +178,8 @@ class SalaryWithHold extends  Ownableitem
     }
     public function calculateLaborUnion()
     {
-        return $this->salaryBalance->amount / 100 * self::WITHHOLD_LABOR_UNION;
+
+        return $this->officer->member_labor_union? $this->salaryBalance->amount / 100 * self::WITHHOLD_LABOR_UNION : 0;
     }
 
     public function attributeLabels()
