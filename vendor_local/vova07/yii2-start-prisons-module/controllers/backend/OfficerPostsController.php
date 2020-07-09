@@ -15,7 +15,9 @@ use vova07\prisons\models\OfficerPostView;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\backend\OfficerPostSearch;
+use vova07\users\models\Ident;
 use vova07\users\models\Officer;
+use vova07\users\models\Person;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\helpers\Url;
@@ -31,7 +33,7 @@ class OfficerPostsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'officer-posts', 'create','view','delete','update'],
+                'actions' => ['index', 'officer-posts', 'officer-create', 'officer-view', 'create','view','delete','update'],
                 'roles' => ['@']
             ]
         ];
@@ -111,6 +113,53 @@ class OfficerPostsController extends BackendController
     }
 
 
+    public function actionOfficerCreate()
+    {
+
+
+        $model = new Officer([
+
+            'company_id' => \Yii::$app->base->company->primaryKey
+        ]);
+        $model->scenario = Officer::SCENARIO_LITE;
+
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            $model->person->ident = new Ident();
+            // $model->loadRelations(\Yii::$app->request->post());
+            //   $validatedModel = $model->validate();
+            if ( $model->save()){
+                $newOfficerPost = new OfficerPost([
+                    'officer_id' => $model->primaryKey,
+                    'company_id' => $model->company_id,
+                ]);
+                return $this->redirect(['officer-view', 'id'=>$model->primaryKey]);
+
+            } else {
+                foreach($model->getErrorSummary(true) as $errorStr){
+                    \Yii::$app->session->setFlash("error",$errorStr);
+                }
+
+            }
+        } else {
+            $model->person = new Person();
+            $model->person->ident = new Ident();
+        }
+
+        return $this->render("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+    public function actionOfficerView($id)
+    {
+        if (is_null($model = Officer::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+        };
+        $newOfficerPost = new OfficerPost([
+            'officer_id' => $model->primaryKey,
+            'company_id' => $model->company_id,
+        ]);
+        return $this->render('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost]);
+    }
 
 
 }

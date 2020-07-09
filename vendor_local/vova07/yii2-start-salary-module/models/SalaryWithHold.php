@@ -49,9 +49,7 @@ class SalaryWithHold extends  Ownableitem
             [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
                 return $model->calculateLaborUnion() ;
             }],
-            [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
-                return $model->calculateLaborUnion() ;
-            }],
+
             [['amount_pension',
                 'amount_income_tax',
                 'amount_execution_list',
@@ -148,7 +146,9 @@ class SalaryWithHold extends  Ownableitem
     }
 
 
-
+    /**
+     * @return SalaryQuery
+     */
     public function getSalaries()
     {
         return $this->hasMany(Salary::class, ['officer_id' => 'officer_id', 'year' => 'year', 'month_no' => 'month_no']);
@@ -176,7 +176,8 @@ class SalaryWithHold extends  Ownableitem
 
     public function calculatePension()
     {
-        return $this->salaryBalance->amount / 100 * self::WIHTHOLD_PENSION;
+
+        return  $this->getSalaries()->totalAmount() / 100 * self::WIHTHOLD_PENSION;
     }
     public function calculateLaborUnion()
     {

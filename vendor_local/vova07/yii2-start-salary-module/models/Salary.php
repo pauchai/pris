@@ -41,9 +41,27 @@ class Salary extends  Ownableitem
 
     const SCENARIO_RECALCULATE = 'recalculate';
 
+
+
     public static function tableName()
     {
         return 'salary';
+    }
+
+    public static function attributesForTotal()
+    {
+        return [
+            'amount_rank_rate',
+        'amount_conditions',
+        'amount_advance',
+        'amount_optional',
+        'amount_diff_sallary',
+        'amount_additional',
+        'amount_maleficence',
+        'amount_vacation',
+        'amount_sick_list',
+        'amount_bonus'
+        ];
     }
     public function rules()
     {
@@ -245,19 +263,11 @@ class Salary extends  Ownableitem
     }
     public function getTotal()
     {
-        return
-            $this->amount_rate +
-            $this->amount_rank_rate +
-            $this->amount_conditions +
-            $this->amount_advance +
-            $this->amount_optional +
-            $this->amount_diff_sallary +
-            $this->amount_additional +
-            $this->amount_maleficence +
-            $this->amount_vacation +
-            $this->amount_sick_list +
-            $this->amount_bonus
-            ;
+        $amountTotal = 0;
+
+        foreach (self::attributesForTotal() as $attributeName)
+                    $amountTotal += ArrayHelper::getValue($this, $attributeName, 0);
+        return $amountTotal;
     }
 
     public function getSalaryIssue()

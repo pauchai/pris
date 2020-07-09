@@ -34,6 +34,7 @@ class SalaryIssue extends  Ownableitem
 {
     const STATUS_SALARY = 1;
     const STATUS_WITHHOLD = 2;
+    const STATUS_CARD  = 3;
     const STATUS_FINISHED = 10;
 
     public $atFormat = 'Y-m-01';
@@ -129,6 +130,8 @@ class SalaryIssue extends  Ownableitem
         return [
             self::STATUS_SALARY => Module::t('labels', 'STATUS_SALARY_LABEL'),
             self::STATUS_WITHHOLD => Module::t('labels', 'STATUS_WITHHOLD_LABEL'),
+            self::STATUS_CARD => Module::t('labels', 'STATUS_CARD_LABEL'),
+
             self::STATUS_FINISHED => Module::t('labels', 'STATUS_FINISHED_LABEL'),
         ];
     }
@@ -202,79 +205,41 @@ class SalaryIssue extends  Ownableitem
         }
     }
 
-    public function salaryToBalance()
-    {
-        $salaryOfficerGroup = [];
-        foreach ($this->salaries as $salary)
-        {
-            $officer_id = $salary->officer_id;
-            if (!isset($salaryOfficerGroup[$officer_id])) {
-                $salaryOfficerGroup[$officer_id] = [];
-                $salaryOfficerGroup[$officer_id][] = $salary;
-            } else
-                $salaryOfficerGroup[$officer_id][] = $salary;
-        }
-        foreach ($salaryOfficerGroup as $officer_id => $salaries){
-
-            $sum = 0;
-            foreach ($salaries as $salary){
-                $balance = $salary->balance;
-                $sum += $salary->total;
-            }
-            if (is_null($balance)){
-                $balance = new Balance();
-                $balance->officer_id = $salary->officer_id;
-                $balance->category_id = BalanceCategory::CATEGORY_SALARY;
-                $balance->at = (new \DateTime())->format('Y-m-d');
-                //$balance->reason = Module::t('default','SALARY_CHARGE');
-                $balance->reason = Module::t('default','SALARY_CHARGE {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $salary->issue->at)->getTimestamp());
-            }
-                $balance->amount = $sum;
 
 
-            if ($balance->save()){
-                /**
-                 * @var $salary Salary
-                 */
-
-                $pk = ['officer_id' =>$balance->officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
-                $withHold = SalaryWithHold::findOne($pk);
-
-                if (is_null($withHold)){
-                    $withHold = new SalaryWithHold($pk);
-                    $withHold->salary_balance_id = $balance->primaryKey;
-                    $withHold->save();
-                }
-                foreach ($salaries as $salary){
-                    $salary->balance_id = $balance->primaryKey;
-                    $salary->save();
-                }
-            };
-
-        }
-
-
-    }
-
-    public function withHoldToBalance()
+    public function SalaryToBalance()
     {
         foreach ($this->withHolds as  $withHold)
         {
             /**
-             * @var $salary Salary
+             * @var $withHold SalaryWithHold
              */
-            if (is_null($balance = $withHold->balance))
-                $balance = new Balance();
 
-            $balance->officer_id = $withHold->officer_id;
-            $balance->category_id = BalanceCategory::CATEGORY_SALARY;
-            $balance->amount = -1 * $withHold->getTotal();
-            $balance->at = (new \DateTime())->format('Y-m-d');
-            $balance->reason = Module::t('default','SALARY_WITHHOLD {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->issue->at)->getTimestamp());
-            if ($balance->save()){
-            $withHold->balance_id = $balance->primaryKey;
-             $withHold->save();
-            };
+            $chargeAmount = 0;
+            foreach ($withHold->getSalaries()->all() as $salary){
+                /**
+                 * @var $salary Salary
+                 */
+                $chargeAmount += $salary->total;
+            }
+            $chargeAmount -= $withHold->total;
+          //  $withHold->amount_card = $chargeAmount;
+            $remain = $chargeAmount - $withHold->amount_card;
+            if ($remain <> 0){
+                if (is_null($balance = $withHold->balance))
+                    $balance = new Balance();
+
+                $balance->officer_id = $withHold->officer_id;
+                $balance->category_id = BalanceCategory::CATEGORY_SALARY;
+                $balance->amount = $remain;
+                $balance->at = (new \DateTime())->format('Y-m-d');
+                $balance->reason = Module::t('default','SALARY_REMAIN {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->issue->at)->getTimestamp());
+                if ($balance->save()){
+                    $withHold->balance_id = $balance->primaryKey;
+                    $withHold->save();
+                }
+            }
+            ;
 
 
 
@@ -287,24 +252,41 @@ class SalaryIssue extends  Ownableitem
     }
 
     /**
-     * @deprecated
+     *
      * @see salaryToBalance()
      */
     public function generateWithHolds()
     {
-        $salaryBalances = Balance::find()->where(['__ownableitem_id' => self::getSalaryBalanceIds() ])->all()      ;
-        foreach ($salaryBalances as $balance){
-            /**
-             * @var $salary Salary
-             */
+        $officerIds = $this->getSalaries()->distinct()->select('officer_id')->column();
 
-            $pk = ['officer_id' =>$balance->officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
+        foreach ($officerIds as $officer_id){
+
+            $pk = ['officer_id' => $officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
+
+
+
             $withHold = SalaryWithHold::findOne($pk);
 
             if (is_null($withHold)){
                 $withHold = new SalaryWithHold($pk);
-                $withHold->save();
             }
+            $withHold->save();
+
+        }
+    }
+
+    public function generateAmountCards()
+    {
+        foreach ($this->withHolds as  $withHold)
+        {
+            /**
+             * @var $withHold SalaryWithHold
+             */
+            $withHold->amount_card = $withHold->getSalaries()->totalAmount() - $withHold->total;
+             $withHold->save();
+
+
+
 
         }
     }
@@ -315,10 +297,13 @@ class SalaryIssue extends  Ownableitem
         if (
             ($this->status_id == self::STATUS_WITHHOLD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
         ){
-            $this->salaryToBalance();
+            $this->generateWithHolds();
        //     $this->generateWithHolds();
-        } elseif ( ($this->status_id == self::STATUS_FINISHED) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
-            $this->withHoldToBalance();
+        } elseif ( ($this->status_id == self::STATUS_CARD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
+            $this->generateAmountCards();
+        }
+        elseif ( ($this->status_id == self::STATUS_FINISHED) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
+            $this->SalaryToBalance();
         }
     }
 }

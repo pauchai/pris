@@ -94,7 +94,7 @@
                 <tr>
                 <td>Начисленно за <?=DateTime::createFromFormat('Y-m-d', $model->issue->at)->format('M Y')?></td>
                 <td colspan=<?php echo count($salaries)?> >
-                    <?=$model->salaryBalance->amount?>
+                    <?=$model->getSalaries()->totalAmount()?>
                 </td>
                 </tr>
             </tfoot>
@@ -141,7 +141,11 @@
             </tr>
             <tr>
                 <td>На карточку</td>
-                <td>?<?=$model->total?></td>
+                <td><?=$model->amount_card?></td>
+            </tr>
+            <tr>
+                <td>Остаток на счёте</td>
+                <td><?=\yii\helpers\ArrayHelper::getValue($model,'officer.balance.remain', 0)?></td>
             </tr>
             </tfoot>
         </table>

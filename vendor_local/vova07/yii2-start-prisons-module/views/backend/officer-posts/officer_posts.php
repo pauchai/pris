@@ -133,7 +133,7 @@ $this->params['breadcrumbs'] = [
     ]
 ])?>
 
-<?=Html::a('',['/users/officers/create-lite'],['class' => 'fa fa-plus'])?>
+<?=Html::a('',['/prisons/officer-posts/officer-create'],['class' => 'fa fa-plus'])?>
 <?php //\yii\widgets\Pjax::end()?>
 <?php Box::end()?>
 

@@ -23,25 +23,29 @@ $columns =
     ],
 
         [
-            'attribute' => 'salaryBalance.amount',
+            'header' => 'salaries total amount',
             'content' => function($model){
+                /**
+                 * @var $model \vova07\salary\models\SalaryWithHold
+                 */
                 $params = $model->primaryKey;
                 $params[0] = '/salary/default/salaries-view';
                 return \yii\helpers\Html::a(
-                    $model->salaryBalance->amount,
+                    $model->getSalaries()->totalAmount(),
                     $params
 
                 );
             }
 
         ],
+        'total',
         [
-            'attribute' =>  'balance.amount',
+            'attribute' =>  'total',
             'content' => function($model){
                 $params = $model->primaryKey;
                 $params[0] = '/salary/default/with-hold-view';
                 return \yii\helpers\Html::a(
-                    $model->balance->amount,
+                    $model->total,
                     $params,
                     [
                         'class' => ['text-danger']
@@ -53,17 +57,23 @@ $columns =
         ],
 
         [
-            'attribute' =>  'amount_card',
-            'content' => function($model){
-                /**
-                 * @var $model \vova07\salary\models\SalaryWithHold
-                 */
-                return ArrayHelper::getValue($model, 'salaryBalance.amount') +
-                    ArrayHelper::getValue($model, 'balance.amount');
+            'class' => kartik\grid\EditableColumn::class,
+            'attribute' => 'amount_card',
+            'refreshGrid' => true,
+            'editableOptions' =>  function ($model, $key, $index){
+                return [
+
+                    'formOptions' => [
+                        'action' => ['change-withhold-column']
+                    ],
+                ];
+            },
+            'content' => function($model,$key, $index, $column)
+            {
+                $attribute =  $column->attribute;
+                return round($model->$attribute,2);
             }
-
-        ],
-
+        ]
 
     ];
 
@@ -74,7 +84,7 @@ $columns =
         'content' => function($model){
             return
                 \yii\helpers\Html::a(
-                    $model->officer->balance->remain,
+                    ArrayHelper::getValue($model,'officer.balance.remain'),
                     ['/salary/balance/officer-view', 'id' => $model->officer_id]
                 );
 
