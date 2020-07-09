@@ -48,6 +48,11 @@ class OfficerPostsController extends BackendController
 
         return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel, 'newModel' => $newModel]);
     }
+    public function actionOfficerPosts()
+    {
+
+
+    }
 
     public function actionCreate()
     {

@@ -1,4 +1,8 @@
 <?php
+use \yii\helpers\ArrayHelper;
+?>
+<?php echo \yii\bootstrap\Html::a('receipt', ['print-receipt'], ['class' => 'btn btn-success fa fa-credit-card']);?>
+<?php
 $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
@@ -47,6 +51,19 @@ $columns =
             }
 
         ],
+
+        [
+            'attribute' =>  'amount_card',
+            'content' => function($model){
+                /**
+                 * @var $model \vova07\salary\models\SalaryWithHold
+                 */
+                return ArrayHelper::getValue($model, 'salaryBalance.amount') +
+                    ArrayHelper::getValue($model, 'balance.amount');
+            }
+
+        ],
+
 
     ];
 

@@ -84,7 +84,7 @@ class OfficersController extends BackendController
 
         $model = new Officer([
 
-            //  'company_id' => \Yii::$app->base->company->primaryKey
+              'company_id' => \Yii::$app->base->company->primaryKey
         ]);
         $model->scenario = Officer::SCENARIO_LITE;
 

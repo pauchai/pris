@@ -23,7 +23,7 @@ $columns =
 
    ];
     $attributes = ['amount_pension', 'amount_income_tax', 'amount_execution_list',
-        'amount_labor_union', 'amount_sick_list', 'amount_card'];
+        'amount_labor_union', 'amount_sick_list'];
     foreach ($attributes as $attribute){
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,

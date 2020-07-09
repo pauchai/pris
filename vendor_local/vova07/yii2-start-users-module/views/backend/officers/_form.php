@@ -16,10 +16,17 @@ use vova07\users\models\Officer;
 
 
 <?php $form = ActiveForm::begin()?>
-<?=$form->field($model,'company_id')->dropDownList(
+<?php if ($model->company_id) :?>
+    <?=$form->field($model,'company_id')->staticInput()->staticValue = $model->company->title?>
+
+<?php else:?>
+    <?=$form->field($model,'company_id')->dropDownList(
         \vova07\prisons\models\Company::getListForCombo(),
         ['prompt'=>Module::t('default','SELECT'), 'id' => 'company_id']
-)?>
+    )?>
+<?php endif;?>
+<?php if ($model->scenario != Officer::SCENARIO_LITE):?>
+
 <?=$form->field($model,'division_id')->widget(DepDrop::class,[
 
     'type' => DepDrop::TYPE_SELECT2,
@@ -45,6 +52,7 @@ use vova07\users\models\Officer;
         'placeholder' => Module::t('default','SELECT_DIVISIONS'),
     ],
 ]) ?>
+<?php endif?>
 <?php if (!$model->isNewRecord):?>
 
 
@@ -73,17 +81,19 @@ use vova07\users\models\Officer;
 <?php endif?>
 
 
-<?=$form->field($model,'rank_id')->dropDownList(Rank::getListForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
 
 <?php if (!$model->isNewRecord):?>
 
    <?=$form->field($model->person,'__ident_id')->hiddenInput()?>
 <?php endif;?>
-<?=$form->field($model->person,'first_name')?>
 <?=$form->field($model->person,'second_name')?>
+<?=$form->field($model->person,'first_name')?>
 <?=$form->field($model->person,'patronymic')?>
-<?php if ($model->scenario != Officer::SCENARIO_LITE):?>
 <?=$form->field($model->person,'birth_year')?>
+<?=$form->field($model,'rank_id')->dropDownList(Rank::getListForCombo(),['prompt'=>Module::t('default','SELECT_RANK')])?>
+
+
+<?php if ($model->scenario != Officer::SCENARIO_LITE):?>
 <?=$form->field($model->person,'photo_url')?>
 <?php //echo $form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
 <?=$form->field($model->person,'address')?>

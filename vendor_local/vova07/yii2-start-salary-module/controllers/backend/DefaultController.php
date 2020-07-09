@@ -39,7 +39,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
+                'actions' => ['index', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
         ];
@@ -183,4 +183,27 @@ class DefaultController extends BackendController
         }
         return $this->goBack();
     }
+
+
+    public function actionPrintReceipt($at = null)
+    {
+        if (is_null($at)){
+            $date = new \DateTime();
+        } else {
+            $date = \DateTime::createFromFormat('Y-m-01', $at);
+        }
+        $year = $date->format('Y');
+        $month_no = $date->format('m');
+
+
+        if (is_null($salaryIssue = SalaryIssue::findOne(compact('year', 'month_no'))))
+            $salaryIssue = new SalaryIssue(['year' => $year, 'month_no' => $month_no]);
+
+        $salaryIssue->validate();//for default values
+        $dataProvider = new ActiveDataProvider(
+            ['query' => $salaryIssue->getWithHolds()]
+        );
+        return $this->render("print_receipt", ['salaryIssue' => $salaryIssue, 'dataProvider' => $dataProvider]);
+    }
+
 }

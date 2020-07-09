@@ -49,13 +49,15 @@ class SalaryWithHold extends  Ownableitem
             [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
                 return $model->calculateLaborUnion() ;
             }],
+            [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
+                return $model->calculateLaborUnion() ;
+            }],
             [['amount_pension',
                 'amount_income_tax',
                 'amount_execution_list',
                 'amount_labor_union',
                 'amount_sick_list',
                 'amount_card',
-
             ], 'number']
         ];
     }
@@ -185,10 +187,10 @@ class SalaryWithHold extends  Ownableitem
     public function attributeLabels()
     {
         return [
-            'amount_pension' => Module::t('default', 'AMOUNT_PENSION_LABEL'),
+            'amount_pension' => Module::t('default', 'AMOUNT_PENSION_LABEL {0}%', self::WIHTHOLD_PENSION),
             'amount_income_tax' => Module::t('default', 'AMOUNT_INCOME_TAX_LABEL'),
             'amount_execution_list' => Module::t('default', 'AMOUNT_EXECUTION_LIST_LABEL'),
-            'amount_labor_union' => Module::t('default', 'AMOUNT_LABOR_UNION_LABEL'),
+            'amount_labor_union' => Module::t('default', 'AMOUNT_LABOR_UNION_LABEL {0}%', self::WITHHOLD_LABOR_UNION),
             'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
             'amount_card' => Module::t('default', 'AMOUNT_CARD_LABEL'),
             'total' => Module::t('default', 'TOTAL_LABEL'),

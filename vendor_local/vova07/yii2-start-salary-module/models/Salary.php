@@ -215,7 +215,7 @@ class Salary extends  Ownableitem
         $salaryClass = SalaryClass::findOne($resultSalaryClassid);
 
 
-        return self::SALARY_MIN_AMOUNT * $salaryClass->rate    ;
+        return ceil(self::SALARY_MIN_AMOUNT * $salaryClass->rate /10) * 10    ;
 
     }
 
@@ -281,8 +281,8 @@ class Salary extends  Ownableitem
             'base_rate' => Module::t('default', 'BASE_RATE_LABEL'),
             'amount_rate' => Module::t('default', 'AMOUNT_RATE_LABEL'),
             'amount_rank_rate' => Module::t('default', 'AMOUNT_RANK_RATE_LABEL'),
-            'amount_conditions' => Module::t('default', 'AMOUNT_CONDITIONS_LABEL'),
-            'amount_advance' => Module::t('default', 'AMOUNT_ADVANCE_LABEL'),
+            'amount_conditions' => Module::t('default', 'AMOUNT_CONDITIONS_LABEL {0}% ', self::CHARGE_SPECIFIC_CONDITIONS_PERCENT),
+            'amount_advance' => Module::t('default', 'AMOUNT_ADVANCE_LABEL {0}%', self::CHARGE_ADVANCE_PERCENT),
             'amount_optional' => Module::t('default', 'AMOUNT_OPTIONAL_LABEL'),
             'amount_diff_sallary' => Module::t('default', 'AMOUNT_DIFF_SALLARY_LABEL'),
             'amount_additional' => Module::t('default', 'AMOUNT_ADDITIONAL_LABEL'),
