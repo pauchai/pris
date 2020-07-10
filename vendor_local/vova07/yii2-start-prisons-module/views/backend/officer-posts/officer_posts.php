@@ -31,9 +31,9 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?php \yii\widgets\Pjax::begin()?>
+<?php //\yii\widgets\Pjax::begin()?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-    //'pjax' => true,
+    'pjax' => true,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
@@ -120,6 +120,11 @@ $this->params['breadcrumbs'] = [
         'officerPost.benefitClass.title',
         [
             'class' => \kartik\grid\BooleanColumn::class,
+            'attribute' => 'officerPost.isMain',
+        ],
+
+        [
+            'class' => \kartik\grid\BooleanColumn::class,
             'attribute' => 'officerPost.full_time',
         ],
         'officerPost.title',
@@ -129,7 +134,7 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 <?=Html::a('',['/users/officers/create-lite'],['class' => 'fa fa-plus'])?>
-<?php \yii\widgets\Pjax::end()?>
+<?php //\yii\widgets\Pjax::end()?>
 <?php Box::end()?>
 
 

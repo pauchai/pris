@@ -3,6 +3,7 @@ use kartik\form\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
 use kartik\depdrop\DepDrop;
+use yii\helpers\ArrayHelper;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\backend\PostSearch
@@ -64,14 +65,8 @@ $createParam[0] = 'create';
         [
           'header' => '',
           'content' => function($model){
-              $officerMainPost = $model->officer->officerPost;
-              if (isset($officerMainPost) &&
-                $officerMainPost->officer_id == $model->officer_id &&
-                  $officerMainPost->company_id == $model->company_id &&
-                  $officerMainPost->division_id == $model->division_id &&
-                  $officerMainPost->postdict_id == $model->postdict_id
 
-              )
+              if (ArrayHelper::getValue($model,'isMain') === true )
                     return Html::tag('i',
                             '',
                         [

@@ -136,6 +136,19 @@ class OfficerPost extends  ActiveRecordMetaModel
         ]));
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsMain()
+    {
+        $officerMainPost =  $this->officer->officerPost;
+
+       return isset($officerMainPost) &&
+            $officerMainPost->officer_id == $this->officer_id &&
+            $officerMainPost->company_id == $this->company_id &&
+            $officerMainPost->division_id == $this->division_id &&
+            $officerMainPost->postdict_id == $this->postdict_id;
+    }
 
 
 }
