@@ -14,7 +14,7 @@ $this->params['subtitle'] = Module::t('default','CREATE_NEW_OFFICER');
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{cancel}'
+        'buttonsTemplate' => '{close}'
     ]
 );?>
 

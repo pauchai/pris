@@ -20,6 +20,7 @@ use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
@@ -58,7 +59,8 @@ class OfficerPostsController extends BackendController
     {
         $dataProvider = new ActiveDataProvider(
         [
-          'query' => OfficerPostView::find()->orderBy(['second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC])
+          'query' => OfficerPostView::find()->orderBy(['second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC]),
+            'pagination' => false
         ]
         );
         \Yii::$app->user->setReturnUrl(Url::current());
@@ -135,6 +137,9 @@ class OfficerPostsController extends BackendController
                 ]);
                 return $this->redirect(['officer-view', 'id'=>$model->primaryKey]);
 
+                //return Html::button('x',['class' => 'close', 'data-dismiss' => 'modal']);
+
+
             } else {
                 foreach($model->getErrorSummary(true) as $errorStr){
                     \Yii::$app->session->setFlash("error",$errorStr);
@@ -146,7 +151,7 @@ class OfficerPostsController extends BackendController
             $model->person->ident = new Ident();
         }
 
-        return $this->render("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
+        return $this->renderAjax("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
     }
     public function actionOfficerView($id)
     {
