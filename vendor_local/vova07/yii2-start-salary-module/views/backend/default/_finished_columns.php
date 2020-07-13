@@ -1,7 +1,10 @@
 <?php
 use \yii\helpers\ArrayHelper;
 ?>
-<?php echo \yii\bootstrap\Html::a('receipt', ['print-receipt'], ['class' => 'btn btn-success fa fa-credit-card']);?>
+<?php
+    $urlParams = ['print-receipt', 'at' => (new DateTime())->setDate($salaryIssue->year, $salaryIssue->month_no, '01')->format('Y-m-d')] ;
+    echo \yii\bootstrap\Html::a('receipt', $urlParams, ['class' => 'btn btn-success fa fa-credit-card']);
+    ?>
 <?php
 $columns =
     [
