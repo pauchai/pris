@@ -34,7 +34,7 @@ class SalaryIssue extends  Ownableitem
 {
     const STATUS_SALARY = 1;
     const STATUS_WITHHOLD = 2;
-    const STATUS_CARD  = 3;
+  //  const STATUS_CARD  = 3;
     const STATUS_FINISHED = 10;
 
     public $atFormat = 'Y-m-01';
@@ -130,7 +130,7 @@ class SalaryIssue extends  Ownableitem
         return [
             self::STATUS_SALARY => Module::t('labels', 'STATUS_SALARY_LABEL'),
             self::STATUS_WITHHOLD => Module::t('labels', 'STATUS_WITHHOLD_LABEL'),
-            self::STATUS_CARD => Module::t('labels', 'STATUS_CARD_LABEL'),
+         //   self::STATUS_CARD => Module::t('labels', 'STATUS_CARD_LABEL'),
 
             self::STATUS_FINISHED => Module::t('labels', 'STATUS_FINISHED_LABEL'),
         ];
@@ -215,15 +215,13 @@ class SalaryIssue extends  Ownableitem
              * @var $withHold SalaryWithHold
              */
 
-            $chargeAmount = 0;
-            foreach ($withHold->getSalaries()->all() as $salary){
-                /**
-                 * @var $salary Salary
-                 */
-                $chargeAmount += $salary->total;
-            }
+            $chargeAmount = $withHold->getSalaries()->totalAmount();
             $chargeAmount -= $withHold->total;
-          //  $withHold->amount_card = $chargeAmount;
+
+            $withHold->amount_card = $chargeAmount;
+            $withHold->save();
+
+            //  $withHold->amount_card = $chargeAmount;
             $remain = $chargeAmount - $withHold->amount_card;
             if ($remain <> 0){
                 if (is_null($balance = $withHold->balance))
@@ -299,8 +297,9 @@ class SalaryIssue extends  Ownableitem
         ){
             $this->generateWithHolds();
        //     $this->generateWithHolds();
-        } elseif ( ($this->status_id == self::STATUS_CARD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
-            $this->generateAmountCards();
+
+       // } elseif ( ($this->status_id == self::STATUS_CARD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
+        //    $this->generateAmountCards();
         }
         elseif ( ($this->status_id == self::STATUS_FINISHED) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
             $this->SalaryToBalance();

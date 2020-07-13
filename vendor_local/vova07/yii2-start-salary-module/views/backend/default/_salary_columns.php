@@ -103,7 +103,7 @@ $columns =
     ],
 
    ];
-    $attributes = ['amount_conditions', 'amount_advance', 'amount_optional', 'amount_diff_sallary', 'amount_additional', 'amount_maleficence', 'amount_vacation', 'amount_bonus'];
+    $attributes = ['amount_conditions', 'amount_advance', 'amount_optional', 'amount_diff_sallary', 'amount_additional', 'amount_maleficence', 'amount_vacation', 'amount_sick_list',  'amount_bonus'];
     foreach ($attributes as $attribute){
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,
@@ -129,10 +129,10 @@ $columns =
         'attribute' => 'total',
         'content' => function($model,$key, $index, $column)
         {
-            $attribute =  $column->attribute;
-            return round($model->$attribute,2);
+            $attribute =  $model->getTotal();
+            return round($attribute,2);
         }
     ];
-    $columns[] = 'balance.amount';
+
 
 return $columns;

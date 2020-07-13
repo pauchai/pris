@@ -40,9 +40,9 @@ $this->params['breadcrumbs'] = [
         } elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_WITHHOLD])){
             $columns = require("_withhold_columns.php");
             $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
-        }elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_CARD])){
-            $columns = require("_finished_columns.php");
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
+        //}elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_CARD])){
+        //    $columns = require("_finished_columns.php");
+        //    $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
         }  elseif (in_array($salaryIssue->status_id ,[ SalaryIssue::STATUS_FINISHED])){
             $columns = require("_finished_columns.php");
             $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);

@@ -38,7 +38,6 @@ $columns =
             }
 
         ],
-        'total',
         [
             'attribute' =>  'total',
             'content' => function($model){

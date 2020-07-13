@@ -52,9 +52,13 @@ $columns[] = [
         return round($model->$attribute,2);
     }
 ];
-    $columns[] =  'salaryBalance.amount';
-    $columns[] =  'balance.amount';
-$columns[] = 'officer.balance.remain';
+    $columns[] = [
+      'header' => "BANK",
+      'content' => function($model) {
+         return $model->amount_card = $model->getSalaries()->totalAmount() - $model->total;
+      }
+    ];
+
 
 
 
