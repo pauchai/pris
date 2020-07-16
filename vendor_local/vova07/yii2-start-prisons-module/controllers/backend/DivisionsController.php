@@ -102,7 +102,32 @@ class DivisionsController extends BackendController
 
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
+    public function actionUpdate($company_id,$division_id)
+    {
+        if (is_null($model = Division::findOne(['company_id'=>$company_id, 'division_id'=>$division_id])))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        if (\Yii::$app->request->isPost){
 
+            if ($model->load(\Yii::$app->request->post()) && $model->validate()){
+                if ($model->save()){
+                    return $this->goBack();
+                };
+            };
+        }
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+    public function actionView($company_id,$division_id)
+    {
+        if (is_null($model = Division::findOne(['company_id'=>$company_id, 'division_id'=>$division_id])))
+        {
+
+            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+        };
+        return $this->render('view', ['model'=>$model]);
+    }
 
     public function actionDelete($company_id,$division_id)
     {

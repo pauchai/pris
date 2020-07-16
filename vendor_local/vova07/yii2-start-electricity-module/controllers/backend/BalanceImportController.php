@@ -142,7 +142,7 @@ class BalanceImportController extends BackendController
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
-    public function actionView($id)
+    public function actionView($company_id)
     {
         if (is_null($model = DeviceAccounting::findOne($id)))
         {

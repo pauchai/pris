@@ -135,9 +135,9 @@ class OfficerPostsController extends BackendController
                     'officer_id' => $model->primaryKey,
                     'company_id' => $model->company_id,
                 ]);
-                return $this->redirect(['officer-view', 'id'=>$model->primaryKey]);
+                //return $this->redirect(['officer-view', 'id'=>$model->primaryKey]);
 
-                //return Html::button('x',['class' => 'close', 'data-dismiss' => 'modal']);
+                return $this->renderAjax('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost] );
 
 
             } else {

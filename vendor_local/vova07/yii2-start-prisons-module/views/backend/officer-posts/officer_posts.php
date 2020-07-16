@@ -6,7 +6,8 @@ use kartik\grid\GridView;
 use yii\helpers\ArrayHelper;
 use vova07\themes\adminlte2\widgets\Box;
 use vova07\prisons\models\OfficerPost;
-use yii\bootstrap\Modal;
+use vova07\base\components\widgets\Modal;
+//use yii\bootstrap\Modal;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\backend\PostSearch
@@ -32,9 +33,9 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?php //\yii\widgets\Pjax::begin()?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'pjax' => true,
+    'options' => ['id' => 'grid_officer_posts'],
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
@@ -133,40 +134,24 @@ $this->params['breadcrumbs'] = [
 
     ]
 ])?>
+<?php $modal =  Modal::begin([
 
-
-<?=Html::a(Html::tag('span','',['class' => 'fa fa-plus']),
-    ['/prisons/officer-posts/officer-create'],
-    [
-    'title' => 'Create Officer',
-    'data-toggle'=>'modal',
-    'data-target'=>'#modal_create_officer1'
-    ])?>
-
-<div class="modal remote fade" id="modal_create_officer1">
-<div class="modal-dialog">
-    <div class="modal-content loader-lg ">
-    </div>
-</div>
-</div>
-
-
-<?php /*$modal =  Modal::begin([
-
-      'options' => ['id' => 'modal_create_officer', 'class' => 'remote'],
-      'toggleButton' => ['tag' => 'a',
-          'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/officer-create']),
-          'data-target' => '#modal_create_officer',
-          'label' => 'click me'],
-  ]);*/
+    'options' => [ 'id' => 'modal_create_officer1'],
+    'clientEvents' => ['hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}'],
+    'toggleButton' => ['tag' => 'a',
+        'title' => 'Create Officer',
+        'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/officer-create']),
+        'data-target' => '#modal_create_officer1',
+        'label' => 'click me'],
+]);
 ?>
+<?php  Modal::end();?>
 
 
 
- <?php // Modal::end();?>
 
 
-<?php //\yii\widgets\Pjax::end()?>
+
 <?php Box::end()?>
 
 
