@@ -92,7 +92,7 @@ class Modal extends Widget
         echo Html::beginTag('div', ['class' => 'modal-dialog ' . $this->size]) . "\n";
         echo $this->renderHeader() . "\n";
         echo $this->renderBodyBegin() . "\n";
-        echo Html::beginTag('div', ['class' => 'modal-content']) . "\n";
+        echo Html::beginTag('div', ['class' => 'modal-content loader-lg']) . "\n";
 
     }
 
@@ -108,8 +108,46 @@ class Modal extends Widget
         echo "\n" . Html::endTag('div'); // modal-dialog
         echo "\n" . Html::endTag('div');
 
-        //$this->registerPlugin('modal');
+      //  $this->registerPlugin('modal');
+
+
+        $modalId = $this->options['id'];
+
+        $js = <<<JS
+    
+        $("#$modalId").find('form').on('beforeSubmit', function (event) { 
+            event.preventDefault();            
+           
+            $.ajax({
+                   url: $("#$modalId").find('form').attr('action'), 
+                  // dataType: 'JSON',  
+                  // cache: false,
+                   //contentType: false,
+                 //  processData: false,
+                   data: $(event.target).serialize(), //$(this).serialize(),                      
+                   type: 'post',                        
+                   beforeSend: function() {
+                      // alert('beforeSend')
+                   },
+                   success: function(response){                      
+                       $("#$modalId").modal('hide'); 
+                      // $('#addContactFormModel').modal('hide');
+                   },
+                   complete: function() {
+                      // alert('complete')
+                   },
+                   error: function (data) {
+                        //alert('error');
+                   }
+                });                
+            return false;
+        });
+    
+JS;
+        $this->clientEvents['loaded.bs.modal'] = 'function(e){' . $js . '}';
         $this->registerClientEvents();
+
+
     }
 
     /**

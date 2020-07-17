@@ -14,7 +14,9 @@ use yii\helpers\ArrayHelper;
 ?>
 
 
-<?php $form = ActiveForm::begin(['method' => 'POST'])?>
+<?php $form = ActiveForm::begin([
+    //    'enableClientValidation' => true,
+    'method' => 'POST'])?>
 <?=$form->field($model,'officer_id')->hiddenInput()->label(ArrayHelper::getValue($model,'officer.person.fio'))?>
 <?=$form->field($model,'company_id',['inputOptions' => ['id' => 'company_id']])->hiddenInput()->label(ArrayHelper::getValue($model,'company.title'))?>
 

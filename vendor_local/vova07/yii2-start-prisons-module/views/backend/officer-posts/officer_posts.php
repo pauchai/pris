@@ -40,63 +40,54 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         [
           'attribute' =>  'officer.person.fio',
-          'format' => 'html',
-
-          'content' => function($model){
-              /**
-               * @var $model \vova07\prisons\models\OfficerPostView
-               */
 
 
-              ob_start();
-              $paramUrl  = ['/users/officers/delete', 'id' => $model->officer->primaryKey];
-              $form = ActiveForm::begin([
-                  'action' => $paramUrl,
-                  'method' => 'post',
-                  'type' => 'inline'
-              ]);
-              echo  Html::submitButton('', ['class' => 'fa fa-minus']);
 
-              ActiveForm::end();
-              $deleteForm = ob_get_contents();
-              ob_end_clean();
-
-                return $deleteForm . Html::a(ArrayHelper::getValue($model,'officer.person.fio'),
-                    ['/users/officers/view',
-                        'id' => $model->officer->primaryKey,
-
-                    ]);
-            },
              'group' => true,
         'groupedRow' => true,
-      //  'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
-      //  'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+        'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+        'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
             'groupFooter' => function ($model){
-                $officerPostNew = new OfficerPost($model->getAttributes(['officer_id', 'company_id']));
 
                 ob_start();
-                $form = ActiveForm::begin([
-                    'action' => ['create'],
-                    'method' => 'post',
-                    'type' => 'inline'
-                ]);
-                echo $form->field($officerPostNew, 'officer_id')->hiddenInput();
-                echo $form->field($officerPostNew, 'company_id')->hiddenInput();
-                echo  Html::submitButton('', ['class' => 'fa fa-plus']);
+              $modal =  Modal::begin([
 
-                ActiveForm::end();
-                $newForm = ob_get_contents();
+    'options' => [ 'id' => 'modal_create_post' . $model->officer_id],
+    'clientEvents' => [
+        'hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}',
+        //'loaded.bs.modal' => <<<function(e){$("#modal_create_officer").find("form").);}'
+    ],
+    'toggleButton' => ['tag' => 'a',
+        'title' => 'Create Post',
+        'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id]),
+        'data-target' => '#modal_create_post' . $model->officer_id,
+        'label' => 'CREATE POST'],
+]);
+
+ Modal::end();
+
+                $modalContent = ob_get_contents();
                 ob_end_clean();
+
+                $deleteButton = Html::a('DELETE OFFICER',['/users/officers/delete' , 'id' => $model->officer_id,
+                    'class' => 'fa fa-trash'],
+                    [
+                 'title' => "Delete officer",
+                  'aria-label'=> "Delete officer",
+                  'data-pjax' => "0",
+                   'data-method' => "post",
+                   'data-confirm' =>"Are you sure to delete this item?"
+                ]);
 
     return [
     //'mergeColumns' => [[2,3]], // columns to merge in summary
 
     'content' => [             // content to show in each summary cell
 
-        // 2 => GridView::F_SUM,
+         2 => $deleteButton,
         //   3 => GridView::F_SUM,
-        3 => $newForm,
+        3 => $modalContent,
         //4 => GridView::F_SUM,
 
     ],
@@ -129,23 +120,32 @@ $this->params['breadcrumbs'] = [
             'class' => \kartik\grid\BooleanColumn::class,
             'attribute' => 'officerPost.full_time',
         ],
-        'officerPost.title',
+        //'officerPost.title',
+        [
+            'class' => \kartik\grid\ActionColumn::class,
+            'template' => "{update}{delete}"
 
+        ]
 
-    ]
+    ],
+
 ])?>
 <?php $modal =  Modal::begin([
 
-    'options' => [ 'id' => 'modal_create_officer1'],
-    'clientEvents' => ['hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}'],
+    'options' => [ 'id' => 'modal_create_officer'],
+    'clientEvents' => [
+        'hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}',
+        //'loaded.bs.modal' => <<<function(e){$("#modal_create_officer").find("form").);}'
+    ],
     'toggleButton' => ['tag' => 'a',
         'title' => 'Create Officer',
         'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/officer-create']),
-        'data-target' => '#modal_create_officer1',
-        'label' => 'click me'],
+        'data-target' => '#modal_create_officer',
+        'label' => 'CREATE OFFICER'],
 ]);
 ?>
 <?php  Modal::end();?>
+
 
 
 

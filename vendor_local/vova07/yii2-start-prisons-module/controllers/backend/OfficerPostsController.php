@@ -70,20 +70,24 @@ class OfficerPostsController extends BackendController
 
     }
 
-    public function actionCreate()
+    public function actionCreate($company_id, $officer_id)
     {
 
-        $model = new OfficerPost();
+        $model = new OfficerPost([
+            'company_id' => $company_id,
+            'officer_id' => $officer_id
+        ]);
+
 
         if (\Yii::$app->request->isPost){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->goBack();
+                return true;
             }
         }
 
 
-        return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+        return $this->renderAjax("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
     public function actionUpdate($officer_id,$company_id,$division_id, $postdict_id)
@@ -163,7 +167,7 @@ class OfficerPostsController extends BackendController
             'officer_id' => $model->primaryKey,
             'company_id' => $model->company_id,
         ]);
-        return $this->render('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost]);
+        return $this->renderAjax('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost]);
     }
 
 

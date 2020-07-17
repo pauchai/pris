@@ -53,7 +53,16 @@ class OfficerPostView extends  ActiveRecord
             'company_id' => 'company_id',
             'division_id' => 'division_id',
             'postdict_id'=>'postdict_id'
-        ]);    }
+        ]);
+    }
+
+    public static function primaryKey()
+    {
+        return [
+            'company_id', 'officer_id', 'division_id', 'postdict_id'
+        ] ;
+    }
+
 
 
 
