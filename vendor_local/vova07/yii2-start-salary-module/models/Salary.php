@@ -52,7 +52,7 @@ class Salary extends  Ownableitem
     {
         return [
             'amount_rate',
-           // 'amount_rank_rate',
+            'amount_rank_rate',
         'amount_conditions',
         'amount_advance',
         'amount_optional',
