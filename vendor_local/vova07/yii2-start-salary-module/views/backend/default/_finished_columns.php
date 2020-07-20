@@ -59,22 +59,9 @@ $columns =
         ],
 
         [
-            'class' => kartik\grid\EditableColumn::class,
+          //  'class' => kartik\grid\EditableColumn::class,
             'attribute' => 'amount_card',
-            'refreshGrid' => true,
-            'editableOptions' =>  function ($model, $key, $index){
-                return [
 
-                    'formOptions' => [
-                        'action' => ['change-withhold-column']
-                    ],
-                ];
-            },
-            'content' => function($model,$key, $index, $column)
-            {
-                $attribute =  $column->attribute;
-                return round($model->$attribute,2);
-            }
         ]
 
     ];

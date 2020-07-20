@@ -31,8 +31,7 @@ use lajax\translatemanager\widgets\ToggleTranslate;
     </section>
     <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
         [
-
-            'buttonsTemplate' => '{print}'
+                'buttonsTemplate' => '{print}'
         ]
 
     );?>

@@ -1,10 +1,13 @@
 <?php
+
+use kartik\grid\GridView;
 $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
 
     [
         'attribute' => 'officer.person.fio',
+
         'format' => 'html',
         'content' =>  function($model,$index,$key){
             $content = \yii\bootstrap\Html::a(
@@ -18,37 +21,13 @@ $columns =
         },
 
         'group' => true,
-        'groupedRow' => true,
+        //'groupedRow' => true,
         'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
         'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
         'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
 
 
-            return [
-                'mergeColumns' => [[2,14]], // columns to merge in summary
 
-                'content' => [             // content to show in each summary cell
-                    2 => \vova07\salary\Module::t('default','TOTAL_TITLE'),
-                    // 2 => GridView::F_SUM,
-                    //   3 => GridView::F_SUM,
-                    15 => \kartik\grid\GridView::F_SUM,
-
-
-
-                ],
-                'contentFormats' => [      // content reformatting for each summary cell
-                    //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
-                    //    3 => ['format' => 'number', 'decimals' => 2],
-                    15 => ['format' => 'number', 'decimals' => 2],
-                ],
-                'contentOptions' => [      // content html attributes for each summary cell
-                    2 => ['style' => 'text-align:right'],
-                    15 => ['style' => 'text-align:center'],
-
-                ],
-                // html attributes for group summary row
-                'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
-            ];
         }
     ],
     [
@@ -66,6 +45,7 @@ $columns =
     [
         'class' => kartik\grid\EditableColumn::class,
         'attribute' => 'work_days',
+        'hAlign' => GridView::ALIGN_CENTER,
         'refreshGrid' => true,
         'editableOptions' =>  function ($model, $key, $index){
 
@@ -78,7 +58,9 @@ $columns =
         },
     ],
         [
+
             'attribute' => 'base_rate',
+            'hAlign' => GridView::ALIGN_CENTER,
             'content' => function($model,$key, $index, $column)
             {
                 $attribute =  $column->attribute;
@@ -87,6 +69,8 @@ $columns =
         ],
     [
         'attribute' => 'amount_rate',
+        'hAlign' => GridView::ALIGN_CENTER,
+
         'content' => function($model,$key, $index, $column)
         {
             $attribute =  $column->attribute;
@@ -95,6 +79,8 @@ $columns =
     ],
     [
         'attribute' => 'amount_rank_rate',
+        'hAlign' => GridView::ALIGN_CENTER,
+
         'content' => function($model,$key, $index, $column)
         {
             $attribute =  $column->attribute;
@@ -107,6 +93,8 @@ $columns =
     foreach ($attributes as $attribute){
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,
+            'hAlign' => GridView::ALIGN_CENTER,
+
             'attribute' => $attribute,
             'refreshGrid' => true,
             'editableOptions' =>  function ($model, $key, $index){
@@ -120,13 +108,16 @@ $columns =
             'content' => function($model,$key, $index, $column)
             {
                 $attribute =  $column->attribute;
-                return round($model->$attribute,2);
+
+                return round(\yii\helpers\ArrayHelper::getValue($model, $attribute, 0),2);
             }
         ];
     }
 
     $columns[] = [
         'attribute' => 'total',
+        'hAlign' => GridView::ALIGN_CENTER,
+
         'content' => function($model,$key, $index, $column)
         {
             $attribute =  $model->getTotal();

@@ -27,8 +27,8 @@ $this->params['breadcrumbs'] = [
 
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
-        'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{create}'
+       // 'title' => $this->params['subtitle'],
+       // 'buttonsTemplate' => '{create}'
     ]
 
 );?>
@@ -51,7 +51,10 @@ $this->params['breadcrumbs'] = [
     ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-    'floatHeader' => true,
+        'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
+        //'emptyCell' => '',
+
+   // 'floatHeader' => true,
     'pjax' => true,
     'columns' => $columns
 

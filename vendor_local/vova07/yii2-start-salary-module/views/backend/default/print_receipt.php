@@ -15,9 +15,10 @@ $this->registerCss(<<<CSS
         margin: 3mm;
         }
     body{
-    font-size:9px
+    font-size:9px !important;
     }
     table ,table td{
+    font-size:10px !important;
         border-width:1px;
         border-style: solid;
     }

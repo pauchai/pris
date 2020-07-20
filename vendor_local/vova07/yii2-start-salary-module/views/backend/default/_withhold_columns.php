@@ -1,4 +1,6 @@
 <?php
+use kartik\grid\GridView;
+
 $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
@@ -27,6 +29,8 @@ $columns =
     foreach ($attributes as $attribute){
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,
+            'hAlign' => GridView::ALIGN_CENTER,
+
             'attribute' => $attribute,
             'refreshGrid' => true,
             'editableOptions' =>  function ($model, $key, $index){
@@ -46,6 +50,8 @@ $columns =
     }
 $columns[] = [
     'attribute' => 'total',
+    'hAlign' => GridView::ALIGN_CENTER,
+
     'content' => function($model,$key, $index, $column)
     {
         $attribute =  $column->attribute;
@@ -54,7 +60,9 @@ $columns[] = [
 ];
     $columns[] = [
       'header' => "BANK",
-      'content' => function($model) {
+        'hAlign' => GridView::ALIGN_CENTER,
+
+        'content' => function($model) {
          return $model->amount_card = $model->getSalaries()->totalAmount() - $model->total;
       }
     ];
