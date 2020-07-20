@@ -7,6 +7,9 @@ use yii\helpers\ArrayHelper;
 use vova07\themes\adminlte2\widgets\Box;
 use vova07\prisons\models\OfficerPost;
 use vova07\base\components\widgets\Modal;
+use lo\widgets\modal\ModalAjax;
+use yii\helpers\Url;
+
 //use yii\bootstrap\Modal;
 /**
  * @var $this \yii\web\View
@@ -33,6 +36,7 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
+<?=Html::a('CREATE OFFICER', ['/prisons/officer-posts/officer-create'], ['class' => 'btn-officer-new btn btn-success']) ?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'pjax' => true,
     'options' => ['id' => 'grid_officer_posts'],
@@ -44,38 +48,37 @@ $this->params['breadcrumbs'] = [
 
 
              'group' => true,
-        'groupedRow' => true,
+        //'groupedRow' => true,
         'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
         'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
             'groupFooter' => function ($model){
 
-                ob_start();
-              $modal =  Modal::begin([
+/*
 
-    'options' => [ 'id' => 'modal_create_post' . $model->officer_id],
-    'clientEvents' => [
-        'hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}',
-        //'loaded.bs.modal' => <<<function(e){$("#modal_create_officer").find("form").);}'
-    ],
-    'toggleButton' => ['tag' => 'a',
-        'title' => 'Create Post',
-        'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id]),
-        'data-target' => '#modal_create_post' . $model->officer_id,
-        'label' => 'CREATE POST'],
-]);
+                $modalContent = ModalAjax::widget([
+                    'id' => 'create_officer_post' . $model->officer->company_id,
+                    'header' => 'CREATE POST',
+                    'toggleButton' => [
+                        'label' => 'CREATE POST',
+                        'class' => 'btn btn-primary pull-right'
+                    ],
+                    'url' => Url::to(['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id]), // Ajax view with form to load
+                    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+                    'size' => ModalAjax::SIZE_SMALL,
+                    'options' => ['class' => 'header-primary'],
+                    'autoClose' => true,
+                    'pjaxContainer' => '#grid_officer_posts-pjax',
 
- Modal::end();
-
-                $modalContent = ob_get_contents();
-                ob_end_clean();
-
+                ]);*/
+                $modalContent = Html::a('CREATE POST', ['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id],
+                    ['class' => "btn btn-default btn_post_new btn-xs"]);
                 $deleteButton = Html::a('DELETE OFFICER',['/users/officers/delete' , 'id' => $model->officer_id,
-                    'class' => 'fa fa-trash'],
+                    'class' => 'btn btn-default btn-xs'],
                     [
                  'title' => "Delete officer",
                   'aria-label'=> "Delete officer",
-                  'data-pjax' => "0",
+                  'data-pjax' => '1',
                    'data-method' => "post",
                    'data-confirm' =>"Are you sure to delete this item?"
                 ]);
@@ -130,28 +133,47 @@ $this->params['breadcrumbs'] = [
     ],
 
 ])?>
-<?php $modal =  Modal::begin([
 
-    'options' => [ 'id' => 'modal_create_officer'],
-    'clientEvents' => [
-        'hidden.bs.modal' => 'function(e){$("#grid_officer_posts").yiiGridView("applyFilter");}',
-        //'loaded.bs.modal' => <<<function(e){$("#modal_create_officer").find("form").);}'
-    ],
-    'toggleButton' => ['tag' => 'a',
-        'title' => 'Create Officer',
-        'href' =>  \yii\helpers\Url::to(['/prisons/officer-posts/officer-create']),
-        'data-target' => '#modal_create_officer',
-        'label' => 'CREATE OFFICER'],
-]);
-?>
-<?php  Modal::end();?>
+<?=Html::a('CREATE OFFICER', ['/prisons/officer-posts/officer-create'], ['class' => 'btn-officer-new btn btn-success']) ?>
+
+<?php
+echo ModalAjax::widget([
+    'id' => 'create-officer',
+    'header' => 'CREATE OFFICER',
+    'selector' => 'a.btn-officer-new', // all buttons in grid view with href attribute
+
+ //   'toggleButton' => [
+ //       'label' => 'CREATE OFFICER',
+ //       'class' => 'btn btn-primary pull-right'
+ //   ],
+  //  'url' => Url::to(['/prisons/officer-posts/officer-create']), // Ajax view with form to load
+    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+    'size' => ModalAjax::SIZE_LARGE,
+    'options' => ['class' => 'header-primary'],
+    'autoClose' => true,
+    'pjaxContainer' => '#grid_officer_posts-pjax',
+
+]);;?>
 
 
+<?php
+echo ModalAjax::widget([
+    'id' => 'create_button',
+    'selector' => 'a.btn_post_new', // all buttons in grid view with href attribute
+
+    'header' => 'Create Company',
+
+    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+    'size' => ModalAjax::SIZE_LARGE,
+    'options' => ['class' => 'header-primary'],
+    'autoClose' => true,
+    'pjaxContainer' => '#grid_officer_posts-pjax',
+
+]);;?>
 
 
+<div class="list-items">
 
-
+</div>
 
 <?php Box::end()?>
-
-

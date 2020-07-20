@@ -42,7 +42,8 @@
         "kartik-v/yii2-editable": "@dev",
         "bower-asset/rrule": "dev-master",
         "rlanvin/php-rrule": "dev-master",
-        "kartik-v/yii2-mpdf": "dev-master"
+        "kartik-v/yii2-mpdf": "dev-master",
+        "loveorigami/yii2-modal-ajax": "@dev"
 
     },
     "require-dev": {

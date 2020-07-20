@@ -82,12 +82,24 @@ class OfficerPostsController extends BackendController
         if (\Yii::$app->request->isPost){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return true;
+                if (\Yii::$app->request->isAjax) {
+                    // JSON response is expected in case of successful save
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return ['success' => true];
+                }
+                return $this->goBack();
             }
         }
 
+        if (\Yii::$app->request->isAjax) {
+            return $this->renderAjax("create", ['model' => $model,'cancelUrl' => ['index']]);
 
-        return $this->renderAjax("create", ['model' => $model,'cancelUrl' => ['index']]);
+        } else {
+            return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+
+
+        }
+
     }
 
     public function actionUpdate($officer_id,$company_id,$division_id, $postdict_id)
@@ -113,6 +125,11 @@ class OfficerPostsController extends BackendController
 
         if ($model->delete()){
 
+            if (\Yii::$app->request->isPjax) {
+                // JSON response is expected in case of successful save
+                \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ['success' => true];
+            }
             return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
@@ -135,13 +152,15 @@ class OfficerPostsController extends BackendController
             // $model->loadRelations(\Yii::$app->request->post());
             //   $validatedModel = $model->validate();
             if ( $model->save()){
-                $newOfficerPost = new OfficerPost([
-                    'officer_id' => $model->primaryKey,
-                    'company_id' => $model->company_id,
-                ]);
-                //return $this->redirect(['officer-view', 'id'=>$model->primaryKey]);
 
-                return $this->renderAjax('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost] );
+
+                if (\Yii::$app->request->isAjax) {
+                    // JSON response is expected in case of successful save
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return ['success' => true];
+                }
+                return $this->goBack();
+
 
 
             } else {
@@ -155,7 +174,13 @@ class OfficerPostsController extends BackendController
             $model->person->ident = new Ident();
         }
 
-        return $this->renderAjax("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
+        if (\Yii::$app->request->isAjax) {
+            return $this->renderAjax("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
+
+        } else {
+            return $this->render("officer_create", ['model' => $model,'cancelUrl' => ['index']]);
+
+        }
     }
     public function actionOfficerView($id)
     {
