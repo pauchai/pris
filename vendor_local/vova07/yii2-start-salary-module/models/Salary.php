@@ -52,7 +52,7 @@ class Salary extends  Ownableitem
     {
         return [
             'amount_rate',
-            'amount_rank_rate',
+           // 'amount_rank_rate',
         'amount_conditions',
         'amount_advance',
         'amount_optional',
@@ -240,10 +240,19 @@ class Salary extends  Ownableitem
 
     public function calculateAmountRate()
     {
-        //$monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
+        $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
        // $monthDaysNumber = 22;
-        //return $this->base_rate / $monthDaysNumber * $this->work_days;
-        return $this->base_rate * $this->officerPost->getTimeRate() ;
+        //return $this->base_rate ;
+        return ($this->base_rate  ) * $this->officerPost->getTimeRate() / $monthDaysNumber * $this->work_days ;
+    }
+
+
+    public function calculateAmountRankRate()
+    {
+        $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
+        // $monthDaysNumber = 22;
+        //return $this->base_rate ;
+        return $this->officer->rank->rate * $this->officerPost->getTimeRate() / $monthDaysNumber * $this->work_days ;
     }
 
     public function calculateAmountCondition()
@@ -258,7 +267,9 @@ class Salary extends  Ownableitem
 
     public function reCalculate()
     {
+
         $this->amount_rate = $this->calculateAmountRate();
+        $this->amount_rank_rate = $this->calculateAmountRankRate();
         $this->amount_conditions = $this->calculateAmountCondition();
         $this->amount_advance = $this->calculateAmountAdvance();
     }
