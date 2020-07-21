@@ -36,6 +36,8 @@ $columns =
             'editableOptions' =>  function ($model, $key, $index){
                 return [
 
+                        'valueIfNull' => '0',
+
                     'formOptions' => [
                         'action' => ['change-withhold-column']
                     ],

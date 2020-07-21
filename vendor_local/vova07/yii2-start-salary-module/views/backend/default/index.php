@@ -51,7 +51,7 @@ $this->params['breadcrumbs'] = [
     ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-        'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
+       // 'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
         //'emptyCell' => '',
 
    // 'floatHeader' => true,

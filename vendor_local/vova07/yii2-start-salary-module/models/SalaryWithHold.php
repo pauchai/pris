@@ -43,6 +43,7 @@ class SalaryWithHold extends  Ownableitem
     public function rules()
     {
         return [
+
             [['amount_pension'],DefaultValueValidator::class, 'value' => function($model,$attribute){
                 return $model->calculatePension() ;
             }],
@@ -73,11 +74,11 @@ class SalaryWithHold extends  Ownableitem
                 'month_no' => $migration->tinyInteger(2)->notNull(),
                 'amount_pension' => $migration->double('2,2'),
                 'is_pension' => $migration->boolean()->defaultValue(true),
-                'amount_income_tax' => $migration->double('2,2'),
-                'amount_execution_list' => $migration->double('2,2'),
-                'amount_labor_union' => $migration->double('2,2'),
-                'amount_sick_list' => $migration->double('2,2'),
-                'amount_card' => $migration->double('2,2'),
+                'amount_income_tax' => $migration->decimal(10,2),
+                'amount_execution_list' => $migration->decimal(10,2),
+                'amount_labor_union' => $migration->decimal(10,2),
+                'amount_sick_list' => $migration->decimal(10,2),
+                'amount_card' => $migration->decimal(10,2),
                 'salary_balance_id' => $migration->integer(),
                 'balance_id' => $migration->integer(),
 
@@ -173,7 +174,13 @@ class SalaryWithHold extends  Ownableitem
 
 
     }
-
+    public function reCalculate($doSave = true)
+    {
+        $this->amount_pension = $this->calculatePension();
+        $this->amount_labor_union = $this->calculateLaborUnion();
+        if ($doSave)
+         $this->save();
+    }
     public function calculatePension()
     {
 

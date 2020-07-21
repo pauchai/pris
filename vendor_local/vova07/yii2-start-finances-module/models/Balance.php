@@ -18,6 +18,7 @@ use vova07\finances\Module;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -60,13 +61,14 @@ class Balance extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'type_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'category_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-                'amount' => Schema::TYPE_DOUBLE . "(2,2)",
+                'amount' => $migration->decimal(10,2),
                 'reason' => Schema::TYPE_STRING,
                 'at' => Schema::TYPE_DATE,
             ],

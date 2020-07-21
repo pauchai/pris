@@ -65,7 +65,7 @@ class Balance extends  Ownableitem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'category_id' => $migration->tinyInteger(3)->notNull(),
                 'officer_id' => $migration->integer()->notNull(),
-                'amount' => $migration->double('2,2'),
+                'amount' => $migration->decimal(10,2),
                 'reason' => $migration->string(),
                 'at' => Schema::TYPE_DATE,
             ],

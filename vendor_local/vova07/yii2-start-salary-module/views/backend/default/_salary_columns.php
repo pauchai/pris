@@ -99,7 +99,7 @@ $columns =
             'refreshGrid' => true,
             'editableOptions' =>  function ($model, $key, $index){
                 return [
-
+                    'valueIfNull' => '0',
                     'formOptions' => [
                         'action' => ['change-salary-column']
                     ],

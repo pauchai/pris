@@ -268,6 +268,7 @@ class SalaryIssue extends  Ownableitem
             if (is_null($withHold)){
                 $withHold = new SalaryWithHold($pk);
             }
+            $withHold->reCalculate(false);
             $withHold->save();
 
         }
