@@ -40,6 +40,10 @@ use yii\helpers\ArrayHelper;
 
 class Officer extends  OwnableItem
 {
+    const CATEGORY_ID_OFFICER = 1;
+    const CATEGORY_ID_SUB_OFFICER =2;
+    const CATEGORY_ID_CIVIL = 3;
+
     const SCENARIO_LITE = 'lite';
     use SaveRelationsTrait;
 
@@ -254,5 +258,14 @@ class Officer extends  OwnableItem
     public function getBalances()
     {
         return $this->hasOne(Balance::class, ['officer_id' => '__person_id']);
+    }
+
+    public static function getCategoriesForCombo()
+    {
+        return [
+            self::CATEGORY_ID_OFFICER => Module::t('default','CATEGORY_OFFICER_LABEL'),
+            self::CATEGORY_ID_SUB_OFFICER => Module::t('default','CATEGORY_SUB_OFFICER_LABEL'),
+            self::CATEGORY_ID_CIVIL => Module::t('default','CATEGORY_CIVIL_LABEL'),
+        ];
     }
 }

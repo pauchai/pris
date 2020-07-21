@@ -312,7 +312,7 @@ class Salary extends  Ownableitem
             'amount_vacation' => Module::t('default', 'AMOUNT_VACATION_LABEL'),
             'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
             'amount_bonus' => Module::t('default', 'AMOUNT_BONUS_LABEL'),
-            'total' => Module::t('default', 'TOTAL_LABEL'),
+            'total' => Module::t('default', 'TOTAL_CHARGE_LABEL'),
 
         ];
     }

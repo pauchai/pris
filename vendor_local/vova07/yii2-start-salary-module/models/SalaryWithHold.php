@@ -202,7 +202,7 @@ class SalaryWithHold extends  Ownableitem
             'amount_labor_union' => Module::t('default', 'AMOUNT_LABOR_UNION_LABEL {0}%', self::WITHHOLD_LABOR_UNION),
             'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
             'amount_card' => Module::t('default', 'AMOUNT_CARD_LABEL'),
-            'total' => Module::t('default', 'TOTAL_LABEL'),
+            'total' => Module::t('default', 'TOTAL_WITHHOLD_LABEL'),
             'salaryBalance.amount' => Module::t('default', 'SALARY_BALANCE_LABEL'),
             'balance.amount' => Module::t('default', 'BALANCE_LABEL'),
             'officer.balance.remain' => Module::t('default', 'OFFICER_BALANCE_REMAIN_LABEL'),
