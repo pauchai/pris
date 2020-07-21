@@ -26,7 +26,7 @@ $columns =
     ],
 
         [
-            'header' => 'salaries total amount',
+            'attribute' => 'chargesTotal',
             'content' => function($model){
                 /**
                  * @var $model \vova07\salary\models\SalaryWithHold
