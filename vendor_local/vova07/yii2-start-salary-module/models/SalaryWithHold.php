@@ -22,6 +22,7 @@ use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
 use vova07\salary\Module;
 use vova07\users\models\Officer;
+use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -174,6 +175,16 @@ class SalaryWithHold extends  Ownableitem
 
 
     }
+    public function getOfficerView()
+    {
+        return $this->hasOne(OfficerView::class,['__person_id'=>'officer_id']);
+    }
+
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id'=>'officer_id']);
+    }
+
     public function reCalculate($doSave = true)
     {
         $this->amount_pension = $this->calculatePension();

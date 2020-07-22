@@ -5,6 +5,15 @@ $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
 
+        [
+            'attribute' => 'officer.category',
+            'group' => true,
+            'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+
+
+    ],
     [
         'attribute' => 'officer.person.fio',
 
@@ -20,7 +29,7 @@ $columns =
             return $content;
         },
 
-        'group' => true,
+        //'group' => true,
         //'groupedRow' => true,
         'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
         'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
@@ -124,6 +133,7 @@ $columns =
             return round($attribute,2);
         }
     ];
+
 
 
 return $columns;

@@ -26,19 +26,26 @@ use yii\helpers\ArrayHelper;
 class Rank extends  ActiveRecordMetaModel
 {
 
-
-    public const RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE = 5;
-    public const RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE = 10;
-    public const RANK_COMISAR_PRINCIPAL_DE_JUSTITIE = 3;
-    public const RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE = 6;
-    public const RANK_AGENT_SEF_DE_JUSTITIE = 9;
-    public const RANK_AGENT_SUPERIOR_DE_JUSTITIE = 12;
     public const RANK_CHESTOR_DE_JUSTITIE = 1;
-    public const RANK_AGENT_PRINCIPAL_DE_JUSTITIE = 11;
     public const RANK_COMISAR_SEF_DE_JUSTITIE = 2;
+    public const RANK_COMISAR_PRINCIPAL_DE_JUSTITIE = 3;
     public const RANK_COMISAR_DE_JUSTITIE = 4;
+    public const RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE = 5;
+    public const RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE = 6;
     public const RANK_INSPECTOR_DE_JUSTITIE = 7;
     public const RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE = 8;
+    public const RANK_AGENT_SEF_DE_JUSTITIE = 9;
+    public const RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE = 10;
+    public const RANK_AGENT_PRINCIPAL_DE_JUSTITIE = 11;
+    public const RANK_AGENT_SUPERIOR_DE_JUSTITIE = 12;
+
+
+
+
+
+
+
+
 
     public static function tableName()
     {

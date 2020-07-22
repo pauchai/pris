@@ -4,7 +4,15 @@ use kartik\grid\GridView;
 $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
+        [
+            'attribute' => 'officer.category',
+            'group' => true,
+            'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
+
+        ],
     [
         'attribute' => 'officer.person.fio',
         'format' => 'html',

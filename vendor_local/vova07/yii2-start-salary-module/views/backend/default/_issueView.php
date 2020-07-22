@@ -27,11 +27,14 @@ JS
 
 
 <div class="row">
-    <div class="col-sm-3"><?php echo Html::a(Html::tag('i','',['class'=>'fa fa-chevron-left ']),\yii\helpers\Url::current($paramsPrevious))?>
-        <?php //echo $model->getDateTime()->format('M, Y')?>
+    <div class="col-sm-3">
+
+        <div class="form-control">
+            <?php echo Html::a(Html::tag('i','',['class'=>'fa fa-chevron-left ']),\yii\helpers\Url::current($paramsPrevious))?>
+            <?php //echo $model->getDateTime()->format('M, Y')?>
         <?php echo  Html::dropDownList('at',$model->at,Calendar::getListYearMonth($model->at),['id'=>'at'])?>
         <?php echo Html::a(Html::tag('i','',['class'=>'fa fa-chevron-right']),\yii\helpers\Url::current($paramsNext))?>
-
+        </div>
         <?php $form = ActiveForm::begin([
             'action' => ['index'],
             'layout' => 'inline',

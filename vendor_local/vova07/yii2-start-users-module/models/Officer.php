@@ -44,6 +44,29 @@ class Officer extends  OwnableItem
     const CATEGORY_ID_SUB_OFFICER =2;
     const CATEGORY_ID_CIVIL = 3;
 
+    const CATEGORY_RANKS = [
+        self::CATEGORY_ID_OFFICER  => [
+            Rank::RANK_CHESTOR_DE_JUSTITIE,
+            Rank::RANK_COMISAR_SEF_DE_JUSTITIE,
+            Rank::RANK_COMISAR_PRINCIPAL_DE_JUSTITIE,
+            Rank::RANK_COMISAR_DE_JUSTITIE,
+            Rank::RANK_INSPECTOR_PRINCIPAL_DE_JUSTITIE,
+            Rank::RANK_INSPECTOR_SUPERIOR_DE_JUSTITIE,
+            Rank::RANK_INSPECTOR_DE_JUSTITIE,
+
+        ],
+        self::CATEGORY_ID_SUB_OFFICER => [
+            Rank::RANK_AGENT_SEF_PRINCIPAL_DE_JUSTITIE,
+            Rank::RANK_AGENT_SEF_DE_JUSTITIE,
+            Rank::RANK_AGENT_SEF_ADJUNCT_DE_JUSTITIE,
+            Rank::RANK_AGENT_PRINCIPAL_DE_JUSTITIE,
+            Rank::RANK_AGENT_SUPERIOR_DE_JUSTITIE,
+        ],
+
+    ];
+
+
+
     const SCENARIO_LITE = 'lite';
     use SaveRelationsTrait;
 
@@ -267,5 +290,19 @@ class Officer extends  OwnableItem
             self::CATEGORY_ID_SUB_OFFICER => Module::t('default','CATEGORY_SUB_OFFICER_LABEL'),
             self::CATEGORY_ID_CIVIL => Module::t('default','CATEGORY_CIVIL_LABEL'),
         ];
+    }
+    public function getCategoryId()
+    {
+        if (is_null($this->rank_id))
+            return self::CATEGORY_ID_CIVIL;
+        else if (ArrayHelper::isIn($this->rank_id, self::CATEGORY_RANKS[self::CATEGORY_ID_OFFICER]))
+            return self::CATEGORY_ID_OFFICER;
+        else if (ArrayHelper::isIn($this->rank_id, self::CATEGORY_RANKS[self::CATEGORY_ID_SUB_OFFICER]))
+            return self::CATEGORY_ID_SUB_OFFICER;
+    }
+
+    public function getCategory()
+    {
+        return self::getCategoriesForCombo()[$this->getCategoryId()];
     }
 }

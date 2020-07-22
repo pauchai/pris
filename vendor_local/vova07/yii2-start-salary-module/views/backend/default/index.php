@@ -6,10 +6,13 @@
  * Time: 2:49 PM
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
+ * @var $salaryIssue SalaryIssue
  */
 use vova07\salary\Module;
 use kartik\grid\GridView;
 use vova07\salary\models\SalaryIssue;
+use vova07\users\models\OfficerView;
+use vova07\users\models\Person;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = Module::t("default","SALARY_CHARGES");
@@ -36,18 +39,38 @@ $this->params['breadcrumbs'] = [
     <?php
         if (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_SALARY])){
             $columns = require("_salary_columns.php");
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getSalaries()]);
+            $query = $salaryIssue->getSalaries();
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query]);
+
+                //$query->joinWith(['vw_officer' => function($query) { $query->from(['officerView' => OfficerView::tableName()]); }])->orderBy('vw_officer.category_rank_id');
+
+// добавляем сортировку по колонке из зависимости
+            //$dataProvider->sort->attributes['vw_officer.category_rank_id'] = [
+            //    'asc' => ['author.name' => SORT_ASC],
+            //    ’desc’ => [’author.name’ => SORT_DESC],
+            //];
+
         } elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_WITHHOLD])){
             $columns = require("_withhold_columns.php");
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
+            $query = $salaryIssue->getWithHolds();
+
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query]);
         //}elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_CARD])){
         //    $columns = require("_finished_columns.php");
         //    $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
         }  elseif (in_array($salaryIssue->status_id ,[ SalaryIssue::STATUS_FINISHED])){
             $columns = require("_finished_columns.php");
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
+            $query = $salaryIssue->getWithHolds();
+            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query ]);
         }
+    $query->joinWith(
+        [
+            'officerView' => function($query) { $query->from([OfficerView::tableName()]); },
+            'person' => function($query) { $query->from([Person::tableName()]); }
 
+            //'person' => function($query) { $query->from([Person::tableName()]); }
+        ]
+    )->orderBy('vw_officer.category_rank_id, person.second_name');
     ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
