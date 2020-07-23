@@ -10,7 +10,7 @@ $columns =
     [
     ['class' => yii\grid\SerialColumn::class],
         [
-            'attribute' => 'officer.category',
+            'attribute' => 'officer.rank.category',
             'group' => true,
             'groupedRow' => true,
             'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class

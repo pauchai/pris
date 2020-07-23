@@ -36,7 +36,8 @@ class BalanceByPrisonerWithCategoryView extends ActiveRecord
         $attributesArray = [
             'remain' => Module::t('default', 'REMAIN_LABEL'),
             'prisoner_id' => Module::t('labels','BALANCE_PRISONER_LABEL'),
-            'only_debt' => Module::t('labels','BALANCE_ONLY_DEBT_LABEL')
+            'only_debt' => Module::t('labels','BALANCE_ONLY_DEBT_LABEL'),
+            'prisoner.status_id' => Module::t('labels','PRISONER_STATUS_LABEL')
         ];
 
         $categories = BalanceCategory::find()->all();

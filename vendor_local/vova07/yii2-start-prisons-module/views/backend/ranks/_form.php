@@ -2,6 +2,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\prisons\Module;
+use vova07\prisons\models\Rank;
 use vova07\prisons\models\Division;
 use kartik\widgets\DepDrop;
 use \vova07\base\components\widgets\DepInput;
@@ -20,6 +21,10 @@ use \vova07\base\components\widgets\DepInput;
 <?=$form->field($model,'id')?>
 <?=$form->field($model,'title')?>
 <?=$form->field($model,'rate')?>
+<?=$form->field($model,'category_id')->dropDownList(Rank::getCategoriesForCombo(),
+    ['prompt' => '--']
+    )
+?>
 
 
 <?php $box->beginFooter();?>

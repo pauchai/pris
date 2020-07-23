@@ -1,6 +1,7 @@
 <?php
 namespace vova07\finances\models\backend;
 
+use vova07\base\components\DateConvertJuiBehavior;
 use vova07\electricity\models\Device;
 use vova07\electricity\models\DeviceAccounting;
 use vova07\finances\models\backend\BalanceByPrisonerView;
@@ -9,6 +10,7 @@ use vova07\jobs\Module;
 use vova07\users\models\Prisoner;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -24,16 +26,40 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
     public $only_debt = false;
     public $hasDevices;
     public $withoutJobs = false;
+    public $from;
+    public $to;
   //  public $sector_id;
 
     public function init()
     {
 
     }
+
+    public function behaviors()
+    {
+
+
+        return [
+            'fromJui' => [
+                'class' => DateConvertJuiBehavior::class,
+                'attribute' => 'from',
+                'juiAttribute' => 'fromJui'
+            ],
+            'toJui' => [
+                'class' => DateConvertJuiBehavior::class,
+                'attribute' => 'to',
+                'juiAttribute' => 'toJui'
+            ]
+        ];
+
+    }
+
     public function rules()
     {
         return [
-            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id' ,'hasDevices', 'withoutJobs'],'safe']
+            [['prisoner_id','only_debt','prisoner.sector_id','prisoner.status_id' ,'hasDevices', 'withoutJobs',
+            'fromJui', 'toJui'
+            ],'safe']
         ];
     }
     public function search($params)
@@ -43,7 +69,11 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query,
         ]);
-        $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
+        $query->joinWith([
+            'prisoner' => function($query) { $query->from([Prisoner::tableName()]);  },
+            ]);
+
+        $dataProvider->query->orderBy(['prisoner.sector_id' => SORT_ASC, 'fio'=>SORT_ASC]);
 
         $this->load($params);
         if (!$this->validate()) {
@@ -109,12 +139,16 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
             [
                 'hasDevices' => Module::t('default','HAS_DEVICE_LABEL'),
                 'withoutJobs' => Module::t('default','WITHOUT_JOBS_LABEL'),
+                'fromJui' => Module::t('default','REMAIN_FROM_JUI_LABEL'),
+                'toJui' => Module::t('default','REMAIN_TO_JUI_LABEL'),
             ]
         ) ;
 
 
 
     }
+
+
 
 
 }

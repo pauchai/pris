@@ -147,6 +147,7 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ELECTRICITY_BALANCE_IMPORT),
 
                             ],
+                            ['label' => Module::t('menu','BALANCE_RANG_LIST'),'icon' => 'circle','url'=>['/finances/default/depts-by-rang']],
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'ELECTRICITY_MENU'),'icon' => 'tv','url' => '#' ,

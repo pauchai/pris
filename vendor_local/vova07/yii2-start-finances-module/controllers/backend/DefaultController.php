@@ -7,6 +7,9 @@ use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
 use vova07\finances\Module;
+use vova07\users\models\backend\OfficerSearch;
+use vova07\users\models\backend\PrisonerSearch;
+use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
 use yii\data\ActiveDataProvider;
 
@@ -28,7 +31,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'view'],
+                'actions' => ['index', 'depts-by-rang', 'view'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_LIST_REMAIN_ONLY]
             ]
         ];
@@ -74,5 +77,16 @@ class DefaultController extends BackendController
          return $this->render("create_multiple", ['model' => $model,'cancelUrl' => ['index']]);
     }
 
+    public function actionDeptsByRang()
+    {
+        $searchModel = new BalanceByPrisonerWithCategoryViewSearch();
 
+        $searchModel->setAttribute('prisoner.status_id',   Prisoner::STATUS_ACTIVE );
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+
+       // if ($this->isPrintVersion)
+            $dataProvider->pagination->pageSize = false;
+        $dataProvider->sort = false;
+        return $this->render("depts_by_rang", ['dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
+    }
 }

@@ -46,6 +46,7 @@ $this->params['breadcrumbs'] = [
         'id',
         'title',
         'rate',
+        'category',
 
         [
             'class' => \yii\grid\ActionColumn::class,

@@ -132,9 +132,9 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 
         </td>
         <td width="50%">
-            <p style="font-size:140%; margin:0px" ><b><?=$officer->post?></b></p>
+            <p style="font-size:140%; margin:0px" ><b><?=$officer->post->title?></b></p>
 
-            <p  style="font-size:140%; "><?=$officer->rank?> _______________________________ <?=$officer->person->fio?></p>
+            <p  style="font-size:140%; "><?=$officer->rank->title?> _______________________________ <?=$officer->person->fio?></p>
         </td>
 
 </table>

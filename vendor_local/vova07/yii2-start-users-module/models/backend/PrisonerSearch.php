@@ -39,6 +39,7 @@ class PrisonerSearch extends \vova07\users\models\Prisoner
                 'cell_id' => $this->cell_id,
             ]
         );
+
         return $dataProvider;
 
     }
