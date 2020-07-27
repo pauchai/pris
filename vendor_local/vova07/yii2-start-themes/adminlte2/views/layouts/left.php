@@ -75,6 +75,11 @@ use vova07\site\Module;
                               'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
 
                           ],
+                          ['label' => Module::t('menu','REPORT'),'icon' => 'circle','url'=>['/users/report/prisoners'],
+                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+
+                          ],
+
                       ]
                     ],
                     ['label' => Module::t('menu','PRISONERS_SECURITY_LIST'),'icon' => 'hourglass','url'=>['/prisons/prisoner-security/index'],

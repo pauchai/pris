@@ -21,6 +21,8 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
     public $termFinishFrom, $termFinishTo;
     public $termUdoFrom, $termUdoTo;
     public $enabledSaveSearch = false;
+    public $birth_year_from;
+    public $birth_year_to;
 
     /**
      * @var boolean
@@ -36,6 +38,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
             [['__person_id','prison_id', 'status_id','sector_id','fio'],'safe'],
             [['status_id'],'default','value' => Prisoner::STATUS_ACTIVE],
             [['enabledSaveSearch', 'hasPsycho'],'boolean'],
+            [['birth_year_from', 'birth_year_to'], 'number']
         ];
     }
     public function searchFromSession()
@@ -55,7 +58,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
         ]);
-        $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
+        //$dataProvider->query->orderBy(['fio'=>SORT_ASC]);
         //$dataProvider->query->active();
 
         $this->load($params, $formName);
@@ -86,6 +89,9 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
 
         $dataProvider->query->andFilterWhere(['>=','term_udo',$this->termUdoFrom])
             ->andFilterWhere(['<=','term_udo',$this->termUdoTo]);
+
+        $dataProvider->query->andFilterWhere(['>=', 'birth_year', $this->birth_year_from]);
+        $dataProvider->query->andFilterWhere(['<=', 'birth_year', $this->birth_year_to]);
 
         if ($this->hasPsycho)
         {

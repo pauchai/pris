@@ -44,14 +44,24 @@ class PsyCharacteristic extends  Ownableitem
     public const  GROUP_2 = 2;
     public const  GROUP_3 = 2;
 
-
-
-
     public const RISK_LOW = 1;
     public const RISK_MEDIUM = 2;
     public const RISK_HIGH = 3;
 
+    public const FIEATURES_BY_GROUP = [
+        self::GROUP_1 => [
+            'feature_violent'
+        ],
+        self::GROUP_2 => [
+            'feature_self_torture',
+            'feature_sucide',
+        ],
+        self::GROUP_3 => [
+            'feature_addiction_alcohol',
+            'feature_addiction_drug',
+        ]
 
+    ];
 
 
     public static function tableName()
