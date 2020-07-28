@@ -80,6 +80,7 @@ use vova07\site\Module;
 
                           ],
 
+
                       ]
                     ],
                     ['label' => Module::t('menu','PRISONERS_SECURITY_LIST'),'icon' => 'hourglass','url'=>['/prisons/prisoner-security/index'],
@@ -194,7 +195,11 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','SUMMARIZED_PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/summarized/programs'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
 
-                        ]
+                            ['label' => Module::t('menu','PLANS_REPORT'),'icon' => 'circle','url'=>['/plans/report'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST),
+
+                            ],
+                            ]
                     ],
                     ['label' =>  Module::t('menu', 'PSYCHO_MENU'),'icon' => 'calendar-check','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PSYCHO_LIST),

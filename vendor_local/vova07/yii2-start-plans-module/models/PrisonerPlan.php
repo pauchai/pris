@@ -27,6 +27,7 @@ use yii\db\BaseActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
+use vova07\users\models\Officer;
 
 
 class PrisonerPlan extends  Ownableitem
@@ -47,7 +48,7 @@ class PrisonerPlan extends  Ownableitem
     {
         return [
             [['__prisoner_id','status_id'],'required'],
-            [['dateFinishedJui'],'date'],
+            [['assignedAtJui', 'dateFinishedJui'],'date'],
             [['status_id'],'default', 'value' => self::STATUS_ACTIVE]
         ];
     }
@@ -62,6 +63,8 @@ class PrisonerPlan extends  Ownableitem
         $metadata = [
             'fields' => [
                 $primaryName => Schema::TYPE_PK . ' ',
+                'assigned_to' => $migration->integer(),
+                'assigned_at' => $migration->bigInteger(),
                 'date_finished' => $migration->bigInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL',
             ],
@@ -73,6 +76,8 @@ class PrisonerPlan extends  Ownableitem
             ],
             'foreignKeys' => [
                 [self::class, $primaryName,Prisoner::class, Prisoner::primaryKey()],
+                [self::class, ['assigned_to'],Officer::class, Officer::primaryKey()]
+
 
             ],
 
@@ -104,6 +109,12 @@ class PrisonerPlan extends  Ownableitem
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'date_finished',
                 'juiAttribute' => 'dateFinishedJui'
+
+            ],
+            [
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'assigned_at',
+                'juiAttribute' => 'assignedAtJui'
 
             ]
         ]);
@@ -174,7 +185,8 @@ class PrisonerPlan extends  Ownableitem
 
     public function getStatus()
     {
-        return self::getStatusesForCombo()[$this->status_id];
+
+        return ArrayHelper::getValue(self::getStatusesForCombo(),$this->status_id);
     }
 
 }

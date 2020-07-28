@@ -58,10 +58,13 @@ $printUrlParams[0] = 'index-print';
 );?>
 
 <?php $box->beginBody();?>
+
 <?php echo \yii\widgets\DetailView::widget(
         [
            'model' => $prisonerPlan,
            'attributes' => [
+                   'assignedAtJui',
+                   'dateFinishedJui',
                    [
                            'attribute' => 'status_id',
                            'format' => 'html',
