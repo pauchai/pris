@@ -32,6 +32,8 @@ use yii\validators\DefaultValueValidator;
 class PsyTest extends  Ownableitem
 {
 
+    const STATUS_ID_SUCCESS = 1;
+    const STATUS_ID_REFUSED = 9;
 
     const STATUS_GREEN = 'success';
     const STATUS_BLUE = 'info';
@@ -49,7 +51,7 @@ class PsyTest extends  Ownableitem
     public function rules()
     {
         return [
-            [['prisoner_id', 'atJui'],'required'],
+            [['prisoner_id', 'atJui', 'status_id'],'required'],
 
 
         ];
@@ -66,6 +68,7 @@ class PsyTest extends  Ownableitem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'prisoner_id' => $migration->integer()->notNull(),
                 'at' => $migration->date()->notNull(),
+                'status_id' => $migration->tinyInteger()->notNull()
             ],
             'indexes' => [
                 [self::class, 'at'],
@@ -145,6 +148,19 @@ class PsyTest extends  Ownableitem
 
             return $res;
 
+     }
+
+     public static function getStatusesForCombo()
+     {
+         return [
+             self::STATUS_ID_SUCCESS => Module::t('default','STATUS_SUCCESS_LABEL'),
+             self::STATUS_ID_REFUSED => Module::t('default','STATUS_REFUSED_LABEL'),
+         ];
+     }
+
+     public function getStatus()
+     {
+         return ArrayHelper::getValue(self::getStatusesForCombo(), $this->status_id);
      }
 
 

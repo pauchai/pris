@@ -2,6 +2,8 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use vova07\psycho\Module;
+use vova07\psycho\models\PsyTest;
+use kartik\select2\Select2;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -25,6 +27,19 @@ use vova07\psycho\Module;
 
 <?php  echo $form->field($model,'prisonerFio')->staticControl()?>
 <?php  echo $form->field($model,'atJui')->widget(\kartik\date\DatePicker::class)?>
+<?php echo $form->field($model, 'status_id')->widget(Select2::class,
+    [
+
+        'data' => PsyTest::getStatusesForCombo(),
+        'options' => [
+            'placeholder' => Module::t('default','SELECT_STATUS_LABEL'),
+        ],
+        'pluginOptions' => [
+                'allowClear' => 'true'
+        ]
+    ]
+)
+?>
 
 <?php $box->beginFooter();?>
 <div class="form-group">

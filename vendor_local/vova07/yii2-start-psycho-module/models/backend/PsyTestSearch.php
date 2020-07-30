@@ -19,7 +19,7 @@ class PsyTestSearch extends PsyTest
     public function rules()
     {
         return [
-            [['atFrom', 'atTo','atFromJui','atToJui'], 'safe'],
+            [['prisoner_id', 'atFrom', 'atTo','atFromJui','atToJui'], 'safe'],
         ];
     }
 

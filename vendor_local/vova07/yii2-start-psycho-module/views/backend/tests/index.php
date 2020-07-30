@@ -12,6 +12,8 @@ use vova07\themes\adminlte2\widgets\Box;
 use kartik\grid\GridView;
 use yii\grid\SerialColumn;
 use vova07\psycho\Module;
+use yii\bootstrap\Html;
+use vova07\psycho\models\PsyTest;
 
 use vova07\tasks\models\Committee;
 
@@ -44,7 +46,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => SerialColumn::class],
         [
-            'attribute' => 'prisoner_id',
+            'attribute' => '__person_id',
             'value' => 'fullTitle',
             'filter' => \vova07\users\models\Prisoner::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
@@ -75,14 +77,23 @@ $this->params['breadcrumbs'] = [
                     $content = \yii\bootstrap\Html::a('',['create','prisoner_id'=>$model->primaryKey],['class' => 'fa fa-plus']);
                     foreach ($model->getTests()->fromTo($testSearch->atFrom, $testSearch->atTo)->all() as $key=>$test){
                         $buttonOptions = [
-                            'title' => $test->atJui,
+                            'title' => $test->atJui . ', ' . $test->status,
                             'aria-label' => $test->atJui,
                             'data-pjax' => '0',
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                             'data-method' => 'post',
                             'class' => 'label label-' . $test->getStatusGlyph(). ' fa fa-trash'
                         ];
-                        $content .= ' ' . \yii\bootstrap\Html::a( $test->atJui, ['delete','id'=>$test->primaryKey] ,$buttonOptions);                    }
+                        if ($test->status_id === PsyTest::STATUS_ID_SUCCESS)
+                            $glyphOptions = ['class' => 'fa fa-check'];
+                        else
+                            $glyphOptions = ['class' => 'fa fa-paper-plane'];
+                        $glyphSpan = ' ' . Html::tag('span', '', $glyphOptions);
+                        $content .= ' ' . Html::a( $test->atJui . ' ' . $glyphSpan, ['delete','id'=>$test->primaryKey] ,$buttonOptions);
+
+                    };
+
+
 
 
 

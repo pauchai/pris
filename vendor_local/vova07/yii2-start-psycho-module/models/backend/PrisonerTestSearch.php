@@ -23,12 +23,13 @@ class PrisonerTestSearch extends \vova07\users\models\backend\PrisonerViewSearch
 {
     const HASTEST_WITH_TEST = 1;
     const HASTEST_WITHOUT_TEST = 2;
+    const REFUSED_TEST = 9;
 
     public $hasTest ;
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(),[
-           [['hasTest'],'integer']
+           [[ 'hasTest'],'integer']
         ]);
     }
 
@@ -48,6 +49,9 @@ class PrisonerTestSearch extends \vova07\users\models\backend\PrisonerViewSearch
         } elseif ($this->hasTest == self::HASTEST_WITHOUT_TEST){
             $subQuery = PsyTest::find()->select('prisoner_id')->distinct();
             $dataProvider->query->andWhere(['not in','__person_id', $subQuery]);
+        } elseif ($this->hasTest == self::REFUSED_TEST){
+            $subQuery = PsyTest::find()->select('prisoner_id')->andWhere(['status_id' => PsyTest::STATUS_ID_REFUSED])->distinct();
+            $dataProvider->query->andWhere(['__person_id' => $subQuery]);
         }
         return $dataProvider;
     }
@@ -96,6 +100,7 @@ class PrisonerTestSearch extends \vova07\users\models\backend\PrisonerViewSearch
         return [
             self::HASTEST_WITH_TEST => Module::t('default', 'HASTEST_WITH_TEST'),
             self::HASTEST_WITHOUT_TEST => Module::t('default', 'HASTEST_WITHOUT_TEST'),
+            self::REFUSED_TEST => Module::t('default', 'REFUSED_TEST'),
 
         ];
     }
