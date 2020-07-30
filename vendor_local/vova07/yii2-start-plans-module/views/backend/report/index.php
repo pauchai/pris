@@ -1,5 +1,7 @@
 <?php
 use vova07\plans\models\PrisonerPlanView;
+use kartik\grid\GridView;
+use kartik\date\DatePicker;
 /**
  * Created by PhpStorm.
  * User: pauk
@@ -28,7 +30,7 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
@@ -39,7 +41,25 @@ $this->params['breadcrumbs'] = [
             'filter' => PrisonerPlanView::getStatusesForCombo(),
             'content' => function($model){return $model->status;}
         ],
-        'assigned_at:date',
+
+        [
+
+
+            'attribute' => 'assignedAtJui',
+            //'filterType' => GridView::FILTER_DATE_RANGE,
+            'filter' => DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'assignedAtFromJui',
+                'attribute2' =>'assignedAtToJui',
+                'type' => DatePicker::TYPE_RANGE,
+                'separator' => '-',
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'format' => 'dd-mm-yyyy']
+            ])
+        ],
+
+
         'date_finished:date'
 
 

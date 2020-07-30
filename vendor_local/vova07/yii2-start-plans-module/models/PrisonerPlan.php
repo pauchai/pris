@@ -105,13 +105,13 @@ class PrisonerPlan extends  Ownableitem
             $behaviors = [];
         }
         $behaviors = ArrayHelper::merge($behaviors,[
-            [
+            'dateFinishedJui' => [
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'date_finished',
                 'juiAttribute' => 'dateFinishedJui'
 
             ],
-            [
+            'assignedAtJui' => [
                 'class' => DateJuiBehavior::class,
                 'attribute' => 'assigned_at',
                 'juiAttribute' => 'assignedAtJui'
