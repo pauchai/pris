@@ -35,6 +35,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'fio',
+
         'prisoner.status',
         [
             'attribute' => 'status_id',

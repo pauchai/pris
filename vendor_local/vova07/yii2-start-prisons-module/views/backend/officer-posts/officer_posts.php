@@ -43,6 +43,75 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
+            'attribute' =>  'officer.rank.category',
+
+
+
+            'group' => true,
+            'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+
+            'groupFooter' => function ($model){
+
+                /*
+
+                                $modalContent = ModalAjax::widget([
+                                    'id' => 'create_officer_post' . $model->officer->company_id,
+                                    'header' => 'CREATE POST',
+                                    'toggleButton' => [
+                                        'label' => 'CREATE POST',
+                                        'class' => 'btn btn-primary pull-right'
+                                    ],
+                                    'url' => Url::to(['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id]), // Ajax view with form to load
+                                    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
+                                    'size' => ModalAjax::SIZE_SMALL,
+                                    'options' => ['class' => 'header-primary'],
+                                    'autoClose' => true,
+                                    'pjaxContainer' => '#grid_officer_posts-pjax',
+
+                                ]);*/
+                $modalContent = Html::a('CREATE POST', ['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id],
+                    ['class' => "btn btn-default btn_post_new btn-xs"]);
+                $deleteButton = Html::a('DELETE OFFICER',['/users/officers/delete' , 'id' => $model->officer_id,
+                    'class' => 'btn btn-default btn-xs'],
+                    [
+                        'title' => "Delete officer",
+                        'aria-label'=> "Delete officer",
+                        'data-pjax' => '1',
+                        'data-method' => "post",
+                        'data-confirm' =>"Are you sure to delete this item?"
+                    ]);
+
+                return [
+                    //'mergeColumns' => [[2,3]], // columns to merge in summary
+
+                    'content' => [             // content to show in each summary cell
+
+                        2 => $deleteButton,
+                        //   3 => GridView::F_SUM,
+                        3 => $modalContent,
+                        //4 => GridView::F_SUM,
+
+                    ],
+                    'contentFormats' => [      // content reformatting for each summary cell
+                        //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
+                        //    3 => ['format' => 'number', 'decimals' => 2],
+                        //3 => ['format' => 'number', 'decimals' => 2],
+                        //4 => ['format' => 'number', 'decimals' => 2]
+                    ],
+                    'contentOptions' => [      // content html attributes for each summary cell
+                        // 2 => ['style' => 'text-align:right'],
+                        //3 => ['style' => 'text-align:center'],
+
+                    ],
+                    // html attributes for group summary row
+                    'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
+                ];},
+
+        ],
+
+        [
           'attribute' =>  'officer.person.fio',
 
 
@@ -110,6 +179,7 @@ $this->params['breadcrumbs'] = [
 ];},
 
         ],
+
         'officerPost.company.title',
         'officerPost.division.title',
         'officerPost.postDict.title',

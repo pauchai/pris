@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\jobs\helpers\Calendar;
+use vova07\rbac\models\Rule;
 use vova07\salary\models\Salary;
 use vova07\salary\models\SalaryBenefit;
 use vova07\salary\models\SalaryClass;
@@ -61,6 +62,11 @@ class OfficerPostView extends  ActiveRecord
         return [
             'company_id', 'officer_id', 'division_id', 'postdict_id'
         ] ;
+    }
+
+    public function getRanks()
+    {
+        return $this->hasMany(Rank::class,['id' => 'rank_id']);
     }
 
 

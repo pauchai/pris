@@ -59,10 +59,15 @@ class OfficerPostsController extends BackendController
     {
         $dataProvider = new ActiveDataProvider(
         [
-          'query' => OfficerPostView::find()->orderBy(['second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC]),
+          'query' => OfficerPostView::find()
+              ->joinWith(['officer' => function($query) { $query->from(['officer']);}])
+              ->orderBy([ 'category_id' => SORT_ASC, 'second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC] ),
             'pagination' => false
         ]
         );
+
+
+
         \Yii::$app->user->setReturnUrl(Url::current());
 
         return $this->render("officer_posts", ['dataProvider'=>$dataProvider]);
