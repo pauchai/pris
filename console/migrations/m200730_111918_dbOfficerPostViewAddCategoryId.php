@@ -17,7 +17,7 @@ class m200730_111918_dbOfficerPostViewAddCategoryId extends Migration
      */
     public function safeUp()
     {
-         //$this->db->createCommand()->dropView(OfficerPostView::tableName())->execute();
+         $this->db->createCommand()->dropView(OfficerPostView::tableName())->execute();
 
         $this->createView();
     }
