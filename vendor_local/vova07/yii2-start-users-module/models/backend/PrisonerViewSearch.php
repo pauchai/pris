@@ -58,7 +58,7 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
         ]);
-        //$dataProvider->query->orderBy(['fio'=>SORT_ASC]);
+        $dataProvider->query->orderBy(['fio'=>SORT_ASC]);
         //$dataProvider->query->active();
 
         $this->load($params, $formName);
