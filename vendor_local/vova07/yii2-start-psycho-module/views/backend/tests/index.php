@@ -76,20 +76,29 @@ $this->params['breadcrumbs'] = [
             'content' => function($model)use($testSearch){
                     $content = \yii\bootstrap\Html::a('',['create','prisoner_id'=>$model->primaryKey],['class' => 'fa fa-plus']);
                     foreach ($model->getTests()->fromTo($testSearch->atFrom, $testSearch->atTo)->all() as $key=>$test){
-                        $buttonOptions = [
+                        $labelOptions = [
                             'title' => $test->atJui . ', ' . $test->status,
+                            'class' => 'label label-' . $test->getStatusGlyph()
+
+
+                        ];
+                        $buttonOptions = [
                             'aria-label' => $test->atJui,
                             'data-pjax' => '0',
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                             'data-method' => 'post',
-                            'class' => 'label label-' . $test->getStatusGlyph(). ' fa fa-trash'
+                            'class' => 'btn-xs btn btn-' . $test->getStatusGlyph(). ' glyphicon glyphicon-remove' ,
                         ];
                         if ($test->status_id === PsyTest::STATUS_ID_SUCCESS)
-                            $glyphOptions = ['class' => 'fa fa-check'];
+                            $statusOptions = ['class' => 'label fa fa-check  ' ];
                         else
-                            $glyphOptions = ['class' => 'fa fa-paper-plane'];
-                        $glyphSpan = ' ' . Html::tag('span', '', $glyphOptions);
-                        $content .= ' ' . Html::a( $test->atJui . ' ' . $glyphSpan, ['delete','id'=>$test->primaryKey] ,$buttonOptions);
+                            $statusOptions = ['class' => 'label bg-red fa fa-paper-plane '];
+
+                        $statusGlyph =  Html::tag('span', ' ', $statusOptions);
+                        $trashButton = Html::a(  '', ['delete','id'=>$test->primaryKey] ,$buttonOptions);
+                        $content .= Html::tag('span', $test->atJui . $statusGlyph . $trashButton,$labelOptions);
+
+
 
                     };
 
@@ -119,3 +128,4 @@ $this->params['breadcrumbs'] = [
 
 <?php  Box::end()?>
 
+<a class="glyphicon-floppy-remove"></a>
