@@ -42,7 +42,9 @@ $this->params['breadcrumbs'] = [
         if (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_SALARY])){
             $columns = require("_salary_columns.php");
             $query = $salaryIssue->getSalaries();
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query]);
+            $dataProvider = (new \yii\data\ActiveDataProvider(['query' => $query]));
+            $dataProvider->setPagination(false);
+
 
                 //$query->joinWith(['vw_officer' => function($query) { $query->from(['officerView' => OfficerView::tableName()]); }])->orderBy('vw_officer.category_rank_id');
 
@@ -75,10 +77,10 @@ $this->params['breadcrumbs'] = [
     )->orderBy('vw_officer.category_rank_id, person.second_name');
     ?>
 
-    <?php $form = ActiveForm::begin([
+    <?php/* $form = ActiveForm::begin([
         'action' => \yii\helpers\Url::to(array_merge(['mass-delete'], $salaryIssue->getAttributes(['year', 'month_no'])))
 
-    ]);
+    ]);*/
 
     ?>
 
@@ -94,8 +96,8 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 
-   <?= Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
-    <?php ActiveForm::end()?>
+   <?php // Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
+    <?php //ActiveForm::end()?>
 
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 
