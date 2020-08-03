@@ -47,8 +47,8 @@ $this->params['breadcrumbs'] = [
 
 
 
-            'group' => true,
-            'groupedRow' => true,
+            //'group' => true,
+            //'groupedRow' => true,
             'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
             'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
