@@ -134,6 +134,11 @@ $columns =
         }
     ];
     $columns[] = [
+
+        'class' =>  \kartik\grid\CheckboxColumn::class,
+
+    ];
+    $columns[] = [
       'class' => \kartik\grid\ActionColumn::class,
       'template' => "{delete}"
     ];

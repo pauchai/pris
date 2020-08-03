@@ -13,6 +13,8 @@ use kartik\grid\GridView;
 use vova07\salary\models\SalaryIssue;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Html;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = Module::t("default","SALARY_CHARGES");
@@ -73,6 +75,13 @@ $this->params['breadcrumbs'] = [
     )->orderBy('vw_officer.category_rank_id, person.second_name');
     ?>
 
+    <?php $form = ActiveForm::begin([
+        'action' => \yii\helpers\Url::to(array_merge(['mass-delete'], $salaryIssue->getAttributes(['year', 'month_no'])))
+
+    ]);
+
+    ?>
+
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
        // 'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
         //'emptyCell' => '',
@@ -85,6 +94,8 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 
+   <?= Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
+    <?php ActiveForm::end()?>
 
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 

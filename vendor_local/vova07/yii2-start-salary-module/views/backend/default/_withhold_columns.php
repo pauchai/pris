@@ -76,6 +76,15 @@ $columns[] = [
          return $model->amount_card = $model->getSalaries()->totalAmount() - $model->total;
       }
     ];
+   /* $columns[] =
+        [
+
+            'class' => \yii\grid\ActionColumn::class,
+            'template' => '{update}{delete}',
+            'visible' => !$this->context->isPrintVersion,
+        ];*/
+
+
     $columns[] = [
       'class' => \kartik\grid\ActionColumn::class,
         'template' => '{delete}',
@@ -100,7 +109,11 @@ $columns[] = [
         ]
     ];
 
+$columns[] = [
 
+    'class' =>  \kartik\grid\CheckboxColumn::class,
+
+];
 
 
 return $columns;
