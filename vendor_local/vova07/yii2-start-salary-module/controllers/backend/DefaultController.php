@@ -39,7 +39,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
+                'actions' => ['index', 'delete', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
         ];
@@ -130,7 +130,17 @@ class DefaultController extends BackendController
         return $this->render("index", ['salaryIssue' => $salaryIssue]);
     }
 
+    public function actionDelete($id)
+    {
 
+        if (is_null($model = Salary::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+        };
+        $model->delete();
+
+        return $this->goBack();
+    }
 
     public function actionView($id)
     {

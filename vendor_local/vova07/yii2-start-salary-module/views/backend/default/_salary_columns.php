@@ -133,6 +133,10 @@ $columns =
             return round($attribute,2);
         }
     ];
+    $columns[] = [
+      'class' => \kartik\grid\ActionColumn::class,
+      'template' => "{delete}"
+    ];
 
 
 
