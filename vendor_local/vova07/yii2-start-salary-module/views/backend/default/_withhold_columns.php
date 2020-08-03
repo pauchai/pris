@@ -76,6 +76,29 @@ $columns[] = [
          return $model->amount_card = $model->getSalaries()->totalAmount() - $model->total;
       }
     ];
+    $columns[] = [
+      'class' => \kartik\grid\ActionColumn::class,
+        'template' => '{delete}',
+        'buttons'   => [
+            'delete' =>  function ($url, $model) {
+                $name = 'delete';
+                $title = 'delete';
+
+              //  $opts = "{$name}Options";
+                $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
+                $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
+
+                $options['data-method'] = 'post';
+                $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
+
+
+               return \yii\bootstrap\Html::a('delete',
+                   \yii\helpers\Url::to(['/salary/with-hold/delete','officer_id' => $model->officer_id , 'year' => $model->year, 'month_no' => $model->month_no]),
+               $options
+               );
+            }
+        ]
+    ];
 
 
 
