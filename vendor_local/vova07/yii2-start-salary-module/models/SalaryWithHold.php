@@ -24,6 +24,7 @@ use vova07\salary\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
+use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -195,7 +196,10 @@ class SalaryWithHold extends  Ownableitem
     public function calculatePension()
     {
 
-        return  $this->getSalaries()->totalAmount() / 100 * self::WIHTHOLD_PENSION;
+        return  (
+                $this->getSalaries()->totalAmount() -
+                $this->getSalaries()->sum(new Expression('IFNULL(amount_sick_list, 0)'))
+            )  / 100 * self::WIHTHOLD_PENSION;
     }
     public function calculateLaborUnion()
     {
