@@ -100,6 +100,7 @@ use vova07\users\models\Officer;
 <?php endif?>
 <?=$form->field($model,'member_labor_union')->checkbox()?>
 
+<?=$form->field($model,'has_education')->checkbox()?>
 
 
 <?php $box->beginFooter();?>

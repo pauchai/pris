@@ -57,7 +57,7 @@ class Officer extends  OwnableItem
     {
         return [
             [['company_id'], 'required'],
-            [['member_labor_union'], 'boolean'],
+            [['member_labor_union', 'has_education'], 'boolean'],
             [['company_id', 'division_id', 'rank_id', 'postdict_id'], 'integer'],
 
 
@@ -84,6 +84,7 @@ class Officer extends  OwnableItem
                 'rank_id' => Schema::TYPE_TINYINT,
                 'postdict_id' => $migration->smallInteger()->notNull(),
                 'member_labor_union' => $migration->boolean()->notNull()->defaultValue(false),
+                'has_education' => $migration->boolean()->notNull()->defaultValue(false),
               //  'benefit_id' => $migration->tinyInteger(),
                 'status_id' => Schema::TYPE_TINYINT,
 

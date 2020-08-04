@@ -16,6 +16,7 @@ class m200709_104231_OfficerLaberUnionColumn extends Migration
 
         $this->addColumn(Officer::tableName(),  'member_labor_union',$this->boolean()->defaultValue(false));
 
+
     }
 
     /**
