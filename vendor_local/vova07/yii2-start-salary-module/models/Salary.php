@@ -40,7 +40,10 @@ class Salary extends  Ownableitem
     const WIHTHOLD_PENSION  = 6;
     const WITHHOLD_LABOR_UNION = 1;
 
+    const EDUCATION_SALARY_CLASS_ADDONS = 5;
     const SCENARIO_RECALCULATE = 'recalculate';
+
+
 
 
 
@@ -236,7 +239,7 @@ class Salary extends  Ownableitem
 
     public function calculateBaseRate()
     {
-        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class;
+        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class + $this->officer->has_education?self::EDUCATION_SALARY_CLASS_ADDONS:0;
         $salaryClass = SalaryClass::findOne($resultSalaryClassid);
 
 

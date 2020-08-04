@@ -77,12 +77,6 @@ $this->params['breadcrumbs'] = [
     )->orderBy('vw_officer.category_rank_id, person.second_name');
     ?>
 
-    <?php/* $form = ActiveForm::begin([
-        'action' => \yii\helpers\Url::to(array_merge(['mass-delete'], $salaryIssue->getAttributes(['year', 'month_no'])))
-
-    ]);*/
-
-    ?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
        // 'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
@@ -94,10 +88,6 @@ $this->params['breadcrumbs'] = [
 
 
 ])?>
-
-
-   <?php // Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
-    <?php //ActiveForm::end()?>
 
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 
