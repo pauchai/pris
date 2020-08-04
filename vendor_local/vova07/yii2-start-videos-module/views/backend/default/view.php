@@ -223,6 +223,16 @@ $(document).keydown(
            aPrev.click();
            
         }
+        if (e.keyCode == 32) {      
+           var video = document.getElementById('video');
+            if (video.paused || video.ended) {
+              video.play();
+             }
+           else {
+                video.pause();
+          }
+           
+        }
     }
 );
 
