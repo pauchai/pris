@@ -33,7 +33,10 @@ class DefaultController extends \yii\web\Controller
                         //print_r($_SESSION);
                         //phpinfo();
                         //exit;
-                        $this->redirect(['dash-board/index']);
+                        if (\Yii::$app->user->getReturnUrl())
+                            $this->redirect(\Yii::$app->user->getReturnUrl());
+                        else
+                            $this->redirect(['dash-board/index']);
                     }
                 }
             }
