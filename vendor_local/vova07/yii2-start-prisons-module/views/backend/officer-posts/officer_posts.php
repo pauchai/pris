@@ -9,6 +9,8 @@ use vova07\prisons\models\OfficerPost;
 use vova07\base\components\widgets\Modal;
 use lo\widgets\modal\ModalAjax;
 use yii\helpers\Url;
+use vova07\prisons\models\Rank;
+use kartik\widgets\Select2;
 
 //use yii\bootstrap\Modal;
 /**
@@ -37,79 +39,31 @@ $this->params['breadcrumbs'] = [
 
 );?>
 <?=Html::a('CREATE OFFICER', ['/prisons/officer-posts/officer-create'], ['class' => 'btn-officer-new btn btn-success']) ?>
+
+<?php $form = ActiveForm::begin(['method'=>'get' ])?>
+<?php echo $form->field($searchModel,'category_id')
+    //->dropDownList(Rank::getCategoriesForCombo(),['prompt' => '-']);
+    ->widget(Select2::class,[
+            'data' => Rank::getCategoriesForCombo(),
+        'options' => [
+                'placeholder' => '-'
+        ]
+    ]);
+?>
+<?php $this->registerJs(<<<JS
+    $("#officerpostviewsearch-category_id").on('change', function(){ $('#w0').submit();})
+
+JS
+)
+?>
+
+<?php ActiveForm::end()?>
+
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'pjax' => true,
     'options' => ['id' => 'grid_officer_posts'],
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        [
-            'attribute' =>  'officer.rank.category',
-
-
-
-            //'group' => true,
-            //'groupedRow' => true,
-            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
-            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
-
-            'groupFooter' => function ($model){
-
-                /*
-
-                                $modalContent = ModalAjax::widget([
-                                    'id' => 'create_officer_post' . $model->officer->company_id,
-                                    'header' => 'CREATE POST',
-                                    'toggleButton' => [
-                                        'label' => 'CREATE POST',
-                                        'class' => 'btn btn-primary pull-right'
-                                    ],
-                                    'url' => Url::to(['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id]), // Ajax view with form to load
-                                    'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
-                                    'size' => ModalAjax::SIZE_SMALL,
-                                    'options' => ['class' => 'header-primary'],
-                                    'autoClose' => true,
-                                    'pjaxContainer' => '#grid_officer_posts-pjax',
-
-                                ]);*/
-                $modalContent = Html::a('CREATE POST', ['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id],
-                    ['class' => "btn btn-default btn_post_new btn-xs"]);
-                $deleteButton = Html::a('DELETE OFFICER',['/users/officers/delete' , 'id' => $model->officer_id,
-                    'class' => 'btn btn-default btn-xs'],
-                    [
-                        'title' => "Delete officer",
-                        'aria-label'=> "Delete officer",
-                        'data-pjax' => '1',
-                        'data-method' => "post",
-                        'data-confirm' =>"Are you sure to delete this item?"
-                    ]);
-
-                return [
-                    //'mergeColumns' => [[2,3]], // columns to merge in summary
-
-                    'content' => [             // content to show in each summary cell
-
-                        2 => $deleteButton,
-                        //   3 => GridView::F_SUM,
-                        3 => $modalContent,
-                        //4 => GridView::F_SUM,
-
-                    ],
-                    'contentFormats' => [      // content reformatting for each summary cell
-                        //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
-                        //    3 => ['format' => 'number', 'decimals' => 2],
-                        //3 => ['format' => 'number', 'decimals' => 2],
-                        //4 => ['format' => 'number', 'decimals' => 2]
-                    ],
-                    'contentOptions' => [      // content html attributes for each summary cell
-                        // 2 => ['style' => 'text-align:right'],
-                        //3 => ['style' => 'text-align:center'],
-
-                    ],
-                    // html attributes for group summary row
-                    'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
-                ];},
-
-        ],
 
         [
           'attribute' =>  'officer.person.fio',
@@ -151,6 +105,8 @@ $this->params['breadcrumbs'] = [
                    'data-method' => "post",
                    'data-confirm' =>"Are you sure to delete this item?"
                 ]);
+                $editOfficerButton = Html::a('EDIT_OFFICER', ['/users/officers/update', 'id' => $model->officer_id],
+                    ['class' => "btn btn-default  btn-xs fa fa-edit"]);
 
     return [
     //'mergeColumns' => [[2,3]], // columns to merge in summary
@@ -160,7 +116,7 @@ $this->params['breadcrumbs'] = [
          2 => $deleteButton,
         //   3 => GridView::F_SUM,
         3 => $modalContent,
-        //4 => GridView::F_SUM,
+        9 => $editOfficerButton,
 
     ],
     'contentFormats' => [      // content reformatting for each summary cell
@@ -180,9 +136,9 @@ $this->params['breadcrumbs'] = [
 
         ],
 
-        'officerPost.company.title',
+       // 'officerPost.company.title',
         'officerPost.division.title',
-        'officerPost.postDict.title',
+        'officer.post.title',
         'officerPost.benefitClass.title',
         [
             'class' => \kartik\grid\BooleanColumn::class,
@@ -193,10 +149,32 @@ $this->params['breadcrumbs'] = [
             'class' => \kartik\grid\BooleanColumn::class,
             'attribute' => 'officerPost.full_time',
         ],
+        [
+            'class' => \kartik\grid\BooleanColumn::class,
+            'attribute' => 'officer.member_labor_union',
+        ],
+        [
+            'class' => \kartik\grid\BooleanColumn::class,
+            'attribute' => 'officer.has_education',
+        ],
         //'officerPost.title',
         [
             'class' => \kartik\grid\ActionColumn::class,
-            'template' => "{update}{delete}"
+            'template' => "{update_post}{update}{delete}",
+            'buttons' => [
+                'update_post' => function($url, $model){
+                    $name = 'update_post';
+                    $title = 'update_post';
+
+                    //  $opts = "{$name}Options";
+                    $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
+
+                    return \yii\bootstrap\Html::a($name,
+                        \yii\helpers\Url::to(['/prisons/posts/update','company_id' => $model->company_id , 'division_id' => $model->division_id, 'postdict_id' => $model->postdict_id]),
+                        $options
+                    ) ;
+                }
+            ]
 
         ]
 

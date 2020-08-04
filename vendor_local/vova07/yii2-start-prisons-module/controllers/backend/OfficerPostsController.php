@@ -10,6 +10,7 @@ namespace vova07\prisons\controllers\backend;
 
 
 use vova07\base\components\BackendController;
+use vova07\prisons\models\backend\OfficerPostViewSearch;
 use vova07\prisons\models\Division;
 use vova07\prisons\models\OfficerPostView;
 use vova07\prisons\models\Post;
@@ -57,20 +58,16 @@ class OfficerPostsController extends BackendController
     }
     public function actionOfficerPosts()
     {
-        $dataProvider = new ActiveDataProvider(
-        [
-          'query' => OfficerPostView::find()
-              ->joinWith(['officer' => function($query) { $query->from(['officer']);}])
-              ->orderBy([ 'category_id' => SORT_ASC, 'second_name' => SORT_ASC, 'first_name' => SORT_ASC, 'patronymic' => SORT_ASC] ),
-            'pagination' => false
-        ]
-        );
+        $searchModel = new OfficerPostViewSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->setPagination(false);
+
 
 
 
         \Yii::$app->user->setReturnUrl(Url::current());
 
-        return $this->render("officer_posts", ['dataProvider'=>$dataProvider]);
+        return $this->render("officer_posts", ['dataProvider'=>$dataProvider, 'searchModel' => $searchModel]);
 
 
     }
