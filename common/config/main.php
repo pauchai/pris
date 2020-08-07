@@ -46,6 +46,10 @@ return [
           ],
           \kartik\grid\GridView::class => [
 
+          ],
+          yii\widgets\LinkPager::class => [
+              'firstPageLabel' => 'First',
+              'lastPageLabel'  => 'Last'
           ]
       ]
     ],

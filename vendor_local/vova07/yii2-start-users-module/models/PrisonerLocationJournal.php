@@ -58,6 +58,7 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
                 'prison_id' => $migration->integer()->notNull(),
                 'sector_id' => $migration->integer(),
                 'cell_id' => $migration->integer(),
+                'status_id' => $migration->tinyInteger()->notNull(),
                 'at' => $migration->bigInteger(),
             ],
             'indexes' => [
@@ -117,6 +118,11 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
     public function getCell()
     {
         return $this->hasOne(Cell::class,['__ownableitem_id' => 'cell_id']);
+    }
+
+    public function getStatus()
+    {
+        return ArrayHelper::getValue(Prisoner::getStatusesForCombo(),$this->status_id);
     }
 
 

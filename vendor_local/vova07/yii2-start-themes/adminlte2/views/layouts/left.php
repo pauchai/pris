@@ -246,7 +246,8 @@ use vova07\site\Module;
                         ]
                     ],
 
-                    ['label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
+                    [
+                        'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
                         'items' => [
                             ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
@@ -269,8 +270,13 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
 
+                            ['label' => Module::t('menu','LOCATION_REPORT'),'icon' => 'circle','url'=>['/prisons/reports/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
                         ]
                     ],
+
+
 
 
                     ['label' => Module::t('menu','ADMINISTRATION_HEADER_MENU'), 'options' => ['class' => 'header'],

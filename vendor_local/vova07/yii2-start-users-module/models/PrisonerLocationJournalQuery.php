@@ -16,4 +16,5 @@ class PrisonerLocationJournalQuery extends ActiveQuery
 
 
 
+
 }

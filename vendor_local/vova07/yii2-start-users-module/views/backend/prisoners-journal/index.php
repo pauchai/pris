@@ -29,6 +29,7 @@ $this->params['breadcrumbs'] = [
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
@@ -49,6 +50,7 @@ $this->params['breadcrumbs'] = [
         'prison.company.title',
         'sector.title',
         'cell.number',
+        'status',
         'at:date',
         ['class' => yii\grid\ActionColumn::class]
     ]

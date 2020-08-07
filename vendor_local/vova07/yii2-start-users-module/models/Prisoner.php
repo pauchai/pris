@@ -74,6 +74,16 @@ class Prisoner extends  OwnableItem
         return 'prisoner';
     }
 
+    public static function getTermStatuses()
+    {
+        return [
+            self::STATUS_TERM,
+            self::STATUS_TERM_91,
+            self::STATUS_TERM_473,
+            self::STATUS_TERM_92,
+        ];
+    }
+
     public function rules()
     {
         return [
@@ -308,6 +318,7 @@ class Prisoner extends  OwnableItem
             $locationJournal->prison_id = $this->prison_id;
             $locationJournal->sector_id = $this->sector_id;
             $locationJournal->cell_id = $this->cell_id;
+            $locationJournal->status_id = $this->status_id;
             $locationJournal->save();
         }
     }
@@ -354,7 +365,8 @@ class Prisoner extends  OwnableItem
         parent::afterSave($insert,$changedAttributes);
         if (
             array_key_exists('sector_id', $changedAttributes) && $changedAttributes['sector_id'] <> $this->sector_id ||
-            array_key_exists('prison_id', $changedAttributes) && $changedAttributes['prison_id'] <> $this->prison_id
+            array_key_exists('prison_id', $changedAttributes) && $changedAttributes['prison_id'] <> $this->prison_id ||
+            array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
         ){
             $this->resolveChangeLocation();
         }
