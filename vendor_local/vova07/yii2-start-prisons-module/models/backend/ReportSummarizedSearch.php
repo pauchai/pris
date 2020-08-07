@@ -233,6 +233,7 @@ GROUP BY cp.concept_id*/
             ->groupBy(['ep.event_id'])
             ->select([
                'e.title',
+               'ep.event_id',
                'participants_count' => 'count(DISTINCT ep.prisoner_id)'
             ]);
 

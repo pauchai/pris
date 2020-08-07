@@ -239,7 +239,7 @@ class Salary extends  Ownableitem
 
     public function calculateBaseRate()
     {
-        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class - (!$this->officer->has_education)?self::EDUCATION_SALARY_CLASS_ADDONS:0;
+        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class - (!$this->officer->has_education?self::EDUCATION_SALARY_CLASS_ADDONS:0);
         $salaryClass = SalaryClass::findOne($resultSalaryClassid);
 
 

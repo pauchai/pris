@@ -84,7 +84,13 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
         'title',
-        'participants_count'
+        [
+            'attribute' => 'participants_count',
+            'content' => function($model){
+                return Html::a($model['participants_count'],['/events/participants/index', 'event_id' => $model['event_id']]);
+            }
+        ]
+
     ]
 ])?>
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $jobsProvider,
