@@ -256,12 +256,13 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
                         $daysRemain = $currDate->diff($dateTermFinish)->format('%R%a');
                         $value = $model->termFinishJui;
 
-                        if ($daysRemain > 0 && $daysRemain <= 30){
+                        if ($daysRemain <= 30){
                             $style = ['class' => 'label label-danger'];
-                            $value = Yii::$app->formatter->asRelativeTime($value);
+                            $value = $value . ' ' . Yii::$app->formatter->asRelativeTime($value);
                         }
                         elseif ($daysRemain >=30 && $daysRemain <= 30*6)
                             $style = ['class' => 'label label-info'];
+
                         elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
                             $style = ['class' => 'label label-success'];
                     }
@@ -270,7 +271,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
 
-                $content = Html::tag('span', $value, $style);
+                $content = Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
                 return $content;
             },
             'value' => 'termFinishJui',
@@ -305,7 +306,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
                     if ($daysRemain <=0 ){
                         $style = ['class' => 'label label-danger'];
-                        $value = Yii::$app->formatter->asRelativeTime($value);
+                        $value = $value . ' ' . Yii::$app->formatter->asRelativeTime($value);
                     }
                     elseif ($daysRemain >0 && $daysRemain <= 30*6)
                         $style = ['class' => 'label label-info'];
@@ -317,7 +318,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
 
-                $content = Html::tag('span', $value, $style);
+                $content = Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
                 return $content;
             },
             'visible' => $isLight === true,
