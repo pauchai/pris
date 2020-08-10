@@ -35,14 +35,13 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
             'attribute' => 'fio',
 
-
-            'filter' => Prisoner::getListForCombo(),
-            'filterType' => GridView::FILTER_SELECT2,
-            'filterWidgetOptions' => [
-                'attribute' => '__person_id',
-                'pluginOptions' => ['allowClear' => true ],
-            ],
-            'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
+            //'filter' => Prisoner::getListForCombo(),
+            //'filterType' => GridView::FILTER_SELECT2,
+           // 'filterWidgetOptions' => [
+           //     'attribute' => '__person_id',
+           //     'pluginOptions' => ['allowClear' => true ],
+           // ],
+           // 'filterInputOptions' => [ 'prompt' => Module::t('default','SELECT_PRISONER'), 'class'=> 'no-print form-control', 'id' => null],
 
             //'header' => '',
            'content' => function($model){return Html::a($model->person->getFio(false,true), ['view','id' => $model->primaryKey]);},
