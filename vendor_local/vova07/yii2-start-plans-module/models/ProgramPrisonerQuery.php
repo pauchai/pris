@@ -45,7 +45,14 @@ class ProgramPrisonerQuery extends ActiveQuery
 
         )]);
     }
+    public function forPrisonersActive()
+    {
 
+        return $this->andWhere(['prisoner_id' => Prisoner::find()->select('__person_id')->andWhere(
+            ['status_id' => [ Prisoner::STATUS_ACTIVE]]
+
+        )]);
+    }
     public function realized()
     {
         $this->andWhere(new Expression('program_prisoners.status_id = :status_id AND  program_prisoners.mark_id >= :mark_id', [

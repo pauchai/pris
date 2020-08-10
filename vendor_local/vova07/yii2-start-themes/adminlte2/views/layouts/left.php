@@ -75,10 +75,7 @@ use vova07\site\Module;
                               'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
 
                           ],
-                          ['label' => Module::t('menu','REPORT'),'icon' => 'circle','url'=>['/users/report/prisoners'],
-                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
 
-                          ],
 
 
                       ]
@@ -122,15 +119,14 @@ use vova07\site\Module;
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_HUMANITARIAN_LIST),
                         'items' => [
 
-                            ['label' => Module::t('menu','HUMANITARIAN_LIST'),'icon' => 'circle','url'=>['/humanitarians/issues/index']],
+                            ['label' => Module::t('menu','HUMANITARIAN_LIST'),'icon' => 'circle','ursubject_idl'=>['/humanitarians/issues/index']],
                             ['label' => Module::t('menu','HUMANITARIAN_ITEMS_LIST'),'icon' => 'circle','url'=>['/humanitarians/items/index']],
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'JOBS_MENU'),'icon' => 'cube','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_JOBS_ACCESS),
                         'items' => [
-                            ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
-                                ['label' => Module::t('menu','AVAILABLE_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/job-list/index']],
+                            ['label' => Module::t('menu','AVAILABLE_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/job-list/index']],
                             ['label' => Module::t('menu','JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/default/index']],
                             ['label' => Module::t('menu','NOT_PAID_JOBS_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-jobs/index']],
                             ['label' => Module::t('menu','NOT_PAID_TYPES_LIST'),'icon' => 'circle','url'=>['/jobs/not-paid-types/index']],
@@ -195,12 +191,30 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','SUMMARIZED_PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/summarized/programs'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
 
-                            ['label' => Module::t('menu','PLANS_REPORT'),'icon' => 'circle','url'=>['/plans/report'],
+
+                        ]
+                    ],
+
+                    ['label' =>  Module::t('menu', 'REPORTS_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW),
+                        'items' => [
+
+                            ['label' => Module::t('menu','REPORT_PRISONERS'),'icon' => 'circle','url'=>['/users/report/prisoners'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+
+                            ],
+                            ['label' => Module::t('menu','REPORT_PLANS'),'icon' => 'circle','url'=>['/plans/report'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST),
 
                             ],
-                            ]
+                            ['label' => Module::t('menu','REPORT_SUMMARIZED'),'icon' => 'circle','url'=>['/prisons/reports/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST)],
+                            ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
+
+
+                        ]
                     ],
+
                     ['label' =>  Module::t('menu', 'PSYCHO_MENU'),'icon' => 'calendar-check','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PSYCHO_LIST),
                         'items' => [
@@ -270,8 +284,6 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
 
-                            ['label' => Module::t('menu','LOCATION_REPORT'),'icon' => 'circle','url'=>['/prisons/reports/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
                         ]
                     ],

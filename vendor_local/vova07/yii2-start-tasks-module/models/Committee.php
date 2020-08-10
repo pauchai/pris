@@ -244,11 +244,13 @@ class Committee extends  Ownableitem
     {
         return [
           'subject_id' => Module::t('labels','SUBJECT_LABEL'),
+          'subject' => Module::t('labels','SUBJECT_LABEL'),
             'prisoner_id' => Module::t('labels','PRISONER_LABEL'),
             'assigned_to' => Module::t('labels','ASSIGNED_TO_LABEL'),
             'dateStartJui' => Module::t('labels','DATE_START_LABEL'),
             'dateFinishJui' => Module::t('labels','DATE_FINISH_LABEL'),
             'mark_id' => Module::t('labels','MARK_LABEL'),
+            'mark' => Module::t('labels','MARK_LABEL'),
             'status_id' => Module::t('labels','STATUS_LABEL'),
 
 

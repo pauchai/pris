@@ -58,7 +58,7 @@ class Program extends  Ownableitem
             $program = $event->sender;
             $dateFinishValue = '';
             if ($program->status_id == Program::STATUS_FINISHED) {
-                $programVisits = $program->getProgramVisits()->all();
+                $programVisits = $program->getProgramVisits()->orderBy(['date_visit' => SORT_ASC])->all();
                 foreach ($programVisits as $visit)
                 {
                     /**

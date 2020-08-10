@@ -32,60 +32,96 @@ $this->params['breadcrumbs'] = [
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $locationProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "MOVMENTS",
+    'caption' => Module::t('labels', "MOVEMENTS_LABEL"),
 
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
-        'fromSectorCount',
-        'toSectorCount',
-        'fromPrisonCount',
-        'toPrisonCount',
+        [
+            'header' => Module::t('report','FROM_SECTOR_COUNT_LABEL'),
+            'value' => 'fromSectorCount'
+        ],
+        [
+            'header' => Module::t('report','TO_SECTOR_COUNT_LABEL'),
+            'value' => 'toSectorCount'
+        ],
+        [
+            'header' => Module::t('report','FROM_PRISON_COUNT_LABEL'),
+            'value' => 'fromPrisonCount'
+        ],
+        [
+            'header' => Module::t('report','TO_PRISON_COUNT_LABEL'),
+            'value' => 'toPrisonCount'
+        ],
 
     ]
 ])?>
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $terminateProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "TERMINATE",
+    'caption' =>  Module::t('labels', "TERMINATE_LABEL"),
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
         [
           'content' => function($model){return \vova07\users\models\Prisoner::getStatusesForCombo($model['status_id']);}
         ],
-        'prisoners_count',
+        [
+            'header' => Module::t('report','PRISONERS_COUNT_LABEL'),
+            'value' => 'prisoners_count'
+        ],
+
 
     ]
 ])?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $programProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "PROGRAMS",
+    'caption' =>  Module::t('labels', "PROGRAMS_LABEL"),
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
-        'program_title',
-        'count_prisoners'
+        [
+            'header' => Module::t('report','PROGRAM_TITLE_LABEL'),
+            'value' => 'program_title'
+        ],
+        [
+            'header' => Module::t('report','PRISONERS_COUNT'),
+            'value' => 'count_prisoners'
+        ],
+
     ]
 ])?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $conceptsProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "CONCEPTS",
+    'caption' =>  Module::t('labels', "CONCEPTS_LABEL"),
 
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
-        'title',
-        'participants_count'
+
+        [
+            'header' => Module::t('labels', "TITLE_LABEL"),
+            'value' => 'title'
+        ] ,
+        [
+            'header' => Module::t('labels', "PARTICIPANTS_COUNT_LABEL"),
+            'value' => 'participants_count'
+        ] ,
+
     ]
 ])?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $eventsProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "EVENTS",
+    'caption' =>  Module::t('labels', "EVENTS_LABEL"),
 
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
-        'title',
         [
-            'attribute' => 'participants_count',
+            'header' => Module::t('labels', "TITLE_LABEL"),
+            'value' => 'title'
+        ] ,
+        [
+            'header' => Module::t('labels', "PARTICIPANTS_COUNT_LABEL"),
+
+           // 'attribute' => 'participants_count',
             'content' => function($model){
                 return Html::a($model['participants_count'],['/events/participants/index', 'event_id' => $model['event_id']]);
             }
@@ -95,24 +131,32 @@ $this->params['breadcrumbs'] = [
 ])?>
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $jobsProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "JOBS",
+    'caption' =>  Module::t('labels', "JOBS_LABEL"),
 
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
-        'category_title',
-        'workers_count'
+
+        [
+            'header' => Module::t('labels', "CATEGORY_TITLE_LABEL"),
+            'value' => 'category_title'
+        ] ,
+        [
+            'header' => Module::t('labels', "WORKERS_COUNT_LABEL"),
+            'value' => 'workers_count'
+        ] ,
     ]
 ])?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $committeeProvider,
     'layout' => "{items}\n{pager}",
-    'caption' => "COMMITTEE",
+    'caption' =>  Module::t('labels', "COMMITTEE_LABEL"),
 
     'columns' => [
         //['class' => yii\grid\SerialColumn::class],
+        'assignedTo.person.fio',
         'prisoner.person.fio',
         'subject',
-        'mark'
+        'mark',
     ]
 ])?>
 

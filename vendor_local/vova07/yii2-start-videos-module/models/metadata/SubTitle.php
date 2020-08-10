@@ -21,7 +21,7 @@ use yii\base\Model;
 class SubTitle extends Model
 {
     const UPLOADED_EXTENSIONS = ['srt', 'vtt'];
-    const CONVERT_EXTNSION = 'vtt';
+    const CONVERT_EXTENSION = 'vtt';
     public $name;
     public $type;
     public $filename;
@@ -35,12 +35,16 @@ class SubTitle extends Model
         {
            return
                [
-               [['file'], FileValidator::class, 'extensions' => self::UPLOADED_EXTENSIONS]
+                   [['filename'],'string'],
+
+                   [['file'], FileValidator::class, 'extensions' => self::UPLOADED_EXTENSIONS]
+
            ];
         }
 
         public function upload()
         {
+
             $newFileName =  $this->file->baseName . '.' . $this->file->extension;
 
             if ($this->validate()){
@@ -48,13 +52,13 @@ class SubTitle extends Model
                 if ($this->file->extension <> 'vtt'){
                     Subtitles::convert(
                         Module::getInstance()->subTitlesBasePath . '/' . $this->file->baseName . '.' . $this->file->extension,
-                        Module::getInstance()->subTitlesBasePath . '/' . $this->file->baseName . '.' . self::CONVERT_EXTNSION
+                        Module::getInstance()->subTitlesBasePath . '/' . $this->file->baseName . '.' . self::CONVERT_EXTENSION
 
                     );
                 }
                 unlink(Module::getInstance()->subTitlesBasePath . '/' . $this->file->baseName . '.' . $this->file->extension);
-                $this->type = self::CONVERT_EXTNSION;
-                $this->filename = $this->file->baseName . '.' . self::CONVERT_EXTNSION;
+                $this->type = self::CONVERT_EXTENSION;
+                $this->filename = $this->file->baseName . '.' . self::CONVERT_EXTENSION;
                 return true;
             } else
                 return false;

@@ -303,13 +303,19 @@ EXPRESSION
         if ($this->to)
             $query->andFilterWhere(['<=', 'date_start', $this->to]);
 
-        $query->andFilterWhere([
-            'prisoner.sector_id' => $this->sector_id
-        ]);
+      //  $query->andFilterWhere([
+       //     'prisoner.sector_id' => $this->sector_id
+      //  ]);
+        $query->andFilterWhere(
+            [
+                'assigned_to' => \Yii::$app->user->getId()
+            ]
+        );
         $dataProvider = new ActiveDataProvider([
             'query' => $query
 
         ]);
+        $dataProvider->setPagination(false);
         return $dataProvider;
     }
 

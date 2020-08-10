@@ -13,6 +13,7 @@ use vova07\videos\models\Word;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -57,10 +58,19 @@ class MetadataController extends BackendController
         if (\Yii::$app->request->isPost){
             $model->file = UploadedFile::getInstance($model, 'file');
 
-            if ($model->upload()){
+            if ($model->file){
+                $model->upload();
+            } else {
+                $model->load(\Yii::$app->request->post());
+            }
+            if ($model->validate()){
+                ArrayHelper::setValue($video,'metadata.subtitles')
                 $video->metadata['subtitles'][] = $model->getAttributes(['name', 'type', 'filename']);
                 $video->save();
-            };
+                $this->goBack();
+            }
+
+
 
         }
         return $this->render('subtitle_create', ['video' => $video, 'model' => $model]);

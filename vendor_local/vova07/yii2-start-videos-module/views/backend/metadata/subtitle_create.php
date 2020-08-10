@@ -7,12 +7,15 @@ use yii\bootstrap\ActiveForm ;
  */
 ?>
 <?php $form = ActiveForm::begin([
+    'layout' => 'inline',
     'options' => [
         'enctype' => 'multipart/form-data'
     ]
 
 ])?>
-<?php echo $form->field($model,'file')->fileInput()?>
+<?php echo $form->field($model,'file')->fileInput()?> OR
+<?php echo $form->field($model,'filename')?>
+
 <?php echo \yii\bootstrap\Html::submitButton();?>
 <?php ActiveForm::end();?>
 
