@@ -61,4 +61,13 @@ class PrisonerView extends  Prisoner
     {
         return $this->hasMany(ProgramPrisoner::class, ['prisoner_id' => '__person_id']);
     }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(),
+            [
+                'fio' => Module::t('labels', 'PERSON_ID_LABEL'),
+
+            ]);
+    }
 }

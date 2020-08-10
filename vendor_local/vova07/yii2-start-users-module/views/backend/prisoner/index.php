@@ -33,7 +33,8 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         ['class' => yii\grid\SerialColumn::class],
         [
 
-            'attribute' => '__person_id',
+            'attribute' => 'fio',
+
 
             'filter' => Prisoner::getListForCombo(),
             'filterType' => GridView::FILTER_SELECT2,
@@ -223,7 +224,9 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         [
 
 
-            'attribute' => 'termStartJui',
+            'attribute' => 'term_start',
+            'value' => 'termStartJui',
+
             'visible' => $isLight === true,
             //'filterType' => GridView::FILTER_DATE,
             'filter' => \kartik\widgets\DatePicker::widget([
@@ -240,7 +243,37 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         [
 
 
-            'attribute' => 'termFinishJui',
+
+            'attribute' => 'term_finish',
+            'content' => function($model){
+                //$content = Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+
+                    $currDate = new DateTime();
+                    $style = ['class' => 'label label-default'];
+                    $value = null;
+                    if ($model->term_finish) {
+                        $dateTermFinish = new DateTime($model->term_finish);
+                        $daysRemain = $currDate->diff($dateTermFinish)->format('%R%a');
+                        $value = $model->termFinishJui;
+
+                        if ($daysRemain > 0 && $daysRemain <= 30){
+                            $style = ['class' => 'label label-danger'];
+                            $value = Yii::$app->formatter->asRelativeTime($value);
+                        }
+                        elseif ($daysRemain >=30 && $daysRemain <= 30*6)
+                            $style = ['class' => 'label label-info'];
+                        elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
+                            $style = ['class' => 'label label-success'];
+                    }
+                  //  $value = $dateTermFinish->format('d-m-Y') . ' ' . $daysRemain;
+
+
+
+
+                $content = Html::tag('span', $value, $style);
+                return $content;
+            },
+            'value' => 'termFinishJui',
             'visible' => $isLight === true,
 
             'filter' => \kartik\widgets\DatePicker::widget([
@@ -258,7 +291,35 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
         [
 
 
-            'attribute' => 'termUdoJui',
+            'attribute' => 'term_udo',
+            'content' => function($model){
+                //$content = Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+
+                $currDate = new DateTime();
+                $style = ['class' => 'label label-default'];
+                $value = null;
+                if ($model->term_udo) {
+                    $dateTermUdo = new DateTime($model->term_udo);
+                    $daysRemain = $currDate->diff($dateTermUdo)->format('%R%a');
+                    $value = $model->termUdoJui ;
+
+                    if ($daysRemain <=0 ){
+                        $style = ['class' => 'label label-danger'];
+                        $value = Yii::$app->formatter->asRelativeTime($value);
+                    }
+                    elseif ($daysRemain >0 && $daysRemain <= 30*6)
+                        $style = ['class' => 'label label-info'];
+                    elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
+                        $style = ['class' => 'label label-success'];
+                }
+                //  $value = $dateTermFinish->format('d-m-Y') . ' ' . $daysRemain;
+
+
+
+
+                $content = Html::tag('span', $value, $style);
+                return $content;
+            },
             'visible' => $isLight === true,
 
             'filter' => \kartik\widgets\DatePicker::widget([
