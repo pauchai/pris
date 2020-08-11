@@ -10,6 +10,8 @@ use kartik\grid\GridView;
 <?php echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-        'person.fio'
+        'person.fio',
+        'person.birth_year',
+        'sector.title'
     ]
 ])?>
