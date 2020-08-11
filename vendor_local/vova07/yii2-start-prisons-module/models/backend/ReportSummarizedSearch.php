@@ -42,7 +42,7 @@ class ReportSummarizedSearch extends Model
     public function rules()
     {
         return [
-            [['fromJui','toJui', 'sector_id'],'safe'],
+            [['from', 'to', 'fromJui','toJui', 'sector_id'],'safe'],
 
 
         ];
@@ -94,39 +94,45 @@ class ReportSummarizedSearch extends Model
         ]);
         return $query;
     }
+
+    public function getFromSectorQuery()
+    {
+        return ( $this->getBaseLocationQuery())
+            ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
+            ->andWhere(['jprev.sector_id' => $this->sector_id]);
+
+
+    }
+
+    public function getToSectorQuery()
+    {
+        return ( $this->getBaseLocationQuery())
+            ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
+            ->andWhere(['j.sector_id' => $this->sector_id]);
+
+
+    }
+
+    public function getToPrisonQuery()
+    {
+        return ( $this->getBaseLocationQuery())->andWhere(new Expression("ISNULL(j.prev_id)"));
+    }
+    public function getFromPrisonQuery()
+    {
+        return ( $this->getBaseLocationQuery())->andWhere(['j.status_id' => Prisoner::STATUS_ETAP]);
+    }
     public function getFromToLocationProvider()
     {
 
-        $query = $this->getBaseLocationQuery();
-
-        $fromSectorCount = (clone $query)
-            ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
-            ->andWhere(['jprev.sector_id' => $this->sector_id])
-            ->count();
-
-        $toSectorCount = (clone $query)
-            ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
-            ->andWhere(['j.sector_id' => $this->sector_id])
-            ->count();
-
-        $fromPrisonCount = (clone $query)
-            //->andWhere(['<>', 'jprev.prison_id', new Expression('j.prison_id')])
-            ->andWhere(['j.status_id' => Prisoner::STATUS_ETAP])
-            ->count();
-
-        $toPrisonCount = (clone $query)
-            //->andWhere(['<>', 'jprev.prison_id', new Expression('j.prison_id')])
-            ->andWhere(new Expression("ISNULL(j.prev_id)"))
-            ->count();
 
 
         $dataProvider = new  ArrayDataProvider([
             'allModels' => [
                 [
-                    'fromSectorCount' => $fromSectorCount,
-                    'toSectorCount' => $toSectorCount,
-                    'fromPrisonCount' => $fromPrisonCount,
-                    'toPrisonCount' => $toPrisonCount
+                    'fromSectorCount' => $this->getFromSectorQuery()->count(),
+                    'toSectorCount' => $this->getToSectorQuery()->count(),
+                    'fromPrisonCount' => $this->getFromPrisonQuery()->count(),
+                    'toPrisonCount' => $this->getToPrisonQuery()->count(),
 
 
                 ]
@@ -136,14 +142,18 @@ class ReportSummarizedSearch extends Model
         return $dataProvider;
     }
 
+    public function getTerminateQuery($status_id = null)
+    {
+        return $this->getBaseLocationQuery()
+            ->andWhere(['j.status_id' => Prisoner::getTermStatuses()])
+            ->andFilterWhere(['j.sector_id' => $this->sector_id])
+            ->andFilterWhere(['j.status_id' => $status_id]);
+
+    }
+
     public function getTerminateProvider()
     {
-
-        $query = $this->getBaseLocationQuery();
-
-       $query
-            ->andWhere(['j.status_id' => Prisoner::getTermStatuses()])
-            ->andWhere(['j.sector_id' => $this->sector_id])
+        $query = $this->getTerminateQuery()
             ->select([
                 'j.status_id',
                 'prisoners_count' => 'count(DISTINCT j.prisoner_id)'
@@ -155,29 +165,43 @@ class ReportSummarizedSearch extends Model
         return $dataProvider;
     }
 
-    public function getProgramsProvider()
+
+    public function getProgramsQuery($program_id = null)
     {
         $query = (new Query())
             ->from(ProgramVisit::tableName() . ' pv')
             ->leftJoin(ProgramPrisoner::tableName() .' pp', 'pp.__ownableitem_id = pv.program_prisoner_id')
             ->leftJoin(ProgramDict::tableName() .' pd', 'pp.programdict_id = pd.__ownableitem_id')
-            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = pp.prisoner_id')
+            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = pp.prisoner_id');
+
+        //->groupBy(['pv.prison_id', 'pp.programdict_id'])
+        if ($this->from)
+            $query->andFilterWhere(['>=', 'date_visit', (new \DateTime())->setTimestamp($this->from)->format('Y-m-d')]);
+
+        if ($this->to)
+            $query->andFilterWhere(['<=', 'date_visit', (new \DateTime())->setTimestamp($this->to)->format('Y-m-d')]);
+
+        $query->andFilterWhere([
+            'pr.sector_id' => $this->sector_id
+        ]);
+        $query->andFilterWhere([
+           'pd.__ownableitem_id' => $program_id
+        ]);
+
+        return $query;
+    }
+    public function getProgramsProvider()
+    {
+        $query = $this->getProgramsQuery()
             ->select([
+                'programdict_id' => 'pd.__ownableitem_id',
                 'program_title' => 'pd.title',
+
 
                 'count_prisoners' => 'count(DISTINCT pp.prisoner_id)'
 
             ])->groupBy(['pd.__ownableitem_id']);
-            //->groupBy(['pv.prison_id', 'pp.programdict_id'])
-                if ($this->from)
-                    $query->andFilterWhere(['>=', 'date_visit', (new \DateTime())->setTimestamp($this->from)->format('Y-m-d')]);
 
-                if ($this->to)
-                    $query->andFilterWhere(['<=', 'date_visit', (new \DateTime())->setTimestamp($this->to)->format('Y-m-d')]);
-
-                $query->andFilterWhere([
-                   'pr.sector_id' => $this->sector_id
-                ]);
         $dataProvider = new ActiveDataProvider([
            'query' => $query
 
@@ -185,27 +209,17 @@ class ReportSummarizedSearch extends Model
 
         return $dataProvider;
     }
-/*
-SELECT cp.concept_id, count(DISTINCT cp.prisoner_id) participants_count FROM concept_visits cv
-LEFT JOIN concept_classes cc ON cv.class_id = cc.__ownableitem_id
-LEFT JOIN concept_participants cp ON cv.participant_id = cp.__ownableitem_id
-LEFT JOIN concepts c ON cp.concept_id = c.__ownableitem_id
-GROUP BY cp.concept_id*/
-    public function getConceptsProvider()
+
+    public function getConceptsQuery($concept_id = null)
     {
         $query = (new Query())
             ->from(ConceptVisit::tableName() . ' cv')
             ->leftJoin(ConceptClass::tableName() . ' cc', 'cv.class_id = cc.__ownableitem_id')
             ->leftJoin(ConceptParticipant::tableName() . ' cp', 'cv.participant_id = cp.__ownableitem_id')
             ->leftJoin(Concept::tableName() . ' c', 'cp.concept_id = c.__ownableitem_id')
-            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = cp.prisoner_id')
+            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = cp.prisoner_id');
 
-            ->groupBy(['cp.concept_id'])
-            ->select([
-                'c.title',
-                'participants_count' => 'count(DISTINCT cp.prisoner_id)'
-            ])
-        ;
+
         if ($this->from)
             $query->andFilterWhere(['>=', 'cc.at', $this->from]);
 
@@ -215,6 +229,22 @@ GROUP BY cp.concept_id*/
         $query->andFilterWhere([
             'pr.sector_id' => $this->sector_id
         ]);
+
+        $query->andFilterWhere([
+            'cp.concept_id' => $concept_id
+        ]);
+        return $query;
+    }
+    public function getConceptsProvider()
+    {
+        $query = $this->getConceptsQuery()
+            ->groupBy(['cp.concept_id'])
+            ->select([
+                'cp.concept_id',
+                'c.title',
+                'participants_count' => 'count(DISTINCT cp.prisoner_id)'
+            ]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query
 
@@ -223,19 +253,13 @@ GROUP BY cp.concept_id*/
         return $dataProvider;
     }
 
-    public function getEventsProvider()
+    public function getEventsQuery($event_id = null)
     {
         $query = (new Query())
             ->from(EventParticipant::tableName() . ' ep')
             ->leftJoin(Event::tableName() . ' e', 'e.__ownableitem_id = ep.event_id')
-            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = ep.prisoner_id')
+            ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = ep.prisoner_id');
 
-            ->groupBy(['ep.event_id'])
-            ->select([
-               'e.title',
-               'ep.event_id',
-               'participants_count' => 'count(DISTINCT ep.prisoner_id)'
-            ]);
 
         if ($this->from)
             $query->andFilterWhere(['>=', 'e.date_start', $this->from]);
@@ -246,6 +270,22 @@ GROUP BY cp.concept_id*/
         $query->andFilterWhere([
             'pr.sector_id' => $this->sector_id
         ]);
+        $query->andFilterWhere([
+            'ep.event_id' => $event_id
+        ]);
+        return $query;
+    }
+    public function getEventsProvider()
+    {
+        $query = $this->getEventsQuery()
+            ->groupBy(['ep.event_id'])
+            ->select([
+               'e.title',
+               'ep.event_id',
+               'participants_count' => 'count(DISTINCT ep.prisoner_id)'
+            ]);
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query
 
@@ -254,28 +294,14 @@ GROUP BY cp.concept_id*/
         return $dataProvider;
     }
 
-    public function getJobsProvider()
+
+    public function getJobsQuery($category_id = null)
     {
-        $categoryPaid = JobNormalizedViewDays::CATEGORY_PAID;
-        $categoryNotPaid = JobNormalizedViewDays::CATEGORY_NOT_PAID;
-
-        $categoryPaidTitle = JobNormalizedViewDays::getCategoriesForCombo()[JobNormalizedViewDays::CATEGORY_PAID];
-        $categoryNotPaidTitle = JobNormalizedViewDays::getCategoriesForCombo()[JobNormalizedViewDays::CATEGORY_NOT_PAID];
-
         $query = (new Query())
             ->from(JobNormalizedViewDays::tableName() . ' j')
             ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = j.prisoner_id')
-            ->leftJoin(Person::tableName() .' p', 'pr.__person_id = p.__ident_id')
+            ->leftJoin(Person::tableName() .' p', 'pr.__person_id = p.__ident_id');
 
-            ->groupBy(['j.category_id'])
-            ->select([
-                'category_title' => new Expression(<<<EXPRESSION
-                CASE WHEN j.category_id = $categoryPaid THEN '$categoryPaidTitle' ELSE '$categoryNotPaidTitle' END
-
-EXPRESSION
-                ),
-                'workers_count' => 'count(DISTINCT j.prisoner_id)'
-            ]);
 
         if ($this->from)
             $query->andFilterWhere(['>=', 'j.at',(new \DateTime())->setTimestamp($this->from)->format('Y-m-d')]);
@@ -286,6 +312,33 @@ EXPRESSION
         $query->andFilterWhere([
             'pr.sector_id' => $this->sector_id
         ]);
+
+        $query->andFilterWhere([
+            'j.category_id' => $category_id
+        ]);
+        return $query;
+    }
+    public function getJobsProvider()
+    {
+        $categoryPaid = JobNormalizedViewDays::CATEGORY_PAID;
+        $categoryNotPaid = JobNormalizedViewDays::CATEGORY_NOT_PAID;
+
+        $categoryPaidTitle = JobNormalizedViewDays::getCategoriesForCombo()[JobNormalizedViewDays::CATEGORY_PAID];
+        $categoryNotPaidTitle = JobNormalizedViewDays::getCategoriesForCombo()[JobNormalizedViewDays::CATEGORY_NOT_PAID];
+
+        $query = $this->getJobsQuery()
+            ->groupBy(['j.category_id'])
+            ->select([
+                'j.category_id',
+                'category_title' => new Expression(<<<EXPRESSION
+                CASE WHEN j.category_id = $categoryPaid THEN '$categoryPaidTitle' ELSE '$categoryNotPaidTitle' END
+
+EXPRESSION
+                ),
+                'workers_count' => 'count(DISTINCT j.prisoner_id)'
+            ]);
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query
 
@@ -294,25 +347,33 @@ EXPRESSION
         return $dataProvider;
     }
 
-    public function getCommitteeProvider()
+    public function getCommitteeQuery()
     {
         $query = Committee::find()->joinWith('prisoner');
         if ($this->from)
-    $query->andFilterWhere(['>=', 'date_start',$this->from]);
+            $query->andFilterWhere(['>=', 'date_start',$this->from]);
 
         if ($this->to)
             $query->andFilterWhere(['<=', 'date_start', $this->to]);
 
-      //  $query->andFilterWhere([
-       //     'prisoner.sector_id' => $this->sector_id
-      //  ]);
+
+        //  $query->andFilterWhere([
+        //     'prisoner.sector_id' => $this->sector_id
+        //  ]);
         $query->andFilterWhere(
             [
                 'assigned_to' => \Yii::$app->user->getId()
             ]
         );
+        return $query;
+    }
+
+
+    public function getCommitteeProvider()
+    {
+
         $dataProvider = new ActiveDataProvider([
-            'query' => $query
+            'query' => $this->getCommitteeQuery()
 
         ]);
         $dataProvider->setPagination(false);

@@ -27,6 +27,7 @@ use vova07\prisons\models\Post;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Rank;
 use vova07\prisons\Module;
+use vova07\users\models\Prisoner;
 use vova07\users\models\PrisonerLocationJournalView;
 use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
@@ -45,7 +46,7 @@ class ReportsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index'],
+                'actions' => ['index', 'participants'],
                 'roles' => ['@']
             ]
         ];
@@ -88,6 +89,42 @@ class ReportsController extends BackendController
             'committeeProvider' => $searchModel->getCommitteeProvider(),
             'searchModel' => $searchModel
         ]);
+    }
+
+    public function actionParticipants()
+    {
+        $selectMethods = [
+            'getFromSectorQuery' =>['j.prisoner_id'],
+            'getToSectorQuery' => ['j.prisoner_id'],
+            'getToPrisonQuery' => ['j.prisoner_id'],
+            'getFromPrisonQuery' => ['j.prisoner_id'],
+            'getTerminateQuery' => ['j.prisoner_id'],
+            'getProgramsQuery' => ['pp.prisoner_id'],
+            'getConceptsQuery' => ['cp.prisoner_id'],
+            'getEventsQuery' => ['ep.prisoner_id'],
+            'getJobsQuery' => ['j.prisoner_id']
+
+
+
+        ];
+
+        $method = \Yii::$app->request->get('method');
+        if (!key_exists($method, $selectMethods))
+            throw new \LogicException("method not allowed");
+
+        $arg =  \Yii::$app->request->get('arg',[]);
+
+        $searchModel = new ReportSummarizedSearch();
+        $searchModel->applyFilter();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Prisoner::find()->where([
+                        '__person_id' => $searchModel->$method(...$arg)->select($selectMethods[$method])
+                    ])
+        ]);
+
+
+        return $this->render('participants', ['dataProvider' => $dataProvider]);
+
     }
 
 
