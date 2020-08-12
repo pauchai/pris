@@ -64,7 +64,7 @@ $printUrlParams[0] = 'index-print';
            'model' => $prisonerPlan,
            'attributes' => [
 
-                    'assignedAtJui',
+                   'assignedAtJui',
                    'dateFinishedJui',
                    [
                            'attribute' => 'status_id',

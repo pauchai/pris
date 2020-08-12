@@ -67,6 +67,8 @@ class PrisonerView extends  Prisoner
         return array_merge(parent::attributeLabels(),
             [
                 'fio' => Module::t('labels', 'PERSON_ID_LABEL'),
+                'birth_year' => Module::t('labels', 'BIRTH_YEAR'),
+
 
             ]);
     }

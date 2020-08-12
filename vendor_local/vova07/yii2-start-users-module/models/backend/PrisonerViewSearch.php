@@ -5,6 +5,7 @@ use vova07\base\components\DateConvertJuiBehavior;
 use vova07\prisons\models\Prison;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\users\models\Prisoner;
+use vova07\users\Module;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
@@ -157,6 +158,16 @@ class PrisonerViewSearch extends \vova07\users\models\PrisonerView
             ];
 
         return ArrayHelper::merge(parent::behaviors(),$add);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(),
+            [
+                'birth_year_from' => Module::t('labels', 'BIRTH_YEAR_FROM'),
+                'birth_year_to' => Module::t('labels', 'BIRTH_YEAR_TO'),
+
+            ]);
     }
 
 }

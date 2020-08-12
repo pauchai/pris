@@ -15,6 +15,7 @@ use yii\bootstrap\Html;
     <?php $form = ActiveForm::begin([
 
         'method' => 'get',
+        'layout' => 'inline'
     ]); ?>
     <div class="row">
         <div class="col-sm-4">

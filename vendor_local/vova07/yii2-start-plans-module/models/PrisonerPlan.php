@@ -189,4 +189,16 @@ class PrisonerPlan extends  Ownableitem
         return ArrayHelper::getValue(self::getStatusesForCombo(),$this->status_id);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'assignedAtJui' => Module::t('labels','ASSIGNED_AT'),
+            'assigned_to' => Module::t('labels','ASSIGNED_TO'),
+            'dateFinishedJui' => Module::t('labels','DATE_FINISHED'),
+            'date_finished' => Module::t('labels','DATE_FINISHED'),
+            'status_id' => Module::t('labels','STATUS'),
+            'fio' => Module::t('labels', 'FIO')
+
+        ];
+    }
 }
