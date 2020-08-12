@@ -145,7 +145,7 @@ CSS
         Html::submitButton('',['class'=>'btn btn-info btn-flat  fa fa-plus ']),
         ['class'=>'input-group-btn']
     ),
-    ['class' => 'input-group input-group-sm']);?>
+    ['class' => 'input-group input-group-lg']);?>
 </div>
 <?php \yii\bootstrap\ActiveForm::end();?>
 
@@ -231,12 +231,17 @@ CSS
         <?php echo $form->field($newProgramPrisoner, 'prison_id')->hiddenInput()->label(false)?>
         <?php echo $form->field($newProgramPrisoner, 'prisoner_id')->hiddenInput()->label(false)?>
         <?php echo $form->field($newProgramPrisoner, 'status_id')->hiddenInput()->label(false)?>
-        <?php echo $form->field($newProgramPrisoner,'programdict_id')->widget(\vova07\themes\adminlte2\widgets\DropdownWithButton::class,['items'=>\vova07\plans\models\ProgramDict::getListForCombo()])->label(false)?>
+        <?php echo $form->field($newProgramPrisoner,'programdict_id')->widget(\vova07\themes\adminlte2\widgets\DropdownWithButton::class,
+            [
+                    'items'=>\vova07\plans\models\ProgramDict::getListForCombo(),
+               'containerOptions' => 'input-group input-group-lg'
+            ])->label(false)?>
 
         <?php ActiveForm::end();?>
     </div>
 
 <?php  $box->endBody()?>
+
 
 
 

@@ -62,7 +62,7 @@ class BalanceController extends BackendController
     {
         $searchModel = new BalanceSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-
+        $dataProvider->pagination->setPageSize(200);
         //\Yii::$app->response->isSent = true;
        // $contentHtml = $this->render("print_receipt", ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
         $princePdf = new Prince('/usr/bin/prince');

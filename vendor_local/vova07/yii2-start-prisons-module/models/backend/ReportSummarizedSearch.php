@@ -89,9 +89,9 @@ class ReportSummarizedSearch extends Model
         if ($this->to)
             $query->andFilterWhere(['<=', 'j.at', $this->to]);
 
-        $query->andFilterWhere([
-            'pr.sector_id' => $this->sector_id
-        ]);
+      //  $query->andFilterWhere([
+       //     'pr.sector_id' => $this->sector_id
+       // ]);
         return $query;
     }
 
@@ -101,21 +101,27 @@ class ReportSummarizedSearch extends Model
             ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
             ->andWhere(['jprev.sector_id' => $this->sector_id]);
 
-
     }
 
     public function getToSectorQuery()
     {
         return ( $this->getBaseLocationQuery())
-            ->andWhere(['<>', 'jprev.sector_id', new Expression('j.sector_id')])
-            ->andWhere(['j.sector_id' => $this->sector_id]);
+            ->andWhere(['or', 'jprev.sector_id =  j.sector_id',new Expression("ISNULL(j.prev_id)") ])
+
+        ->andWhere([
+        'j.sector_id' => $this->sector_id
+    ]);
 
 
     }
 
     public function getToPrisonQuery()
     {
-        return ( $this->getBaseLocationQuery())->andWhere(new Expression("ISNULL(j.prev_id)"));
+        return ( $this->getBaseLocationQuery())->andWhere(new Expression("ISNULL(j.prev_id)"))
+            ->andWhere([
+                'j.sector_id' => $this->sector_id
+
+            ]);
     }
     public function getFromPrisonQuery()
     {
