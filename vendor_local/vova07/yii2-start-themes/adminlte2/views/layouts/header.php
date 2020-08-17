@@ -67,7 +67,7 @@ use yii\helpers\Html;
                             <p>
                                 <?=Yii::$app->user->identity->person->fio?>
                                 <small><?=Yii::$app->user->identity->role?></small>
-                                <small><?=Yii::$app->user->identity->person->officer->company->title?>-<?=Yii::$app->user->identity->person->officer->department->title?></small>
+                                <small><?=Yii::$app->user->identity->person->officer->company->title?>-<?=Yii::$app->user->identity->person->officer->division->title?></small>
 
 
                             </p>

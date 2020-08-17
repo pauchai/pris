@@ -14,7 +14,12 @@ use yii\bootstrap\ActiveForm ;
 
 ])?>
 <?php echo $form->field($model,'file')->fileInput()?> OR
-<?php echo $form->field($model,'filename')?>
+<?php echo $form->field($model,'filename')->dropDownList(
+        $video->resolveSubtitles(),
+        ['prompt' => '-']
+)?>
+<?php echo $form->field($model,'type')?>
+
 
 <?php echo \yii\bootstrap\Html::submitButton();?>
 <?php ActiveForm::end();?>

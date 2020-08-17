@@ -46,6 +46,24 @@ class MetadataController extends BackendController
 
     }
 
+    public function actionSubtitleDelete($video_id, $key)
+    {
+        $video = Video::findOne($video_id);
+
+
+        $metaData = ArrayHelper::getValue($video,'metadata');
+
+        if (ArrayHelper::keyExists('subtitles', $metaData)){
+
+            if (ArrayHelper::remove($metaData['subtitles'], $key)){
+                $video->metadata = $metaData;
+                $video->save();
+            };
+
+        }
+
+        return $this->goBack();
+    }
     public function actionSubtitleCreate($video_id)
     {
         $video = Video::findOne($video_id);
@@ -64,12 +82,20 @@ class MetadataController extends BackendController
                 $model->load(\Yii::$app->request->post());
             }
             if ($model->validate()){
-                ArrayHelper::setValue($video,'metadata.subtitles')
-                $video->metadata['subtitles'][] = $model->getAttributes(['name', 'type', 'filename']);
-                $video->save();
-                $this->goBack();
-            }
+                $metaDataSubtitles = ArrayHelper::getValue($video, 'metadata.subtitles',[]);
+                $metaDataSubtitles[] = [
+                   'filename' =>  $model->filename,
+                    'type' => $model->type,
+                    'name' => $model->filename
+                ];
 
+                ArrayHelper::setValue($video,'metadata', ['subtitles' => $metaDataSubtitles]);
+
+                if ( $video->save()){
+                    $this->goBack();
+
+                };
+            }
 
 
         }

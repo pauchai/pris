@@ -10,6 +10,7 @@ namespace vova07\videos\models;
 use Done\Subtitles\Subtitles;
 use vova07\videos\Module;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use YoutubeDl\YoutubeDl;
 use YoutubeDl\Exception\CopyrightException;
 use YoutubeDl\Exception\NotFoundException;
@@ -173,6 +174,27 @@ class Video extends ActiveRecord
     }
 
 
+    public function resolveSubtitles()
+    {
+        $dotSplited = preg_split('/\./', $this->video_url);
+        $ext = array_pop($dotSplited);
+        array_pop($dotSplited);
+        $extCutted = join('.', $dotSplited);
 
+        $globTemplate = \Yii::getAlias(Module::getInstance()->subTitlesBasePath . '/' . $extCutted . '*vtt');
+        $subtitles = glob($globTemplate);
+        $subtitles =  array_map(function($el){
+            $l = strlen(\Yii::getAlias(Module::getInstance()->subTitlesBasePath));
+            $el = substr($el, $l +1 );
+            return  $el;
+        },
+            $subtitles);
+        $subs = [];
+        foreach ($subtitles as $sub){
+                $subs[$sub] = $sub;
+        }
+
+        return $subs;
+    }
 
 }

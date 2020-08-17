@@ -12,6 +12,7 @@ namespace vova07\videos\models\metadata;
 
 use Done\Subtitles\Subtitles;
 use vova07\videos\Module;
+use yii\validators\DefaultValueValidator;
 use yii\validators\FileValidator;
 use yii\web\UploadedFile;
 use yii\base\Model;
@@ -37,9 +38,14 @@ class SubTitle extends Model
                [
                    [['filename'],'string'],
 
-                   [['file'], FileValidator::class, 'extensions' => self::UPLOADED_EXTENSIONS]
-
-           ];
+                   [['file'], FileValidator::class, 'extensions' => self::UPLOADED_EXTENSIONS],
+                   [['type'], DefaultValueValidator::class, 'value' =>function($model, $attribute) {
+                           return pathinfo($model->filename, PATHINFO_EXTENSION);
+                       }],
+                   [['name'], DefaultValueValidator::class, 'value' =>function($model, $attribute) {
+                       return pathinfo($model->filename, PATHINFO_FILENAME);
+                   }]
+               ];
         }
 
         public function upload()
