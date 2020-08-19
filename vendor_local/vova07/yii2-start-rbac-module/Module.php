@@ -84,6 +84,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_DOCUMENT_VIEW = 'BPermissionDocumentView';
     public const PERMISSION_DOCUMENT_DELETE = 'BPermissionDocumentDelete';
 
+
     public const PERMISSION_HUMANITARIAN_LIST = 'BPermissionHumanitarianList';
     public const PERMISSION_HUMANITARIAN_VIEW = 'BPermissionHumanitarianView';
     public const PERMISSION_HUMANITARIAN_CREATE = 'BPermissionHumanitarianCreate';

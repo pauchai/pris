@@ -93,12 +93,7 @@ class DocumentSearch extends \vova07\documents\models\Document
 
 
 
-        $dataProvider->sort->defaultOrder = [
 
-                    'person.second_name' => SORT_ASC,
-                    'type_id' => SORT_ASC,
-
-        ];
         //if (!($this->load($params) && $this->validate())) {
            // return $dataProvider;
         //}

@@ -9,6 +9,7 @@
 namespace vova07\documents\models;
 
 
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
@@ -46,4 +47,13 @@ class DocumentQuery extends ActiveQuery
             ['person_id' => $subQuery]
         );
     }
+    public function foreigners()
+    {
+        $subQuery = Person::find()->select('__ident_id')->foreigners();
+        return  $this->andWhere(
+            ['person_id' => $subQuery]
+        );
+    }
+
+
 }

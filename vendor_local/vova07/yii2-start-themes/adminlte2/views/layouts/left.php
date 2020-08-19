@@ -94,6 +94,7 @@ use vova07\site\Module;
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST),
                         'items' => [
                             ['label' => Module::t('menu','DOCUMENTS_LIST'),'icon' => 'circle','url'=>['/documents/default/index']],
+                            ['label' => Module::t('menu','DOCUMENTS_REPORT_LIST'),'icon' => 'circle','url'=>['/documents/report/index']],
                         //    ['label' => Module::t('menu','BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blanks/index']],
                           //  ['label' => Module::t('menu','PRISONER_BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blank-prisoners/index']],
                         ]

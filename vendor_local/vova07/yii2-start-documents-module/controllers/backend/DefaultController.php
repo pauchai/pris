@@ -65,7 +65,12 @@ class DefaultController extends BackendController
         $dataProvider->query->activePrisoners();
         if ($this->isPrintVersion)
                 $dataProvider->pagination = false;
+        $dataProvider->sort->defaultOrder = [
 
+            'person.second_name' => SORT_ASC,
+            'type_id' => SORT_ASC,
+
+        ];
         return $this->render("index", ['searchModel'=>$searchModel,'dataProvider'=>$dataProvider]);
     }
 

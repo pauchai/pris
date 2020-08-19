@@ -9,6 +9,7 @@
 namespace vova07\users\models;
 
 
+use vova07\countries\models\Country;
 use yii\db\ActiveQuery;
 
 class PrisonerQuery extends ActiveQuery
@@ -28,6 +29,12 @@ class PrisonerQuery extends ActiveQuery
             ['status_id' => [Prisoner::STATUS_ACTIVE, Prisoner::STATUS_ETAP]]
 
         );
+    }
+
+    public function foreigners()
+    {
+        return $this->joinWith('person')->andWhere(['<>', 'person.citizen_id', Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey]);
+
     }
 
 }
