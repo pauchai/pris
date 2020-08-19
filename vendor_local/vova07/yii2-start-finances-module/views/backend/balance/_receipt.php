@@ -82,8 +82,6 @@
     <tr>
         <td width="40%" style="padding:3px;" >
 
-                <b>Остаток</b>: <?=Yii::$app->formatter->asDecimal($model->prisoner->getBalances()->debit()->sum('amount') -$model->prisoner->getBalances()->credit()->sum('amount'),2) . ' лей' ?>
-
 
 
         </td>
