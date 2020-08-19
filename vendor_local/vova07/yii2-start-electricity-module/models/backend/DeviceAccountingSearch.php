@@ -49,6 +49,9 @@ class DeviceAccountingSearch extends \vova07\electricity\models\DeviceAccounting
         ]);
         $dataProvider->query->orderBy([
             'person.second_name' => SORT_ASC,
+            'person.first_name' => SORT_ASC,
+            'person.patronymic' => SORT_ASC,
+            'person.birth_year' => SORT_ASC,
         ]);
 
 
