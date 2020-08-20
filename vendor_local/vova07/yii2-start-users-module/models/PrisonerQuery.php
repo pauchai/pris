@@ -11,6 +11,7 @@ namespace vova07\users\models;
 
 use vova07\countries\models\Country;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 class PrisonerQuery extends ActiveQuery
 {
@@ -33,7 +34,15 @@ class PrisonerQuery extends ActiveQuery
 
     public function foreigners()
     {
-        return $this->joinWith('person')->andWhere(['<>', 'person.citizen_id', Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey]);
+        return $this->joinWith('person')
+            ->andWhere(['<>', 'person.citizen_id', Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey])
+            ->andWhere(['>', 'person.citizen_id', 0]);
+
+    }
+
+    public function stateless()
+    {
+        return $this->joinWith('person')->andWhere(new Expression('isnull(person.citizen_id)'));
 
     }
 

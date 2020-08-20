@@ -34,8 +34,8 @@ class Person extends  Ownableitem
     public function rules()
     {
         return [
-            [['citizen_id'], 'default', 'value' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey],
-            [['first_name','second_name','patronymic','citizen_id'], 'required'],
+            [['citizen_id'], DefaultValueValidator::class, 'skipOnEmpty' => true, 'value' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey],
+            [['first_name','second_name','patronymic'], 'required'],
             [['birth_year'],'integer'],
             [['address','photo_url','IDNP'],'string'],
             [['photo_url'],'default', 'value'=>'/statics/persons/NoNamePicture.jpg'],

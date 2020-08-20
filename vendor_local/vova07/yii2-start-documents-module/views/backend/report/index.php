@@ -1,7 +1,8 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\prisons\Module;
+use vova07\documents\Module;
+use kartik\grid\GridView;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
@@ -27,8 +28,10 @@ $this->params['breadcrumbs'] = [
 );?>
 <?php echo $this->render('_search', ['model' => $searchModel])?>
 
-<?php echo \kartik\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
+    'caption' => Module::t('labels', "LOCAL_PEOPLE"),
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
@@ -101,8 +104,10 @@ $this->params['breadcrumbs'] = [
     ]
 ])?>
 
-<?php echo \kartik\grid\GridView::widget(['dataProvider' => $dataProviderForeigners,
+<?php echo GridView::widget(['dataProvider' => $dataProviderForeigners,
     'filterModel' => $searchModel,
+    'caption' => Module::t('labels', "FOREIGN_PEOPLE"),
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
 
@@ -123,38 +128,76 @@ $this->params['breadcrumbs'] = [
 
         [
             'attribute' => 'term_finish',
-            'content' => function($model){
-                //$content = Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+            'content' => function($model)use($searchModel){
+                $attributeValueInt = 0;
+                $attributeValue = \yii\helpers\ArrayHelper::getValue($model, 'term_finish');
+                $attributeJuiValue = \yii\helpers\ArrayHelper::getValue($model, 'termFinishJui');
 
-                $currDate = new DateTime();
+                if ($attributeValue)
+                    $attributeValueInt = DateTime::createFromFormat('Y-m-d', $attributeValue)->getTimestamp();
+
+
                 $style = ['class' => 'label label-default'];
-                $value = null;
-                if ($model->term_finish) {
-                    $dateTermFinish = new DateTime($model->term_finish);
-                    $daysRemain = $currDate->diff($dateTermFinish)->format('%R%a');
-                    $value = $model->termFinishJui;
-
-                    if ($daysRemain <= 30){
-                        $style = ['class' => 'label label-danger'];
-                        $value = $value . ' ' . Yii::$app->formatter->asRelativeTime($value);
-                    }
-                    elseif ($daysRemain >=30 && $daysRemain <= 30*6)
-                        $style = ['class' => 'label label-info'];
-
-                    elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
-                        $style = ['class' => 'label label-success'];
+                if ($searchModel->expiredTo > $attributeValueInt){
+                    $style = ['class' => 'label label-danger'];
                 }
-                //  $value = $dateTermFinish->format('d-m-Y') . ' ' . $daysRemain;
 
 
 
 
-                $content = Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
+                $content = Html::tag('span', $attributeJuiValue, array_merge($style, ['style' => 'font-size:100%']));
                 return $content;
             },
             'value' => 'termFinishJui',
         ]
        // 'term_finish:date'
+    ]
+])?>
+
+<?php echo GridView::widget(['dataProvider' => $dataProviderStateless,
+    'filterModel' => $searchModel,
+    'caption' => Module::t('labels', "STATELESS_PEOPLE"),
+
+    'columns' => [
+        ['class' => yii\grid\SerialColumn::class],
+
+        [
+            'attribute' => 'person.fio',
+
+        ],
+
+
+        [
+            'content' => function($model){
+                return \yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain');
+            }
+        ],
+
+        [
+            'attribute' => 'term_finish',
+            'content' => function($model)use($searchModel){
+                $attributeValueInt = 0;
+                $attributeValue = \yii\helpers\ArrayHelper::getValue($model, 'term_finish');
+                $attributeJuiValue = \yii\helpers\ArrayHelper::getValue($model, 'termFinishJui');
+
+                if ($attributeValue)
+                    $attributeValueInt = DateTime::createFromFormat('Y-m-d', $attributeValue)->getTimestamp();
+
+
+                $style = ['class' => 'label label-default'];
+                if ($searchModel->expiredTo > $attributeValueInt){
+                    $style = ['class' => 'label label-danger'];
+                }
+
+
+
+
+                $content = Html::tag('span', $attributeJuiValue, array_merge($style, ['style' => 'font-size:100%']));
+                return $content;
+            },
+            'value' => 'termFinishJui',
+        ]
+        // 'term_finish:date'
     ]
 ])?>
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
