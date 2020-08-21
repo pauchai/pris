@@ -7,6 +7,7 @@
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
+use kartik\grid\GridView;
 
 $this->title = \vova07\plans\Module::t("default","PROGRAM_DICTS");
 $this->params['subtitle'] = 'LIST';
@@ -27,11 +28,16 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
+       [
+           'attribute' =>  'group.title',
+           'group' => true,
+           'groupedRow' => true,
+       ],
         'title',
-        'group.title',
+
         [
             'class' => yii\grid\ActionColumn::class,
 
