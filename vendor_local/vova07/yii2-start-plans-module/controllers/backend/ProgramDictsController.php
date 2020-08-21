@@ -40,6 +40,9 @@ class ProgramDictsController extends BackendController
     {
         $searchModel = new ProgramDictSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->orderBy([
+           'group_id' => SORT_ASC,'title' => SORT_ASC
+        ]);
         \Yii::$app->user->setReturnUrl(Url::current());
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
