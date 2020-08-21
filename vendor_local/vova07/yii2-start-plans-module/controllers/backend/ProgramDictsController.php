@@ -9,6 +9,7 @@ use vova07\plans\Module;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -39,7 +40,7 @@ class ProgramDictsController extends BackendController
     {
         $searchModel = new ProgramDictSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-
+        \Yii::$app->user->setReturnUrl(Url::current());
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
 
@@ -53,7 +54,7 @@ class ProgramDictsController extends BackendController
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
-                return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                return $this->goBack();
             }
         }
 
@@ -76,7 +77,7 @@ class ProgramDictsController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
@@ -92,7 +93,7 @@ class ProgramDictsController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()){
                 if ($model->save()){
-                    return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }
