@@ -73,6 +73,8 @@ class DefaultController extends BackendController
 
             $newRequirement = new Requirement();
             $newRequirement->prisoner_id = $prisoner_id;
+            $newRequirement->group_id = ArrayHelper::getValue(\Yii::$app, 'user.identity.planGroup.id');
+
 
             $newProgramPrisoner = new ProgramPrisoner();
             $newProgramPrisoner->prison_id = $prisonerPlan->prisoner->prison_id;

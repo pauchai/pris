@@ -107,6 +107,7 @@ CSS
             },
            //'contentOptions' => ['class' => 'btn btn-success btn-block']
         ],
+        'group.title',
         [
             'content' => function($model){
                 return Html::a('','#',['class' => 'fa fa-info','title'=>$model->ownableitem->createdBy->user->role, 'data-toggle'=>'popover','data-content'=>'test popover']);
@@ -132,21 +133,18 @@ CSS
 
 <?php $form=\yii\bootstrap\ActiveForm::begin([
         'action' => ['/plans/requirements-prisoner/create'],
+        'layout' => 'inline'
 ]);?>
-<div class="row">
     <?php echo $form->field($newRequirement, 'prisoner_id')->hiddenInput()->label(false)?>
-<?php echo   Html::tag('div',
-    $form->field($newRequirement,'content')->widget(\kartik\widgets\TypeaheadBasic::class, [
+    <?php echo $form->field($newRequirement,'content')->widget(\kartik\widgets\TypeaheadBasic::class, [
         'data' => \vova07\plans\models\Requirement::getRequirementsForCombo(),
         'pluginOptions' => ['highlight' => true],
         'options' => ['autocomplete' => 'off', 'placeholder' => Module::t('forms','START_TYPING_REQUIREMENT_PROMPT')],
-    ])->label(false) .
-    Html::tag('span',
-        Html::submitButton('',['class'=>'btn btn-info btn-flat  fa fa-plus ']),
-        ['class'=>'input-group-btn']
-    ),
-    ['class' => 'input-group input-group-lg']);?>
-</div>
+    ])->label(false)
+    ?>
+    <?php echo   $form->field($newRequirement, 'group_id')->dropDownList(\vova07\plans\models\PlanItemGroup::getListForCombo(),['prompt' => Module::t('labels','SELECT_GROUP')])->label(false) ?>
+
+<?php echo  Html::submitButton('',['class'=>'btn btn-info btn-flat  fa fa-plus ']) ?>
 <?php \yii\bootstrap\ActiveForm::end();?>
 
 
@@ -233,7 +231,7 @@ CSS
         <?php echo $form->field($newProgramPrisoner, 'status_id')->hiddenInput()->label(false)?>
         <?php echo $form->field($newProgramPrisoner,'programdict_id')->widget(\vova07\themes\adminlte2\widgets\DropdownWithButton::class,
             [
-                    'items'=>\vova07\plans\models\ProgramDict::getListForCombo(),
+                    'items'=>\vova07\plans\models\ProgramDict::getListForComboByUserGroup(),
                'containerOptions' => 'input-group input-group-lg'
             ])->label(false)?>
 

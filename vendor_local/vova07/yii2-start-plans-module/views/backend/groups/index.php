@@ -8,7 +8,7 @@
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
 
-$this->title = \vova07\plans\Module::t("default","PROGRAM_DICTS");
+$this->title = \vova07\plans\Module::t("default","PLAN_ITEM_GROUPS");
 $this->params['subtitle'] = 'LIST';
 $this->params['breadcrumbs'] = [
     [
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'title',
-        'group.title',
+        'role',
         [
             'class' => yii\grid\ActionColumn::class,
 

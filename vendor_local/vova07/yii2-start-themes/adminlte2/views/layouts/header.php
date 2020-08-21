@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -26,7 +27,7 @@ use yii\helpers\Html;
                 </li>
 -->                <li class="company">
                     <a href="">
-                        <?=Yii::$app->base->company->title?>
+                        <?= Yii::$app->base->company->title?>
                     </a>
                 </li>
                 <?php
@@ -67,7 +68,7 @@ use yii\helpers\Html;
                             <p>
                                 <?=Yii::$app->user->identity->person->fio?>
                                 <small><?=Yii::$app->user->identity->role?></small>
-                                <small><?=Yii::$app->user->identity->person->officer->company->title?>-<?=Yii::$app->user->identity->person->officer->division->title?></small>
+                                <small><?= ArrayHelper::getValue(Yii::$app->user->identity, 'person.officer.company.title')?>-<?=ArrayHelper::getValue(Yii::$app->user->identity, 'person.officer.division.title')?></small>
 
 
                             </p>

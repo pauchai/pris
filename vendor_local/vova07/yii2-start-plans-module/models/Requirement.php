@@ -21,6 +21,7 @@ use vova07\prisons\models\Prison;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -36,8 +37,11 @@ class Requirement extends  Ownableitem
     }
     public function rules()
     {
+
         return [
-            [['prisoner_id','content'], 'required'],
+           // [['group_id'], 'default', 'value' => ArrayHelper::getValue(\Yii::$app, 'user.identity.planGroup.id')],
+
+            [['prisoner_id','content', 'group_id'], 'required'],
         ];
     }
 
@@ -46,17 +50,21 @@ class Requirement extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL ',
                 'content' =>  Schema::TYPE_STRING . ' NOT NULL ',
+                'group_id' => $migration->tinyInteger()->notNull(),
             ],
 
 
 
             'foreignKeys' => [
                 [self::class, 'prisoner_id',PrisonerPlan::class, PrisonerPlan::primaryKey()],
+                [self::class, 'group_id',PlanItemGroup::class,PlanItemGroup::primaryKey()],
+
 
             ],
 
@@ -104,6 +112,12 @@ class Requirement extends  Ownableitem
     public static function getRequirementsForCombo()
     {
         return ArrayHelper::map(Requirement::find()->all(),'__ownableitem_id','content');
+    }
+
+
+    public function getGroup()
+    {
+        return $this->hasOne(PlanItemGroup::class, ['id' => 'group_id']);
     }
 
 }

@@ -17,6 +17,7 @@ use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -31,7 +32,7 @@ class ProgramDict extends  Ownableitem
     public function rules()
     {
         return [
-            [['title','slug'], 'required'],
+            [['title','slug', 'group_id'], 'required'],
 
         ];
     }
@@ -41,15 +42,23 @@ class ProgramDict extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'title' => Schema::TYPE_STRING . ' NOT NULL',
                 'slug' => Schema::TYPE_STRING . " NOT NULL",
+                'group_id' => $migration->tinyInteger()->notNull(),
                 'origin_id' => Schema::TYPE_INTEGER
             ],
-            'indexes' => [
+
+            'foreignKeys' => [
+                [self::class, 'group_id',PlanItemGroup::class,PlanItemGroup::primaryKey()],
+
+
+
             ],
+
 
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
@@ -94,12 +103,32 @@ class ProgramDict extends  Ownableitem
       return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
     }
 
-
-    public static function getListForCombo()
+    public function getGroup()
     {
-        return ArrayHelper::map(self::find()->asArray()->all(),'__ownableitem_id','title');
+        return $this->hasOne(PlanItemGroup::class,['id' => 'group_id']);
     }
 
+
+    public static function getListForCombo($group_id = null)
+    {
+        $query = self::find();
+        if ($group_id)
+            $query->andWhere(['group_id' => $group_id]);
+
+        return ArrayHelper::map($query->asArray()->all(),'__ownableitem_id','title');
+    }
+
+    public static function getListForComboByUserGroup()
+    {
+        $planGroup = \Yii::$app->user->identity->planGroup;
+        $groupId = ArrayHelper::getValue($planGroup,'id');
+        return self::getListForCombo($groupId);
+    }
+
+    public function getPlanGroup()
+    {
+        return $this->hasOne(PlanItemGroup::class, ['id' => 'group_id']);
+    }
 
 
 

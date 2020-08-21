@@ -15,7 +15,7 @@ use vova07\plans\models\PlanItemGroup;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'title')?>
-<?=$form->field($model,'group_id')->dropDownList(PlanItemGroup::getListForCombo(),['prompt' => '-'])?>
+<?=$form->field($model,'role')->dropDownList(PlanItemGroup::getRolesForCombo(),['prompt' => '-'])?>
 
 
 

@@ -14,6 +14,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\plans\models\PlanItemGroup;
 use vova07\users\Module;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
@@ -194,5 +195,10 @@ class User extends  Ownableitem implements IdentityInterface
     public function getOfficer()
     {
         return $this->hasOne(Officer::class,[ '__person_id'  => '__ident_id']);
+    }
+
+    public function getPlanGroup()
+    {
+        return PlanItemGroup::findOne(['role' => $this->role]);
     }
 }

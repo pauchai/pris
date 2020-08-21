@@ -332,6 +332,10 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','PRISONS_LIST'),'icon' => 'circle','url'=>['/prisons/default'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
+                            ['label' => Module::t('menu','PLAN_GROUPS'),'icon' => 'circle','url'=>['/plans/groups'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
                         ]
                     ],
                      ['label' =>  Module::t('menu', 'SETTINGS'),'icon' => 'language','url' => ['/site/settings/index'],
