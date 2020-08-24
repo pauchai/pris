@@ -31,7 +31,7 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
     {
 
         $query = self::find();
-        $query->andWhere([  'prisoner_status_id' => Prisoner::STATUS_ACTIVE]);
+       // $query->andWhere([  'prisoner_status_id' => Prisoner::STATUS_ACTIVE]);
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
         ]);
@@ -45,8 +45,12 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
 
                 ]
             );
-            $query->andFilterWhere(['>=', 'assigned_at',$this->assignedAtFrom])
-            ->andFilterWhere(['<=', 'assigned_at', $this->assignedAtTo ]);
+            if ($this->assignedAtTo || $this->assignedAtFrom){
+                $query->andFilterWhere(['>=', 'assigned_at',$this->assignedAtFrom])
+                    ->andFilterWhere(['<=', 'assigned_at', $this->assignedAtTo ])
+                    ->andWhere(new Expression('NOT ISNULL(assigned_to)'));
+            }
+
         };
 
 

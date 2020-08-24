@@ -52,7 +52,7 @@ class ProgramPlan extends  Ownableitem
         return [
             [['prisoner_id','programdict_id'], 'required'],
             [['year'],'integer'],
-            [['year'],'safe']
+            [['year'],'safe'],
 
         ];
     }

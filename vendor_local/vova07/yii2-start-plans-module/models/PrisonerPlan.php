@@ -49,7 +49,9 @@ class PrisonerPlan extends  Ownableitem
         return [
             [['__prisoner_id','status_id'],'required'],
             [['assignedAtJui', 'dateFinishedJui'],'date'],
-            [['status_id'],'default', 'value' => self::STATUS_ACTIVE]
+            [['status_id'],'default', 'value' => self::STATUS_ACTIVE],
+            [['assigned_to'], 'integer']
+
         ];
     }
 
