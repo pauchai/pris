@@ -52,8 +52,6 @@ class ProgramDictsController extends BackendController
 
         $model = new ProgramDict();
 
-
-
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){

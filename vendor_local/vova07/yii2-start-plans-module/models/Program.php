@@ -213,8 +213,8 @@ class Program extends  Ownableitem
     public static function getStatusesForCombo($key = null)
     {
         $ret = [
-          self::STATUS_ACTIVE => Module::t('default','STATUS_ACTIVE'),
-            self::STATUS_FINISHED => Module::t('default','STATUS_FINISHED'),
+          self::STATUS_ACTIVE => Module::t('default','PROGRAM_STATUS_ACTIVE'),
+            self::STATUS_FINISHED => Module::t('default','PROGRAM_STATUS_FINISHED'),
         ];
 
         if ($key)
