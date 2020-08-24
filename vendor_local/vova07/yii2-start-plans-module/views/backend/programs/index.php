@@ -7,8 +7,9 @@
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
+use vova07\plans\Module;
 
-$this->title = \vova07\plans\Module::t("default","PROGRAM");
+$this->title = Module::t("default","PROGRAM");
 $this->params['subtitle'] = 'LIST';
 $this->params['breadcrumbs'] = [
     [
@@ -31,7 +32,12 @@ $this->params['breadcrumbs'] = [
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'programDict.title',
+        [
+            'attribute' => 'programdict_id',
+            'value' => 'programDict.title',
+            'filter' => \vova07\plans\models\ProgramDict::getListForCombo(),
+
+        ],
         'prison.company.title',
         'order_no',
         'date_start',
@@ -42,9 +48,18 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
-            'header' => '',
-            'content' => function($model){return $model->getParticipants()->forPrisonersActiveAndEtapped()->count();}
+            'header' => \yii\bootstrap\Html::tag('span','',['class' => 'fa fa-users'] ),
+            'content' => function($model){
+                return \yii\bootstrap\Html::a( $model->getParticipants()->forPrisonersActiveAndEtapped()->count(), ['view','id' => $model->primaryKey], [
+                    'title' => Module::t('default', 'PROGRAM_PARTICIPANTS'),
+                    'data-pjax' => '0',
+                    'class'=>'btn btn-primary'
+                ]);
+                return ;
+            }
+
         ],
+
         [
           'attribute' => 'status_id',
           'content' => function($model){
