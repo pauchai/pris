@@ -9,6 +9,7 @@
 namespace vova07\users\models\backend;
 
 
+use vova07\plans\models\PlanItemGroup;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\base\Security;

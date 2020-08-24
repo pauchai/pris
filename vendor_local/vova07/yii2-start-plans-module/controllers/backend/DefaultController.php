@@ -8,6 +8,7 @@ use vova07\plans\models\backend\ProgramDictSearch;
 use vova07\plans\models\backend\ProgramSearch;
 use vova07\plans\models\Event;
 use vova07\plans\models\EventParticipant;
+use vova07\plans\models\PlanItemGroup;
 use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
 use vova07\plans\models\ProgramDict;
@@ -86,29 +87,24 @@ class DefaultController extends BackendController
             }
 
 
-        $prisonerProgramsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisonerPlan->getPrisonerPrograms(),
-            'pagination' => ['pageSize' => 0]
-        ]);
-            if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
-                    $prisonerPrograms = $prisonerPlan->getPrisonerPrograms()->all();
+        $prisonerProgramsQuery = $prisonerPlan->getPrisonerPrograms()->joinWith('programDict')->orderBy(['program_dicts.group_id' => SORT_DESC]);
 
-            else{
-                $prisonerPrograms = $prisonerPlan->getPrisonerPrograms()->ownedBy()->all();
-                $prisonerProgramsDataProvider->query->ownedBy();
-            }
+        $prisonerProgramsDataProvider  = new ActiveDataProvider([
+            'query' =>   $prisonerProgramsQuery,
+            'pagination' => false
+        ]);
+
+            if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING) == false)
+                $prisonerProgramsQuery->where(['program_dicts.group_id' => ArrayHelper::getValue(\Yii::$app->user->identity->getPlanGroup(),'id')]);
+
+        $requirementsQuery = $prisonerPlan->getRequirements()->orderBy(['group_id' => SORT_DESC]);
 
         $prisonerRequirementsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisonerPlan->getRequirements(),
-            'pagination' => ['pageSize' => 0]
+            'query' =>   $requirementsQuery,
+            'pagination' => false
         ]);
-
-        if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING))
-            $prisonerRequirements = $prisonerPlan->getRequirements()->all();
-        else{
-            $prisonerRequirementsDataProvider->query->ownedBy();
-            $prisonerRequirements = $prisonerPlan->getRequirements()->ownedBy()->all();
-        }
+        if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING) == FALSE)
+                    $requirementsQuery->andWhere(['group_id' => ArrayHelper::getValue(\Yii::$app->user->identity->getPlanGroup(),'id')]);
 
 
         $prisonerSearch = new PrisonerViewSearch();
@@ -124,8 +120,8 @@ class DefaultController extends BackendController
                'prisonerPlan'=>$prisonerPlan ,
                'newRequirement'=>$newRequirement,
                'newProgramPrisoner' => $newProgramPrisoner,
-               'prisonerPrograms' => $prisonerPrograms,
-               'prisonerRequirements' => $prisonerRequirements,
+               //'prisonerPrograms' => $prisonerPrograms,
+               //'prisonerRequirements' => $prisonerRequirements,
                'requirementsList' => Requirement::getRequirementsForCombo(),
                'prisonerRequirementsDataProvider' => $prisonerRequirementsDataProvider,
                'prisonerProgramsDataProvider' => $prisonerProgramsDataProvider,
@@ -141,58 +137,57 @@ class DefaultController extends BackendController
             throw new NotFoundHttpException(Module::t('events','ITEM_NOT_FOUND'));
         }
 
+        $prisonerProgramsQuery = $prisonerPlan->getPrisonerPrograms();
         $prisonerProgramsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisonerPlan->getPrisonerPrograms(),
-            'pagination' => ['pageSize' => 0]
+            'query' =>  $prisonerProgramsQuery  ,
+            'pagination' => false
         ]);
         //if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING))
-            $prisonerPrograms = $prisonerProgramsDataProvider->query->all();
+            $prisonerPrograms = $prisonerProgramsQuery->all();
 
 
 
 
         $programsGroupedByRole = [
-            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => [] ,
-            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST => [],
-            \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST => [],
+            PlanItemGroup::GROUP_EDUCATOR_ID=> [] ,
+            PlanItemGroup::GROUP_PSYCHOLOGIST_ID => [],
+            PlanItemGroup::GROUP_SOCIOLOGIST_ID => [],
+
 
            // \vova07\rbac\Module::ROLE_SUPERADMIN => []
         ];
 
         foreach ($prisonerPrograms as $program)
         {
-            $roleName = $program->ownableitem->createdBy->user->role;
-            if ($roleName === \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT)
-                    $roleName = \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR;
+            $groupId = $program->planGroup->primaryKey;
 
-            if (!isset($programsGroupedByRole[$roleName]))
+            if (!isset($programsGroupedByRole[$groupId]))
                 continue;
 
-            if (!isset($programsGroupedByRole[$roleName]['prog']))
-                $programsGroupedByRole[$roleName]['prog'] = [];
-            $programsGroupedByRole[$roleName]['prog'][] = $program;
+            if (!isset($programsGroupedByRole[$groupId]['prog']))
+                $programsGroupedByRole[$groupId]['prog'] = [];
+            $programsGroupedByRole[$groupId]['prog'][] = $program;
         }
-
+        $prisonerRequirementsQuery = $prisonerPlan->getRequirements();
         $prisonerRequirementsDataProvider  = new ActiveDataProvider([
-            'query' =>   $prisonerPlan->getRequirements(),
-            'pagination' => ['pageSize' => 0]
+            'query' => $prisonerRequirementsQuery  ,
+            'pagination' => false
         ]);
 
        // if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_REQUIREMENTS_PLANING))
-            $prisonerRequirements = $prisonerRequirementsDataProvider->query->all();
+            $prisonerRequirements = $prisonerRequirementsQuery->all();
 
 
         foreach ($prisonerRequirements as $requirement)
         {
-            $roleName = $requirement->ownableitem->createdBy->user->role;
-            if ($roleName === \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT)
-                $roleName = \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR;
-            if (!isset($programsGroupedByRole[$roleName]))
-                continue;
-            if (!isset($programsGroupedByRole[$roleName]['req']))
-                $programsGroupedByRole[$roleName]['req'] = [];
+            $groupId = $requirement->group_id;
 
-            $programsGroupedByRole[$roleName]['req'][] = $requirement;
+            if (!isset($programsGroupedByRole[$groupId]))
+                continue;
+            if (!isset($programsGroupedByRole[$groupId]['req']))
+                $programsGroupedByRole[$groupId]['req'] = [];
+
+            $programsGroupedByRole[$groupId]['req'][] = $requirement;
         }
 
 

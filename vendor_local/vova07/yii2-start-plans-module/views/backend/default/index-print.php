@@ -60,9 +60,9 @@ CSS
     <h3 align="center"><b>N.P.P.</b> <u><?=$prisonerPlan->person->fio?> <?=$prisonerPlan->person->birth_year?></u></h3>
 
 
-<?php  $cnt = 0;foreach($programsGroupedByRole as $role=>$programs):?>
+<?php  $cnt = 0;foreach($programsGroupedByRole as $groupId=>$programs):?>
 
-    <h5><?=++$cnt?>. <?=Module::getPlanLabels($role)?>.</h5>
+    <h5><?=++$cnt?>. <?php echo \vova07\plans\models\PlanItemGroup::findOne($groupId)->title//Module::getPlanLabels($role)?>.</h5>
 <h5><?=Module::PLAN_LABELS_REQUIREMENTS?>:</h5>
 <?php if(isset($programs['req'])) foreach($programs['req'] as $requirement):?>
 

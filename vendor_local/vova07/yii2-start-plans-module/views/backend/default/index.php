@@ -77,7 +77,7 @@ $printUrlParams[0] = 'index-print';
 <?php // echo \vova07\users\widgets\PrisonerInfo::widget(['prisoner'=>$prisoner])?>
 
 
-    <h3><?= Module::t("default","Palierul asistential") ?></h3>
+
 
 
 
@@ -101,13 +101,18 @@ CSS
         //['class' => SerialColumn::class],
 
         [
+         'attribute' => 'group.title',
+         'group' => 'true',
+         'groupedRow' => 'true',
+        ],
+        [
                 'attribute' => 'content',
             'content' => function($model){
                 return \yii\bootstrap\Html::a($model->content,'#',['class' => 'btn bg-gray btn-block ']);
             },
            //'contentOptions' => ['class' => 'btn btn-success btn-block']
         ],
-        'group.title',
+
         [
             'content' => function($model){
                 return Html::a('','#',['class' => 'fa fa-info','title'=>$model->ownableitem->createdBy->user->role, 'data-toggle'=>'popover','data-content'=>'test popover']);
@@ -160,7 +165,11 @@ CSS
     'columns' => [
         //['class' => SerialColumn::class],
 
-
+        [
+            'attribute' => 'programDict.group.title',
+            'group' => 'true',
+            'groupedRow' => 'true',
+        ],
         [
             'attribute' => 'programdict_id',
             // 'contentOptions' => ['class' => 'btn btn-success btn-block'],

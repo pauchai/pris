@@ -19,4 +19,5 @@ class RequirementsQuery extends ActiveQuery
         return $this->joinWith('ownableitem')->andWhere('ownableitem.created_by='. \Yii::$app->user->id);
     }
 
+
 }

@@ -350,4 +350,9 @@ class ProgramPrisoner extends  Ownableitem
        ];
     }
 
+    public function getPlanGroup()
+    {
+       return $this->programDict->planGroup;
+    }
+
 }

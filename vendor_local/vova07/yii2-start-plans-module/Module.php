@@ -18,6 +18,9 @@ class Module extends \vova07\base\components\Module
     const PLAN_LABELS_PROGRAMS_REQUIREMENT = "Programe şi activităţi obligatorii";
 
 
+    /**
+     * @deprecated Use PlanItemGroup title
+     */
     public static function getPlanLabels($key){
         $ret = [
             \vova07\rbac\Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR => self::PLAN_ROLE_LABEL_EDUCATOR,
@@ -31,5 +34,6 @@ class Module extends \vova07\base\components\Module
         else
             return $ret;
     }
+
 
 }
