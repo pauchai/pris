@@ -24,7 +24,26 @@ use yii\helpers\Html;
             'attribute' => 'prisoner.person.fio',
         'value' => function($model){return $model->prisoner->getFullTitle(true);}
     ],
-    ]
+    ];
+$gridColumns[] = [
+
+    'header' =>Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
+        \yii\jui\DatePicker::widget([
+            'id' => 'newDateColumnDatePicker',
+            'dateFormat' => 'yyyy-MM-dd',
+            'options' => [
+                'placeholder'=>Module::t('programs','NEW_DATE')
+            ]
+        ]),
+    'content' => function($model){
+        return Module::t('programs','{one}_FROM_{from}',[
+            'one'=>$model->getVisits()->presented()->count(),
+            'from'=> $model->getVisits()->exceptDoesntPresentedValid()->count()
+        ]);
+
+    },
+    'visible' => $model->status_id !=\vova07\plans\models\Program::STATUS_FINISHED
+];
 
 ?>
 <?php
@@ -71,25 +90,6 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 }
 ?>
 <?php
-$gridColumns[] = [
-
-    'header' =>Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
-        \yii\jui\DatePicker::widget([
-            'id' => 'newDateColumnDatePicker',
-            'dateFormat' => 'yyyy-MM-dd',
-            'options' => [
-                'placeholder'=>Module::t('programs','NEW_DATE')
-            ]
-        ]),
-    'content' => function($model){
-            return Module::t('programs','{one}_FROM_{from}',[
-                    'one'=>$model->getVisits()->presented()->count(),
-                'from'=> $model->getVisits()->exceptDoesntPresentedValid()->count()
-            ]);
-
-        },
-        'visible' => $model->status_id !=\vova07\plans\models\Program::STATUS_FINISHED
-];
  $gridColumns[] = [
 
     'header' =>Module::t('programs','MARK'),
