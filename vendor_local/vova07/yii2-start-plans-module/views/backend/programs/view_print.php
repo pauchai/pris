@@ -93,6 +93,22 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 
     ];
 }
+
+$gridColumns[] = [
+    'header' =>Module::t('programs','MARK'),
+    'content' => function($model){
+                $commentCntBox = \vova07\comments\widgets\CommentCountWithPopover::widget(['query' => $model->getComments()]);
+                if (!is_null($model->mark_id))
+                    $markBox = Html::tag('span', $model->markTitle,
+                        ['class' => 'label label-' . \vova07\plans\models\ProgramPrisoner::resolveMarkStyleById($model->mark_id)]);
+                else
+                    $markBox = Html::tag('span', \vova07\plans\models\ProgramPrisoner::getMarkTitleById($model->resolveMark()),
+                        ['class' => 'label label-default']);
+
+
+        return $markBox . $commentCntBox ;
+    }
+];
 ?>
 
 
