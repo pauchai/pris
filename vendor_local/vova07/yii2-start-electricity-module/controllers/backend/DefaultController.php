@@ -214,7 +214,10 @@ class DefaultController extends BackendController
         $searchModel = new DeviceSearch();
 
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
-        $dataProvider->query->andWhere(['not in', 'devices.__ownableitem_id' , $deviceAccountingProvider->query->select('device_accountings.device_id')->distinct()]);
+        $dataProvider->query
+            ->andWhere(['not in', 'devices.__ownableitem_id' , $deviceAccountingProvider->query->select('device_accountings.device_id')->distinct()])
+            ->activePrisoners();
+        ;
         $dataProvider->pagination = false;
 
         //$count = count(\Yii::$app->request->post('DeviceAccounting', []));
