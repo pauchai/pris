@@ -15,12 +15,12 @@ use vova07\prisons\Module;
 
 <?=$form->field($model,'type_id')->dropDownList(\vova07\documents\models\Document::getTypesForCombo(),['prompt' => Module::t('default','SELECT')])?>
 
-<?=$form->field($model,'person_id')->widget(
-    \kartik\select2\Select2::class,[
-        'data' => \vova07\users\models\Prisoner::getListForCombo(),
-        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+<?=$form->field($model,'person_id')->dropDownList(
 
-    ]
+        \vova07\users\models\Prisoner::getListForCombo(),
+        ['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+
+
 )
 
 ?>
@@ -30,12 +30,13 @@ use vova07\prisons\Module;
 <?=$form->field($model,'seria')?>
 <?= $form->field($model, 'dateIssueJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?= $form->field($model, 'dateExpirationJui')->widget(\kartik\widgets\DatePicker::class)?>
-<?= $form->field($model, 'assigned_to')->widget(
-    \kartik\select2\Select2::class,[
-        'data' => \vova07\users\models\Officer::getListForCombo(),
-        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_OFFICER')]
+<?= $form->field($model, 'assigned_to')->dropDownList(
 
-    ]
+        \vova07\users\models\Officer::getListForCombo(),
+        ['prompt'=>\vova07\plans\Module::t('events','SELECT_OFFICER')
+        ]
+
+
 )?>
 <?= $form->field($model, 'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 

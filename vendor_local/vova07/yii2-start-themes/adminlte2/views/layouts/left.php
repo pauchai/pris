@@ -120,7 +120,7 @@ use vova07\site\Module;
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_HUMANITARIAN_LIST),
                         'items' => [
 
-                            ['label' => Module::t('menu','HUMANITARIAN_LIST'),'icon' => 'circle','ursubject_idl'=>['/humanitarians/issues/index']],
+                            ['label' => Module::t('menu','HUMANITARIAN_LIST'),'icon' => 'circle','url'=>['/humanitarians/issues/index']],
                             ['label' => Module::t('menu','HUMANITARIAN_ITEMS_LIST'),'icon' => 'circle','url'=>['/humanitarians/items/index']],
                         ]
                     ],
