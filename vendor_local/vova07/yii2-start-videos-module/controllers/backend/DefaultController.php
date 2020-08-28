@@ -49,7 +49,7 @@ class DefaultController extends BackendController
 
         if ($model->load(\Yii::$app->request->post())) {
             if ($model->save()) {
-              //  return $this->redirect(Url::toRoute("index"));
+                return $this->goBack();
             }
         }
         return $this->render("create", [
@@ -62,7 +62,7 @@ class DefaultController extends BackendController
         $model = Video::findOne($id);
         if ($model->load(\Yii::$app->request->post())) {
             if ($model->save()) {
-                return $this->redirect(Url::toRoute("index"));
+                return $this->goBack();
             }
         }
         return $this->render("update", [
@@ -82,6 +82,16 @@ class DefaultController extends BackendController
         return $this->render('view', ['model' => $model, 'newWord' => $newWord]);
 
     }
+
+
+    public function actionFmsTest()
+    {
+
+        return $this->render('fms_test');
+
+    }
+
+
 
     public function actionImportYoutube()
     {

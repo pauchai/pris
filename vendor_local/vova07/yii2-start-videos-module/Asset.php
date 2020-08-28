@@ -17,7 +17,7 @@ class Asset extends AssetBundle
     public $sourcePath = '@vova07/videos/assets';
     public $js = [
         'js/video.js',
-        'js/jquery.highlight.js'
+        'js/jquery.highlight.js',
     ];
     public $depends = [
         JqueryAsset::class
@@ -27,4 +27,5 @@ class Asset extends AssetBundle
     {
 
     }
+
 }
