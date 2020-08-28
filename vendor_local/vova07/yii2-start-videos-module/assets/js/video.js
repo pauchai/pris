@@ -1,12 +1,12 @@
 
 class Video {
 
-
+    static  modeStateMax = 3;
     constructor(video_id){
         this.video_id = video_id;
-        this.track = this.video[0].textTracks[0];
-        this.track2 = this.video[0].textTracks[1];
-        this.modeState = 1;
+        this.track = this.video.textTracks[0];
+        this.track2 = this.video.textTracks[1];
+        this.modeState = 0;
 
         this.cueEnter = (e) => {
             //var lineId = Number.parseFloat(this.startTime).toFixed(2)+Number.parseFloat(this.endTime).toFixed(2);
@@ -15,7 +15,8 @@ class Video {
             var lineId = e.currentTarget.id;
             $("#"+lineId).focus();
             $("#"+lineId).addClass("focused");
-
+            this.modeState = 0;
+            this.resolveModeState();
             //console.log("#" + lineId + "enter");
         };
 
@@ -36,50 +37,56 @@ class Video {
              return false;
          };
 
-        // this.cueAClickHandler = e => {
-        //     e.preventDefault();
-        //     $(e.delegateTarget.querySelector('.cue')).click();
-        //
-        //     return false;
-        // };
+         this.cueAClickHandler = e => {
+            e.preventDefault();
+             e.currentTarget.querySelector('.cue').click();
+
+             return false;
+         };
 
         this.handlerVideoPlayBackRate075 = (e) => {
-          this.video[0].playbackRate = 0.75;
+          this.video.playbackRate = 0.75;
         };
 
         this.handlerVideoPlayBackRate1 = (e) => {
-            this.video[0].playbackRate = 1;
+            this.video.playbackRate = 1;
         };
 
 
          this.handlerKeyDown = (e) => {
+             /**
+              * @var document Document
+              */
              var aNext, aPrev;
                if (e.keyCode == 17)
                      return;
                  if (e.keyCode == 39) {
-                     aNext = $("a.focused").parent().parent().next().find("a");
+                   //  aNext = $("a.focused").parent().parent().next().find("a");
+                     aNext = document.querySelector('a:focus').parentElement.parentElement.nextElementSibling.querySelector('a.cue');
                      aNext.click();
 
                  }
                  if (e.keyCode == 37) {
                      //$("a.focused").prev().prev().prev().click();
-                     aPrev = $("a.focused").parent().parent().prev().find("a");
+                     aPrev = document.querySelector('a:focus').parentElement.parentElement.previousElementSibling.querySelector("a.cue");
                      aPrev.click();
 
                  }
                  if (e.keyCode == "R".charCodeAt(0)){
-                     aPrev = $("a.focused").trigger('click');
+                     aPrev = document.querySelector('a:focus')
+                     aPrev.click();
+                     this.incModeState();
 
-                     if (this.video[0].paused )
-                         this.video[0].play();
+                     if (this.video.paused )
+                         this.video.play();
                  }
                  if (e.keyCode == 32) {
 
-                     if (this.video[0].paused || this.video[0].ended) {
-                         this.video[0].play();
+                     if (this.video.paused || this.video.ended) {
+                         this.video.play();
                      }
                      else {
-                         this.video[0].pause();
+                         this.video.pause();
                      }
 
                  }
@@ -113,7 +120,7 @@ class Video {
 
 
         };
-        this.video[0].onloadeddata = (e) => {
+        this.video.onloadeddata = (e) => {
             this.resolveModeState()
             this.init();
 
@@ -130,29 +137,48 @@ class Video {
         if (this.modeState == 0){
             this.track.mode = 'hidden';
             this.track2.mode = 'hidden';
-            this.video[0].playbackRate = 1;
+            this.video.playbackRate = 1;
         } else if (this.modeState == 1){
-            this.video[0].playbackRate = 1;
+            this.video.playbackRate = 1;
            this.track.mode = 'showing';
-           this.track2.mode = 'showing';
+           this.track2.mode = 'hidden';
+        }  else if (this.modeState == 2){
+            this.video.playbackRate = 0.75;
+            this.track.mode = 'showing';
+            this.track2.mode = 'showing';
         }
+    }
+    incModeState()
+    {
+        this.modeState++;
+
+        if (this.modeState > Video.modeStateMax)
+            this.modeState = 0;
+
+        this.resolveModeState();
     }
 
     /**
      *
-     * @returns {jQuery|HTMLElement}
+     * @returns {HTMLElement | null}
      */
     get video(){
         /**
          * @var document Document
          */
-        return $("#" + this.video_id);
+        return document.getElementById(this.video_id);
     }
 
 
 
     init(){
+        /**
+         *
+         * @var document Document
+         */
         var cues2Indexed = {}, cue2, cue, timeStr, startTimeArr, td3, td2, td1, tr;
+
+
 //for (var ii  = 0; ii < cues2.length; ii++) {
         for (var ii = 0; ii <  this.track2.cues.length; i++) {
             cue2 = this.track2.cues[ii];
@@ -175,7 +201,7 @@ class Video {
             //e.line = 10';
             //cue.align = 'right';
             //cue.size = "48";
-            cue.line = 100;
+          //  cue.line = -1;
             cue.onenter = this.cueEnter;
             cue.onexit = this.cueExit;
             timeStr = '' + cue.startTime + '';
@@ -198,26 +224,29 @@ class Video {
             tr.appendTo("#subtitles_container");
 
 
-            $(".cue").on("click", this.cueClickHandler);
+            //$(".cue").on("click", this.cueClickHandler);
 
-            $("a.cue").parent().parent().on("click", this.cueAClickHandler);
+            document.querySelectorAll('.cue').forEach(cue=>cue.addEventListener('click', this.cueClickHandler));
+
+            document.querySelectorAll('a.cue').forEach(cue=>cue.parentElement.parentElement.addEventListener('click', this.cueAClickHandler));
+            //$("a.cue").parent().parent().on("click", this.cueAClickHandler);
             //$("#subtitles_container").append($("<tr></tr>"))
 
 
-            $("#video-speed-0_75").on("click", this.handlerVideoPlayBackRate075);
-            $("#video-speed-1").on("click", this.handlerVideoPlayBackRate1);
+            document.getElementById("video-speed-0_75").addEventListener("click", this.handlerVideoPlayBackRate075);
+            document.getElementById("video-speed-1").addEventListener("click", this.handlerVideoPlayBackRate1);
 
+            document.addEventListener('keydown', this.handlerKeyDown);
+            //$(document).keydown(this.handlerKeyDown);
 
-            $(document).keydown(this.handlerKeyDown);
-
-            $("#subtitles_container").on("mouseup", 'span', this.handlerSubtitlesContainerMouseUp);
+            document.querySelectorAll('#subtitles_container span').forEach(span=>span.addEventListener("mouseup",  this.handlerSubtitlesContainerMouseUp));
 
         }
 
     }
 
     jumpToTime(time){
-        this.video[0].currentTime = time;
+        this.video.currentTime = time;
     }
 
 
