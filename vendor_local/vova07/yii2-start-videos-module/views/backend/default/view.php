@@ -1,4 +1,6 @@
 <?php
+
+use yii\helpers\ArrayHelper;
 /**
  * @var \vova07\videos\models\Video $model
  * @var \yii\web\View $this
@@ -53,7 +55,7 @@
     <video crossorigin="anonymous" id="video" controls    style="width:100%" class="col-sm-8" >
 
         <source src="<?php echo $model->getFullSrcUrl()?>" type="<?php echo $model['type']?>">
-        <?php foreach($model->metadata['subtitles'] as $index=>$subTitle):?>
+        <?php foreach(ArrayHelper::getValue($model->metadata, 'subtitles',[]) as $index=>$subTitle):?>
         <track  label=<?=$subTitle['name']?> kind="subtitles" srclang="en" src="<?php echo $model->getFullSubTitleTrackUrl($index)?>" default>
         <?php endforeach;?>
     </video>
@@ -88,10 +90,14 @@
 
 
 <?php
+//$this->registerJsFile("https://code.responsivevoice.org/responsivevoice.js?key=5O8EYsSB",[],'responsivevoice');
+
 $this->registerJs( <<< JS
 
     var video = new Video("video");
 //video.init();
+//responsiveVoice.speak("hello world");
+
 
 
 

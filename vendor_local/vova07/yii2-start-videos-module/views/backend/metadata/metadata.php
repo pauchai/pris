@@ -11,11 +11,11 @@ use yii\helpers\ArrayHelper;
  * @var \yii\web\View $this
  */
 $this->title = Module::t("default","VIDEO");
-$this->params['subtitle'] = Module::t("default",'META_DATA_TITLE');
+$this->params['subtitle'] = Module::t("default",'META_DATA_TITLE') . ($model->title) ;
 $videoModel = $model;
 ?>
 
-
+<h1><?=$model->title?></h1>
 
 <?php DetailView::widget(
         [
@@ -36,6 +36,14 @@ $videoModel = $model;
             Html::a(
                 Html::tag('i','' ,['class' => 'fa fa-plus']),
                 ['subtitle-create', 'video_id' => $model->primaryKey],
+                [
+                    'class' => 'btn btn-default'
+                ]
+
+            ).
+            Html::a(
+                Html::tag('i','' ,['class' => 'fa fa-eye']),
+                ['/videos/default/view', 'id' => $model->primaryKey],
                 [
                     'class' => 'btn btn-default'
                 ]
