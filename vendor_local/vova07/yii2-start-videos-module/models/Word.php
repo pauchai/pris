@@ -3,6 +3,7 @@
 namespace vova07\videos\models;
 
 use Yii;
+use vova07\base\models\ActiveRecordMetaModel;
 
 /**
  * This is the model class for table "words".
@@ -11,7 +12,7 @@ use Yii;
  * @property string $title MODEL_TITLE
  * @property string $translation VIDEO_SOURCE_URL
  */
-class Word extends \yii\db\ActiveRecord
+class Word extends ActiveRecordMetaModel
 {
     /**
      * {@inheritdoc}
@@ -30,6 +31,21 @@ class Word extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['title', 'translation'], 'string', 'max' => 255],
         ];
+    }
+
+    public static function getMetadata()
+    {
+        $migration = new Migration();
+        $metadata = [
+            'fields' => [
+                'id' => $migration->primaryKey(),
+                'text_ru' => $migration->string(),
+                'text_eng' => $migration->string(),
+            ],
+
+
+        ];
+        return $metadata;
     }
 
     /**

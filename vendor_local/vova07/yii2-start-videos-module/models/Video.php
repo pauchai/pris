@@ -9,7 +9,8 @@
 namespace vova07\videos\models;
 use Done\Subtitles\Subtitles;
 use vova07\videos\Module;
-use yii\db\ActiveRecord;
+use vova07\base\models\ActiveRecordMetaModel;
+use yii\db\Migration;
 use yii\helpers\ArrayHelper;
 use YoutubeDl\YoutubeDl;
 use YoutubeDl\Exception\CopyrightException;
@@ -21,7 +22,7 @@ use YoutubeDl\Exception\PrivateVideoException;
  * Class Video
  * @package vova07\video\models
  */
-class Video extends ActiveRecord
+class Video extends ActiveRecordMetaModel
 {
     const STATUS_NOT_ACTIVE = 0;
     const STATUS_METADATA_FETCHED = 1;
@@ -68,6 +69,30 @@ class Video extends ActiveRecord
 
         ];
     }
+
+
+    public static function getMetaData()
+    {
+        $migration = new Migration();
+        $metadata = [
+            'fields' => [
+                'id' => $migration->primaryKey(),
+                'title' => $migration->string()->notNull(),
+            ],
+            'dependsOn' => [
+                Person::class
+            ],
+            'indexes' => [
+                [self::class, 'rank_id'],
+
+
+            ],
+
+
+        ];
+        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
+    }
+
 
     public function getFullSrcUrl()
     {
@@ -167,11 +192,6 @@ class Video extends ActiveRecord
     }
 
 
-
-    public function getMetaData()
-    {
-
-    }
 
 
     public function resolveSubtitles()
