@@ -51,7 +51,7 @@ class ReportController extends BackendController
             Document::TYPE_ID_PROV,
             Document::TYPE_F9,
             Document::TYPE_APPATRIDE_DOCUMENT,
-            Document::TYPE_PASSPORT,
+            //Document::TYPE_PASSPORT,
             Document::TYPE_TRAVEL_DOCUMENT
 
         ];
@@ -85,6 +85,10 @@ class ReportController extends BackendController
         ];
         $dataProvider->query->andWhere(['type_id'=>$availableTypes]);
 
+        $dataProviderActivePassports = new ActiveDataProvider();
+        $dataProviderActivePassports->query = Document::find()->where(['type_id' => Document::TYPE_PASSPORT])->activePrisoners();
+        $dataProviderActivePassports->pagination = false;
+
         $dataProviderForeigners = new ActiveDataProvider();
         $dataProviderForeigners->query = Prisoner::find()->active()->foreigners();
         $dataProviderForeigners->pagination = false;
@@ -95,6 +99,7 @@ class ReportController extends BackendController
 
         return $this->render("index", ['searchModel'=>$searchModel,
             'dataProvider'=>$dataProvider,
+            'dataProviderActivePassports' => $dataProviderActivePassports,
             'dataProviderForeigners' => $dataProviderForeigners,
             'dataProviderStateless' => $dataProviderStateless
 
