@@ -21,8 +21,12 @@ class DocumentQuery extends ActiveQuery
 
     public function expired()
     {
-       return $this->andWhere(new Expression('NOW() >= FROM_UNIXTIME(date_expiration)'));
+       return $this->andWhere(new Expression('NOW() > FROM_UNIXTIME(date_expiration)'));
 
+    }
+    public function notExpired()
+    {
+       return $this->andWhere(new Expression(' ISNULL(date_expiration) OR (NOT ISNULL(date_expiration) AND NOW() <= FROM_UNIXTIME(date_expiration))'));
     }
 
     public function aboutExpiration()
@@ -58,6 +62,19 @@ class DocumentQuery extends ActiveQuery
     {
         return $this->andWhere([
             'status_id' => Document::STATUS_IN_PROCESS
+        ]);
+    }
+    public function active()
+    {
+        return $this->andWhere([
+            'status_id' => Document::STATUS_ACTIVE
+        ]);
+    }
+
+    public function identDocs()
+    {
+        return $this->andWhere([
+            'type_id' => Document::$identDocIds
         ]);
     }
 

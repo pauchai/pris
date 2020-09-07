@@ -109,6 +109,8 @@ class DocumentSearch extends \vova07\documents\models\Document
                 $dataProvider->query->aboutExpiration();
         elseif ($this->metaStatusId == self::META_STATUS_EXPIRATED)
                 $dataProvider->query->expired();
+        elseif ($this->metaStatusId == self::META_STATUS_NOT_EXPIRED)
+                     $dataProvider->query->active()->notExpired();
 
 
         $dataProvider->query

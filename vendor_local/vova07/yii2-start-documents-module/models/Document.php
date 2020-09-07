@@ -69,6 +69,8 @@ class Document extends  Ownableitem
 
     public const META_STATUS_ABOUT_EXPIRATION = 1;
     public const META_STATUS_EXPIRATED = 2;
+    public const META_STATUS_NOT_EXPIRED = 3;
+
 
 
 
@@ -88,6 +90,17 @@ class Document extends  Ownableitem
             [['assigned_at'],'default' , 'value' => time()]
         ];
     }
+
+    public static $identDocIds = [
+        [
+            Document::TYPE_PASSPORT,
+            Document::TYPE_ID,
+            Document::TYPE_ID_PROV,
+            Document::TYPE_F9,
+            Document::TYPE_TRAVEL_DOCUMENT,
+            Document::TYPE_APPATRIDE_DOCUMENT
+        ]
+    ];
 
     /**
      *
@@ -299,6 +312,8 @@ class Document extends  Ownableitem
         return [
           self::META_STATUS_ABOUT_EXPIRATION => Module::t('default', 'META_STATUS_ABOUT_EXPIRATION'),
           self::META_STATUS_EXPIRATED => Module::t('default', 'META_STATUS_EXPIRATED'),
+          self::META_STATUS_NOT_EXPIRED => Module::t('default', 'META_STATUS_NOT_EXPIRED'),
+
         ];
     }
 

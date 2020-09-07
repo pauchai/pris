@@ -21,6 +21,11 @@ class PersonQuery extends ActiveQuery
         return $this->andWhere(['<>', 'citizen_id', Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey]);
 
     }
+    public function locals()
+    {
+        return $this->andWhere([ 'citizen_id' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey]);
+
+    }
 
     public function stateless()
     {

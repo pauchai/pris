@@ -25,11 +25,16 @@ class ReportHelper
         $availableDocuments = [
             Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9
         ];
-       return Prisoner::find()->andWhere([
-          "__person_id" => Document::find()->select("person_id")->distinct()->andWhere([
-              'type_id'=>$availableDocuments,
-              'country_id' => Country::findOne(['iso' =>Country::ISO_MOLDOVA])->primaryKey
-          ])
+        $localsPeopleQuery = Person::find()->locals();
+
+        return Prisoner::find()->andWhere([
+          "__person_id" => Document::find()->select("person_id")->distinct()->active()->notExpired()
+              ->andWhere([
+                 'type_id'=>$availableDocuments,
+                  'person_id' => $localsPeopleQuery->select(['__ident_id']),
+
+
+          ]),
 
 
         ])->active();
@@ -37,39 +42,42 @@ class ReportHelper
     static public function getPrisonerWithExpiredDocumentsQuery()
     {
         $availableDocuments = [
-            Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9
+            Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9, Document::TYPE_TRAVEL_DOCUMENT
         ];
+        $localsPeopleQuery = Person::find()->locals();
         return Prisoner::find()->andWhere([
             "__person_id" => Document::find()->select("person_id")->distinct()->andWhere(
                 [
                     'type_id'=>$availableDocuments,
-                    'country_id' => Country::findOne(['iso' =>Country::ISO_MOLDOVA])->primaryKey
+                    'person_id' => $localsPeopleQuery->select(['__ident_id']),
                 ]
-            )->expired()
+
+
+            )->active()->expired()
 
         ])->active();
     }
 
     static public function getPrisonersWithForeignersAndStatLessQuery()
     {
-        $sub =  Person::find()->select('__ident_id')->stateless();
         return Prisoner::find()->orWhere([
             '__person_id' => Person::find()->select('__ident_id')->stateless()
         ])->orWhere([
             '__person_id' => Person::find()->select('__ident_id')->foreigners()
+
         ]);
     }
 
-    static public function getPrisonersWithForeignPassport()
+    static public function getPrisonersLocalWithPassport()
     {
-        $sub = Document::find()->foreigners()->select('person_id');
+        $sub = Document::find()->andWhere(['type_id' => Document::TYPE_PASSPORT])->select('person_id');
         return Prisoner::find()->andWhere([
             '__person_id' => $sub
-        ]);
+        ])->locals()->active();
     }
     static public function getPrisonersWithDocumentInProcess()
     {
-        $sub = Document::find()->inProcess()->select('person_id');
+        $sub = Document::find()->inProcess()->andWhere(['type_id' => [Document::TYPE_ID, Document::TYPE_ID_PROV]])->select('person_id');
         return Prisoner::find()->andWhere([
             '__person_id' => $sub
         ]);

@@ -33,9 +33,9 @@ class Report2Model extends Model
     {
         return ReportHelper::getPrisonersWithForeignersAndStatLessQuery();
     }
-    public function getPrisonersWithForeignPassport()
+    public function getPrisonersLocalWithPassport()
     {
-        return ReportHelper::getPrisonersWithForeignPassport();
+        return ReportHelper::getPrisonersLocalWithPassport();
     }
     public function getPrisonersWithDocumentInProcess()
     {
@@ -49,7 +49,7 @@ class Report2Model extends Model
             'prisonersWithLegalDocuments' => Module::t('labels', "LABEL_PRISONERS_WITH_LEGAL_DOCUMENTS"),
             'prisonersWithExpiredDocuments' => Module::t('labels', "LABEL_PRISONERS_WITH_EXPIRED_DOCUMENTS"),
             'prisonersForeignersAndStateless' => Module::t('labels', "LABEL_PRISONERS_FOREIGNERS_AND_STATELESS"),
-            'prisonersWithForeignPassport' => Module::t('labels', "LABEL_PRISONERS_WITH_FOREIGN_PASSPORT"),
+            'prisonersLocalWithPassport' => Module::t('labels', "LABEL_PRISONERS_LOCAL_WITH_PASSPORT"),
             'prisonersWithDocumentInProcess' => Module::t('labels', "LABEL_PRISONERS_WITH_DOCUMENTS_IN_PROCESS"),
 
 

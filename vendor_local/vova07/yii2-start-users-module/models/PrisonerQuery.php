@@ -31,7 +31,11 @@ class PrisonerQuery extends ActiveQuery
 
         );
     }
-
+    public function locals()
+    {
+        return $this->joinWith('person')
+            ->andWhere(['person.citizen_id' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey]);
+    }
     public function foreigners()
     {
         return $this->joinWith('person')

@@ -49,12 +49,12 @@ $this->params['breadcrumbs'] = [
         [
             'attribute' => 'prisonersForeignersAndStateless',
             'format' => 'html',
-            'value' =>Html::a($model->getPrisonersForeignersAndStateless()->count(),['/documents/report/index2-details', 'query_name' => 'pPrisonersForeignersAndStateless'])
+            'value' =>Html::a($model->getPrisonersForeignersAndStateless()->count(),['/documents/report/index2-details', 'query_name' => 'prisonersForeignersAndStateless'])
         ],
         [
-            'attribute' => 'prisonersWithForeignPassport',
+            'attribute' => 'prisonersLocalWithPassport',
             'format' => 'html',
-            'value' =>Html::a($model->getPrisonersWithForeignPassport()->count(),['/documents/report/index2-details', 'query_name' => 'prisonersWithForeignPassport'])
+            'value' =>Html::a($model->getPrisonersLocalWithPassport()->count(),['/documents/report/index2-details', 'query_name' => 'prisonersLocalWithPassport'])
         ],
         [
             'attribute' => 'prisonersWithDocumentInProcess',

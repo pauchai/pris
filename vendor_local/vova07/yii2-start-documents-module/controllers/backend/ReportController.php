@@ -130,7 +130,7 @@ class ReportController extends BackendController
     {
         $model = new Report2Model();
          $dataProvider = new ActiveDataProvider(['query' => $model->$query_name]);
-
+         $dataProvider->pagination = false;
         return $this->render('index2details', ['searchModel' => $model, 'dataProvider' => $dataProvider]);
     }
 

@@ -16,31 +16,57 @@ $this->params['breadcrumbs'] = [
     ],
    // $this->params['subtitle']
 ];
+
+
 ?>
 
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
-
     ]
-
 );?>
+
 
 <?php echo \kartik\grid\GridView::widget(['dataProvider' => $dataProvider,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         [
             'attribute' => 'person_id',
-            'value' => function($model){return $model->person->prisoner->getFullTitle(true);},
-            'filter' => \vova07\users\models\Prisoner::getListForCombo(),
-            'filterType' => \kartik\grid\GridView::FILTER_SELECT2,
-            'filterWidgetOptions' => [
-                'pluginOptions' => ['allowClear' => true],
-            ],
-            'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_PRISONER'), 'class'=> 'form-control', 'id' => null],
-            'group' => true,
+            'content' => function($model){
+                $documentSearch = new \vova07\documents\models\backend\DocumentSearch();
+                $documentSearch->person_id = $model->__person_id;
+                $urlParams = ['DocumentSearch' => $documentSearch->getAttributes(['person_id'])];
+                $urlParams[0] = '/documents/default/index';
+                return \yii\helpers\Html::a($model->person->prisoner->getFullTitle(true),$urlParams);
+                },
+
         ],
         'person.IDNP',
+        'person.country.iso',
+        [
+            'header' => \vova07\users\Module::t('label','DOCUMENTS_TITLE'),
+            'content' => function($model){
+                $content = '';
+                foreach($model->person->identDocs as $doc)
+                {
+
+                    $content .= Html::tag('span', $doc->type,['class'=>' label label-success ']);
+                    $content .= ' ' . Html::tag('span', $doc->seria,['class'=>'  label label-success']);
+                    if ($doc->isExpired()){
+                        $content .= Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+                    } else {
+//                        $content = Html::tag('span', $content,['class'=>'label label-success']);
+                        if ($doc->isAboutExpiration()){
+                            $content .= ' ' .Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>'label label-warning']);
+
+                        }
+                    };
+                    $content .= "<br/>";
+                }
+                return $content;
+
+            }
+        ]
 
     ]
 ])?>
