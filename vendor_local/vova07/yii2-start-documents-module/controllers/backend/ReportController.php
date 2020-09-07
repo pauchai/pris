@@ -12,7 +12,9 @@ namespace vova07\documents\controllers\backend;
 
 use vova07\base\components\BackendController;
 use vova07\countries\models\Country;
+use vova07\documents\helpers\ReportHelper;
 use vova07\documents\models\backend\DocumentSearch;
+use vova07\documents\models\backend\Report2Model;
 use vova07\documents\models\Document;
 use vova07\documents\Module;
 use vova07\prisons\models\Company;
@@ -20,6 +22,7 @@ use vova07\prisons\models\Prison;
 use vova07\users\models\Prisoner;
 use yii\base\DynamicModel;
 use yii\base\Event;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\debug\models\timeline\DataProvider;
 use yii\helpers\Url;
@@ -35,6 +38,16 @@ class ReportController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['index2'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['index2-details'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST]
             ],
 
@@ -58,7 +71,7 @@ class ReportController extends BackendController
 
         \Yii::$app->user->returnUrl = Url::current();
         $searchModel = new DocumentSearch();
-        $searchModel->on(DocumentSearch::EVENT_BEFORE_VALIDATE, function($ev){
+        $searchModel->on(DocumentSearch::EVENT_BEFORE_VALIDATE, function ($ev) {
             /**
              * @var $ev Event
              */
@@ -72,8 +85,7 @@ class ReportController extends BackendController
         $dataProvider->query->activePrisoners();
 
 
-
-      //  if ($this->isPrintVersion)
+        //  if ($this->isPrintVersion)
         $dataProvider->pagination = false;
 
 
@@ -83,7 +95,7 @@ class ReportController extends BackendController
 
 
         ];
-        $dataProvider->query->andWhere(['type_id'=>$availableTypes]);
+        $dataProvider->query->andWhere(['type_id' => $availableTypes]);
 
         $dataProviderActivePassports = new ActiveDataProvider();
         $dataProviderActivePassports->query = Document::find()->where(['type_id' => Document::TYPE_PASSPORT])->activePrisoners();
@@ -97,8 +109,8 @@ class ReportController extends BackendController
         $dataProviderStateless->query = Prisoner::find()->active()->stateless();
         $dataProviderStateless->pagination = false;
 
-        return $this->render("index", ['searchModel'=>$searchModel,
-            'dataProvider'=>$dataProvider,
+        return $this->render("index", ['searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
             'dataProviderActivePassports' => $dataProviderActivePassports,
             'dataProviderForeigners' => $dataProviderForeigners,
             'dataProviderStateless' => $dataProviderStateless
@@ -106,7 +118,21 @@ class ReportController extends BackendController
         ]);
     }
 
+    public function actionIndex2()
+    {
+        $model = new Report2Model();
 
+
+        return $this->render('index2', ['model' => $model]);
+    }
+
+    public function actionIndex2Details($query_name)
+    {
+        $model = new Report2Model();
+         $dataProvider = new ActiveDataProvider(['query' => $model->$query_name]);
+
+        return $this->render('index2details', ['searchModel' => $model, 'dataProvider' => $dataProvider]);
+    }
 
 
 

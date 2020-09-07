@@ -24,7 +24,7 @@ class PersonQuery extends ActiveQuery
 
     public function stateless()
     {
-        return $this->andWhere([new Expression('isnull(citizen_id)')]);
+        return $this->andWhere(new Expression('isnull(citizen_id)'));
     }
 
 }

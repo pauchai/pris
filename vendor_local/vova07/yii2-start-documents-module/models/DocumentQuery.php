@@ -54,6 +54,14 @@ class DocumentQuery extends ActiveQuery
             ['person_id' => $subQuery]
         );
     }
+    public function inProcess()
+    {
+        return $this->andWhere([
+            'status_id' => Document::STATUS_IN_PROCESS
+        ]);
+    }
+
+
 
 
 }

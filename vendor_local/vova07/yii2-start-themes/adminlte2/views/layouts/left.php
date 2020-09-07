@@ -95,7 +95,9 @@ use vova07\site\Module;
                         'items' => [
                             ['label' => Module::t('menu','DOCUMENTS_LIST'),'icon' => 'circle','url'=>['/documents/default/index']],
                             ['label' => Module::t('menu','DOCUMENTS_REPORT_LIST'),'icon' => 'circle','url'=>['/documents/report/index']],
-                        //    ['label' => Module::t('menu','BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blanks/index']],
+                            ['label' => Module::t('menu','DOCUMENTS_REPORT_INDEX2'),'icon' => 'circle','url'=>['/documents/report/index2']],
+
+                            //    ['label' => Module::t('menu','BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blanks/index']],
                           //  ['label' => Module::t('menu','PRISONER_BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blank-prisoners/index']],
                         ]
                     ],
