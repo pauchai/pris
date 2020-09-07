@@ -92,14 +92,14 @@ class Document extends  Ownableitem
     }
 
     public static $identDocIds = [
-        [
+
             Document::TYPE_PASSPORT,
             Document::TYPE_ID,
             Document::TYPE_ID_PROV,
             Document::TYPE_F9,
             Document::TYPE_TRAVEL_DOCUMENT,
             Document::TYPE_APPATRIDE_DOCUMENT
-        ]
+
     ];
 
     /**

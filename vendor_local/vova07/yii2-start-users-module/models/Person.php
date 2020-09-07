@@ -16,6 +16,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\documents\models\Document;
+use vova07\documents\models\DocumentQuery;
 use vova07\users\Module;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -136,17 +137,20 @@ class Person extends  Ownableitem
         return ArrayHelper::map(self::find()->select(['__ident_id','fio'=>'CONCAT(second_name, " ", first_name," " , patronymic)' ])->asArray()->all(),'__ident_id','fio');
     }
 
+    /**
+     * @return DocumentQuery
+     */
     public function getDocuments()
     {
         return $this->hasMany(Document::class,['person_id' => '__ident_id']);
     }
     public function getIdentDoc()
     {
-       return  $this->getDocuments()->orWhere(['type_id' => Document::TYPE_ID])->orWhere(['type_id' => Document::TYPE_PASSPORT])->orWhere(['type_id' => Document::TYPE_F9])->orWhere(['type_id' => Document::TYPE_ID_PROV])->one();
+       return  $this->getDocuments()->identification()->one();
     }
     public function getIdentDocs()
     {
-        return  $this->getDocuments()->orWhere(['type_id' => Document::TYPE_ID])->orWhere(['type_id' => Document::TYPE_PASSPORT])->orWhere(['type_id' => Document::TYPE_F9])->orWhere(['type_id' => Document::TYPE_ID_PROV])->all();
+        return  $this->getDocuments()->identification();
     }
 
 

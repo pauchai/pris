@@ -71,7 +71,7 @@ class DocumentQuery extends ActiveQuery
         ]);
     }
 
-    public function identDocs()
+    public function identification()
     {
         return $this->andWhere([
             'type_id' => Document::$identDocIds
