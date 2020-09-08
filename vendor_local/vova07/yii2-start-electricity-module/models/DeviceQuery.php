@@ -48,6 +48,7 @@ class DeviceQuery extends ActiveQuery
         return  $this->andWhere(
             ['prisoner_id' => $subQuery]
         );
+
     }
 
     public function active()

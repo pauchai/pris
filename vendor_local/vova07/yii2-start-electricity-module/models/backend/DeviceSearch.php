@@ -1,6 +1,8 @@
 <?php
 namespace vova07\electricity\models\backend;
 use vova07\electricity\models\Device;
+use vova07\electricity\models\DeviceQuery;
+use yii\data\ActiveDataProvider;
 
 /**
  * Created by PhpStorm.
@@ -16,13 +18,18 @@ class DeviceSearch extends \vova07\electricity\models\Device
         return [
 
             [['prisoner_id','sector_id','cell_id', 'status_id'],'integer'],
-
+            [['title'], 'string'],
             [['status_id'], 'default', 'value' => Device::STATUS_ID_ACTIVE]
 
         ];
 
 
     }
+
+    /**
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
@@ -43,6 +50,8 @@ class DeviceSearch extends \vova07\electricity\models\Device
                     'status_id' => $this->status_id,
 //
                 ]);
+            $dataProvider->query->andFilterWhere(
+                ['like', 'title', $this->title]);
         }
 
         return $dataProvider;
