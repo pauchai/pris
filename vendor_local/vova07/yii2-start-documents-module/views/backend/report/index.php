@@ -69,7 +69,12 @@ $this->params['breadcrumbs'] = [
         [
             'content' => function($model){
                 return \yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain');
+            },
+            'contentOptions' => function ($model, $key, $index, $column){
+                if (\yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain') < 150)
+                    return ['class' => 'bg-red'];
             }
+
         ],
         'date_expiration:date',
 
@@ -143,9 +148,15 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
+
             'content' => function($model){
                 return \yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain');
+            },
+            'contentOptions' => function ($model, $key, $index, $column){
+                if (\yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain') < 150)
+                    return ['class' => 'bg-red'];
             }
+
         ],
         'date_expiration:date',
 
@@ -199,6 +210,10 @@ $this->params['breadcrumbs'] = [
         [
             'content' => function($model){
                 return \yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain');
+            },
+            'contentOptions' => function ($model, $key, $index, $column){
+                if (\yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain') < 150)
+                    return ['class' => 'bg-red'];
             }
         ],
 
@@ -246,6 +261,10 @@ $this->params['breadcrumbs'] = [
         [
             'content' => function($model){
                 return \yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain');
+            },
+            'contentOptions' => function ($model, $key, $index, $column){
+                if (\yii\helpers\ArrayHelper::getValue($model,'person.prisoner.balance.remain') < 150)
+                    return ['class' => 'bg-red'];
             }
         ],
 

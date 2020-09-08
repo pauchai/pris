@@ -19,6 +19,7 @@ use vova07\countries\models\Country;
 use vova07\documents\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
+use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
@@ -209,6 +210,11 @@ class Document extends  Ownableitem
     public function getPerson()
     {
         return $this->hasOne(Person::class, ['__ident_id'=>'person_id']);
+    }
+
+    public function getPrisoner()
+    {
+        return $this->hasOne(Prisoner::class, ['__person_id'=>'person_id']);
     }
     public function getAssignedTo()
     {

@@ -51,13 +51,18 @@ class DocumentQuery extends ActiveQuery
             ['person_id' => $subQuery]
         );
     }
+
+
     public function foreigners()
     {
-        $subQuery = Person::find()->select('__ident_id')->foreigners();
-        return  $this->andWhere(
-            ['person_id' => $subQuery]
-        );
+        return $this->joinWith(['person' => function($query){ $query->foreigners();}]);
     }
+
+    public function locals()
+    {
+        return $this->joinWith(['person' => function($query){ $query->locals();}]);
+    }
+
     public function inProcess()
     {
         return $this->andWhere([

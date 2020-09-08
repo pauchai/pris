@@ -98,7 +98,7 @@ class ReportController extends BackendController
         $dataProvider->query->andWhere(['type_id' => $availableTypes]);
 
         $dataProviderActivePassports = new ActiveDataProvider();
-        $dataProviderActivePassports->query = Document::find()->where(['type_id' => Document::TYPE_PASSPORT])->activePrisoners();
+        $dataProviderActivePassports->query = Document::find()->where(['type_id' => Document::TYPE_PASSPORT])->locals()->activePrisoners();
         $dataProviderActivePassports->pagination = false;
 
         $dataProviderForeigners = new ActiveDataProvider();

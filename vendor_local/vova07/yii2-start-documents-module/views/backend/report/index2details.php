@@ -66,7 +66,8 @@ $this->params['breadcrumbs'] = [
                 return $content;
 
             }
-        ]
+        ],
+        'balance.remain'
 
     ]
 ])?>

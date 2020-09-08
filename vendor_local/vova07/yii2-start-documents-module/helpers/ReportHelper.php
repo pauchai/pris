@@ -11,8 +11,10 @@ namespace vova07\documents\helpers;
 
 use vova07\countries\models\Country;
 use vova07\documents\models\Document;
+use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
+use yii\helpers\ArrayHelper;
 
 class ReportHelper
 {
@@ -81,6 +83,29 @@ class ReportHelper
         return Prisoner::find()->andWhere([
             '__person_id' => $sub
         ]);
+    }
+
+    static public function getPrisonersWithEnoughBalance()
+    {
+        $balanceQuery = BalanceByPrisonerView::find()->andWhere(['<','remain', 150]);
+        $availableDocuments = [
+            Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9, Document::TYPE_TRAVEL_DOCUMENT, Document::TYPE_PASSPORT
+        ];
+        $localsPeopleIds = ArrayHelper::map(Person::find()->locals()->all(), '__ident_id', '__ident_id');
+        $peopleWithBalanceIds = ArrayHelper::map(BalanceByPrisonerView::find()->andWhere(['<','remain', 150])->all(), 'prisoner_id','prisoner_id');
+        $ids = array_merge($localsPeopleIds, $peopleWithBalanceIds);
+
+        return Prisoner::find()->andWhere([
+            "__person_id" => Document::find()->select("person_id")->distinct()->andWhere(
+                [
+                    'type_id'=>$availableDocuments,
+                    'person_id' => $ids,
+                ]
+
+
+            )->active()->expired()
+
+        ])->active();
     }
 
 
