@@ -19,6 +19,7 @@ use vova07\base\models\Ownableitem;
 use vova07\concepts\models\ConceptParticipant;
 use vova07\countries\models\Country;
 
+use vova07\documents\models\Document;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
 use vova07\plans\models\PrisonerPlan;
@@ -396,6 +397,17 @@ class Prisoner extends  OwnableItem
 
     }
 
-
+    public function getDocuments()
+    {
+        return $this->hasMany(Document::class,['person_id' => '__person_id']);
+    }
+    public function getIdentDoc()
+    {
+        return  $this->getDocuments()->identification()->one();
+    }
+    public function getIdentDocs()
+    {
+        return  $this->getDocuments()->identification();
+    }
 
 }

@@ -18,7 +18,7 @@ class PrisonerQuery extends ActiveQuery
 
     public function active()
     {
-        return $this->andWhere(['status_id' => Prisoner::STATUS_ACTIVE]);
+        return $this->andWhere(['prisoner.status_id' => Prisoner::STATUS_ACTIVE]);
     }
     public function etapped()
     {

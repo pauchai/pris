@@ -14,6 +14,7 @@ use vova07\documents\models\Document;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 class ReportHelper
@@ -27,19 +28,23 @@ class ReportHelper
         $availableDocuments = [
             Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9
         ];
-        $localsPeopleQuery = Person::find()->locals();
+//        $localsPeopleQuery = Person::find()->locals();
+//
+//        return Prisoner::find()->andWhere([
+//          "__person_id" => Document::find()->select("person_id")->distinct()->active()->notExpired()
+//              ->andWhere([
+//                 'type_id'=>$availableDocuments,
+//                  'person_id' => $localsPeopleQuery->select(['__ident_id']),
+//
+//
+//          ]),
+//
+//        ])->active();
 
-        return Prisoner::find()->andWhere([
-          "__person_id" => Document::find()->select("person_id")->distinct()->active()->notExpired()
-              ->andWhere([
-                 'type_id'=>$availableDocuments,
-                  'person_id' => $localsPeopleQuery->select(['__ident_id']),
+        return Prisoner::find()->joinWith(['documents' => function($query)use ($availableDocuments){
+            $query->andWhere(['type_id' => $availableDocuments])->distinct()->active()->notExpired();
 
-
-          ]),
-
-
-        ])->active();
+        }])->active();
     }
     static public function getPrisonerWithExpiredDocumentsQuery()
     {
@@ -87,25 +92,28 @@ class ReportHelper
 
     static public function getPrisonersWithEnoughBalance()
     {
-        $balanceQuery = BalanceByPrisonerView::find()->andWhere(['<','remain', 150]);
-        $availableDocuments = [
-            Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9, Document::TYPE_TRAVEL_DOCUMENT, Document::TYPE_PASSPORT
+         $availableDocuments = [
+            Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9, Document::TYPE_TRAVEL_DOCUMENT
         ];
-        $localsPeopleIds = ArrayHelper::map(Person::find()->locals()->all(), '__ident_id', '__ident_id');
-        $peopleWithBalanceIds = ArrayHelper::map(BalanceByPrisonerView::find()->andWhere(['<','remain', 150])->all(), 'prisoner_id','prisoner_id');
-        $ids = array_merge($localsPeopleIds, $peopleWithBalanceIds);
-
-        return Prisoner::find()->andWhere([
-            "__person_id" => Document::find()->select("person_id")->distinct()->andWhere(
-                [
-                    'type_id'=>$availableDocuments,
-                    'person_id' => $ids,
-                ]
 
 
-            )->active()->expired()
 
-        ])->active();
+        return Prisoner::find()
+            ->joinWith(['documents' => function($query)use($availableDocuments){ $query->andWhere(['type_id' => $availableDocuments])->active()->expired();}])
+            ->joinWith([
+                'balance' => function($query){
+                   $query->orWhere(new Expression(' ISNULL(remain)'))->orWhere(['<','remain', 130]);
+                }
+                ])->locals()->active()
+            ->union(
+                Prisoner::find()
+             ->joinWith(['documents' => function($query){ $query->andWhere(['type_id' => Document::TYPE_PASSPORT])->active();}])
+             ->joinWith([
+                 'balance' => function($query){
+                     $query->orWhere(new Expression(' ISNULL(remain)'))->orWhere(['<','remain', 130]);
+                 }
+             ])->locals()->active()
+            );
     }
 
 
