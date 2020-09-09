@@ -63,9 +63,9 @@ $this->params['breadcrumbs'] = [
         ],
 
         [
-            'attribute' => 'prisonersWithEnoughBalance',
+            'attribute' => 'prisonersWithNotEnoughBalanceForDocument',
             'format' => 'html',
-            'value' =>Html::a($model->getPrisonersWithEnoughBalance()->count(),['/documents/report/index2-details', 'query_name' => 'prisonersWithEnoughBalance'])
+            'value' =>Html::a($model->getPrisonersWithNotEnoughBalanceForDocument()->count(),['/documents/report/index2-details', 'query_name' => 'prisonersWithNotEnoughBalanceForDocument'])
         ],
 
 

@@ -42,9 +42,9 @@ class Report2Model extends Model
         return ReportHelper::getPrisonersWithDocumentInProcess();
     }
 
-    public function getPrisonersWithEnoughBalance()
+    public function getPrisonersWithNotEnoughBalanceForDocument()
     {
-        return ReportHelper::getPrisonersWithEnoughBalance();
+        return ReportHelper::getPrisonersWithNotEnoughBalanceForDocument();
     }
 
     public function attributeLabels()
@@ -56,7 +56,7 @@ class Report2Model extends Model
             'prisonersForeignersAndStateless' => Module::t('labels', "LABEL_PRISONERS_FOREIGNERS_AND_STATELESS"),
             'prisonersLocalWithPassport' => Module::t('labels', "LABEL_PRISONERS_LOCAL_WITH_PASSPORT"),
             'prisonersWithDocumentInProcess' => Module::t('labels', "LABEL_PRISONERS_WITH_DOCUMENTS_IN_PROCESS"),
-            'prisonersWithEnoughBalance' => Module::t('labels', "LABEL_PRISONERS_WITH_ENOUGH_BALANCE"),
+            'prisonersWithNotEnoughBalanceForDocument' => Module::t('labels', "LABEL_PRISONERS_WITH_NOT_ENOUGH_BALANCE_FOR_DOCUMENT"),
 
 
         ];

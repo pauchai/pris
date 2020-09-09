@@ -90,7 +90,7 @@ class ReportHelper
         ]);
     }
 
-    static public function getPrisonersWithEnoughBalance()
+    static public function getPrisonersWithNotEnoughBalanceForDocument()
     {
          $availableDocuments = [
             Document::TYPE_ID, Document::TYPE_ID_PROV, Document::TYPE_F9, Document::TYPE_TRAVEL_DOCUMENT
