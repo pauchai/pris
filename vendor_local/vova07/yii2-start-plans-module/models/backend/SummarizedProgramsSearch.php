@@ -22,6 +22,7 @@ use vova07\users\models\backend\PrisonerSearch;
 use vova07\users\models\Prisoner;
 use vova07\users\models\PrisonerQuery;
 use vova07\users\models\PrisonerView;
+use vova07\users\models\PrisonerViewQuery;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\debug\models\timeline\DataProvider;
@@ -88,7 +89,7 @@ class SummarizedProgramsSearch extends  PrisonerView
 
     public static function find()
     {
-        return new PrisonerQuery(get_class());
+        return new PrisonerViewQuery(get_class());
     }
 
     /**
