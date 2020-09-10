@@ -53,7 +53,7 @@ class PrisonerPlanView extends  PrisonerPlan
     }
     public static function find()
     {
-        return new PrisonerPlanQuery(PrisonerPlanView::class);
+        return new PrisonerPlanViewQuery(PrisonerPlanView::class);
     }
 
     public function getPrisoner()

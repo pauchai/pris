@@ -42,7 +42,7 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
             else
             $query->andFilterWhere(
                 [
-                    'status_id' => $this->status_id,
+                    'vw_prisoner_plan.status_id' => $this->status_id,
                     'prisoner.status_id' => $this->getAttribute('prisoner.status_id'),
                 ]
             );
