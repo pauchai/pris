@@ -36,7 +36,14 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         'fio',
 
-        'prisoner.status',
+        [
+            'attribute' => 'prisoner.status_id',
+            'value' =>  "prisoner.status",
+            'filter' => \vova07\users\models\Prisoner::getStatusesForCombo(),
+
+
+        ]
+        ,
         [
             'attribute' => 'status_id',
             'filter' => PrisonerPlanView::getStatusesForCombo(),

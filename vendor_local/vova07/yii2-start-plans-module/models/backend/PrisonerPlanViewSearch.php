@@ -23,14 +23,15 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
     public function rules()
     {
         return [
-            [['prisoner_status_id', 'status_id'],'integer'],
+            [['prisoner.status_id', 'status_id'],'integer'],
+           // [['prisoner.status_id'],'default','value' => Prisoner::STATUS_ACTIVE],
             [['assignedAtFromJui', 'assignedAtToJui'],'date']
         ];
     }
     public function search($params)
     {
 
-        $query = self::find();
+        $query = self::find()->joinWith('prisoner');
        // $query->andWhere([  'prisoner_status_id' => Prisoner::STATUS_ACTIVE]);
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => $query
@@ -42,7 +43,7 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
             $query->andFilterWhere(
                 [
                     'status_id' => $this->status_id,
-
+                    'prisoner.status_id' => $this->getAttribute('prisoner.status_id'),
                 ]
             );
             if ($this->assignedAtTo || $this->assignedAtFrom){
@@ -80,5 +81,10 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
             ]
         );
         return $ret;
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ["prisoner.status_id"]);
     }
 }

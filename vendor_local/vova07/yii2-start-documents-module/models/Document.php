@@ -17,10 +17,13 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\documents\Module;
+use vova07\events\models\Event;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -80,15 +83,28 @@ class Document extends  Ownableitem
     {
         return 'document';
     }
+
+    public function init(){
+        $this->on(ActiveRecord::EVENT_AFTER_VALIDATE, function($event){
+           /**
+            * @var $event \yii\base\Event
+            */
+           if (is_null($event->sender->assigned_to)){
+               $event->sender->assigned_at = null;
+           }
+        });
+        parent::init();
+    }
     public function rules()
     {
         return [
             [['type_id', 'country_id', 'status_id','person_id'], 'required'],
             [['seria','IDNP'],'string'],
             [['date_issue', 'date_expiration','assigned_at'], 'integer'],
-            [['dateIssueJui','dateExpirationJui', 'assignedAtJui'],'date'],
+            [['dateIssueJui','dateExpirationJui'],'date'],
+            [[ 'assignedAtJui'] ,'safe'],
             [['assigned_to'],'integer'],
-            [['assigned_at'],'default' , 'value' => time()]
+           // [['assigned_at'],'default' , 'value' => time()]
         ];
     }
 
@@ -102,6 +118,8 @@ class Document extends  Ownableitem
             Document::TYPE_APPATRIDE_DOCUMENT
 
     ];
+
+
 
     /**
      *
@@ -174,7 +192,8 @@ class Document extends  Ownableitem
                     'class' => DateJuiBehavior::className(),
                     'attribute' => 'assigned_at',
                     'juiAttribute' => 'assignedAtJui'
-                ]
+                ],
+
 
             ];
         } else {
