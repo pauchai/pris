@@ -55,10 +55,6 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
         };
 
 
-
-
-
-
         return $dataProvider;
 
     }
