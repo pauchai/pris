@@ -43,7 +43,6 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
             $query->andFilterWhere(
                 [
                     'vw_prisoner_plan.status_id' => $this->status_id,
-                    'prisoner.status_id' => $this->getAttribute('prisoner.status_id'),
                 ]
             );
             if ($this->assignedAtTo || $this->assignedAtFrom){
@@ -51,6 +50,13 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
                     ->andFilterWhere(['<=', 'assigned_at', $this->assignedAtTo ])
                     ->andWhere(new Expression('NOT ISNULL(assigned_to)'));
             }
+
+            $query->andFilterWhere(
+                [
+                    'prisoner.status_id' => $this->getAttribute('prisoner.status_id'),
+                ]
+            );
+
 
         };
 

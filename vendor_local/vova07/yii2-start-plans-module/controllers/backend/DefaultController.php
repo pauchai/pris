@@ -218,6 +218,7 @@ class DefaultController extends BackendController
     {
         $model =  PrisonerPlan::findOne($prisoner_id);
         if (\Yii::$app->request->post()){
+
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
                 return $this->goBack();

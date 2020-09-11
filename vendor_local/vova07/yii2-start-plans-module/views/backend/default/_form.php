@@ -19,7 +19,7 @@ use vova07\plans\models\PrisonerPlan;
 <?php echo $form->field($model, 'assignedAtJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?php echo $form->field($model, 'assigned_to')->dropDownList(\vova07\users\models\Officer::getListForCombo(),['prompt' => '-'])?>
 <?php echo $form->field($model, 'dateFinishedJui')->widget(\kartik\widgets\DatePicker::class)?>
-<?=$form->field($model,'status_id')->dropDownList(PrisonerPlan::getStatusesForCombo())?>
+<?=$form->field($model,'status_id')->dropDownList(PrisonerPlan::getStatusesForCombo(),['prompt' => '-'])?>
 
 
 

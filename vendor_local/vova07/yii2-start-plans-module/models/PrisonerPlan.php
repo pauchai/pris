@@ -35,6 +35,7 @@ class PrisonerPlan extends  Ownableitem
 
 
     const STATUS_ACTIVE =1;
+    const STATUS_INIT = 2;
     const STATUS_REALIZED =10;
     const STATUS_REFUSED =12;
 
@@ -47,9 +48,10 @@ class PrisonerPlan extends  Ownableitem
     public function rules()
     {
         return [
-            [['__prisoner_id','status_id'],'required'],
+            [['__prisoner_id'],'required'],
             [['assignedAtJui', 'dateFinishedJui'],'date'],
-            [['status_id'],'default', 'value' => self::STATUS_ACTIVE],
+            [['status_id'], 'integer'],
+            [['status_id'],'default', 'value' => self::STATUS_INIT],
             [['assigned_to'], 'integer']
 
         ];
@@ -179,7 +181,9 @@ class PrisonerPlan extends  Ownableitem
     public static function getStatusesForCombo()
     {
         return [
-          self::STATUS_ACTIVE => Module::t('default','STATUS_ACTIVE'),
+            self::STATUS_INIT => Module::t('default','STATUS_PLAN_INIT'),
+
+            self::STATUS_ACTIVE => Module::t('default','STATUS_ACTIVE'),
           self::STATUS_REALIZED => Module::t('default','STATUS_REALIZED'),
           self::STATUS_REFUSED => Module::t('default','STATUS_REFUSED'),
         ];
