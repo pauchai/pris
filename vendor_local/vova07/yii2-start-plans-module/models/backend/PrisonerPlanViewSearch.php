@@ -38,7 +38,7 @@ class PrisonerPlanViewSearch extends PrisonerPlanView
         ]);
         if ($this->load($params) && $this->validate()){
             if ($this->status_id == self::STATUS_ABSENT)
-                $query->andWhere(new Expression('ISNULL(status_id)'));
+                $query->notExists();
             else
             $query->andFilterWhere(
                 [
