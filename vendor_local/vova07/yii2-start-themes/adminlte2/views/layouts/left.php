@@ -83,13 +83,57 @@ use vova07\site\Module;
                     ['label' => Module::t('menu','PRISONERS_SECURITY_LIST'),'icon' => 'hourglass','url'=>['/prisons/prisoner-security/index'],
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_SECURITY_LIST),
                         ],
-                 /*   ['label' => Module::t('menu','STATISTICS_MENU'),'icon' => 'pie-chart','url'=>['#'],
+                    ['label' =>  Module::t('menu', 'TASKS_MENU'),'icon' => 'calendar-check','url' => '#' ,
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
                         'items' => [
-                            ['label' => Module::t('menu','PROGRAMS_MENU'),'icon' => 'circle','url'=>['']],
-                            ['label' => Module::t('menu','JOBS_MENU'),'icon' => 'circle','url'=>['']],
-                            ['label' => Module::t('menu','WORKSHOPS_MENU'),'icon' => 'circle','url'=>['']],
+                            ['label' => Module::t('menu','COMMITTIES_LIST'),'icon' => 'circle','url'=>['/tasks/committee/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
+                            ],
+
                         ]
-                    ],*/
+                    ],
+                    [
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_EVENT_PLANING_LIST),
+                        'label' =>  Module::t('menu', 'EVENTS_MENU'),'icon' => 'calendar','url' => '#' ,
+                        'items' => [
+                            ['label' => Module::t('menu','EVENTS_LIST'),'icon' => 'circle','url'=>['/events/default/index']],
+
+                        ]
+                    ],
+                    ['label' =>  Module::t('menu', 'PROGRAMS_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW),
+                        'items' => [
+                            ['label' => Module::t('menu','PROGRAMS_DICTS_LIST'),'icon' => 'circle','url'=>['/plans/program-dicts'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST)],
+                            ['label' => Module::t('menu','PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/programs'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
+                            ['label' => Module::t('menu','PROGRAM_PLANS_LIST'),'icon' => 'circle','url'=>['/plans/program-plans'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
+
+                            ['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','SUMMARIZED_LIST'),'icon' => 'circle','url'=>['/plans/summarized/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
+
+                            ['label' => Module::t('menu','SUMMARIZED_PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/summarized/programs'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
+
+
+                        ]
+                    ],
+                    ['label' =>  Module::t('menu', 'CONCEPTS_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_CONCEPTS_LIST),
+                        'items' => [
+                            [
+                                'label' => Module::t('menu','CONCEPTS_LIST'),'icon' => 'circle','url'=>['/concepts/default'],
+                                'visible' => true,
+                            ],
+                            [
+                                'label' => Module::t('menu','PARTICIPANTS_LIST'),'icon' => 'circle','url'=>['/concepts/participants'],
+                                'visible' => true,
+                            ]
+                        ]
+                    ],
                     ['label' =>  Module::t('menu', 'ACTS_AND_DOCUMENTS_MENU'),'icon' => 'file-alt','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST),
                         'items' => [
@@ -98,24 +142,20 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','DOCUMENTS_REPORT_INDEX2'),'icon' => 'circle','url'=>['/documents/report/index2']],
 
                             //    ['label' => Module::t('menu','BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blanks/index']],
-                          //  ['label' => Module::t('menu','PRISONER_BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blank-prisoners/index']],
+                            //  ['label' => Module::t('menu','PRISONER_BLANKS_LIST'),'icon' => 'circle','url'=>['/documents/blank-prisoners/index']],
                         ]
                     ],
-                    [
-                            'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_EVENT_PLANING_LIST),
-                            'label' =>  Module::t('menu', 'EVENTS_MENU'),'icon' => 'calendar','url' => '#' ,
+                    ['label' =>  Module::t('menu', 'PSYCHO_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PSYCHO_LIST),
                         'items' => [
-                            ['label' => Module::t('menu','EVENTS_LIST'),'icon' => 'circle','url'=>['/events/default/index']],
-
-                        ]
-                    ],
-                    ['label' =>  Module::t('menu', 'TASKS_MENU'),'icon' => 'calendar-check','url' => '#' ,
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
-                        'items' => [
-                            ['label' => Module::t('menu','COMMITTIES_LIST'),'icon' => 'circle','url'=>['/tasks/committee/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_COMMITTIEE_LIST),
-                                ],
-
+                            [
+                                'label' => Module::t('menu','PSYCHO_CHARACTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
+                                'visible' => true,
+                            ],
+                            [
+                                'label' => Module::t('menu','PSYCHO_TESTS_LIST'),'icon' => 'circle','url'=>['/psycho/tests'],
+                                'visible' => true,
+                            ]
                         ]
                     ],
                     ['label' =>  Module::t('menu', 'HUMANITARIAN_MENU'),'icon' => 'cube','url' => '#' ,
@@ -126,6 +166,8 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','HUMANITARIAN_ITEMS_LIST'),'icon' => 'circle','url'=>['/humanitarians/items/index']],
                         ]
                     ],
+
+
                     ['label' =>  Module::t('menu', 'JOBS_MENU'),'icon' => 'cube','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_JOBS_ACCESS),
                         'items' => [
@@ -139,6 +181,17 @@ use vova07\site\Module;
 
                         ]
                     ],
+
+                    /*   ['label' => Module::t('menu','STATISTICS_MENU'),'icon' => 'pie-chart','url'=>['#'],
+                           'items' => [
+                               ['label' => Module::t('menu','PROGRAMS_MENU'),'icon' => 'circle','url'=>['']],
+                               ['label' => Module::t('menu','JOBS_MENU'),'icon' => 'circle','url'=>['']],
+                               ['label' => Module::t('menu','WORKSHOPS_MENU'),'icon' => 'circle','url'=>['']],
+                           ]
+                       ],*/
+
+
+
                     ['label' =>  Module::t('menu', 'FINANCE_MENU'),'icon' => 'credit-card','url' => '#' ,
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_FINANCES_ACCESS),
                         'items' => [
@@ -176,27 +229,7 @@ use vova07\site\Module;
 
                         ]
                     ],
-                    ['label' =>  Module::t('menu', 'PROGRAMS_MENU'),'icon' => 'calendar-check','url' => '#',
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW),
-                        'items' => [
-                            ['label' => Module::t('menu','PROGRAMS_DICTS_LIST'),'icon' => 'circle','url'=>['/plans/program-dicts'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST)],
-                            ['label' => Module::t('menu','PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/programs'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
-                            ['label' => Module::t('menu','PROGRAM_PLANS_LIST'),'icon' => 'circle','url'=>['/plans/program-plans'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
 
-                            ['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-                            ['label' => Module::t('menu','SUMMARIZED_LIST'),'icon' => 'circle','url'=>['/plans/summarized/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
-
-                            ['label' => Module::t('menu','SUMMARIZED_PROGRAMS_LIST'),'icon' => 'circle','url'=>['/plans/summarized/programs'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
-
-
-                        ]
-                    ],
 
                     ['label' =>  Module::t('menu', 'REPORTS_MENU'),'icon' => 'calendar-check','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW),
@@ -218,33 +251,8 @@ use vova07\site\Module;
                         ]
                     ],
 
-                    ['label' =>  Module::t('menu', 'PSYCHO_MENU'),'icon' => 'calendar-check','url' => '#',
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PSYCHO_LIST),
-                        'items' => [
-                            [
-                            'label' => Module::t('menu','PSYCHO_CHARACTERISTICS_LIST'),'icon' => 'circle','url'=>['/psycho/default'],
-                            'visible' => true,
-                            ],
-                            [
-                                'label' => Module::t('menu','PSYCHO_TESTS_LIST'),'icon' => 'circle','url'=>['/psycho/tests'],
-                                'visible' => true,
-                            ]
-                        ]
-                    ],
 
-                    ['label' =>  Module::t('menu', 'CONCEPTS_MENU'),'icon' => 'calendar-check','url' => '#',
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_CONCEPTS_LIST),
-                        'items' => [
-                            [
-                                'label' => Module::t('menu','CONCEPTS_LIST'),'icon' => 'circle','url'=>['/concepts/default'],
-                                'visible' => true,
-                            ],
-                            [
-                                'label' => Module::t('menu','PARTICIPANTS_LIST'),'icon' => 'circle','url'=>['/concepts/participants'],
-                                'visible' => true,
-                            ]
-                        ]
-                    ],
+
 
 
                     ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
