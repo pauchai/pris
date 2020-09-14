@@ -18,6 +18,7 @@ use vova07\countries\models\Country;
 use vova07\documents\models\Document;
 use vova07\documents\models\DocumentQuery;
 use vova07\users\Module;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\validators\DefaultValueValidator;
@@ -38,10 +39,11 @@ class Person extends  Ownableitem
             [['citizen_id'], DefaultValueValidator::class, 'skipOnEmpty' => true, 'value' => Country::findOne(['iso' => Country::ISO_MOLDOVA])->primaryKey],
             [['first_name','second_name','patronymic'], 'required'],
             [['birth_year'],'integer'],
-            [['address','photo_url','IDNP'],'string'],
+            [['address','photo_url','IDNP', 'nationality', 'education', 'speciality'],'string'],
             [['photo_url'],'default', 'value'=>'/statics/persons/NoNamePicture.jpg'],
             [['photo_preview_url'],'default', 'value'=>'/statics/persons/NoNamePicturePreview.jpg'],
             [['second_name','first_name','patronymic'],'filter', 'filter'=>function($value){return trim($value);}],
+
 
 
 
@@ -53,6 +55,7 @@ class Person extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Ident::class) => Schema::TYPE_PK . ' ',
@@ -64,6 +67,9 @@ class Person extends  Ownableitem
                 'photo_preview_url' => Schema::TYPE_STRING . '(64)',
                 'citizen_id' => Schema::TYPE_INTEGER . ' ',
                 'address' => Schema::TYPE_STRING,
+                'nationality' => $migration->string(),
+                'education' => $migration->string(),
+                'speciality' => $migration->string(),
                 'IDNP' => Schema::TYPE_STRING. '(15)'
             ],
             'indexes' => [
@@ -174,6 +180,9 @@ class Person extends  Ownableitem
             'birth_year' => Module::t('labels','PERSON_BIRTH_YEAR_LABEL'),
             'photo_url' => Module::t('labels','PERSON_PHOTO_URL_LABEL'),
             'preview_url' => Module::t('labels','PERSON_PREVIEW_URL_LABEL'),
+            'nationality' => Module::t('labels','PERSON_NATIONALITY_LABEL'),
+            'education' => Module::t('labels','PERSON_EDUCATION_LABEL'),
+            'speciality' => Module::t('labels','PERSON_SPECIALITY_LABEL'),
 
 
         ];

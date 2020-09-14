@@ -240,11 +240,11 @@ use vova07\site\Module;
 
                             ],
                             ['label' => Module::t('menu','REPORT_PLANS'),'icon' => 'circle','url'=>['/plans/report'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST),
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
 
                             ],
                             ['label' => Module::t('menu','REPORT_SUMMARIZED'),'icon' => 'circle','url'=>['/prisons/reports/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAM_PLANING_LIST)],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST)],
                             ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
 
 
@@ -291,8 +291,9 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
 
 
-                             ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
+                            ]
 
 
 

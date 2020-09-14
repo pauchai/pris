@@ -45,6 +45,7 @@ use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 use yii\validators\DateValidator;
@@ -65,6 +66,10 @@ class Prisoner extends  OwnableItem
     const STATUS_TERM = 53;
 
     const STATUS_DELETED = 99;
+
+    const UDO3_3 = 3 / 4;
+    const UDO2_3 = 2 / 3;
+    const UDO1_2 = 1 / 2;
 
     // public $termStartJui;
     // public $termFinishJui;
@@ -91,7 +96,8 @@ class Prisoner extends  OwnableItem
             [['__person_id', 'prison_id'], 'required'],
             [['article'], 'string'],
             [['termStartJui', 'termFinishJui', 'termUdoJui'], 'date'],
-            [['status_id', 'sector_id', 'cell_id'], 'safe']
+            [['status_id', 'sector_id', 'cell_id'], 'safe'],
+            [['criminal_records'], 'integer'],
             //DateValidator::
         ];
     }
@@ -101,6 +107,7 @@ class Prisoner extends  OwnableItem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
@@ -113,6 +120,7 @@ class Prisoner extends  OwnableItem
                 'term_start' => Schema::TYPE_DATE,
                 'term_finish' => Schema::TYPE_DATE,
                 'term_udo' => Schema::TYPE_DATE,
+                'criminal_records' => $migration->tinyInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL DEFAULT ' . self::STATUS_ACTIVE,
 
 
@@ -339,7 +347,9 @@ class Prisoner extends  OwnableItem
             'term_udo' => Module::t('labels', 'TERM_UDO_LABEL'),
             'fullTitle' => Module::t('labels', 'FULL_TITLE_LABEL'),
             'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
-            'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
+            'criminal_records' => Module::t('labels', 'PRISONER_CRIMINAL_RECORDS_LABEL'),
+            'term' => Module::t('labels', 'PRISONER_TERM_LABEL'),
+
 
 
         ];
@@ -408,6 +418,29 @@ class Prisoner extends  OwnableItem
     public function getIdentDocs()
     {
         return  $this->getDocuments()->identification();
+    }
+
+    public function getTerm()
+    {
+        if ($this->term_start && $this->term_finish){
+            $termStart = new \DateTime( $this->term_start);
+            $termFinish = ( new \DateTime( $this->term_finish))->modify('+1 day');
+
+            $interval = date_diff($termStart, $termFinish);
+
+            return $interval->format('%y years %m months %d days');
+        }
+            return null;
+    }
+
+    public function getCalculatedUDO()
+    {
+        $termStart = new \DateTime( $this->term_start);
+        $termFinish = ( new \DateTime( $this->term_finish));
+        $interval = date_diff($termStart, $termFinish);
+        $days1_3 =round($interval->days * self::UDO2_3);
+        return $termStart->modify('+'.$days1_3 . ' days')->format('d-m-Y');
+
     }
 
 }

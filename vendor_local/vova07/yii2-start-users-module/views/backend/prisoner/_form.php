@@ -16,6 +16,57 @@ use vova07\prisons\Module;
     <?php echo $form->field($model->person,'__ident_id')->hiddenInput()?>
 <?php endif;?>
 <div class="row">
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'second_name')?>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <?=$form->field($model->person,'first_name')?>
+
+    </div>
+
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'patronymic')?>
+
+
+    </div>
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'birth_year')?>
+
+
+    </div>
+</div>
+<div class="row">
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'address')?>
+    </div>
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
+    </div>
+    <div class = 'col-md-4'>
+        <?=$form->field($model->person,'IDNP')?>
+
+    </div>
+</div>
+<div class="row">
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'nationality')?>
+    </div>
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'education')?>
+    </div>
+    <div class = 'col-md-3'>
+        <?=$form->field($model->person,'speciality')?>
+
+    </div>
+    <div class = 'col-md-3'>
+        <?=$form->field($model,'criminal_records')?>
+
+    </div>
+</div>
+<div class="row">
     <div class = 'col-md-6'>
 <?php echo $form->field($model,'status_id')->dropDownList(\vova07\users\models\Prisoner::getStatusesForCombo(),['prompt'=>Module::t('default','SELECT_STATUS')])?>
     </div>
@@ -32,6 +83,7 @@ use vova07\prisons\Module;
     </div>
     <div class = 'col-md-4'>
         <?=$form->field($model,'termFinishJui')->widget(\kartik\widgets\DatePicker::className())?>
+        <?=$model->term?>
     </div>
 </div>
 
@@ -67,41 +119,7 @@ use vova07\prisons\Module;
 
     </div>
 </div>
-<div class="row">
-    <div class = 'col-md-3'>
-        <?=$form->field($model->person,'second_name')?>
 
-    </div>
-
-    <div class="col-md-3">
-
-        <?=$form->field($model->person,'first_name')?>
-
-    </div>
-
-    <div class = 'col-md-3'>
-        <?=$form->field($model->person,'patronymic')?>
-
-
-    </div>
-    <div class = 'col-md-3'>
-        <?=$form->field($model->person,'birth_year')?>
-
-
-    </div>
-</div>
-<div class="row">
-    <div class = 'col-md-4'>
-        <?=$form->field($model->person,'address')?>
-    </div>
-    <div class = 'col-md-4'>
-        <?=$form->field($model->person,'citizen_id')->dropDownList(\vova07\countries\models\Country::getListForCombo(),['prompt'=>Module::t('default','SELECT_COUNTRY')])?>
-    </div>
-    <div class = 'col-md-4'>
-        <?=$form->field($model->person,'IDNP')?>
-
-    </div>
-</div>
 <div class="row">
     <div class="col-md-6">
         <?=$form->field($model->person,'photo_preview_url')->widget(\budyaga\cropper\Widget::className(), [
