@@ -24,10 +24,12 @@ use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
 use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
+use vova07\plans\models\ProgramDict;
 use vova07\plans\models\ProgramPlan;
 use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\Requirement;
 use vova07\prisons\models\Cell;
+use vova07\prisons\models\Company;
 use vova07\prisons\models\Penalty;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\PrisonerSecurity;
@@ -442,5 +444,27 @@ class Prisoner extends  OwnableItem
         return $termStart->modify('+'.$days1_3 . ' days')->format('d-m-Y');
 
     }
+
+    public function getTakenSpeciality()
+    {
+       /**
+        * @TODO
+        */
+
+       $query = $this->getPrisonerPrograms()->andWhere([
+           'program_prisoners.prison_id' => Company::ID_PRISON_PU1,
+           'program_prisoners.programdict_id' => ProgramDict::SPECIALITY_PROGRAM_DICT_ID,
+       ]);
+       $query->andWhere(new Expression("NOT ISNULL(program_prisoners.program_id)"));
+       $query->joinWith('program');
+       $query->andWhere(['programs.status_id' => Program::STATUS_FINISHED]);
+
+       $prisonerProgram = $query->one();
+
+       return ArrayHelper::getValue($prisonerProgram, 'program.order_no');
+
+    }
+
+
 
 }

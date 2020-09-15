@@ -25,6 +25,14 @@ use yii\helpers\ArrayHelper;
 
 class Sector extends  OwnableItem
 {
+    const SECTOR_PU1_S_1_ID = 11411;
+    const SECTOR_PU1_S_2_ID = 11412;
+    const SECTOR_PU1_S_3_ID = 11413;
+    const SECTOR_PU1_S_4_ID = 11414;
+    const SECTOR_PU1_D_G_ID = 11415;
+    const SECTOR_PU1_B_1_ID = 11416;
+
+
 
     //const SECTOR_SPECIAL_ETAP = 'ETAP';
     //const SECTOR_SPECIAL_RELEASE_91 = 'release 91';
@@ -131,3 +139,4 @@ class Sector extends  OwnableItem
 
 
 }
+

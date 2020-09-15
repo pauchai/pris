@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
 
 class ProgramDict extends  Ownableitem
 {
-
+    const SPECIALITY_PROGRAM_DICT_ID = 13395;
     public static function tableName()
     {
         return 'program_dicts';

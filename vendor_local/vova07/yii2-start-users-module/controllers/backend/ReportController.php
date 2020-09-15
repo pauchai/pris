@@ -1,10 +1,17 @@
 <?php
 namespace vova07\users\controllers\backend;
 use vova07\base\components\BackendController;
+use vova07\prisons\models\Sector;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
+use vova07\users\models\PrisonerLocationJournalQuery;
+use vova07\users\models\PrisonerLocationJournalView;
+use vova07\users\models\PrisonerLocationJournalWithNextView;
+use yii\base\DynamicModel;
+use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -24,7 +31,7 @@ class ReportController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['prisoners'],
+                'actions' => ['prisoners', 'location-journal'],
                 'roles' => ['@']
             ]
         ];
@@ -44,6 +51,20 @@ class ReportController extends BackendController
         //} else
         return $this->render("index", ['dataProvider'=>$dataProvider,'searchModel' => $searchModel]);
 
+    }
+
+    public function actionLocationJournal()
+    {
+        $currentYear  = date('Y');
+        $searchModel = new DynamicModel(['year' => $currentYear]);
+        $query = PrisonerLocationJournalWithNextView::find();
+        $query->andWhere(['sector_id' => Sector::SECTOR_PU1_S_4_ID]);
+
+        $query->andWhere(new Expression("YEAR(DATE_ADD(FROM_UNIXTIME(0), INTERVAL at SECOND)) = :year", [':year' => $searchModel->year]));
+        $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $dataProvider->pagination = false;
+
+        return $this->render('location_journal', ['dataProvider' => $dataProvider,'searchModel' => $searchModel]);
     }
 
 
