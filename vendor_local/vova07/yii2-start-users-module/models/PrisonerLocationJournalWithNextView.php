@@ -20,6 +20,7 @@ use vova07\countries\models\Country;
 use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
+use vova07\users\models\backend\PrisonerLocationJournalWithNextViewSearch;
 use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;

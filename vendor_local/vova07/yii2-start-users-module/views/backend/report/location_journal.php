@@ -23,7 +23,11 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
 
 );?>
 
-<?php //echo $this->render('_filter', ['searchModel' => $searchModel])?>
+<?php $filterForm = ActiveForm::begin(['layout' => 'inline', 'method' => 'GET'])?>
+<?=$filterForm->field($searchModel,'year')?>
+<?=$filterForm->field($searchModel,'sector_id')->dropDownList(\vova07\prisons\models\Sector::getListForCombo(),['prompt' => 'sector'])?>
+<?=Html::submitButton(Module::t('default', 'FILTER'), ['class' => 'btn btn-primary']) ?>
+<?php ActiveForm::end()?>
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,

@@ -457,7 +457,7 @@ class Prisoner extends  OwnableItem
        ]);
        $query->andWhere(new Expression("NOT ISNULL(program_prisoners.program_id)"));
        $query->joinWith('program');
-       $query->andWhere(['programs.status_id' => Program::STATUS_FINISHED]);
+       $query->andWhere(['program_prisoners.status_id' => ProgramPrisoner::STATUS_FINISHED]);
 
        $prisonerProgram = $query->one();
 
