@@ -27,11 +27,22 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
-   // 'filterModel' => $searchModel,
+    'filterModel' => $searchModel,
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'sector.title',
-        'prisoner.person.fio',
+        [
+            'class' => \kartik\grid\DataColumn::class,
+            'attribute' => 'sector.title',
+            'group' => true,
+            'groupedRow' => true,
+
+        ],
+        [
+            'attribute' => 'prisoner.person.fio',
+
+        ],
+
         'prisoner.person.birth_year',
         'prisoner.person.nationality',
         'prisoner.person.education',

@@ -105,6 +105,10 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
     {
         return $this->hasOne(Prisoner::class,['__person_id' => 'prisoner_id']);
     }
+    public function getPerson()
+    {
+        return $this->hasOne(Person::class,['__ident_id' => 'prisoner_id']);
+    }
 
     public function getPrison()
     {

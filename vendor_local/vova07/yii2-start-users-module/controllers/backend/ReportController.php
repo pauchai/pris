@@ -58,10 +58,17 @@ class ReportController extends BackendController
         $currentYear  = date('Y');
         $searchModel = new DynamicModel(['year' => $currentYear]);
         $query = PrisonerLocationJournalWithNextView::find();
-        $query->andWhere(['sector_id' => Sector::SECTOR_PU1_S_4_ID]);
+        $query->andWhere([PrisonerLocationJournalWithNextView::tableName().'.sector_id' => Sector::SECTOR_PU1_S_4_ID]);
 
         $query->andWhere(new Expression("YEAR(DATE_ADD(FROM_UNIXTIME(0), INTERVAL at SECOND)) = :year", [':year' => $searchModel->year]));
+        $query->joinWith('person');
+
+
         $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $dataProvider->sort->attributes['prisoner.person.fio'] = [
+            'asc' => ['person.second_name' => SORT_ASC, 'person.first_name' => SORT_ASC],
+            'desc' => ['person.second_name' => SORT_DESC, 'person.first_name' => SORT_DESC],
+        ];
         $dataProvider->pagination = false;
 
         return $this->render('location_journal', ['dataProvider' => $dataProvider,'searchModel' => $searchModel]);
