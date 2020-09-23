@@ -74,8 +74,10 @@ class SalaryWithHold extends  Ownableitem
                 'officer_id' => $migration->integer()->notNull(),
                 'year' => $migration->integer()->notNull(),
                 'month_no' => $migration->tinyInteger(2)->notNull(),
-                'amount_pension' => $migration->double('2,2'),
                 'is_pension' => $migration->boolean()->defaultValue(true),
+                'member_labor_union' => $migration->boolean()->notNull()->defaultValue(false),
+
+                'amount_pension' => $migration->decimal(10, 2),
                 'amount_income_tax' => $migration->decimal(10,2),
                 'amount_execution_list' => $migration->decimal(10,2),
                 'amount_labor_union' => $migration->decimal(10,2),
@@ -188,6 +190,9 @@ class SalaryWithHold extends  Ownableitem
 
     public function reCalculate($doSave = true)
     {
+        if ($this->member_labor_union)
+            $this->member_labor_union = $this->officer->member_labor_union;
+
         $this->amount_pension = $this->calculatePension();
         $this->amount_labor_union = $this->calculateLaborUnion();
         if ($doSave)
@@ -205,7 +210,11 @@ class SalaryWithHold extends  Ownableitem
     {
         $salaryTotal = $this->getSalaries()->totalAmount();
 
-        return $this->officer->member_labor_union? $salaryTotal / 100 * self::WITHHOLD_LABOR_UNION : 0;
+        return $this->member_labor_union? $salaryTotal / 100 * self::WITHHOLD_LABOR_UNION : 0;
+    }
+    public function calculateAmountCard()
+    {
+        return $this->getSalaries()->totalAmount() - $this->getTotal();
     }
 
     public function attributeLabels()

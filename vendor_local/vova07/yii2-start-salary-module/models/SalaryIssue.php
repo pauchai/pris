@@ -34,15 +34,16 @@ class SalaryIssue extends  Ownableitem
 {
     const STATUS_SALARY = 1;
     const STATUS_WITHHOLD = 2;
-  //  const STATUS_CARD  = 3;
+    //  const STATUS_CARD  = 3;
     const STATUS_FINISHED = 10;
 
     public $atFormat = 'Y-m-01';
+
     public function rules()
     {
         return [
-            [['year', 'month_no'],'number'],
-            [['at'],'safe'],
+            [['year', 'month_no'], 'number'],
+            [['at'], 'safe'],
             [['at'], 'default', 'value' => (new \DateTime())->format($this->atFormat)],
             [['status_id'], 'default', 'value' => self::STATUS_SALARY],
         ];
@@ -69,14 +70,12 @@ class SalaryIssue extends  Ownableitem
 
             ],
             'primaries' => [
-                [self::class, ['year','month_no']]
+                [self::class, ['year', 'month_no']]
             ],
 
 
-
-
         ];
-        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
+        return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
 
     }
 
@@ -110,14 +109,15 @@ class SalaryIssue extends  Ownableitem
 
     public function getOwnableitem()
     {
-      return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
+        return $this->hasOne(Ownableitem::class, ['__item_id' => '__ownableitem_id']);
     }
 
     public function getSalaries()
     {
         //return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year'])->orderBy('officer_id, division_id');
-        return $this->hasMany(Salary::class,['month_no'=>'month_no', 'year' => 'year']);
+        return $this->hasMany(Salary::class, ['month_no' => 'month_no', 'year' => 'year']);
     }
+
     public function getWithHolds()
     {
         $query = SalaryWithHold::find()->where(['year' => $this->year, 'month_no' => $this->month_no]);
@@ -130,11 +130,12 @@ class SalaryIssue extends  Ownableitem
         return [
             self::STATUS_SALARY => Module::t('labels', 'STATUS_SALARY_LABEL'),
             self::STATUS_WITHHOLD => Module::t('labels', 'STATUS_WITHHOLD_LABEL'),
-         //   self::STATUS_CARD => Module::t('labels', 'STATUS_CARD_LABEL'),
+            //   self::STATUS_CARD => Module::t('labels', 'STATUS_CARD_LABEL'),
 
             self::STATUS_FINISHED => Module::t('labels', 'STATUS_FINISHED_LABEL'),
         ];
     }
+
     public function getStatus()
     {
         return self::getStatusesForCombo()[$this->status_id];
@@ -158,9 +159,8 @@ class SalaryIssue extends  Ownableitem
 
     public function setAt($value)
     {
-        if ($value)
-        {
-            $dateTime = \DateTime::createFromFormat('Y-m-d',$value);
+        if ($value) {
+            $dateTime = \DateTime::createFromFormat('Y-m-d', $value);
             $this->year = $dateTime->format('Y');
             $this->month_no = $dateTime->format('m');
         }
@@ -184,33 +184,19 @@ class SalaryIssue extends  Ownableitem
             ]))
                 continue;
 
-            $salary = new Salary([
-                'officer_id' => $officerPost->officer_id,
-                'company_id' => $officerPost->company_id,
-                'division_id' => $officerPost->division_id,
-                'postdict_id' => $officerPost->postdict_id,
-
-
-                'rank_id' => $officerPost->officer->rank_id,
-                'year' => $this->year,
-                'month_no' => $this->month_no,
-                'work_days' => $monthDays,
-                'amount_rank_rate' => $officerPost->officer->rank->rate
-
-
-            ]);
-            $salary->validate();
+            $salary = $this->createSalaryForOfficerPost($officerPost,
+                [
+                    'work_days' => $monthDays,
+                ]);
             $salary->reCalculate();
             $salary->save();
         }
     }
 
 
-
     public function SalaryToBalance()
     {
-        foreach ($this->withHolds as  $withHold)
-        {
+        foreach ($this->withHolds as $withHold) {
             /**
              * @var $withHold SalaryWithHold
              */
@@ -218,12 +204,10 @@ class SalaryIssue extends  Ownableitem
             $chargeAmount = $withHold->getSalaries()->totalAmount();
             $chargeAmount -= $withHold->total;
 
-            $withHold->amount_card = $chargeAmount;
-            $withHold->save();
 
             //  $withHold->amount_card = $chargeAmount;
             $remain = $chargeAmount - $withHold->amount_card;
-            if ($remain <> 0){
+            if ($remain <> 0) {
                 if (is_null($balance = $withHold->balance))
                     $balance = new Balance();
 
@@ -231,14 +215,12 @@ class SalaryIssue extends  Ownableitem
                 $balance->category_id = BalanceCategory::CATEGORY_SALARY;
                 $balance->amount = $remain;
                 $balance->at = (new \DateTime())->format('Y-m-d');
-                $balance->reason = Module::t('default','SALARY_REMAIN {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->issue->at)->getTimestamp());
-                if ($balance->save()){
+                $balance->reason = Module::t('default', 'SALARY_REMAIN {0, date, MMM, Y}', \DateTime::createFromFormat('Y-m-d', $withHold->issue->at)->getTimestamp());
+                if ($balance->save()) {
                     $withHold->balance_id = $balance->primaryKey;
                     $withHold->save();
                 }
-            }
-            ;
-
+            };
 
 
         }
@@ -246,7 +228,27 @@ class SalaryIssue extends  Ownableitem
 
     public function getSalaryBalanceIds()
     {
-       return  $this->getSalaries()->select('balance_id')->distinct()->column();
+        return $this->getSalaries()->select('balance_id')->distinct()->column();
+    }
+
+    /**
+     * @param $officer Officer
+     * @param array $attributes
+     * @return null|SalaryWithHold
+     */
+    public function createWithHoldForOfficer($officer,$attributes = [])
+    {
+
+        $pk = ['officer_id' => $officer->primaryKey, 'year' => $this->year, 'month_no' => $this->month_no];
+
+
+        $withHold = SalaryWithHold::findOne($pk);
+
+        if (is_null($withHold)) {
+            $withHold = new SalaryWithHold($pk);
+        }
+        $withHold->setAttributes($attributes);
+        return $withHold;
     }
 
     /**
@@ -257,17 +259,12 @@ class SalaryIssue extends  Ownableitem
     {
         $officerIds = $this->getSalaries()->distinct()->select('officer_id')->column();
 
-        foreach ($officerIds as $officer_id){
-
-            $pk = ['officer_id' => $officer_id, 'year' => $this->year, 'month_no' => $this->month_no];
-
-
-
-            $withHold = SalaryWithHold::findOne($pk);
-
-            if (is_null($withHold)){
-                $withHold = new SalaryWithHold($pk);
-            }
+        foreach ($officerIds as $officerId) {
+            /**
+             * @var $officer Officer
+             */
+            $officer = Officer::findOne($officerId);
+            $withHold = $this->createWithHoldForOfficer($officer);
             $withHold->reCalculate(false);
             $withHold->save();
 
@@ -276,34 +273,71 @@ class SalaryIssue extends  Ownableitem
 
     public function generateAmountCards()
     {
-        foreach ($this->withHolds as  $withHold)
-        {
+        foreach ($this->withHolds as $withHold) {
             /**
              * @var $withHold SalaryWithHold
              */
-            $withHold->amount_card = $withHold->getSalaries()->totalAmount() - $withHold->total;
-             $withHold->save();
-
-
+            $withHold->amount_card = $withHold->calculateAmountCard();
+            $withHold->save();
 
 
         }
     }
 
+
     public function afterSave($insert, $changedAttributes)
     {
-        parent::afterSave($insert,$changedAttributes);
+        parent::afterSave($insert, $changedAttributes);
         if (
-            ($this->status_id == self::STATUS_WITHHOLD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
-        ){
+            ($this->status_id == self::STATUS_WITHHOLD) && array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
+        ) {
             $this->generateWithHolds();
-       //     $this->generateWithHolds();
+            //     $this->generateWithHolds();
 
-       // } elseif ( ($this->status_id == self::STATUS_CARD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
-        //    $this->generateAmountCards();
-        }
-        elseif ( ($this->status_id == self::STATUS_FINISHED) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
+            // } elseif ( ($this->status_id == self::STATUS_CARD) &&  array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
+            //    $this->generateAmountCards();
+        } elseif (($this->status_id == self::STATUS_FINISHED) && array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id) {
             $this->SalaryToBalance();
         }
+    }
+
+    /**
+     * @param $officerPost
+     * @param $attributes
+     * @return Salary
+     */
+    public  function createSalaryForOfficerPost($officerPost, $attributes)
+    {
+        $salary = new Salary(ArrayHelper::merge([
+            'year' => $this->year,
+            'month_no' => $this->month_no,
+            'officer_id' => $officerPost->officer_id,
+            'company_id' => $officerPost->company_id,
+            'division_id' => $officerPost->division_id,
+            'postdict_id' => $officerPost->postdict_id,
+        ],
+            $attributes
+        )
+        );
+        return $salary;
+    }
+
+    /**
+     * @param $officer
+     * @param $attributes
+     * @return Salary
+     */
+    public  function createSalaryForOfficer($officer, $attributes)
+    {
+        $salary = new Salary(ArrayHelper::merge([
+            'year' => $this->year,
+            'month_no' => $this->month_no,
+            'officer_id' => $officer->primaryKey,
+            'company_id' => $officer->company_id,
+            ],
+            $attributes
+        )
+        );
+        return $salary;
     }
 }

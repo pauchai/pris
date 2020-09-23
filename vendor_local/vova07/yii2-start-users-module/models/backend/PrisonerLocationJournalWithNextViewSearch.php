@@ -41,8 +41,6 @@ class PrisonerLocationJournalWithNextViewSearch extends PrisonerLocationJournalW
         $this->validate();
 
         $query->andFilterWhere([PrisonerLocationJournalWithNextView::tableName().'.sector_id' => $this->sector_id]);
-
-
         $query->andWhere(new Expression("YEAR(DATE_ADD(FROM_UNIXTIME(0), INTERVAL at SECOND)) = :year", [':year' => $this->year]));
 
         $dataProvider->sort->attributes['prisoner.person.fio'] = [

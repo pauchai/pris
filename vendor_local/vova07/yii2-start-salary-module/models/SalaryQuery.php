@@ -17,11 +17,7 @@ class SalaryQuery extends ActiveQuery
 
     public function totalAmount()
     {
-        $values = [];
-        foreach (Salary::attributesForTotal() as $attribute){
-            $values[] = "IFNULL($attribute, 0)";
-        }
-        return $this->sum(new Expression(Join("+", $values)));
+        return $this->sum('total');
     }
 
 

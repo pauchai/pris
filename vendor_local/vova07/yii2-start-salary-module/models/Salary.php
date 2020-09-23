@@ -20,10 +20,14 @@ use vova07\prisons\models\Division;
 use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
+use vova07\salary\helpers\SalaryHelper;
 use vova07\salary\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
+use yii\base\Event;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -71,20 +75,22 @@ class Salary extends  Ownableitem
     public function rules()
     {
         return [
-            ['work_days', 'number'],
-            ['work_days', function($attribute,$params,$validator)
-            {
+            [['company_id', 'officer_id', 'year','month_no'], 'required'],
+            [['work_days', 'base_rate', 'rank_rate'], 'number'],
+            ['full_time', 'boolean'],
+//            ['work_days', function($attribute,$params,$validator)
+//            {
+//
+//                $this->reCalculate();
+//
+//
+//            }, 'on' => self::SCENARIO_RECALCULATE
+//            ],
 
-                $this->reCalculate();
 
-
-            }, 'on' => self::SCENARIO_RECALCULATE
-            ],
-
-
-            [['base_rate'],DefaultValueValidator::class, 'value' => function($model,$attribute){
-                return $model->calculateBaseRate() ;
-            }],
+//            [['base_rate'],DefaultValueValidator::class, 'value' => function($model,$attribute){
+//                return $model->calculateBaseRate() ;
+//            }],
             [['amount_conditions', 'amount_advance', 'amount_optional',
                 'amount_diff_sallary',
                 'amount_additional',
@@ -107,13 +113,16 @@ class Salary extends  Ownableitem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'officer_id' => $migration->integer()->notNull(),
                 'company_id' => $migration->integer()->notNull(),
-                'division_id' => $migration->tinyInteger(3)->notNull(),
-                'postdict_id' => $migration->smallInteger()->notNull(),
-                'rank_id' => $migration->integer()->notNull(),
+                'division_id' => $migration->tinyInteger(3),
+                'postdict_id' => $migration->smallInteger(),
+                'rank_rate' => $migration->decimal(10,2),
+                'full_time' => $migration->boolean()->defaultValue(true),
+                'base_rate' => $migration->decimal(10,2),
+
                 'year' => $migration->integer()->notNull(),
                 'month_no' => $migration->tinyInteger(2)->notNull(),
-                'work_days' => $migration->tinyInteger(3)->notNull(),
-                'base_rate' => $migration->decimal(10,2)->notNull(),
+                'work_days' => $migration->tinyInteger(3),
+
                 'amount_rate' => $migration->decimal(10,2),
                 'amount_rank_rate' => $migration->decimal(10,2),
                 'amount_conditions' => $migration->decimal(10,2),
@@ -124,13 +133,14 @@ class Salary extends  Ownableitem
                 'amount_maleficence' => $migration->decimal(10,2),
                 'amount_vacation' => $migration->decimal(10,2),
                 'amount_sick_list' => $migration->decimal(10,2),
-                'amount_bonus' => $migration->double('2,2'),
+                'amount_bonus' => $migration->decimal(10,2),
+                'total' => $migration->decimal(10,2)->notNull(),
 
                 'balance_id' => $migration->integer(),
 
             ],
             'indexes' => [
-                [self::class, ['officer_id', 'company_id', 'division_id', 'postdict_id','rank_id','year','month_no'], true],
+                [self::class, ['officer_id', 'company_id', 'division_id', 'postdict_id', 'year','month_no'], true],
             ],
 
 
@@ -168,7 +178,20 @@ class Salary extends  Ownableitem
 
 
                     ],
-                ]
+                ],
+                'beforeSave' =>  [
+                    'class' => AttributeBehavior::className(),
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => 'total',
+                        ActiveRecord::EVENT_BEFORE_UPDATE => 'total',
+                    ],
+                    'value' => function ($event) {
+                        /**
+                         * @var $event Event
+                         */
+                        return $event->sender->calculateTotal();
+                    },
+                ],
 
             ];
         } else {
@@ -239,29 +262,22 @@ class Salary extends  Ownableitem
 
     public function calculateBaseRate()
     {
-        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->officerPost->benefit_class - (!$this->officer->has_education?self::EDUCATION_SALARY_CLASS_ADDONS:0);
-        $salaryClass = SalaryClass::findOne($resultSalaryClassid);
-
-
-        return ceil(self::SALARY_MIN_AMOUNT * $salaryClass->rate /10) * 10    ;
+        return SalaryHelper::calculateBaseRate($this->postDict->postIso->salaryClass->primaryKey, $this->officerPost->benefit_class, $this->officer->has_education );
 
     }
 
     public function calculateAmountRate()
     {
         $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
-       // $monthDaysNumber = 22;
-        //return $this->base_rate ;
-        return ($this->base_rate  ) * $this->officerPost->getTimeRate() / $monthDaysNumber * $this->work_days ;
+        return SalaryHelper::calculateAmountRate($this->base_rate,  $this->work_days / $monthDaysNumber, $this->getTimeRate() );
+
     }
 
 
     public function calculateAmountRankRate()
     {
         $monthDaysNumber = Calendar::getMonthDaysNumber((new \DateTime())->setDate($this->year, $this->month_no, 1));
-        // $monthDaysNumber = 22;
-        //return $this->base_rate ;
-        return $this->officer->rank->rate * $this->officerPost->getTimeRate() / $monthDaysNumber * $this->work_days ;
+        return SalaryHelper::calculateAmountRankRate($this->rank_rate, $this->work_days / $monthDaysNumber, $this->getTimeRate());
     }
 
     public function calculateAmountCondition()
@@ -276,18 +292,29 @@ class Salary extends  Ownableitem
 
     public function reCalculate()
     {
+        if (is_null($this->work_days)){
+            $firstDayDate = (new \DateTime())->setDate($this->year, $this->month_no, 1);
+           $this->work_days = Calendar::getMonthDaysNumber($firstDayDate);
+        }
+
+        if (is_null($this->full_time))
+            $this->full_time = floatval(ArrayHelper::getValue($this, 'officerPost.full_time'));
+        if (is_null($this->rank_rate))
+            $this->rank_rate = floatval(ArrayHelper::getValue($this, 'officer.rank.rate'));
+        if (is_null($this->base_rate))
+            $this->base_rate = $this->calculateBaseRate();
 
         $this->amount_rate = $this->calculateAmountRate();
         $this->amount_rank_rate = $this->calculateAmountRankRate();
         $this->amount_conditions = $this->calculateAmountCondition();
         $this->amount_advance = $this->calculateAmountAdvance();
     }
-    public function getTotal()
+    public function calculateTotal()
     {
         $amountTotal = 0;
 
         foreach (self::attributesForTotal() as $attributeName)
-                    $amountTotal += ArrayHelper::getValue($this, $attributeName, 0);
+                    $amountTotal += floatval(ArrayHelper::getValue($this, $attributeName, 0));
         return $amountTotal;
     }
 
@@ -325,6 +352,12 @@ class Salary extends  Ownableitem
 
         ];
     }
+
+    public function getTimeRate()
+    {
+        return $this->full_time?1:0.5;
+    }
+
 
 
 }

@@ -16,17 +16,22 @@ use vova07\prisons\models\OfficerPostView;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\backend\OfficerPostSearch;
+use vova07\salary\helpers\SalaryHelper;
+use vova07\salary\models\SalaryBenefit;
+use vova07\salary\models\SalaryClass;
 use vova07\users\models\Ident;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveQuery;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 
 class OfficerPostsController extends BackendController
 {
+
 
     public function behaviors()
     {
@@ -35,7 +40,7 @@ class OfficerPostsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'officer-posts', 'officer-create', 'officer-view', 'create','view','delete','update'],
+                'actions' => ['index', 'officer-posts', 'officer-create', 'officer-view', 'create','view','delete','update','calculate-base-rate'],
                 'roles' => ['@']
             ]
         ];
@@ -197,5 +202,16 @@ class OfficerPostsController extends BackendController
         return $this->renderAjax('officer_view', ['model'=>$model, 'newOfficerPost' => $newOfficerPost]);
     }
 
+
+
+    public function actionCalculateBaseRate()
+    {
+        if (!\Yii::$app->request->isAjax) {
+            throw new \HttpException(400, 'Only ajax request is allowed.');
+        }
+        $officerPost = new OfficerPost();
+        $officerPost->load(\Yii::$app->request->post());
+        return $officerPost->calculateBaseRate();
+    }
 
 }

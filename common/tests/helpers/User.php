@@ -1,7 +1,10 @@
 <?php
 namespace common\helpers;
 use vova07\prisons\models\Company;
+use vova07\prisons\models\Division;
 use vova07\prisons\models\Prison;
+use vova07\users\models\Officer;
+use vova07\users\models\Person;
 
 /**
  * Created by PhpStorm.
@@ -22,4 +25,5 @@ class User
         $prison->save();
         return $prison;
     }
+
 }

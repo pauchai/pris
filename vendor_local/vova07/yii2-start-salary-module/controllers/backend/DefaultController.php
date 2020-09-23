@@ -23,6 +23,7 @@ use yii\db\Expression;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 
 /**
@@ -42,7 +43,9 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'delete', 'mass-delete', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular','change-salary-column', 'change-salary-calculated', 'change-withhold-column'],
+                'actions' => ['index', 'delete', 'mass-delete', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular', 'change-salary-column', 'change-salary-calculated', 'change-withhold-column',
+                    'create', 'create-for-officer', 'update'
+                ],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
         ];
@@ -52,15 +55,15 @@ class DefaultController extends BackendController
 
     public function actions()
     {
-        return   [
+        return [
             'change-salary-column' => [                                   // identifier for your editable column action
                 'class' => EditableColumnAction::class, // action class name
                 'modelClass' => Salary::class,            // the model for the record being edited
                 'scenario' => Model::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
-                    return  $model->$attribute ;  // return a calculated output value if desired
+                    return $model->$attribute;  // return a calculated output value if desired
                 },
-                'outputMessage' => function($model, $attribute, $key, $index) {
+                'outputMessage' => function ($model, $attribute, $key, $index) {
                     return '';                              // any custom error to return after model save
                 },
                 'showModelErrors' => true,                    // show model validation errors after save
@@ -75,11 +78,12 @@ class DefaultController extends BackendController
             'change-salary-calculated' => [                                   // identifier for your editable column action
                 'class' => EditableColumnAction::class, // action class name
                 'modelClass' => Salary::class,            // the model for the record being edited
-                'scenario' => Salary::SCENARIO_RECALCULATE,        // model scenario assigned before validation & update
+                'scenario' => Salary::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
-                    return  $model->$attribute ;  // return a calculated output value if desired
+                    $model->reCalculate(); $model->save();
+                    return $model->$attribute;  // return a calculated output value if desired
                 },
-                'outputMessage' => function($model, $attribute, $key, $index) {
+                'outputMessage' => function ($model, $attribute, $key, $index) {
                     return '';                              // any custom error to return after model save
                 },
                 'showModelErrors' => true,                    // show model validation errors after save
@@ -96,9 +100,9 @@ class DefaultController extends BackendController
                 'modelClass' => SalaryWithHold::class,            // the model for the record being edited
                 'scenario' => SalaryWithHold::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
-                    return  $model->$attribute ;  // return a calculated output value if desired
+                    return $model->$attribute;  // return a calculated output value if desired
                 },
-                'outputMessage' => function($model, $attribute, $key, $index) {
+                'outputMessage' => function ($model, $attribute, $key, $index) {
                     return '';                              // any custom error to return after model save
                 },
                 'showModelErrors' => true,                    // show model validation errors after save
@@ -117,7 +121,7 @@ class DefaultController extends BackendController
     public function actionIndex($at = null)
     {
         \Yii::$app->user->setReturnUrl(Url::current());
-        if (is_null($at)){
+        if (is_null($at)) {
             $date = new \DateTime();
         } else {
             $date = \DateTime::createFromFormat('Y-m-01', $at);
@@ -132,6 +136,39 @@ class DefaultController extends BackendController
         $salaryIssue->validate();//for default values
         return $this->render("index", ['salaryIssue' => $salaryIssue]);
     }
+
+
+
+    public function actionCreate()
+    {
+        $salary = new Salary();
+        if ($getParams = \Yii::$app->request->get('Salary'))
+                $salary->load($getParams, '');
+        if ($salary->load(\Yii::$app->request->post()) && $salary->validate()){
+            $salary->recalculate();
+            $salary->save();
+            return $this->goBack();
+        }
+        return $this->render('create', ['model' => $salary]);
+    }
+
+    public function actionUpdate($id)
+    {
+        if (is_null($salary = Salary::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t("ITEM_NOT_FOUND"));
+        };
+
+
+        if ($salary->load(\Yii::$app->request->post()) && $salary->validate()){
+            $salary->recalculate();
+            $salary->save();
+            return $this->goBack();
+        }
+        return $this->render('update', ['model' => $salary]);
+    }
+
+
 
     public function actionDelete($id)
     {

@@ -16,7 +16,9 @@ use yii\helpers\ArrayHelper;
 
 <?php $form = ActiveForm::begin([
     //    'enableClientValidation' => true,
-    'method' => 'POST'])?>
+    'method' => 'POST',
+    'options' => ['id' => 'main-form']
+    ])?>
 <?=$form->field($model,'officer_id')->hiddenInput()->label(ArrayHelper::getValue($model,'officer.person.fio'))?>
 <?=$form->field($model,'company_id',['inputOptions' => ['id' => 'company_id']])->hiddenInput()->label(ArrayHelper::getValue($model,'company.title'))?>
 
@@ -72,12 +74,43 @@ use yii\helpers\ArrayHelper;
 
 
 
-<?=$form->field($model,'benefit_class')->dropDownList(
+<?=$form->field($model,'benefit_class', ['inputOptions' => ['id' => 'benefit-class-id']])->dropDownList(
     \vova07\salary\models\SalaryBenefit::getListForCombo(),
     [
         'prompt' => \vova07\salary\Module::t('default','BENEFIT_CLASS')
     ]
 )?>
+<?php
+    $calculateBaseRateAction = \yii\helpers\Url::to(['/prisons/officer-posts/calculate-base-rate']);
+ $this->registerJs(<<<JS
+(function(){
+    var requestBaseRate = function(){
+        var postData = $("#main-form").serialize()
+        $.ajax({
+            type: "POST",
+            url: '$calculateBaseRateAction',
+            data: postData,
+            success: function(baseRateValue){
+             $("#base-rate").val(baseRateValue);
+            } 
+        });
+    }
+    window.onClickCalculateBaseRate = requestBaseRate;
+})();
+ 
+ 
+JS
+);
+
+
+    echo Html::button('calculate', [
+       // 'data-confirm' => 'Calculate?',
+        'onClick' =>'onClickCalculateBaseRate();return false;'
+    ])
+
+    ?>
+<?=$form->field($model, 'base_rate', ['inputOptions' => ['id' => 'base-rate']])?>
+
 
 
 

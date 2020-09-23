@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\jobs\helpers\Calendar;
+use vova07\salary\helpers\SalaryHelper;
 use vova07\salary\models\Salary;
 use vova07\salary\models\SalaryBenefit;
 use vova07\salary\models\SalaryClass;
@@ -51,6 +52,7 @@ class OfficerPost extends  ActiveRecordMetaModel
                 'benefit_class' => $migration->tinyInteger(3)->notNull()->defaultValue(SalaryBenefit::EXTRA_CLASS_POINT_0TO2_ANI),
                 'title' => $migration->string(),
                 'rbac_role' => $migration->string(),
+                'base_rate' => $migration->decimal(10,2)
             ],
             'primaries' => [
                 [self::class, ['officer_id', 'company_id','division_id','postdict_id']]
@@ -76,6 +78,7 @@ class OfficerPost extends  ActiveRecordMetaModel
             [['officer_id', 'company_id', 'division_id', 'postdict_id'],'required'],
             [['full_time'],'boolean'],
             [['benefit_class'], 'integer'],
+            [['base_rate'],'number'],
             [['benefit_class'], 'default', 'value' => SalaryBenefit::EXTRA_CLASS_POINT_0TO2_ANI],
             [['title'], 'string'],
            // [['company_id', 'title'],'unique'],
@@ -123,7 +126,14 @@ class OfficerPost extends  ActiveRecordMetaModel
     {
         return $this->hasOne(Officer::class, ['__person_id' => 'officer_id']);
     }
-
+    public function getPost()
+    {
+        return $this->hasOne( Post::class, [
+            'company_id' => 'company_id',
+            'division_id' => 'division_id',
+            'postdict_id' => 'postdict_id'
+        ]);
+    }
 
     public function getTimeRate()
     {
@@ -149,6 +159,15 @@ class OfficerPost extends  ActiveRecordMetaModel
             $officerMainPost->division_id == $this->division_id &&
             $officerMainPost->postdict_id == $this->postdict_id;
     }
+
+    public function getSalaryClass()
+    {
+        $resultSalaryClassid = $this->postDict->postIso->salaryClass->primaryKey +  $this->benefit_class - (!$this->officer->has_education?Salary::EDUCATION_SALARY_CLASS_ADDONS:0);
+        return  $salaryClass = SalaryClass::findOne($resultSalaryClassid);
+    }
+
+
+
 
 
 }

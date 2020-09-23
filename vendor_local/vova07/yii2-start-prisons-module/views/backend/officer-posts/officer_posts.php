@@ -43,11 +43,8 @@ $this->params['breadcrumbs'] = [
 <?php $form = ActiveForm::begin(['method'=>'get' ])?>
 <?php echo $form->field($searchModel,'category_id')
     //->dropDownList(Rank::getCategoriesForCombo(),['prompt' => '-']);
-    ->widget(Select2::class,[
-            'data' => Rank::getCategoriesForCombo(),
-        'options' => [
-                'placeholder' => '-'
-        ]
+    ->dropDownList( Rank::getCategoriesForCombo(), [
+        'prompt' => '-'
     ]);
 ?>
 <?php $this->registerJs(<<<JS
@@ -158,6 +155,7 @@ JS
             'attribute' => 'officer.has_education',
         ],
         //'officerPost.title',
+        //'base_rate',
         [
             'class' => \kartik\grid\ActionColumn::class,
             'template' => "{update_post}{update}{delete}",
@@ -170,10 +168,15 @@ JS
                     $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
 
                     return \yii\bootstrap\Html::a($name,
-                        \yii\helpers\Url::to(['/prisons/posts/update','company_id' => $model->company_id , 'division_id' => $model->division_id, 'postdict_id' => $model->postdict_id]),
+                        \yii\helpers\Url::to(['/prisons/posts/update',  'company_id' => $model->company_id , 'division_id' => $model->division_id, 'postdict_id' => $model->postdict_id]),
                         $options
                     ) ;
                 }
+            ],
+            'visibleButtons' => [
+              'update_post' =>      function($model){return !is_null($model->officerPost);},
+                'update' =>      function($model){return !is_null($model->officerPost);},
+                'delete' =>      function($model){return !is_null($model->officerPost);},
             ]
 
         ]
