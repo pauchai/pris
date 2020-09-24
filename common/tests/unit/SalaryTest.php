@@ -52,7 +52,9 @@ use vova07\prisons\models\Division;
 use vova07\prisons\models\DivisionDict;
 use vova07\prisons\models\OfficerPost;
 use vova07\prisons\models\Rank;
+use vova07\salary\models\SalaryBenefit;
 use vova07\salary\models\SalaryIssue;
+use vova07\salary\models\SalaryWithHold;
 use vova07\users\models\Officer;
 use vova07\prisons\models\Post;
 use vova07\prisons\models\PostDict;
@@ -68,6 +70,7 @@ use vova07\users\models\Ident;
 use vova07\base\models\Item;
 use vova07\users\models\Person;
 use vova07\users\models\User;
+use yii\db\Expression;
 use yii\db\IntegrityException;
 
 
@@ -163,106 +166,106 @@ class SalaryTest extends \Codeception\Test\Unit
        // $this->generateFixtures();
     }
 
-    public function testSalary()
-    {
-         $year = 2020;
-         $month_no = 3;
-         $firstDayDate  = (new \DateTime())->setDate($year, $month_no, 1);
-         $officer = $this->fixtures['officerYusin'];
-        /**
-         * @var $officer Officer
-         */
-         expect($officer->getOfficerPosts()->count())->equals(1);
-         $salaryIssue = new SalaryIssue([
-             'year' => $year,
-             'month_no' => $month_no,
-         ]);
-        expect($salaryIssue->save())->true();
-
-        $salary = $salaryIssue->createSalaryForOfficerPost($this->fixtures['officerPost_YusinOfficerPrincipal'],
-            [
-                'work_days' => Calendar::getMonthDaysNumber($firstDayDate)
-            ]);
-
-        $salary->reCalculate();
-
-        $salary->setAttributes([
-            'amount_optional' => 0,
-            'amount_diff_sallary' => 0,
-            'amount_additional' => 0,
-            'amount_maleficence' => 0,
-            'amount_vacation' => 0 ,
-            'amount_sick_list' => 0,
-            'amount_bonus' => 0
-        ]);
-        expect($salary->calculateTotal())->equals(9474);
-
-
-
-        $salary = $salaryIssue->createSalaryForOfficer( $officer,[
-            'work_days' => Calendar::getMonthDaysNumber($firstDayDate),
-              'base_rate' => 6980,
-             'rank_rate' => 400,
-            'full_time' => true,
-
-
-        ]);
-        $salary->reCalculate();
-
-        $salary->setAttributes([
-            'amount_optional' => 0,
-            'amount_diff_sallary' => 0,
-            'amount_additional' => 0,
-            'amount_maleficence' => 0,
-            'amount_vacation' => 0 ,
-            'amount_sick_list' => 0,
-            'amount_bonus' => 0
-        ]);
-
-        expect($salary->calculateTotal())->equals(9474);
-
-         expect($salaryIssue->save())->true();
-            $salary = $salaryIssue->createSalaryForOfficer( $officer,[
-                'amount_rate' => 6980,
-                'amount_rank_rate' => 400 ,
-                'amount_conditions' => 1396,
-                'amount_advance' => 698,
-
-                'amount_optional' => 0,
-                'amount_diff_sallary' => 0,
-                'amount_additional' => 0,
-                'amount_maleficence' => 0,
-                'amount_vacation' => 0 ,
-                'amount_sick_list' => 0,
-                'amount_bonus' => 0
-            ]);
-
-            expect($salary->calculateTotal())->equals(9474);
-            codecept_debug($salary);
-
-            $withHold = $salaryIssue->createWithHoldForOfficer($officer,[
-                'is_pension' => true,
-                'amount_income_tax' => 0,
-                'amount_execution_list' => 0,
-                'amount_sick_list' => 0,
-            ]);
-
-
-
-       // $salary = $officer->createSalary($year, $monthNo);
-       // $salary->recalculateTotal();
-
-
-        //$withHold = $officer->createWithHold($year, $monthNo);
-        //$withHold->recalculateTotal();
-
-
-    }
+//    public function testSalary()
+//    {
+//         $year = 2020;
+//         $month_no = 3;
+//         $firstDayDate  = (new \DateTime())->setDate($year, $month_no, 1);
+//         $officer = $this->fixtures['officerYusin'];
+//        /**
+//         * @var $officer Officer
+//         */
+//         expect($officer->getOfficerPosts()->count())->equals(1);
+//         $salaryIssue = new SalaryIssue([
+//             'year' => $year,
+//             'month_no' => $month_no,
+//         ]);
+//        expect($salaryIssue->save())->true();
+//
+//        $salary = $salaryIssue->createSalaryForOfficerPost($this->fixtures['officerPost_YusinOfficerPrincipal'],
+//            [
+//                'work_days' => Calendar::getMonthDaysNumber($firstDayDate)
+//            ]);
+//
+//        $salary->reCalculate();
+//
+//        $salary->setAttributes([
+//            'amount_optional' => 0,
+//            'amount_diff_sallary' => 0,
+//            'amount_additional' => 0,
+//            'amount_maleficence' => 0,
+//            'amount_vacation' => 0 ,
+//            'amount_sick_list' => 0,
+//            'amount_bonus' => 0
+//        ]);
+//        expect($salary->calculateTotal())->equals(9474);
+//
+//
+//
+//        $salary = $salaryIssue->createSalaryForOfficer( $officer,[
+//            'work_days' => Calendar::getMonthDaysNumber($firstDayDate),
+//              'base_rate' => 6980,
+//             'rank_rate' => 400,
+//            'full_time' => true,
+//
+//
+//        ]);
+//        $salary->reCalculate();
+//
+//        $salary->setAttributes([
+//            'amount_optional' => 0,
+//            'amount_diff_sallary' => 0,
+//            'amount_additional' => 0,
+//            'amount_maleficence' => 0,
+//            'amount_vacation' => 0 ,
+//            'amount_sick_list' => 0,
+//            'amount_bonus' => 0
+//        ]);
+//
+//        expect($salary->calculateTotal())->equals(9474);
+//
+//         expect($salaryIssue->save())->true();
+//            $salary = $salaryIssue->createSalaryForOfficer( $officer,[
+//                'amount_rate' => 6980,
+//                'amount_rank_rate' => 400 ,
+//                'amount_conditions' => 1396,
+//                'amount_advance' => 698,
+//
+//                'amount_optional' => 0,
+//                'amount_diff_sallary' => 0,
+//                'amount_additional' => 0,
+//                'amount_maleficence' => 0,
+//                'amount_vacation' => 0 ,
+//                'amount_sick_list' => 0,
+//                'amount_bonus' => 0
+//            ]);
+//
+//            expect($salary->calculateTotal())->equals(9474);
+//            codecept_debug($salary);
+//
+//            $withHold = $salaryIssue->createWithHoldForOfficer($officer,[
+//                'is_pension' => true,
+//                'amount_income_tax' => 0,
+//                'amount_execution_list' => 0,
+//                'amount_sick_list' => 0,
+//            ]);
+//
+//
+//
+//       // $salary = $officer->createSalary($year, $monthNo);
+//       // $salary->recalculateTotal();
+//
+//
+//        //$withHold = $officer->createWithHold($year, $monthNo);
+//        //$withHold->recalculateTotal();
+//
+//
+//    }
 
     public function testSalaryWithHold()
     {
         $year = 2020;
-        $month_no = 3;
+        $month_no = 6;
         $firstDayDate  = (new \DateTime())->setDate($year, $month_no, 1);
         $officer = $this->fixtures['officerYusin'];
         /**
@@ -277,12 +280,19 @@ class SalaryTest extends \Codeception\Test\Unit
 
         $salary = $salaryIssue->createSalaryForOfficerPost($this->fixtures['officerPost_YusinOfficerPrincipal'],
             [
-                'work_days' => Calendar::getMonthDaysNumber($firstDayDate)
+                'work_days' => 21
             ]);
 
         $salary->reCalculate();
+        expect($salary->base_rate)->equals(7590);
 
-        $salary->setAttributes([
+        expect($salary->amount_rate)->equals(5313);
+        expect($salary->amount_rank_rate)->equals(280);
+        expect($salary->amount_conditions)->equals(1062.6);
+        expect($salary->amount_advance)->equals(531.3);
+
+
+     /*   $salary->setAttributes([
             'amount_optional' => 0,
             'amount_diff_sallary' => 0,
             'amount_additional' => 0,
@@ -290,38 +300,27 @@ class SalaryTest extends \Codeception\Test\Unit
             'amount_vacation' => 0 ,
             'amount_sick_list' => 0,
             'amount_bonus' => 0
-        ]);
-        expect($salary->calculateTotal())->equals(9474);
-        expect($salary->save())->true();
-
-
-        $salary = $salaryIssue->createSalaryForOfficer( $officer,[
-            'amount_rate' => 6980,
-            'amount_rank_rate' => 400 ,
-            'amount_conditions' => 1396,
-            'amount_advance' => 698,
-
-            'amount_optional' => 0,
-            'amount_diff_sallary' => 0,
-            'amount_additional' => 0,
-            'amount_maleficence' => 0,
-            'amount_vacation' => 0 ,
-            'amount_sick_list' => 0,
-            'amount_bonus' => 0
-        ]);
-        expect($salary->calculateTotal())->equals(9474);
+        ]);*/
+        expect($salary->calculateTotal())->equals(7186.9);
         expect($salary->save())->true();
 
 
         $withHold = $salaryIssue->createWithHoldForOfficer($officer,[
             'is_pension' => true,
-            'amount_income_tax' => 0,
+            'amount_income_tax' => 510.68,
             'amount_execution_list' => 0,
             'amount_sick_list' => 0,
         ]);
         $withHold->reCalculate();
-        expect($withHold->getTotal())->equals(568.44);
-        expect($withHold->calculateAmountCard())->equals(8905.56);
+        $pension = ($withHold->getSalaries()->totalAmount() -
+        $withHold->getSalaries()->sum(new Expression('IFNULL(amount_sick_list, 0)'))
+            )  / 100 * SalaryWithHold::WIHTHOLD_PENSION;
+
+        expect($withHold->amount_pension)->equals(431.21);
+
+
+        expect($withHold->getTotal())->equals(941.89);
+        expect($withHold->calculateAmountCard())->equals(6245.009999999999);
 
 
         // $salary = $officer->createSalary($year, $monthNo);
@@ -333,6 +332,9 @@ class SalaryTest extends \Codeception\Test\Unit
 
 
     }
+
+
+
 
     private function generateFixtures()
     {
@@ -385,7 +387,8 @@ class SalaryTest extends \Codeception\Test\Unit
         $this->fixtures['officerYusin'] = $officer;
 
         $officerPost = new OfficerPost([
-            'officer_id' => $officer->primaryKey
+            'officer_id' => $officer->primaryKey,
+            'benefit_class' => SalaryBenefit::EXTRA_CLASS_POINT_10TO15_ANI
         ]);
         $officerPost->link('post',$post);
         $this->fixtures['officerPost_YusinOfficerPrincipal'] = $officerPost;
