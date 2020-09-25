@@ -261,5 +261,13 @@ class Officer extends  OwnableItem
         return $this->hasMany(Balance::class, ['officer_id' => '__person_id']);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'member_labor_union' => Module::t('labels','OFFICER_MEMBER_LABOR_UNION_LABEL'),
+            'has_education' => Module::t('labels','OFFICER_HAS_EDUCATION_LABEL'),
+            'rank_id' => Module::t('labels','OFFICER_RANK_LABEL'),
+        ];
+    }
 
 }

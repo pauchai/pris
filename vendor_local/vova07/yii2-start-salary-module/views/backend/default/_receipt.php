@@ -143,10 +143,10 @@
                 <td>На карточку</td>
                 <td><?=$model->amount_card?></td>
             </tr>
-            <tr>
+<!--            <tr>
                 <td>Остаток на счёте</td>
-                <td><?=\yii\helpers\ArrayHelper::getValue($model,'officer.balance.remain', 0)?></td>
-            </tr>
+                <td><?/*=\yii\helpers\ArrayHelper::getValue($model,'officer.balance.remain', 0)*/?></td>
+            </tr>-->
             </tfoot>
         </table>
         </td>

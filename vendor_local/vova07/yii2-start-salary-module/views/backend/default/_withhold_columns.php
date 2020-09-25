@@ -69,12 +69,10 @@ $columns[] = [
     }
 ];
     $columns[] = [
-      'header' => "BANK",
+      'attribute' => "amount_card",
         'hAlign' => GridView::ALIGN_CENTER,
 
-        'content' => function($model) {
-         return $model->amount_card = $model->getSalaries()->totalAmount() - $model->total;
-      }
+
     ];
    /* $columns[] =
         [

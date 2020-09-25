@@ -190,11 +190,12 @@ class SalaryWithHold extends  Ownableitem
 
     public function reCalculate($doSave = true)
     {
-        if ($this->member_labor_union)
+        if (!$this->member_labor_union)
             $this->member_labor_union = $this->officer->member_labor_union;
 
         $this->amount_pension = $this->calculatePension();
         $this->amount_labor_union = $this->calculateLaborUnion();
+        $this->amount_card = $this->calculateAmountCard();
         if ($doSave)
          $this->save();
     }
@@ -216,6 +217,8 @@ class SalaryWithHold extends  Ownableitem
     {
         return $this->getSalaries()->totalAmount() - $this->getTotal();
     }
+
+
 
     public function attributeLabels()
     {

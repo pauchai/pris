@@ -47,6 +47,8 @@ $urlParams['OfficerPostSearch'] = [
         'company.title',
         'division.title',
         'rank.title',
+        'member_labor_union',
+        'has_education',
         [
             'label' => 'postdict_id',
             'format' => 'html',
@@ -54,7 +56,8 @@ $urlParams['OfficerPostSearch'] = [
                 \yii\helpers\Html::a('>>>',
                     $urlParams)
 
-        ]
+        ],
+
 
 
     ]

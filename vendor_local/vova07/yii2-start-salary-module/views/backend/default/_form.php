@@ -14,12 +14,12 @@ use vova07\prisons\Module;
 <?php $form = ActiveForm::begin()?>
 
 
-<?=$form->field($model,'company_id')?>
-<?=$form->field($model,'year')?>
-<?=$form->field($model,'month_no')?>
-<?=$form->field($model,'officer_id')?>
-<?=$form->field($model,'division_id')?>
-<?=$form->field($model,'postdict_id')?>
+<?=$form->field($model,'company_id')->hiddenInput()->label(false)?>
+<?=$form->field($model,'year')->hiddenInput()->label(false)?>
+<?=$form->field($model,'month_no')->hiddenInput()->label(false)?>
+<?=$form->field($model,'officer_id')->hiddenInput()->staticControl(['value' => $model->officer->person->fio])->label(false)?>
+<?php //echo $form->field($model,'division_id')?>
+<?php //echo $form->field($model,'postdict_id')?>
 <?=$form->field($model,'rank_rate')?>
 <?=$form->field($model,'base_rate')?>
 <?=$form->field($model,'full_time')?>

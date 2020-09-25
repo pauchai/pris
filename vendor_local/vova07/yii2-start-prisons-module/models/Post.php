@@ -15,6 +15,7 @@ use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
+use vova07\prisons\Module;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
@@ -120,7 +121,12 @@ class Post extends  OwnableItem
             'postdict_id' => 'postdict_id',
         ]);
     }
-
+    public function attributeLabels()
+    {
+        return [
+            'title' => Module::t('labels','POST_TITLE_LABEL')
+        ];
+    }
 
 
 

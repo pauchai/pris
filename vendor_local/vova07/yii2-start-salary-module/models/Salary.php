@@ -349,6 +349,8 @@ class Salary extends  Ownableitem
             'amount_sick_list' => Module::t('default', 'AMOUNT_SICK_LIST_LABEL'),
             'amount_bonus' => Module::t('default', 'AMOUNT_BONUS_LABEL'),
             'total' => Module::t('default', 'TOTAL_CHARGE_LABEL'),
+            'rank_rate' => Module::t('default', 'RANK_RATE_LABEL'),
+            'full_time' => Module::t('default', 'FULL_TIME_LABEL'),
 
         ];
     }

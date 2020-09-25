@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\jobs\helpers\Calendar;
+use vova07\prisons\Module;
 use vova07\salary\helpers\SalaryHelper;
 use vova07\salary\models\Salary;
 use vova07\salary\models\SalaryBenefit;
@@ -171,7 +172,18 @@ class OfficerPost extends  ActiveRecordMetaModel
         return SalaryHelper::calculateBaseRate($this->postDict->postIso->salaryClass->primaryKey, $this->benefit_class, $this->officer->has_education );
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'isMain' => Module::t('labels', 'OFFICER_POST_IS_MAIN_LABEL'),
+            'full_time' => Module::t('labels', 'OFFICER_POST_FULL_TIME_LABEL'),
+            'division_id' => Module::t('labels', 'OFFICER_POST_DIVISION_LABEL'),
+            'postdict_id' => Module::t('labels', 'OFFICER_POST_POSTDICT_LABEL'),
+            'base_rate' => Module::t('labels', 'OFFICER_POST_BASE_RATE_LABEL'),
+            'benefit_class' => Module::t('labels', 'OFFICER_POST_BENEFIT_CLASS_LABEL'),
 
+        ];
+    }
 
 
 

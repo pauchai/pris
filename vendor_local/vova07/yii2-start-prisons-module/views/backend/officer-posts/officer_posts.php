@@ -38,7 +38,7 @@ $this->params['breadcrumbs'] = [
     ]
 
 );?>
-<?=Html::a('CREATE OFFICER', ['/prisons/officer-posts/officer-create'], ['class' => 'btn-officer-new btn btn-success']) ?>
+<?=Html::a(Module::t('label', 'CREATE OFFICER'), ['/prisons/officer-posts/officer-create'], ['class' => 'btn-officer-new btn btn-success']) ?>
 
 <?php $form = ActiveForm::begin(['method'=>'get' ])?>
 <?php echo $form->field($searchModel,'category_id')
@@ -91,9 +91,9 @@ JS
                     'pjaxContainer' => '#grid_officer_posts-pjax',
 
                 ]);*/
-                $modalContent = Html::a('CREATE POST', ['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id],
+                $modalContent = Html::a(Module::t('labels','CREATE POST'), ['/prisons/officer-posts/create', 'company_id' => $model->officer->company_id, 'officer_id' => $model->officer_id],
                     ['class' => "btn btn-default btn_post_new btn-xs"]);
-                $deleteButton = Html::a('DELETE OFFICER',['/users/officers/delete' , 'id' => $model->officer_id,
+                $deleteButton = Html::a(Module::t('labels', 'DELETE OFFICER'),['/users/officers/delete' , 'id' => $model->officer_id,
                     'class' => 'btn btn-default btn-xs'],
                     [
                  'title' => "Delete officer",
@@ -102,7 +102,7 @@ JS
                    'data-method' => "post",
                    'data-confirm' =>"Are you sure to delete this item?"
                 ]);
-                $editOfficerButton = Html::a('EDIT_OFFICER', ['/users/officers/update', 'id' => $model->officer_id],
+                $editOfficerButton = Html::a(Module::t('labels', 'EDIT_OFFICER'), ['/users/officers/update', 'id' => $model->officer_id],
                     ['class' => "btn btn-default  btn-xs fa fa-edit"]);
 
     return [
@@ -135,8 +135,12 @@ JS
 
        // 'officerPost.company.title',
         'officerPost.division.title',
-        'officer.post.title',
-        'officerPost.benefitClass.title',
+        'post.title',
+        [
+                'header' => Module::t('labels', 'OFFICER_POST_TITLE_LABEL'),
+                'attribute' => 'officerPost.benefitClass.title'
+        ],
+
         [
             'class' => \kartik\grid\BooleanColumn::class,
             'attribute' => 'officerPost.isMain',
@@ -157,6 +161,7 @@ JS
         //'officerPost.title',
         //'base_rate',
         [
+                'header' => '',
             'class' => \kartik\grid\ActionColumn::class,
             'template' => "{update_post}{update}{delete}",
             'buttons' => [

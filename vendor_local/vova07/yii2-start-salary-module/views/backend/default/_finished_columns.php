@@ -76,18 +76,18 @@ $columns =
 
 
 
-    $columns[] = [
-        'attribute' => 'officer.balance.remain',
-        'content' => function($model){
-            return
-                \yii\helpers\Html::a(
-                    ArrayHelper::getValue($model,'officer.balance.remain'),
-                    ['/salary/balance/officer-view', 'id' => $model->officer_id]
-                );
-
-
-        }
-
-    ];
+//    $columns[] = [
+//        'attribute' => 'officer.balance.remain',
+//        'content' => function($model){
+//            return
+//                \yii\helpers\Html::a(
+//                    ArrayHelper::getValue($model,'officer.balance.remain'),
+//                    ['/salary/balance/officer-view', 'id' => $model->officer_id]
+//                );
+//
+//
+//        }
+//
+//    ];
 
 return $columns;

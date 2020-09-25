@@ -103,7 +103,7 @@ JS
 );
 
 
-    echo Html::button('calculate', [
+    echo Html::button(Module::t('labels','CALCULATE'), [
        // 'data-confirm' => 'Calculate?',
         'onClick' =>'onClickCalculateBaseRate();return false;'
     ])

@@ -17,6 +17,7 @@ use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\jobs\helpers\Calendar;
+use vova07\prisons\Module;
 use vova07\rbac\models\Rule;
 use vova07\salary\models\Salary;
 use vova07\salary\models\SalaryBenefit;
@@ -69,7 +70,17 @@ class OfficerPostView extends  ActiveRecord
         return $this->hasMany(Rank::class,['id' => 'rank_id']);
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'category_id' => Module::t('labels', 'OFFICER_POST_VIEW_CATEGORY_ID')
+        ];
+    }
 
+    public function getPost()
+    {
+        return $this->hasOne(Post::class, ['company_id' => 'company_id','division_id' => 'division_id','postdict_id'=>'postdict_id']);
+    }
 
 
 }
