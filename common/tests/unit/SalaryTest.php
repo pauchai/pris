@@ -388,7 +388,8 @@ class SalaryTest extends \Codeception\Test\Unit
 
         $officerPost = new OfficerPost([
             'officer_id' => $officer->primaryKey,
-            'benefit_class' => SalaryBenefit::EXTRA_CLASS_POINT_10TO15_ANI
+            'benefit_class' => SalaryBenefit::EXTRA_CLASS_POINT_10TO15_ANI,
+
         ]);
         $officerPost->link('post',$post);
         $this->fixtures['officerPost_YusinOfficerPrincipal'] = $officerPost;

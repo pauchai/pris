@@ -166,6 +166,11 @@ class OfficerPost extends  ActiveRecordMetaModel
         return  $salaryClass = SalaryClass::findOne($resultSalaryClassid);
     }
 
+    public function calculateBaseRate()
+    {
+        return SalaryHelper::calculateBaseRate($this->postDict->postIso->salaryClass->primaryKey, $this->benefit_class, $this->officer->has_education );
+    }
+
 
 
 

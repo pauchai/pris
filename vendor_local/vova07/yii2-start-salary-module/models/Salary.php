@@ -302,7 +302,7 @@ class Salary extends  Ownableitem
         if (is_null($this->rank_rate))
             $this->rank_rate = floatval(ArrayHelper::getValue($this, 'officer.rank.rate'));
         if (is_null($this->base_rate))
-            $this->base_rate = $this->calculateBaseRate();
+            $this->base_rate = $this->officerPost->base_rate?$this->officerPost->base_rate:$this->calculateBaseRate();
 
         $this->amount_rate = $this->calculateAmountRate();
         $this->amount_rank_rate = $this->calculateAmountRankRate();
