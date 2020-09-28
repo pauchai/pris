@@ -7,15 +7,18 @@ use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\backend\BalanceByPrisonerWithCategoryViewSearch;
 use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\Balance;
-use vova07\finances\Module;
+use vova07\salary\Module;
 use vova07\imperavi\tests\functional\data\models\Model;
 use vova07\prisons\models\OfficerPost;
 use vova07\salary\models\backend\SalarySearch;
+use vova07\salary\models\backend\WithholdSearch;
 use vova07\salary\models\SalaryIssue;
 use vova07\salary\models\SalaryWithHold;
 use vova07\salary\models\SyncModel;
 use vova07\salary\models\Salary;
 use vova07\users\models\Officer;
+use vova07\users\models\OfficerView;
+use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
 use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
@@ -44,7 +47,9 @@ class DefaultController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index', 'delete', 'mass-delete', 'print-receipt', 'view', 'salaries-view', 'with-hold-view', 'create-tabular', 'change-salary-column', 'change-salary-calculated', 'change-withhold-column',
-                    'create', 'create-for-officer', 'update'
+                    'create', 'create-for-officer', 'update',
+                    'charge', 'withhold' ,'issue-update'
+
                 ],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SALARY_CHARGE_SALARY_LIST]
             ]
@@ -133,11 +138,91 @@ class DefaultController extends BackendController
         if (is_null($salaryIssue = SalaryIssue::findOne(compact('year', 'month_no'))))
             $salaryIssue = new SalaryIssue(['year' => $year, 'month_no' => $month_no]);
 
+
+        if (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_SALARY])){
+            return $this->redirect(['charge', 'at' => $at]);
+        } elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_WITHHOLD])){
+            return $this->redirect(['withhold', 'at' => $at]);
+
+        }
         $salaryIssue->validate();//for default values
-        return $this->render("index", ['salaryIssue' => $salaryIssue]);
+        $searchModel = new WithholdSearch();
+        $searchModel->year = $year;
+        $searchModel->month_no = $month_no;
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->joinWith(
+            [
+                'officerView' => function($query) { $query->from([OfficerView::tableName()]); },
+                'person' => function($query) { $query->from([Person::tableName()]); }
+
+                //'person' => function($query) { $query->from([Person::tableName()]); }
+            ]
+        )->orderBy('vw_officer.category_rank_id, person.second_name');
+        $dataProvider->pagination = false;
+
+
+        return $this->render("index", ['salaryIssue' => $salaryIssue,'dataProvider' => $dataProvider, 'searchModel' => $searchModel ]);
     }
 
+    public function actionCharge($at = null)
+    {
+        \Yii::$app->user->setReturnUrl(Url::current());
 
+        if (is_null($at)) {
+            $date = new \DateTime();
+        } else {
+            $date = \DateTime::createFromFormat('Y-m-01', $at);
+        }
+        $year = $date->format('Y');
+        $month_no = $date->format('m');
+
+
+        if (is_null($salaryIssue = SalaryIssue::findOne(compact('year', 'month_no'))))
+            $salaryIssue = new SalaryIssue(['year' => $year, 'month_no' => $month_no]);
+
+        $salaryIssue->validate();//for default values
+        $searchModel = new SalarySearch();
+        $searchModel->year = $salaryIssue->year;
+        $searchModel->month_no = $salaryIssue->month_no;
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+
+        $dataProvider->pagination = false;
+
+        return $this->render("charge", ['salaryIssue' => $salaryIssue, 'dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+    }
+    public function actionWithhold($at = null)
+    {
+        \Yii::$app->user->setReturnUrl(Url::current());
+
+        if (is_null($at)) {
+            $date = new \DateTime();
+        } else {
+            $date = \DateTime::createFromFormat('Y-m-01', $at);
+        }
+        $year = $date->format('Y');
+        $month_no = $date->format('m');
+
+
+        if (is_null($salaryIssue = SalaryIssue::findOne(compact('year', 'month_no'))))
+            $salaryIssue = new SalaryIssue(['year' => $year, 'month_no' => $month_no]);
+
+        $salaryIssue->validate();//for default values
+        $searchModel = new WithholdSearch();
+        $searchModel->year = $salaryIssue->year;
+        $searchModel->month_no = $salaryIssue->month_no;
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $dataProvider->query->joinWith(
+            [
+                'officerView' => function($query) { $query->from([OfficerView::tableName()]); },
+                'person' => function($query) { $query->from([Person::tableName()]); }
+
+                //'person' => function($query) { $query->from([Person::tableName()]); }
+            ]
+        )->orderBy('vw_officer.category_rank_id, person.second_name');
+        $dataProvider->pagination = false;
+
+        return $this->render("withhold", ['salaryIssue' => $salaryIssue, 'dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
+    }
 
     public function actionCreate()
     {
@@ -294,4 +379,20 @@ class DefaultController extends BackendController
         return $this->goBack();
     }
 
+    public function actionIssueUpdate($year, $month_no)
+    {
+
+        if (is_null($model = SalaryIssue::findOne(compact('year', 'month_no'))))
+        {
+            throw new NotFoundHttpException(Module::t("ISSUE_NOT_FOUND"));
+        };
+
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()){
+            $model->save();
+        }
+        return $this->redirect(['index', 'at' => $model->at]);
+
+    }
+
 }
+

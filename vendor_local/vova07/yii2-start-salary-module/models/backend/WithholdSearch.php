@@ -4,11 +4,10 @@ namespace vova07\salary\models\backend;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
 use vova07\salary\models\Salary;
+use vova07\salary\models\SalaryWithHold;
+use vova07\salary\models\SalaryWithHoldQuery;
 use vova07\users\models\OfficerView;
-use vova07\users\models\Person;
 use vova07\users\models\PersonView;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 
 /**
@@ -18,7 +17,7 @@ use yii\helpers\Html;
  * Time: 2:40 PM
  */
 
-class SalarySearch extends Salary
+class WithholdSearch extends SalaryWithHold
 {
 
     public $atFormat = 'Y-m-01';
@@ -36,11 +35,13 @@ class SalarySearch extends Salary
 // делаем поле зависимости доступным для поиска
         return array_merge(parent::attributes(), ['personView.fio']);
     }
+
     public function search($params)
     {
 
 
         $query = parent::find();
+
         $query->joinWith(
             [
                 'officerView' => function($query) { $query->from([OfficerView::tableName()]); },
@@ -56,10 +57,10 @@ class SalarySearch extends Salary
         ]);
 
 
-        if (!$this->load($params)){
-            //$this->at = (new \DateTime())->format($this->atFormat);
-        };
 
+        if (!$this->load($params)){
+          //  $this->at = (new \DateTime())->format($this->atFormat);
+        };
         $this->validate();
         $query->andFilterWhere([
             'year' => $this->year,
@@ -74,9 +75,11 @@ class SalarySearch extends Salary
 
 
 
+
         return $dataProvider;
 
     }
+
 
     public function getAt($format = true)
     {

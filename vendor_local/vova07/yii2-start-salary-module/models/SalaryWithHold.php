@@ -24,6 +24,7 @@ use vova07\salary\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
+use vova07\users\models\PersonView;
 use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -188,6 +189,7 @@ class SalaryWithHold extends  Ownableitem
         return $this->hasOne(Person::class,['__ident_id'=>'officer_id']);
     }
 
+
     public function reCalculate($doSave = true)
     {
         if (!$this->member_labor_union)
@@ -236,6 +238,11 @@ class SalaryWithHold extends  Ownableitem
             'officer.balance.remain' => Module::t('default', 'OFFICER_BALANCE_REMAIN_LABEL'),
 
         ];
+    }
+
+    public function getPersonView()
+    {
+        return $this->hasOne(PersonView::class,['__ident_id'=>'officer_id']);
     }
 
 

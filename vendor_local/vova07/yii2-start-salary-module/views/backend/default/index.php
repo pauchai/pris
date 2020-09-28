@@ -17,7 +17,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
 //$this->title = Module::t("default","EVENTS_TITLE");
-$this->params['subtitle'] = Module::t("default","SALARY_CHARGES");
+$this->params['subtitle'] = Module::t("default","SALARY");
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -28,7 +28,6 @@ $this->params['breadcrumbs'] = [
 ?>
 
 <?=$this->render('_issueView',['model' => $salaryIssue])?>
-<?php if (!$salaryIssue->isNewRecord): ?>
 
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
@@ -38,45 +37,98 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-    <?php
-        if (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_SALARY])){
-            $columns = require("_salary_columns.php");
-            $query = $salaryIssue->getSalaries();
-            $dataProvider = (new \yii\data\ActiveDataProvider(['query' => $query]));
-            $dataProvider->setPagination(false);
 
 
-                //$query->joinWith(['vw_officer' => function($query) { $query->from(['officerView' => OfficerView::tableName()]); }])->orderBy('vw_officer.category_rank_id');
-
-// добавляем сортировку по колонке из зависимости
-            //$dataProvider->sort->attributes['vw_officer.category_rank_id'] = [
-            //    'asc' => ['author.name' => SORT_ASC],
-            //    ’desc’ => [’author.name’ => SORT_DESC],
-            //];
-
-        } elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_WITHHOLD])){
-            $columns = require("_withhold_columns.php");
-            $query = $salaryIssue->getWithHolds();
-
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query]);
-        //}elseif (in_array($salaryIssue->status_id ,[SalaryIssue::STATUS_CARD])){
-        //    $columns = require("_finished_columns.php");
-        //    $dataProvider = new \yii\data\ActiveDataProvider(['query' => $salaryIssue->getWithHolds()]);
-        }  elseif (in_array($salaryIssue->status_id ,[ SalaryIssue::STATUS_FINISHED])){
-            $columns = require("_finished_columns.php");
-            $query = $salaryIssue->getWithHolds();
-            $dataProvider = new \yii\data\ActiveDataProvider(['query' => $query ]);
-        }
-    $query->joinWith(
+<?php
+$urlParams = ['print-receipt', 'at' => (new DateTime())->setDate($salaryIssue->year, $salaryIssue->month_no, '01')->format('Y-m-d')] ;
+echo \yii\bootstrap\Html::a('receipt', $urlParams, ['class' => 'btn btn-success fa fa-credit-card']);
+?>
+<?php
+$columns =
+    [
+        ['class' => yii\grid\SerialColumn::class],
         [
-            'officerView' => function($query) { $query->from([OfficerView::tableName()]); },
-            'person' => function($query) { $query->from([Person::tableName()]); }
+            'attribute' => 'officer.rank.category',
+            'group' => true,
+            'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
-            //'person' => function($query) { $query->from([Person::tableName()]); }
+
+        ],
+        [
+            'attribute' => 'officer.person.fio',
+            'format' => 'html',
+            'content' =>  function($model,$index,$key){
+                $content = \yii\bootstrap\Html::a(
+                    $model->officer->person->fio ,
+                    ['/users/officers/view',
+                        'id' => $model->officer_id,
+                    ]);
+                ;
+
+                return $content;
+            },
+        ],
+
+        [
+            'attribute' => 'chargesTotal',
+            'content' => function($model){
+                /**
+                 * @var $model \vova07\salary\models\SalaryWithHold
+                 */
+                $params = $model->primaryKey;
+                $params[0] = '/salary/default/salaries-view';
+                return \yii\helpers\Html::a(
+                    $model->getSalaries()->totalAmount(),
+                    $params
+
+                );
+            }
+
+        ],
+        [
+            'attribute' =>  'total',
+            'content' => function($model){
+                $params = $model->primaryKey;
+                $params[0] = '/salary/default/with-hold-view';
+                return \yii\helpers\Html::a(
+                    $model->total,
+                    $params,
+                    [
+                        'class' => ['text-danger']
+                    ]
+
+                );
+            }
+
+        ],
+
+        [
+            //  'class' => kartik\grid\EditableColumn::class,
+            'attribute' => 'amount_card',
+
         ]
-    )->orderBy('vw_officer.category_rank_id, person.second_name');
-    ?>
 
+    ];
+
+
+
+//    $columns[] = [
+//        'attribute' => 'officer.balance.remain',
+//        'content' => function($model){
+//            return
+//                \yii\helpers\Html::a(
+//                    ArrayHelper::getValue($model,'officer.balance.remain'),
+//                    ['/salary/balance/officer-view', 'id' => $model->officer_id]
+//                );
+//
+//
+//        }
+//
+//    ];
+
+?>
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
        // 'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
@@ -92,4 +144,3 @@ $this->params['breadcrumbs'] = [
 <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
 
 
-<?php endif?>

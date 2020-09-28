@@ -1,49 +1,104 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: pauk
+ * Date: 8/17/19
+ * Time: 2:49 PM
+ * @var $this \yii\web\View
+ * @var $dataProvider \yii\data\ActiveDataProvider
+ * @var $salaryIssue SalaryIssue
+ */
+use vova07\salary\Module;
 use kartik\grid\GridView;
-use yii\helpers\ArrayHelper;
+use vova07\salary\models\SalaryIssue;
+use vova07\users\models\OfficerView;
+use vova07\users\models\Person;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-$columns =
+use yii\helpers\ArrayHelper;
+
+//$this->title = Module::t("default","EVENTS_TITLE");
+$this->params['subtitle'] = Module::t("default","SALARY_CHARGES");
+$this->params['breadcrumbs'] = [
     [
-   // ['class' => yii\grid\SerialColumn::class],
-        [
-            //'header' => '',
-            'class' => \kartik\grid\ActionColumn::class,
-            'template' => "{delete}  {update}"
-        ],
-
-        [
-            'attribute' => 'officer.rank.category',
-            'group' => true,
-            'groupedRow' => true,
-            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
-            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
-
-
+        'label' => $this->title,
+        //      'url' => ['index'],
     ],
-    [
-        'attribute' => 'officer.person.fio',
-        'class' => \kartik\grid\DataColumn::class,
-        'format' => 'html',
-        'content' =>  function($model,$index,$key){
-            $content =  Html::a(Html::tag('i', '', ['class' => 'fa fa-plus']), ['/salary/default/create',  'Salary' => ['company_id' => $model->company_id, 'officer_id' => $model->officer_id, 'year' => $model->year, 'month_no' => $model->month_no]],
-                    ['class' => "btn btn-default btn_post_new btn-xs"]) . ' ';
+    // $this->params['subtitle']
+];
+?>
 
-            $content .= \yii\bootstrap\Html::a(
-                $model->officer->person->fio ,
-                ['/users/officers/view',
-                    'id' => $model->officer_id,
-                ]);
-            ;
+<?=$this->render('_issueView',['model' => $salaryIssue])?>
+<?php $syncForm = ActiveForm::begin([
+    'action' => ['create-tabular'],
+    'layout' => "inline",
 
-            return $content;
+])?>
 
-        },
 
-        'group' => true,
-        //'groupedRow' => true,
-        'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
-        'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+<?php echo $syncForm->field($salaryIssue,'year')->hiddenInput()->label(false) ?>
+<?php echo $syncForm->field($salaryIssue,'month_no')->hiddenInput()->label(false) ?>
+<?php             echo \yii\helpers\Html::submitButton(
+    Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
+
+    ['class' => 'btn btn-info']
+);
+?>
+<?php ActiveForm::end()?>
+
+<?php if (!$salaryIssue->isNewRecord): ?>
+
+    <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
+        [
+             'title' => $this->params['subtitle'],
+            // 'buttonsTemplate' => '{create}'
+        ]
+
+    );?>
+
+    <?php
+    $columns =
+        [
+            // ['class' => yii\grid\SerialColumn::class],
+            [
+                //'header' => '',
+                'class' => \kartik\grid\ActionColumn::class,
+                'template' => "{delete}  {update}"
+            ],
+
+            [
+                'attribute' => 'officer.rank.category',
+                'group' => true,
+                'groupedRow' => true,
+                'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+                'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+
+
+            ],
+            [
+                'class' => \kartik\grid\DataColumn::class,
+                'attribute' => 'personView.fio',
+
+                'format' => 'html',
+                'content' =>  function($model,$index,$key){
+                    $content =  Html::a(Html::tag('i', '', ['class' => 'fa fa-plus']), ['/salary/default/create',  'Salary' => ['company_id' => $model->company_id, 'officer_id' => $model->officer_id, 'year' => $model->year, 'month_no' => $model->month_no]],
+                            ['class' => "btn btn-default btn_post_new btn-xs"]) . ' ';
+
+                    $content .= \yii\bootstrap\Html::a(
+                        $model->officer->person->fio ,
+                        ['/users/officers/view',
+                            'id' => $model->officer_id,
+                        ]);
+                    ;
+
+                    return $content;
+
+                },
+
+                'group' => true,
+                //'groupedRow' => true,
+                'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+                'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 //        'groupHeader' => function ($model){
 //
 //            /*
@@ -94,18 +149,18 @@ $columns =
 //                // html attributes for group summary row
 //                'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
 //            ];},
-    ],
-    [
-        'attribute' => 'postDict.title',
-        'format' => 'html',
-        'content' =>  function($model,$index,$key){
-            $content = ArrayHelper::getValue($model,'postDict.title')
-                . ' ' . (ArrayHelper::getValue($model, "full_time")?'полная':'полставки');
+            ],
+            [
+                'attribute' => 'postDict.title',
+                'format' => 'html',
+                'content' =>  function($model,$index,$key){
+                    $content = ArrayHelper::getValue($model,'postDict.title')
+                        . ' ' . (ArrayHelper::getValue($model, "full_time")?'полная':'полставки');
 
 
-            return $content;
-        },
-    ],
+                    return $content;
+                },
+            ],
 //        [
 //            'class' => kartik\grid\EditableColumn::class,
 //            'attribute' => 'full_time',
@@ -174,28 +229,28 @@ $columns =
 
 
 
-    [
-        'attribute' => 'amount_rate',
-        'hAlign' => GridView::ALIGN_CENTER,
+        [
+            'attribute' => 'amount_rate',
+            'hAlign' => GridView::ALIGN_CENTER,
 
-        'content' => function($model,$key, $index, $column)
-        {
-            $attribute =  $column->attribute;
-            return round($model->$attribute,2);
-        }
-    ],
-    [
-        'attribute' => 'amount_rank_rate',
-        'hAlign' => GridView::ALIGN_CENTER,
+            'content' => function($model,$key, $index, $column)
+            {
+                $attribute =  $column->attribute;
+                return round($model->$attribute,2);
+            }
+        ],
+        [
+            'attribute' => 'amount_rank_rate',
+            'hAlign' => GridView::ALIGN_CENTER,
 
-        'content' => function($model,$key, $index, $column)
-        {
-            $attribute =  $column->attribute;
-            return round($model->$attribute,2);
-        }
-    ],
+            'content' => function($model,$key, $index, $column)
+            {
+                $attribute =  $column->attribute;
+                return round($model->$attribute,2);
+            }
+        ],
 
-   ];
+    ];
     $attributes = ['amount_conditions', 'amount_advance',
         //'amount_optional',
         'amount_diff_sallary', 'amount_additional', 'amount_maleficence', 'amount_vacation', 'amount_sick_list',  'amount_bonus'];
@@ -235,5 +290,21 @@ $columns =
 
 
 
+    ?>
 
-return $columns;
+    <?php echo GridView::widget(['dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        // 'formatter' => ['class' => \yii\i18n\Formatter::class,'nullDisplay' => ''],
+        //'emptyCell' => '',
+
+        // 'floatHeader' => true,
+        'pjax' => true,
+        'columns' => $columns
+
+
+    ])?>
+
+    <?php  \vova07\themes\adminlte2\widgets\Box::end()?>
+
+
+<?php endif?>

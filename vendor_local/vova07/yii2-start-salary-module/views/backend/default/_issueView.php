@@ -63,7 +63,7 @@ JS
             <?php $formNew = ActiveForm::begin([
                 'layout' => "inline",
                 'method' => 'post',
-                'action' => ['/salary/issue/update' , 'year' => $model->year, 'month_no' => $model->month_no ]
+                'action' => ['issue-update' , 'year' => $model->year, 'month_no' => $model->month_no ]
             ]);
             ?>
             <?php echo $formNew->field($model,'year')->hiddenInput()->label(false)?>
@@ -82,24 +82,7 @@ JS
         <?php endif;?>
 
     </div>
-    <div class="col-sm-4">
-        <?php $syncForm = ActiveForm::begin([
-            'action' => ['create-tabular'],
-            'layout' => "inline",
 
-        ])?>
-
-
-        <?php echo $syncForm->field($model,'year')->hiddenInput()->label(false) ?>
-        <?php echo $syncForm->field($model,'month_no')->hiddenInput()->label(false) ?>
-        <?php             echo \yii\helpers\Html::submitButton(
-            Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
-
-            ['class' => 'btn btn-info']
-        );
-        ?>
-        <?php ActiveForm::end()?>
-    </div>
 </div>
 
 

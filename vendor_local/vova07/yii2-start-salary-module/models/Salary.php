@@ -25,6 +25,7 @@ use vova07\salary\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
+use vova07\users\models\PersonView;
 use yii\base\Event;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
@@ -227,6 +228,10 @@ class Salary extends  Ownableitem
     public function getPerson()
     {
         return $this->hasOne(Person::class,['__ident_id'=>'officer_id']);
+    }
+    public function getPersonView()
+    {
+        return $this->hasOne(PersonView::class,['__ident_id'=>'officer_id']);
     }
 
     public function getOfficerPost()
