@@ -264,6 +264,19 @@ use vova07\site\Module;
                         'items' => [
                             [
                                 'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
+                                'items' => [
+                                        [
+                                            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default'],
+                                        ],
+                                    [
+                                        'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge'],
+                                    ],
+                                    [
+                                        'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold'],
+                                    ],
+
+                                ],
+
                                 'visible' => true,
                             ],
 

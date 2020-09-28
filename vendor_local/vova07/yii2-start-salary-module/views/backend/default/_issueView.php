@@ -88,6 +88,35 @@ JS
 
 
 
+<?php
+
+// $languageDropdownItems = \yii\helpers\ArrayHelper::remove($languageItem, 'items');
+//echo \yii\bootstrap\Nav::widget([
+//
+//   'items' => [
+//           [
+//                   'label' => 'Salary',
+//                 'items' => [
+//
+//        [
+//            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default', 'at' => $model->at],
+//           // 'options' => ['class' => 'dropdown'],
+//        ],
+//        [
+//            'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge', 'at' => $model->at],
+//           // 'options' => ['class' => 'dropdown'],
+//        ],
+//        [
+//            'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold', 'at' => $model->at],
+//           // 'options' => ['class' => 'dropdown'],
+//        ],
+//
+//    ]
+//           ]
+//   ]
+//]);
+    ?>
+
 
 
 
