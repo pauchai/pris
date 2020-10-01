@@ -33,7 +33,7 @@ class Calendar
            $weekDay = $dateTime->format('N');
         return in_array($weekDay, [6,7]);
     }
-    static function getListYearMonth($fromDate=null, $monthsLimit = 5)
+    static function getListYearMonth($fromDate=null, $monthsLimit = 12)
     {
         if (is_null($fromDate)) {
             $fromDate = new \DateTime();
