@@ -36,8 +36,8 @@ $this->params['breadcrumbs'] = [
 ])?>
 
 
-<?php echo $syncForm->field($salaryIssue,'year')->hiddenInput()->label(false) ?>
-<?php echo $syncForm->field($salaryIssue,'month_no')->hiddenInput()->label(false) ?>
+<?php echo $syncForm->field($salaryIssue,'year', ['inputOptions' => ['id' => 'yearr']])->hiddenInput()->label(false) ?>
+<?php echo $syncForm->field($salaryIssue,'month_no',['inputOptions' => ['id' => 'monthh']])->hiddenInput()->label(false) ?>
 <?php             echo \yii\helpers\Html::submitButton(
     Module::t('default', 'SYNC_TABULAR_FOR_MONTH'),
 
@@ -198,74 +198,85 @@ $this->params['breadcrumbs'] = [
             'class' => kartik\grid\EditableColumn::class,
             'attribute' => 'work_days',
             'hAlign' => GridView::ALIGN_CENTER,
-            'refreshGrid' => true,
+
+           'refreshGrid' => false,
             'editableOptions' =>  function ($model, $key, $index){
+        $funcString = <<<JSS
+
+JSS;
+
 
                 return [
-
+                    'valueIfNull' => 0,
+                    'asPopover' => false,
                     'formOptions' => [
-                        'action' => ['change-salary-calculated']
+                        'action' => ['change-salary-column']
+                    ],
+                    'pluginEvents' => [
+                        "editableSuccess"=>"function(event, val, form, data) {
+                             
+                            $.each(data.attributes, (index, value) => {
+                                if (value != null) {
+                                var \$element = $('#' + 'salary-$index-' + index + '-cont');
+                               \$element.find('.kv-editable-value').html(value);
+                                 \$element.find('.kv-editable-input').val(value);
+                                }
+                                
+                                
+                            }); 
+                           
+                            }",
+
                     ],
                 ];
             },
         ],
 
 
-//        [
-//            'class' => kartik\grid\EditableColumn::class,
-//            'attribute' => 'rank_rate',
-//            'hAlign' => GridView::ALIGN_CENTER,
-//            'refreshGrid' => true,
-//            'editableOptions' =>  function ($model, $key, $index){
-//
-//                return [
-//
-//                    'formOptions' => [
-//                        'action' => ['change-salary-calculated']
-//                    ],
-//                ];
-//            },
-//        ],
 
 
 
-        [
-            'attribute' => 'amount_rate',
-            'hAlign' => GridView::ALIGN_CENTER,
 
-            'content' => function($model,$key, $index, $column)
-            {
-                $attribute =  $column->attribute;
-                return round($model->$attribute,2);
-            }
-        ],
-        [
-            'attribute' => 'amount_rank_rate',
-            'hAlign' => GridView::ALIGN_CENTER,
 
-            'content' => function($model,$key, $index, $column)
-            {
-                $attribute =  $column->attribute;
-                return round($model->$attribute,2);
-            }
-        ],
 
     ];
-    $attributes = ['amount_conditions', 'amount_advance',
+    $attributes = ['amount_rate', 'amount_rank_rate', 'amount_conditions', 'amount_advance',
         //'amount_optional',
-        'amount_diff_sallary', 'amount_additional', 'amount_maleficence', 'amount_vacation', 'amount_sick_list',  'amount_bonus'];
+        'amount_diff_sallary', 'amount_additional', 'amount_maleficence', 'amount_vacation', 'amount_sick_list',  'amount_bonus', 'total'];
     foreach ($attributes as $attribute){
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,
             'hAlign' => GridView::ALIGN_CENTER,
 
             'attribute' => $attribute,
-            'refreshGrid' => true,
+            'refreshGrid' => false,
             'editableOptions' =>  function ($model, $key, $index){
+                $funcString = <<<JSS
+
+JSS;
+
+
                 return [
-                    'valueIfNull' => '0',
+                    'valueIfNull' => 0,
+                    'asPopover' => false,
                     'formOptions' => [
                         'action' => ['change-salary-column']
+                    ],
+                    'pluginEvents' => [
+                        "editableSuccess"=>"function(event, val, form, data) {
+                             
+                            $.each(data.attributes, (index, value) => {
+                                if (value != null) {
+                                var \$element = $('#' + 'salary-$index-' + index + '-cont');
+                               \$element.find('.kv-editable-value').html(value);
+                                 \$element.find('.kv-editable-input').val(value);
+                                }
+                                
+                                
+                            }); 
+                           
+                            }",
+
                     ],
                 ];
             },
@@ -278,10 +289,7 @@ $this->params['breadcrumbs'] = [
         ];
     }
 
-    $columns[] = [
-        'attribute' => 'total',
 
-    ];
 //    $columns[] = [
 //
 //        'class' =>  \kartik\grid\CheckboxColumn::class,

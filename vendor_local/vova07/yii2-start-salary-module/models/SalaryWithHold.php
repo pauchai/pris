@@ -25,6 +25,8 @@ use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
 use vova07\users\models\PersonView;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
@@ -47,14 +49,8 @@ class SalaryWithHold extends  Ownableitem
     {
         return [
 
-            [['amount_pension'],DefaultValueValidator::class, 'value' => function($model,$attribute){
-                return $model->calculatePension() ;
-            }],
-            [['amount_labor_union'],DefaultValueValidator::class, 'value' => function($model,$attribute){
-                return $model->calculateLaborUnion() ;
-            }],
-
-            [['amount_pension',
+             [[ 'is_pension',
+                 'amount_pension',
                 'amount_income_tax',
                 'amount_execution_list',
                 'amount_labor_union',
@@ -84,6 +80,8 @@ class SalaryWithHold extends  Ownableitem
                 'amount_labor_union' => $migration->decimal(10,2),
                 'amount_sick_list' => $migration->decimal(10,2),
                 'amount_card' => $migration->decimal(10,2),
+                'total' => $migration->decimal(10,2),
+
                 'salary_balance_id' => $migration->integer(),
                 'balance_id' => $migration->integer(),
 
@@ -120,7 +118,21 @@ class SalaryWithHold extends  Ownableitem
 
 
                     ],
-                ]
+                ],
+                'beforeSave' =>  [
+                    'class' => AttributeBehavior::className(),
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => 'total',
+                        ActiveRecord::EVENT_BEFORE_UPDATE => 'total',
+                    ],
+                    'value' => function ($event) {
+                        /**
+                         * @var $event Event
+                         */
+                        $event->sender->reCalculate(false);
+                        return $event->sender->calculateTotal();
+                    },
+                ],
 
             ];
         } else {
@@ -168,7 +180,7 @@ class SalaryWithHold extends  Ownableitem
         return $this->hasOne(Officer::class,['__person_id' => 'officer_id']);
     }
 
-    public function getTotal()
+    public function calculateTotal()
     {
         return
             $this->amount_pension +
@@ -179,6 +191,7 @@ class SalaryWithHold extends  Ownableitem
 
 
     }
+
     public function getOfficerView()
     {
         return $this->hasOne(OfficerView::class,['__person_id'=>'officer_id']);
@@ -197,17 +210,22 @@ class SalaryWithHold extends  Ownableitem
 
         $this->amount_pension = $this->calculatePension();
         $this->amount_labor_union = $this->calculateLaborUnion();
-        $this->amount_card = $this->calculateAmountCard();
+        if (!$this->amount_card)
+            $this->amount_card = $this->calculateAmountCard();
         if ($doSave)
          $this->save();
     }
     public function calculatePension()
     {
 
-        return  (
-                $this->getSalaries()->totalAmount() -
-                $this->getSalaries()->sum(new Expression('IFNULL(amount_sick_list, 0)'))
-            )  / 100 * self::WIHTHOLD_PENSION;
+        if ($this->is_pension)
+            return  (
+                    $this->getSalaries()->totalAmount() -
+                    $this->getSalaries()->sum(new Expression('IFNULL(amount_sick_list, 0)'))
+                )  / 100 * self::WIHTHOLD_PENSION;
+        else
+            return 0;
+
     }
     public function calculateLaborUnion()
     {
@@ -217,7 +235,7 @@ class SalaryWithHold extends  Ownableitem
     }
     public function calculateAmountCard()
     {
-        return $this->getSalaries()->totalAmount() - $this->getTotal();
+        return $this->getSalaries()->totalAmount() - $this->total;
     }
 
 

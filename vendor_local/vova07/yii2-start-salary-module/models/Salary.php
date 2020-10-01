@@ -26,6 +26,7 @@ use vova07\users\models\Officer;
 use vova07\users\models\OfficerView;
 use vova07\users\models\Person;
 use vova07\users\models\PersonView;
+use yii\base\Behavior;
 use yii\base\Event;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
@@ -47,7 +48,6 @@ class Salary extends  Ownableitem
 
     const EDUCATION_SALARY_CLASS_ADDONS = 5;
     const SCENARIO_RECALCULATE = 'recalculate';
-
 
 
 
@@ -190,9 +190,12 @@ class Salary extends  Ownableitem
                         /**
                          * @var $event Event
                          */
+                        $event->sender->reCalculate();
                         return $event->sender->calculateTotal();
                     },
                 ],
+
+
 
             ];
         } else {
@@ -364,6 +367,7 @@ class Salary extends  Ownableitem
     {
         return $this->full_time?1:0.5;
     }
+
 
 
 

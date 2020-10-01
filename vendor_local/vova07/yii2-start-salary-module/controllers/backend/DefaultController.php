@@ -62,18 +62,33 @@ class DefaultController extends BackendController
     {
         return [
             'change-salary-column' => [                                   // identifier for your editable column action
-                'class' => EditableColumnAction::class, // action class name
+                'class' => \vova07\base\components\EditableColumnAction::class, // action class name
                 'modelClass' => Salary::class,            // the model for the record being edited
                 'scenario' => Model::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
+
                     return $model->$attribute;  // return a calculated output value if desired
                 },
+
                 'outputMessage' => function ($model, $attribute, $key, $index) {
                     return '';                              // any custom error to return after model save
                 },
                 'showModelErrors' => true,                    // show model validation errors after save
                 'errorOptions' => ['header' => ''],            // error summary HTML options
-                'formName' => 'Salary'
+                'formName' => 'Salary',
+                'attributeNamesForRefresh' => [
+                    'amount_rate',
+                    'amount_rank_rate',
+                    'amount_conditions',
+                    'amount_advance',
+                    'amount_optional',
+                    'amount_diff_sallary',
+                    'amount_additional',
+                    'amount_maleficence',
+                    'amount_vacation',
+                    'amount_sick_list',
+                    'amount_bonus',
+                    'total'],
                 // 'postOnly' => true,
                 // 'ajaxOnly' => true,
                 // 'findModel' => function($id, $action) {},
@@ -81,11 +96,11 @@ class DefaultController extends BackendController
 
             ],
             'change-salary-calculated' => [                                   // identifier for your editable column action
-                'class' => EditableColumnAction::class, // action class name
+                'class' => \vova07\base\components\EditableColumnAction::class, // action class name
                 'modelClass' => Salary::class,            // the model for the record being edited
                 'scenario' => Salary::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
-                    $model->reCalculate(); $model->save();
+                    //$model->reCalculate(); $model->save();
                     return $model->$attribute;  // return a calculated output value if desired
                 },
                 'outputMessage' => function ($model, $attribute, $key, $index) {
@@ -101,7 +116,7 @@ class DefaultController extends BackendController
 
             ],
             'change-withhold-column' => [                                   // identifier for your editable column action
-                'class' => \vova07\base\components\EditableColumnAction::class, // action class name
+                'class' => \vova07\base\components\EditableColumnMultipleKeyAction::class, // action class name
                 'modelClass' => SalaryWithHold::class,            // the model for the record being edited
                 'scenario' => SalaryWithHold::SCENARIO_DEFAULT,        // model scenario assigned before validation & update
                 'outputValue' => function ($model, $attribute, $key, $index) {
@@ -112,8 +127,16 @@ class DefaultController extends BackendController
                 },
                 'showModelErrors' => true,                    // show model validation errors after save
                 'errorOptions' => ['header' => ''],            // error summary HTML options
-                'formName' => 'SalaryWithHold'
-                // 'postOnly' => true,
+                'formName' => 'SalaryWithHold',
+                'attributeNamesForRefresh' => [
+                    'member_labor_union',
+                    'amount_pension',
+                    'amount_labor_union',
+                    'amount_card',
+                    'total'
+
+                ]
+                    // 'postOnly' => true,
                 // 'ajaxOnly' => true,
                 // 'findModel' => function($id, $action) {},
                 // 'checkAccess' => function($action, $model) {}

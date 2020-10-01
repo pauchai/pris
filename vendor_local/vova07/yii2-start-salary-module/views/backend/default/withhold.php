@@ -71,48 +71,52 @@ $this->params['breadcrumbs'] = [
 
 
         ];
-    $attributes = ['amount_pension', 'amount_income_tax', 'amount_execution_list',
-        'amount_labor_union', 'amount_sick_list'];
+    $attributes = ['is_pension', 'amount_pension', 'amount_income_tax', 'amount_execution_list',
+        'amount_labor_union', 'amount_sick_list', 'total', 'amount_card'];
     foreach ($attributes as $attribute){
+        if ($attribute == 'is_pension')
+            $editableType = \kartik\editable\Editable::INPUT_CHECKBOX;
+        else
+            $editableType = \kartik\editable\Editable::INPUT_TEXT;
+
         $columns[] = [
             'class' => kartik\grid\EditableColumn::class,
+
             'hAlign' => GridView::ALIGN_CENTER,
 
             'attribute' => $attribute,
-            'refreshGrid' => true,
-            'editableOptions' =>  function ($model, $key, $index){
+            'refreshGrid' => false,
+            'editableOptions' =>  function ($model, $key, $index)use ($editableType){
                 return [
-
-                    'valueIfNull' => '0',
+                    'inputType' => $editableType,
+                    'valueIfNull' => 0,
+                    'asPopover' => false,
 
                     'formOptions' => [
                         'action' => ['change-withhold-column']
                     ],
+                    'pluginEvents' => [
+                        "editableSuccess"=>"function(event, val, form, data) {
+                             
+                            $.each(data.attributes, (index, value) => {
+                                if (value != null) {
+                                var \$element = $('#' + 'salarywithhold-$index-' + index + '-cont');
+                               \$element.find('.kv-editable-value').html(value);
+                                 \$element.find('.kv-editable-input').val(value);
+                                }
+                                
+                                
+                            }); 
+                           
+                            }",
+
+                    ],
                 ];
             },
-            'content' => function($model,$key, $index, $column)
-            {
-                $attribute =  $column->attribute;
-                return round($model->$attribute,2);
-            }
+
         ];
     }
-    $columns[] = [
-        'attribute' => 'total',
-        'hAlign' => GridView::ALIGN_CENTER,
 
-        'content' => function($model,$key, $index, $column)
-        {
-            $attribute =  $column->attribute;
-            return round($model->$attribute,2);
-        }
-    ];
-    $columns[] = [
-        'attribute' => "amount_card",
-        'hAlign' => GridView::ALIGN_CENTER,
-
-
-    ];
     /* $columns[] =
          [
 
