@@ -182,7 +182,7 @@ class Device extends  Ownableitem
             self::CALCULATION_METHOD_TEE_POT => Module::t('default','CALCULATION_METHOD_TEE_POT'),
             self::CALCULATION_METHOD_FREEDGE => Module::t('default','CALCULATION_METHOD_FREEDGE'),
              self::CALCULATION_METHOD_HOURS1 => Module::t('default','CALCULATION_METHOD_HOURS1'),
-            self::CALCULATION_METHOD_HOURS0_5 => Module::t('default','CALCULATION_METHOD_HOURS0_5')
+            self::CALCULATION_METHOD_HOURS0_5 => Module::t('default','CALCULATION_METHOD_HOURS0_5'),
         ];
         if (!is_null($key) ) {
             if (isset($ret[$key]))

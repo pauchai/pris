@@ -45,7 +45,7 @@ class DeviceAccounting extends  Ownableitem
     const HOURS_PER_WORKING_DAYS = 6;
     const HOURS_PER_HOLIDAYS_AND_WEEKEND = 8;
     const HOURS_PER_DAY_FOR_TEE_POT = 2;
-    const HOURS_PER_DAY_FOR_FREEDGE = 12;
+    const HOURS_PER_DAY_FOR_FREEDGE = 6;
     const HOURS_PER_DAY_1 = 1;
     const HOURS_PER_DAY_0_5 = 0.5;
 
