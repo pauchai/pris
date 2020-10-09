@@ -22,7 +22,8 @@ use vova07\users\models\Officer;
 <?=$form->field($model,'prisoner_id')->widget(
     \kartik\select2\Select2::class,[
         'data' => \vova07\users\models\Prisoner::getListForCombo(),
-        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')]
+        'options'=>['prompt'=>\vova07\plans\Module::t('events','SELECT_PRISONER')],
+        'pluginOptions'=>['allowClear'=>true],
 
     ]
 )?>

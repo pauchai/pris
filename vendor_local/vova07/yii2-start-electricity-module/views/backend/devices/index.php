@@ -66,7 +66,10 @@ $this->params['breadcrumbs'] = [
           'value' => 'status',
           'filter' => \vova07\electricity\models\Device::getStatusesForCombo(),
         ],
-        ['class' => \yii\grid\ActionColumn::class]
+        [
+            'class' => \yii\grid\ActionColumn::class,
+            'template' => '{view} {update} '
+        ]
 
     ]
 ])?>

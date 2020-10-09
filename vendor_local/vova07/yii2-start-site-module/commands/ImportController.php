@@ -43,12 +43,10 @@ use yii\helpers\ArrayHelper;
 
 class ImportController extends \yii\console\Controller
 {
+
     public function actionPrisoners($limit=null,$prison_slug = 'pu-1' )
     {
-        $user = User::findOne(['username' => 'admin']);
-        $ident = $user->ident;
-        \Yii::$app->user->setIdentity($ident);
-
+        $this->doLogin();
         ImportHelper::ImportPrisoners($prison_slug, true, $limit );
 
         return ExitCode::OK;
@@ -57,10 +55,7 @@ class ImportController extends \yii\console\Controller
 
     public function actionPrograms()
     {
-        $user = User::findOne(['username' => 'admin']);
-        $ident = $user->ident;
-        \Yii::$app->user->setIdentity($ident);
-
+        $this->doLogin();
         ImportHelper::ImportPrograms();
 
         return ExitCode::OK;
@@ -68,10 +63,7 @@ class ImportController extends \yii\console\Controller
     }
     public function actionProgramPrisoner($prison_slug = 'pu-1')
     {
-        $user = User::findOne(['username' => 'admin']);
-        $ident = $user->ident;
-        \Yii::$app->user->setIdentity($ident);
-
+        $this->doLogin();
         ImportHelper::ImportProgramPrisoner($prison_slug = 'pu-1');
 
         return ExitCode::OK;
@@ -79,12 +71,8 @@ class ImportController extends \yii\console\Controller
     }
     public function actionDocuments()
     {
-        $user = User::findOne(['username' => 'admin']);
-        $ident = $user->ident;
-        \Yii::$app->user->setIdentity($ident);
-
+        $this->doLogin();
         ImportHelper::ImportDocuments();
-
         return ExitCode::OK;
     }
     public function actionBalance()
@@ -121,20 +109,6 @@ class ImportController extends \yii\console\Controller
         return ExitCode::OK;
     }
 
-
-    public function actionTest()
-    {
-        //https://media1.prime.md/hls/202002/162259/360p199.ts
-        $str = '';
-        $baseUrl = "https://media1.prime.md/hls/202002/162259/";
-        for ($i = 0; $i<360; $i++){
-            $url = $baseUrl . '360p' . $i . '.ts';
-            $str .= $url . "\n";
-        }
-
-        echo $str;
-
-    }
 
     private function doLogin()
     {
