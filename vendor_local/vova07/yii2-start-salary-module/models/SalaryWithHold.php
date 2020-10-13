@@ -119,7 +119,7 @@ class SalaryWithHold extends  Ownableitem
 
                     ],
                 ],
-                'beforeSave' =>  [
+                'totalBeforeSave' =>  [
                     'class' => AttributeBehavior::className(),
                     'attributes' => [
                         ActiveRecord::EVENT_BEFORE_INSERT => 'total',
@@ -130,7 +130,9 @@ class SalaryWithHold extends  Ownableitem
                          * @var $event Event
                          */
                         $event->sender->reCalculate(false);
-                        return $event->sender->calculateTotal();
+                        $total  = $event->sender->calculateTotal();
+                        $event->sender->amount_card =   $event->sender->getSalaries()->totalAmount() - $total;//$event->sender->calculateAmountCard();
+                        return $total ;
                     },
                 ],
 
@@ -211,7 +213,7 @@ class SalaryWithHold extends  Ownableitem
         $this->amount_pension = $this->calculatePension();
         $this->amount_labor_union = $this->calculateLaborUnion();
       //  if (!$this->amount_card)
-            $this->amount_card = $this->calculateAmountCard();
+
         if ($doSave)
          $this->save();
     }
