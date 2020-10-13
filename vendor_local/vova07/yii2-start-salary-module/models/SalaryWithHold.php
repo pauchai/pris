@@ -210,7 +210,7 @@ class SalaryWithHold extends  Ownableitem
 
         $this->amount_pension = $this->calculatePension();
         $this->amount_labor_union = $this->calculateLaborUnion();
-        if (!$this->amount_card)
+      //  if (!$this->amount_card)
             $this->amount_card = $this->calculateAmountCard();
         if ($doSave)
          $this->save();
