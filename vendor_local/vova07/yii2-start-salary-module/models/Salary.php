@@ -92,7 +92,8 @@ class Salary extends  Ownableitem
 //            [['base_rate'],DefaultValueValidator::class, 'value' => function($model,$attribute){
 //                return $model->calculateBaseRate() ;
 //            }],
-            [['amount_conditions', 'amount_advance', 'amount_optional',
+            [[ 'amount_rate', 'amount_rank_rate',
+                'amount_conditions', 'amount_advance', 'amount_optional',
                 'amount_diff_sallary',
                 'amount_additional',
                 'amount_maleficence',
@@ -312,10 +313,16 @@ class Salary extends  Ownableitem
         if (is_null($this->base_rate))
             $this->base_rate = $this->officerPost->base_rate?$this->officerPost->base_rate:$this->calculateBaseRate();
 
-        $this->amount_rate = $this->calculateAmountRate();
-        $this->amount_rank_rate = $this->calculateAmountRankRate();
-        $this->amount_conditions = $this->calculateAmountCondition();
-        $this->amount_advance = $this->calculateAmountAdvance();
+        if (is_null($this->amount_rate))
+            $this->amount_rate = $this->calculateAmountRate();
+
+        if (is_null($this->amount_rank_rate))
+            $this->amount_rank_rate = $this->calculateAmountRankRate();
+
+        if (is_null( $this->amount_conditions))
+            $this->amount_conditions = $this->calculateAmountCondition();
+        if (is_null( $this->amount_advance))
+            $this->amount_advance = $this->calculateAmountAdvance();
     }
     public function calculateTotal()
     {

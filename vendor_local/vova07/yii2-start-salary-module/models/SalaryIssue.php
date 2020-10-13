@@ -265,20 +265,22 @@ class SalaryIssue extends  Ownableitem
              */
             $officer = Officer::findOne($officerId);
             $withHold = $this->createWithHoldForOfficer($officer);
-            $withHold->reCalculate(false);
+           // $withHold->reCalculate(false);
             $withHold->save();
 
         }
+        $this->generateAmountCards(true);
     }
 
-    public function generateAmountCards()
+    public function generateAmountCards($doSave = false)
     {
         foreach ($this->withHolds as $withHold) {
             /**
              * @var $withHold SalaryWithHold
              */
             $withHold->amount_card = $withHold->calculateAmountCard();
-            $withHold->save();
+            if ($doSave)
+                $withHold->save();
 
 
         }
