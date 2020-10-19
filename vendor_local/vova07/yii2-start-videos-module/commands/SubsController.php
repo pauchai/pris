@@ -10,6 +10,7 @@ namespace vova07\videos\commands;
 
 
 use Done\Subtitles\Subtitles;
+use vova07\videos\helpers\FFMPEGHelper;
 use vova07\videos\models\Word;
 use yii\console\Controller;
 
@@ -37,6 +38,41 @@ class SubsController extends Controller
     public function actionConvert($fromFile, $toFile)
     {
         Subtitles::convert($fromFile, $toFile);
+    }
+
+    public function actionTranslationPairs()
+    {
+        $enVideoFile  = '/mnt/DATANTFS/PAUK/TDOWNLOADS/The.Accident.S01.WEBRip.x264-ION10/The.Accident.S01E01.WEBRip.x264-ION10.mp4';
+        $ruVideoFile  = '/mnt/DATANTFS/PAUK/TDOWNLOADS/The.Accident.S01.1080p.TVShows/The.Accident.S01E01.1080p.TVShows.mkv';
+
+        $resultFilesPath  =  '/mnt/DATANTFS/PAUK/TDOWNLOADS/The.Accident.S01.WEBRip.x264-ION10';
+
+        $enSubFile = '/mnt/DATANTFS/PAUK/TDOWNLOADS/The.Accident.S01.WEBRip.x264-ION10/Subs/The.Accident.S01E01.WEBRip.x264-ION10/frases_en.srt';
+        $ruSubFile = '/mnt/DATANTFS/PAUK/TDOWNLOADS/The.Accident.S01.WEBRip.x264-ION10/Subs/The.Accident.S01E01.WEBRip.x264-ION10/frases_ru.srt';
+
+        $ruSubtitles = Subtitles::load($ruSubFile);
+        $enSubtitles = Subtitles::load($enSubFile);
+
+        $ruSubtitlesInternal = $ruSubtitles->getInternalFormat();
+        $enSubtitlesInternal = $enSubtitles->getInternalFormat();
+        $cnt = count($enSubtitlesInternal);
+        for ($i = 0; $i < $cnt; $i++ ){
+            $enSubInternal  = $enSubtitlesInternal[$i];
+            $ruSubInternal  = $ruSubtitlesInternal[$i];
+            $fileEn = FFMPEGHelper::videoTrim($enVideoFile,$enSubInternal['start'], $enSubInternal['end'] );
+            $fileRu= FFMPEGHelper::videoTrim($ruVideoFile,$ruSubInternal['start'], $ruSubInternal['end'] );
+
+
+            FFMPEGHelper::concatMedia([$fileRu, $fileEn, $fileEn, $fileEn], $resultFilesPath . '/' . $i . ".mp3");
+            unlink($fileEn);
+            unlink($fileRu);
+        }
+
+
+
+
+
+
     }
 
 }
