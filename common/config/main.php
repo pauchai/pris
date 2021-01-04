@@ -177,6 +177,10 @@ return [
             'class' => \vova07\biblio\Module::class,
 
         ],
+        'reports' => [
+            'class' => \vova07\reports\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(

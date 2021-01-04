@@ -18,6 +18,7 @@ use vova07\prisons\models\backend\DivisionSearch;
 use vova07\prisons\models\backend\PostSearch;
 use vova07\prisons\models\backend\PrisonSearch;
 use vova07\prisons\models\backend\RankSearch;
+use vova07\prisons\models\backend\ReportPrisonerProgramSearch;
 use vova07\prisons\models\backend\ReportSummarizedSearch;
 use vova07\prisons\models\Company;
 use vova07\prisons\models\CompanyDepartment;
@@ -46,7 +47,7 @@ class ReportsController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'participants'],
+                'actions' => ['index', 'participants', 'programs-prisoners'],
                 'roles' => ['@']
             ]
         ];
@@ -125,6 +126,13 @@ class ReportsController extends BackendController
 
         return $this->render('participants', ['dataProvider' => $dataProvider]);
 
+    }
+
+    public function actionPrisonersPrograms()
+    {
+        $searchModel = new ReportPrisonerProgramSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        return $this->view('prisoners-programs',['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
     }
 
 

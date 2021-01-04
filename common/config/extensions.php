@@ -128,4 +128,10 @@ return [
         'bootstrap' => \vova07\biblio\Bootstrap::class,
         'alias' => ['@vova07/biblio' => '@vendor_local/vova07/yii2-start-biblio-module']
     ],
+    'vova07/reports' => [
+        'name' => 'Reports Module',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\reports\Bootstrap::class,
+        'alias' => ['@vova07/reports' => '@vendor_local/vova07/yii2-start-reports-module']
+    ],
 ];

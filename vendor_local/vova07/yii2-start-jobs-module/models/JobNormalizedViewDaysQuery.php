@@ -19,4 +19,10 @@ class JobNormalizedViewDaysQuery extends ActiveQuery
     {
         return $this->andWhere(new Expression('isNull(hours)'));
     }
+    public function paid(){
+        return $this->andWhere(['category_id' => JobNormalizedViewDays::CATEGORY_PAID]);
+    }
+    public function notPaid(){
+        return $this->andWhere(['category_id' => JobNormalizedViewDays::CATEGORY_NOT_PAID]);
+    }
 }

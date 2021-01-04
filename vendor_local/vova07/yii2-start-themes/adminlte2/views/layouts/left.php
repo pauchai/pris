@@ -247,10 +247,11 @@ use vova07\site\Module;
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST)],
                             ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
 
-                            ['label' => Module::t('menu','JOBS_GENERAL_LIST'),'icon' => 'circle','url'=>['/jobs/general-list/index']],
+
 
                             ['label' => Module::t('menu','REPORT_PRISONERS_LOCATION_JOURNAL'),'icon' => 'circle','url'=>['/users/report/location-journal'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST)],
+                            ['label' => Module::t('menu','REPORT_PRISONERS_PROGRAM'),'icon' => 'circle','url'=>['/reports/prisoner-program/index']],
 
                         ]
                     ],

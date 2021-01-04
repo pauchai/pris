@@ -93,6 +93,9 @@ return [
         'biblio' => [
             'appContext' => 'backend'
         ],
+        'reports' => [
+            'appContext' => 'backend'
+        ],
 
 
 

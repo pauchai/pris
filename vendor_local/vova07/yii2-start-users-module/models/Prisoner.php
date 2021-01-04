@@ -16,12 +16,14 @@ use vova07\base\components\DateConvertJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
+use vova07\concepts\models\Concept;
 use vova07\concepts\models\ConceptParticipant;
 use vova07\countries\models\Country;
 
 use vova07\documents\models\Document;
 use vova07\finances\models\backend\BalanceByPrisonerView;
 use vova07\finances\models\Balance;
+use vova07\jobs\models\JobNormalizedViewDays;
 use vova07\plans\models\PrisonerPlan;
 use vova07\plans\models\Program;
 use vova07\plans\models\ProgramDict;
@@ -246,6 +248,10 @@ class Prisoner extends  OwnableItem
     {
         return $this->hasMany(\vova07\jobs\models\JobPaidList::class, ['assigned_to' => '__person_id']);
     }
+    public function getNormilizedJobsView()
+    {
+        return $this->hasMany(JobNormalizedViewDays::class, ['prisoner_id' => '__person_id']);
+    }
 
     public function getRequirements()
     {
@@ -396,6 +402,10 @@ class Prisoner extends  OwnableItem
     public function getConceptParticipants()
     {
         return $this->hasMany(ConceptParticipant::class, ['prisoner_id' => '__person_id']);
+    }
+    public function getConcepts()
+    {
+        return $this->hasMany(Concept::class, ['__ownableitem_id' => 'concept_id'])->via('conceptParticipants');
     }
 
     public function getTests()

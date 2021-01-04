@@ -51,7 +51,7 @@ class PrisonerView extends  Prisoner
     }
     public static function find()
     {
-        return new PrisonerQuery(PrisonerView::class);
+        return new PrisonerViewQuery(PrisonerView::class);
     }
 
     /**
