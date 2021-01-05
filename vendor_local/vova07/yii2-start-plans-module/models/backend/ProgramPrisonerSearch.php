@@ -27,6 +27,7 @@ class ProgramPrisonerSearch extends ProgramPrisoner
             [['ownableitem.created_by'],'safe'],
             [['date_plan'], 'default', 'value' => date('Y'),'on' => self::SCENARIO_PLANNING],
 
+
         ];
     }
 
@@ -38,7 +39,10 @@ class ProgramPrisonerSearch extends ProgramPrisoner
             'query' => $query
         ]);
         $dataProvider->sort = false;
-        $dataProvider->query->joinWith(['person' => function($query){$query->from('person');}])->joinWith(['ownableitem' => function($query){$query->from('ownableitem');}])
+        $dataProvider->query
+            //->joinWith(['prisoner' => function($query){$query->from('prisoner');}])
+            ->joinWith(['person' => function($query){$query->from('person');}])
+            ->joinWith(['ownableitem' => function($query){$query->from('ownableitem');}])
             ->orderBy('prison_id, programdict_id,person.second_name, person.first_name');
 
         $this->prison_id = \Yii::$app->base->company->primaryKey;

@@ -78,22 +78,100 @@ $this->params['breadcrumbs'] = [
             'filterInputOptions' => ['prompt' => \vova07\plans\Module::t('default','SELECT_YEAR'), 'class'=> 'form-control', 'id' => null]
         ],
         [
-          'attribute' => 'plannedBy.person.fio',
-          'value' => function($model){
-                if ($model->plannedBy)
-                    return $model->plannedBy->person->getFio(true);
-                else
-                    return null;
-                },
-          'visible' => !$this->context->isPrintVersion,
+
+
+            'attribute' => 'prisoner.term_udo',
+            'content' => function($model){
+                //$content = Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+
+                $currDate = new DateTime();
+                $style = ['class' => 'label label-default'];
+                $value = null;
+                if ($model->prisoner->term_udo) {
+                    $dateTermUdo = new DateTime($model->prisoner->term_udo);
+                    $daysRemain = $currDate->diff($dateTermUdo)->format('%R%a');
+                    $value = $model->prisoner->termUdoJui ;
+
+                    if ($daysRemain <=0 ){
+                        $style = ['class' => 'label label-danger'];
+                        $value = $value . ' ' . Yii::$app->formatter->asRelativeTime($value);
+                    }
+                    elseif ($daysRemain >0 && $daysRemain <= 30*6)
+                        $style = ['class' => 'label label-info'];
+                    elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
+                        $style = ['class' => 'label label-success'];
+                }
+                //  $value = $dateTermFinish->format('d-m-Y') . ' ' . $daysRemain;
+
+
+
+
+                $content = \yii\helpers\Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
+
+
+                return $content;
+            },
+
         ],
+        [
+
+
+
+            'attribute' => 'prisoner.term_finish',
+            'content' => function($model){
+                //$content = Html::tag('span', Yii::$app->formatter->asRelativeTime($doc->date_expiration ),['class'=>' label label-danger']);
+
+                $currDate = new DateTime();
+                $style = ['class' => 'label label-default'];
+                $value = null;
+                if ($model->prisoner->term_finish) {
+                    $dateTermFinish = new DateTime($model->prisoner->term_finish);
+                    $daysRemain = $currDate->diff($dateTermFinish)->format('%R%a');
+                    $value = $model->prisoner->termFinishJui;
+
+                    if ($daysRemain <= 30){
+                        $style = ['class' => 'label label-danger'];
+                        $value = $value . ' ' . Yii::$app->formatter->asRelativeTime($value);
+                    }
+                    elseif ($daysRemain >=30 && $daysRemain <= 30*6)
+                        $style = ['class' => 'label label-info'];
+
+                    elseif ($daysRemain >=30*6 && $daysRemain <= 30*12)
+                        $style = ['class' => 'label label-success'];
+                }
+                //  $value = $dateTermFinish->format('d-m-Y') . ' ' . $daysRemain;
+
+
+
+
+                $content = \yii\helpers\Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
+
+
+                return $content;
+            },
+
+
+
+        ],
+
+//        [
+//          'attribute' => 'plannedBy.person.fio',
+//          'value' => function($model){
+//                if ($model->plannedBy)
+//                    return $model->plannedBy->person->getFio(true);
+//                else
+//                    return null;
+//                },
+//          'visible' => !$this->context->isPrintVersion,
+//        ],
         [
                 'class' => \yii\grid\CheckboxColumn::class
         ],
 
         [
             'visible' => !$this->context->isPrintVersion,
-            'class' => yii\grid\ActionColumn::class,
+            'class' => \kartik\grid\ActionColumn::class,
+            'dropdown' => true,
             'buttons' =>  [
             'update' => function ($url, $model, $key) {
                      return  \yii\bootstrap\Html::a('', ['/plans/program-prisoners/update','id'=>$model->primaryKey],['class'=>"fa fa-edit"]) ;

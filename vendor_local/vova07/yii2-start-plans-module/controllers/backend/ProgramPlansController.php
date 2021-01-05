@@ -51,6 +51,7 @@ class ProgramPlansController extends BackendController
         $dataProvider->setPagination(false);
         $dataProvider->query->planned()->forPrisonersActive();
 
+
         $programQuery = Program::find()->andFilterWhere(
             [
                 'programdict_id'=>$searchModel->programdict_id,
