@@ -58,7 +58,8 @@ class ProgramPrisoner extends  Ownableitem
             [['programdict_id', 'prison_id','prisoner_id','status_id'], 'required'],
 
             [['programdict_id','prison_id','prisoner_id','program_id'],'unique','targetAttribute' => ['programdict_id','prison_id', 'prisoner_id','program_id']],
-            [['date_plan','mark_id'],'integer']
+            [['date_plan', 'mark_id'],'integer'],
+            [['finishedAtJui'], 'string']
         ];
     }
 
@@ -155,6 +156,14 @@ class ProgramPrisoner extends  Ownableitem
                         return \Yii::$app->user->id;
                     }
                 }
+
+            ]
+        ]);
+        $behaviors = ArrayHelper::merge($behaviors,[
+            [
+                'class' => DateJuiBehavior::class,
+                'attribute' => 'finished_at',
+                'juiAttribute' => 'finishedAtJui'
 
             ]
         ]);
@@ -317,16 +326,20 @@ class ProgramPrisoner extends  Ownableitem
             self::MARK_NOT_SATISFACTORY => 'danger',
             self::MARK_SATISFACTORY => 'info',
             self::MARK_GOOD => 'success',
+
         ];
     }
     public static function resolveMarkStyleById($mark_id)
     {
-        return self::mapMarkStyle()[$mark_id];
+        if ($mark_id)
+            return self::mapMarkStyle()[$mark_id];
+        else
+            return null;
     }
 
     public static function getYearsForFilterCombo()
     {
-        return ArrayHelper::map(self::find()->select('date_plan')->distinct()->asArray()->all(),'date_plan','date_plan');
+        return ArrayHelper::map(self::find()->select('date_plan')->andWhere(new Expression('not ISNULL(date_plan)'))->orderBy(['date_plan'=>SORT_ASC])->distinct()->asArray()->all(),'date_plan','date_plan');
     }
 
     public static function getProgramDistinctForCombo()

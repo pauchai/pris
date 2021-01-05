@@ -25,7 +25,7 @@ use vova07\users\models\Officer;
 <?=$form->field($model,'planned_by')->dropDownList(\vova07\users\models\Officer::getListForCombo(),['prompt'=>Module::t('default','SELECT_SPECIALIST')])?>
 <?=$form->field($model,'mark_id')->dropDownList(ProgramPrisoner::getMarksForCombo(),['prompt'=>Module::t('default','SELECT_MARK')])?>
 <?=$form->field($model,'status_id')->dropDownList(\vova07\plans\models\ProgramPrisoner::getStatusesForCombo(),['prompt'=>Module::t('default','SELECT_PROGRAM_PRISONER_STATUS')])?>
-
+<?=$form->field($model,'finishedAtJui')->widget(\kartik\date\DatePicker::class)?>
 
 <?php $box->beginFooter();?>
 <div class="form-group">

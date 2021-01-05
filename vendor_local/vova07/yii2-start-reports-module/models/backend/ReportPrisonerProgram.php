@@ -33,43 +33,40 @@ use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\db\QueryBuilder;
+use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 
-class ReportPrisonerProgramSearch extends ReportPrisonerProgram
+class ReportPrisonerProgram extends PrisonerView
 {
     public $year;
-    public $__person_id;
-    public $sector_id;
+
 
     public function rules()
     {
         return [
-            [['year'], 'safe'],
-            [[ 'sector_id'],'required']
+            [['year', 'sector_id'],'safe'],
 
 
         ];
     }
 
-    public function search($params)
+    public static function getYearsForFilterCombo()
     {
-        $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()->active()->orderBy('fio')
-        ]);
-        $this->load($params);
-        if ( $this->validate()){
+        $programQuery = ProgramPrisoner::find()->select(['year' =>'date_plan' ])->andWhere(new Expression('not ISNULL(date_plan)'));
+        $eventQuery = Event::find()->select(['year' => new \yii\db\Expression("YEAR(DATE_ADD(FROM_UNIXTIME(0), INTERVAL date_start SECOND)) ")]);
+        $combineQuery = $programQuery->union($eventQuery);
+        $resultArray = $combineQuery->orderBy(['year' => SORT_ASC])->asArray()->all();
+        $resultArray = ArrayHelper::map($resultArray,'year','year') ;
+       // sort($resultArray);
 
-            $dataProvider->query->andWhere([
-                'sector_id' => $this->sector_id,
 
-            ]);
 
-        } else {
-            $dataProvider->query->andWhere('false');
-        }
 
-        return $dataProvider;
+//orderBy(['year' => SORT_ASC])
 
+        return $resultArray;
     }
+
 
 }

@@ -187,5 +187,12 @@ class Concept extends  Ownableitem
         ];
     }
 
-
+    public static function getYearsForFilterCombo()
+    {
+        return ArrayHelper::map(
+            self::find()->select(['year' => new \yii\db\Expression("YEAR(DATE_ADD(FROM_UNIXTIME(0), INTERVAL date_start SECOND)) ")])->orderBy(['year' => SORT_ASC])->distinct()->asArray()->all(),
+            'year',
+            'year'
+        );
+    }
 }

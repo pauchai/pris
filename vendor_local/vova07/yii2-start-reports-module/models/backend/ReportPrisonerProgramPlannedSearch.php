@@ -21,6 +21,7 @@ use vova07\plans\models\ProgramDict;
 use vova07\plans\models\ProgramPrisoner;
 use vova07\plans\models\ProgramVisit;
 use vova07\prisons\models\Sector;
+use vova07\reports\controllers\backend\PrisonerProgramController;
 use vova07\tasks\models\Committee;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
@@ -33,34 +34,48 @@ use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\db\Expression;
 use yii\db\Query;
+use yii\db\QueryBuilder;
+use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 
-class ReportPrisonerProgramSearch extends ReportPrisonerProgram
+class ReportPrisonerProgramPlannedSearch extends ProgramPrisoner
 {
     public $year;
-    public $__person_id;
     public $sector_id;
+
 
     public function rules()
     {
         return [
-            [['year'], 'safe'],
-            [[ 'sector_id'],'required']
+
+            [['year'],'safe'],
+            [['sector_id'],'required'],
 
 
         ];
     }
-
     public function search($params)
     {
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()->active()->orderBy('fio')
+            'query' => self::find()->andWhere(['program_prisoners.status_id' => ProgramPrisoner::STATUS_PLANED])
+            ->andWhere(['prisoner.status_id' => ProgramPrisoner::STATUS_ACTIVE])
         ]);
+        $dataProvider->query
+            ->joinWith(['person' => function($query){$query->from('person');}])
+            ->joinWith(['prisoner' => function($query){$query->from('prisoner');}])
+            //->joinWith(['ownableitem' => function($query){$query->from('ownableitem');}])
+            ->orderBy('prison_id, person.second_name, person.first_name, prisoner.sector_id, programdict_id,');
+       ;
+
         $this->load($params);
         if ( $this->validate()){
 
             $dataProvider->query->andWhere([
                 'sector_id' => $this->sector_id,
+
+            ]);
+            $dataProvider->query->andFilterWhere([
+                'date_plan' => $this->year,
 
             ]);
 
@@ -71,5 +86,7 @@ class ReportPrisonerProgramSearch extends ReportPrisonerProgram
         return $dataProvider;
 
     }
+
+
 
 }
