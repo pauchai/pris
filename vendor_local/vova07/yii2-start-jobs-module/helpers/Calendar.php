@@ -112,10 +112,10 @@ class Calendar
     {
         $query = $prisoner->getPenalties()
             ->andWhere(
-            ['<=', 'date_start', $date->getTimestamp() +  3600 * 24]
+            ['<=', 'date_start', $date->getTimestamp() ]
         )
             ->andWhere(
-            ['>=', 'date_finish', $date->getTimestamp() -  3600 * 24]
+            ['>=', 'date_finish', $date->getTimestamp() ]
         );
         return $query->count()>0;
     }

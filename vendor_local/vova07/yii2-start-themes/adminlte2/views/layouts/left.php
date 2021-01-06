@@ -110,8 +110,8 @@ use vova07\site\Module;
                             ['label' => Module::t('menu','PROGRAM_PLANS_LIST'),'icon' => 'circle','url'=>['/plans/program-plans'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_VIEW)],
 
-                            ['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            //['label' => Module::t('menu','PROGRAM_PRISONER_LIST'),'icon' => 'circle','url'=>['/plans/program-prisoners'],
+                            //    'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
                             ['label' => Module::t('menu','SUMMARIZED_LIST'),'icon' => 'circle','url'=>['/plans/summarized/index'],
                                 'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST)],
 
@@ -261,63 +261,63 @@ use vova07\site\Module;
 
 
 
-                    ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
-                        'items' => [
-                            [
-                                'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
-                                'items' => [
-                                        [
-                                            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default'],
-                                        ],
-                                    [
-                                        'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge'],
-                                    ],
-                                    [
-                                        'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold'],
-                                    ],
+//                    ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
+//                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
+//                        'items' => [
+//                            [
+//                                'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
+//                                'items' => [
+//                                        [
+//                                            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default'],
+//                                        ],
+//                                    [
+//                                        'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge'],
+//                                    ],
+//                                    [
+//                                        'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold'],
+//                                    ],
+//
+//                                ],
+//
+//                                'visible' => true,
+//                            ],
+//
+//                            [
+//                                'label' => Module::t('menu','SALARY_CLASSES_LIST'),'icon' => 'circle','url'=>['/salary/salary-classes'],
+//                                'visible' => true,
+//                            ],
+//
+//                        ]
+//                    ],
 
-                                ],
-
-                                'visible' => true,
-                            ],
-
-                            [
-                                'label' => Module::t('menu','SALARY_CLASSES_LIST'),'icon' => 'circle','url'=>['/salary/salary-classes'],
-                                'visible' => true,
-                            ],
-
-                        ]
-                    ],
-
-                    [
-                        'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
-                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
-                        'items' => [
-                            ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-
-                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-
-                            ['label' => Module::t('menu','OFFICER_POSTS_EXTENDED_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/officer-posts'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-
-
-                            ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-
-
-                            ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
-                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
-                            ]
-
-
-
-                        ]
-                    ],
+//                    [
+//                        'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
+//                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
+//                        'items' => [
+//                            ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+//
+//                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+//                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+//
+//                            ['label' => Module::t('menu','OFFICER_POSTS_EXTENDED_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/officer-posts'],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+//
+//
+//                            ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+//
+//
+//                            ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
+//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
+//                            ]
+//
+//
+//
+//                        ]
+//                    ],
 
 
 
