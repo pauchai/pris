@@ -49,5 +49,14 @@ class PrisonerQuery extends ActiveQuery
         return $this->joinWith('person')->andWhere(new Expression('isnull(person.citizen_id)'));
 
     }
+    public function notDeleted()
+    {
+        $statuses = Prisoner::getStatusesForCombo();
+        unset($statuses[Prisoner::STATUS_DELETED]);
+        return $this->andWhere(
+            ['prisoner.status_id' => array_keys($statuses)]
+
+        );
+    }
 
 }

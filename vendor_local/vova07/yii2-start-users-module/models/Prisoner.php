@@ -99,7 +99,8 @@ class Prisoner extends  OwnableItem
         return [
             [['__person_id', 'prison_id'], 'required'],
             [['article'], 'string'],
-            [['termStartJui', 'termFinishJui', 'termUdoJui'], 'date'],
+            [['termStartJui', 'termFinishJui', 'termUdoJui', 'termFinishOriginJui'], 'date'],
+            [['termFinishOrigin'], 'string'],
             [['status_id', 'sector_id', 'cell_id'], 'safe'],
             [['criminal_records'], 'integer'],
             //DateValidator::
@@ -123,6 +124,7 @@ class Prisoner extends  OwnableItem
                 'article' => Schema::TYPE_STRING,
                 'term_start' => Schema::TYPE_DATE,
                 'term_finish' => Schema::TYPE_DATE,
+                'term_finish_origin' => Schema::TYPE_DATE,
                 'term_udo' => Schema::TYPE_DATE,
                 'criminal_records' => $migration->tinyInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL DEFAULT ' . self::STATUS_ACTIVE,
@@ -184,6 +186,11 @@ class Prisoner extends  OwnableItem
                 'class' => DateConvertJuiBehavior::className(),
                 'attribute' => 'term_udo',
                 'juiAttribute' => 'termUdoJui'
+            ],
+            'termFinishOriginJui' => [
+                'class' => DateConvertJuiBehavior::className(),
+                'attribute' => 'term_finish_origin',
+                'juiAttribute' => 'termFinishOriginJui'
             ],
         ]);
         return $behaviors;
@@ -388,9 +395,10 @@ class Prisoner extends  OwnableItem
         if (
             array_key_exists('sector_id', $changedAttributes) && $changedAttributes['sector_id'] <> $this->sector_id ||
             array_key_exists('prison_id', $changedAttributes) && $changedAttributes['prison_id'] <> $this->prison_id ||
+            array_key_exists('cell_id', $changedAttributes) && $changedAttributes['cell_id'] <> $this->cell_id ||
             array_key_exists('status_id', $changedAttributes) && $changedAttributes['status_id'] <> $this->status_id
         ){
-            $this->resolveChangeLocation();
+            $this->resolveChangeLocation($changedAttributes);
         }
     }
 

@@ -10,6 +10,7 @@ use vova07\users\models\backend\PrisonerViewSearch;
  * @var $this \yii\web\View
  * @var $model \vova07\prisons\models\Prison
  * @var $dataProvider \yii\data\ActiveDataProvider
+ * @var $searchModel
  */
 $this->title = Module::t("default","PRISONERS_REPORT");
 $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}", $searchModel->year) ;
@@ -28,6 +29,8 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
 <?=$filterForm->field($searchModel,'sector_id')->dropDownList(\vova07\prisons\models\Sector::getListForCombo(),['prompt' => 'sector'])?>
 <?=Html::submitButton(Module::t('default', 'FILTER'), ['class' => 'btn btn-primary']) ?>
 <?php ActiveForm::end()?>
+
+
 
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
@@ -53,12 +56,71 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
         'prisoner.person.speciality',
         'prisoner.person.address',
         'prisoner.criminal_records',
+        'prisoner.article',
+        'prisoner.term_finish_origin',
         'prisoner.term_finish',
         'prisoner.term_udo',
         'prisoner.takenSpeciality',
         'at:date',
         'next.at:date',
-        'next.sector.title',
+        [
+            'attribute' => 'next.sector.title',
+            'content' => function($model){
+                $ret = \yii\helpers\ArrayHelper::getValue($model,'next.sector.title') ;
+                $ret .= \yii\helpers\ArrayHelper::getValue($model,'next.status');
+                return $ret;
+            }
+        ]
+
+
+
+
+    ]
+])?>
+
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
+    [
+        'title' => 'prisoners',
+        'buttonsTemplate' => '{minimize}'
+    ]
+
+);?>
+
+
+
+
+
+
+<?php echo GridView::widget(['dataProvider' => $prisonerDataProvider,
+
+
+    'columns' => [
+        ['class' => yii\grid\SerialColumn::class],
+        [
+            'class' => \kartik\grid\DataColumn::class,
+            'attribute' => 'sector.title',
+
+
+        ],
+        [
+            'attribute' => 'person.fio',
+
+        ],
+
+        'person.birth_year',
+        'person.nationality',
+        'person.education',
+        'person.speciality',
+        'person.address',
+        'criminal_records',
+        'article',
+        'term_finish_origin',
+        'term_finish',
+        'term_udo',
+        'takenSpeciality',
+
+
+
 
 
 
@@ -67,5 +129,11 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
 
 
 <?php \vova07\themes\adminlte2\widgets\Box::end()?>
+
+<?php \vova07\themes\adminlte2\widgets\Box::end()?>
+
+
+
+
 
 

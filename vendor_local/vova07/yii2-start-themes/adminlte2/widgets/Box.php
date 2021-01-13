@@ -237,6 +237,17 @@ class Box extends Widget
                 ]
             ];
         }
+        if (!isset($this->buttons['minimize'])) {
+            $this->buttons['minimize'] = [
+                'url' => Url::current(['#']),
+                'icon' => 'fa-minus',
+                'options' => [
+                    'class' => 'btn-default',
+                    'data-widget' => 'collapse',
+                    'title' => Yii::t('vova07/themes/admin/widgets/box', 'MINIMIZE')
+                ]
+            ];
+        }
 
 
     }

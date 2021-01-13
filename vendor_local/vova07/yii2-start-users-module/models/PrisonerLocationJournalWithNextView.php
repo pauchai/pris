@@ -25,6 +25,7 @@ use vova07\users\models\Prisoner;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
+use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -51,6 +52,6 @@ class PrisonerLocationJournalWithNextView extends  PrisonerLocationJournal
 
     public static function find()
     {
-        return new PrisonerLocationJournalViewQuery(get_called_class());
+        return new PrisonerLocationJournalWithNextViewQuery(get_called_class());
     }
 }

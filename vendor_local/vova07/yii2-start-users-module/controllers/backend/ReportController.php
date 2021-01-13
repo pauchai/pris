@@ -7,9 +7,12 @@ use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
+use vova07\users\models\Prisoner;
+use vova07\users\models\PrisonerLocationJournal;
 use vova07\users\models\PrisonerLocationJournalQuery;
 use vova07\users\models\PrisonerLocationJournalView;
 use vova07\users\models\PrisonerLocationJournalWithNextView;
+use vova07\users\models\PrisonerView;
 use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
@@ -32,7 +35,7 @@ class ReportController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['prisoners', 'location-journal'],
+                'actions' => ['prisoners', 'location-journal', 'location-journal-init-for-current-year'],
                 'roles' => ['@']
             ]
         ];
@@ -59,14 +62,32 @@ class ReportController extends BackendController
 
         $searchModel = new PrisonerLocationJournalWithNextViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        $prisonerDataProvider = new ActiveDataProvider();
+        $prisonerDataProvider->query = Prisoner::find()->joinWith('person')->orderBy('person.second_name asc');
+        $prisonerDataProvider->pagination = false;
+        if ($searchModel->sector_id){
+            $prisonerDataProvider->query->notDeleted()->andWhere(['sector_id' => $searchModel->sector_id]);
+        } else {
+            $prisonerDataProvider->query->where(0);
+        }
+
+
 
 
 
         $dataProvider->pagination = false;
+        \Yii::$app->user->setReturnUrl(\Yii::$app->request->getAbsoluteUrl());
 
-        return $this->render('location_journal', ['dataProvider' => $dataProvider,'searchModel' => $searchModel]);
+        return $this->render('location_journal', ['dataProvider' => $dataProvider,'searchModel' => $searchModel, 'prisonerDataProvider' => $prisonerDataProvider]);
     }
 
-
+    public function actionLocationJournalInitForCurrentYear()
+    {
+        if (\Yii::$app->request->isPost)
+        {
+            PrisonerLocationJournal::initForCurrentYear();
+        }
+        return $this->goBack();
+    }
 
 }
