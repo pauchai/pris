@@ -1,6 +1,7 @@
 <?php
 namespace vova07\users\models\backend;
 use vova07\prisons\models\Sector;
+use vova07\users\models\Prisoner;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\users\models\PrisonerLocationJournalWithNextView;
 use yii\data\ActiveDataProvider;
@@ -31,7 +32,7 @@ class PrisonerLocationJournalWithNextViewSearch extends PrisonerLocationJournalW
 
     public function search($params)
     {
-        $query = self::find()->orderBy(PrisonerLocationJournalWithNextView::tableName().'.sector_id ASC' );
+        $query = self::find()->andWhere(['status_id' => Prisoner::STATUS_ACTIVE])->orderBy(PrisonerLocationJournalWithNextView::tableName().'.sector_id ASC' );
         $query->joinWith('person');
 
         $dataProvider = new \yii\data\ActiveDataProvider([

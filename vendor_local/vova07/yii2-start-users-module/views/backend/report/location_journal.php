@@ -62,12 +62,14 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
         'prisoner.term_udo',
         'prisoner.takenSpeciality',
         'at:date',
+        'status',
+        //'sector.title',
         'next.at:date',
         [
             'attribute' => 'next.sector.title',
             'content' => function($model){
                 $ret = \yii\helpers\ArrayHelper::getValue($model,'next.sector.title') ;
-                $ret .= \yii\helpers\ArrayHelper::getValue($model,'next.status');
+                $ret .= '(' . \yii\helpers\ArrayHelper::getValue($model,'next.status') .')';
                 return $ret;
             }
         ]

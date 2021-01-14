@@ -66,7 +66,7 @@ class ReportController extends BackendController
         $prisonerDataProvider->query = Prisoner::find()->joinWith('person')->orderBy('person.second_name asc');
         $prisonerDataProvider->pagination = false;
         if ($searchModel->sector_id){
-            $prisonerDataProvider->query->notDeleted()->andWhere(['sector_id' => $searchModel->sector_id]);
+            $prisonerDataProvider->query->active()->andWhere(['sector_id' => $searchModel->sector_id]);
         } else {
             $prisonerDataProvider->query->where(0);
         }

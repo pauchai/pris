@@ -180,16 +180,23 @@ $balanceRemain  = $model->getBalances()->debit()->sum('amount') - $model->getBal
         'person.fio',
         'person.birth_year',
         'person.address',
+        'person.nationality',
+        'person.education',
+        'person.speciality',
+        'criminal_records',
         'article',
         'termStartJui',
         'termFinishJui',
+        'termFinishOriginJui',
         'term',
         'termUdoJui',
-        'calculatedUDO',
+      //  'calculatedUDO',
         'prison.company.title',
         'sector.title',
         'cell.number',
-        'prisonerSecurity.type'
+        'prisonerSecurity.type',
+
+
 
 
     ]

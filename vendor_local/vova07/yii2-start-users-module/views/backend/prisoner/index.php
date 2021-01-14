@@ -320,7 +320,7 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 
                 $content = Html::tag('span', $value, array_merge($style, ['style' => 'font-size:100%']));
-                $content .= Html::tag('span','(' . $model->calculatedUDO . ')', array_merge($style, ['style' => 'font-size:100%']));
+              ///  $content .= Html::tag('span','(' . $model->calculatedUDO . ')', array_merge($style, ['style' => 'font-size:100%']));
 
                 return $content;
             },

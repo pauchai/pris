@@ -13,6 +13,7 @@ namespace vova07\users\models;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsTrait;
 use vova07\base\components\DateConvertJuiBehavior;
+use vova07\base\components\DateTermDurationBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
@@ -75,6 +76,7 @@ class Prisoner extends  OwnableItem
     const UDO2_3 = 2 / 3;
     const UDO1_2 = 1 / 2;
 
+
     // public $termStartJui;
     // public $termFinishJui;
     //  public $termUdoJui;
@@ -99,8 +101,7 @@ class Prisoner extends  OwnableItem
         return [
             [['__person_id', 'prison_id'], 'required'],
             [['article'], 'string'],
-            [['termStartJui', 'termFinishJui', 'termUdoJui', 'termFinishOriginJui'], 'date'],
-            [['termFinishOrigin'], 'string'],
+            [['termStartJui', 'termFinishJui', 'termUdoJui'], 'date'],
             [['status_id', 'sector_id', 'cell_id'], 'safe'],
             [['criminal_records'], 'integer'],
             //DateValidator::
@@ -192,6 +193,12 @@ class Prisoner extends  OwnableItem
                 'attribute' => 'term_finish_origin',
                 'juiAttribute' => 'termFinishOriginJui'
             ],
+//            'termFinishOriginDuration' => [
+//                'class' => DateTermDurationBehavior::className(),
+//                'attributeTermStart' => 'term_start',
+//                'attributeTermFinish' => 'term_finish_origin',
+//                'durationAttribute' => 'termFinishOriginDuration'
+//            ],
         ]);
         return $behaviors;
 

@@ -75,20 +75,17 @@ use vova07\prisons\Module;
     </div>
 </div>
 <div class="row">
-    <div class = 'col-md-3'>
+    <div class = 'col-md-4'>
         <?=$form->field($model,'termStartJui')->widget(\kartik\widgets\DatePicker::className())?>
     </div>
-    <div class = 'col-md-3'>
+    <div class = 'col-md-4'>
         <?=$form->field($model,'termUdoJui')->widget(\kartik\widgets\DatePicker::className())?>
     </div>
-    <div class = 'col-md-3'>
+    <div class = 'col-md-4'>
         <?=$form->field($model,'termFinishJui')->widget(\kartik\widgets\DatePicker::className())?>
         <?=$model->term?>
     </div>
-    <div class = 'col-md-3'>
-        <?=$form->field($model,'termFinishOriginJui')->widget(\kartik\widgets\DatePicker::className())?>
 
-    </div>
 </div>
 
 <div class="row">
