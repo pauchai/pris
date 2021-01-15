@@ -21,6 +21,7 @@ use vova07\prisons\models\Cell;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Prisoner;
+use vova07\users\Module;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\BaseActiveRecord;
@@ -128,7 +129,14 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
     {
         return ArrayHelper::getValue(Prisoner::getStatusesForCombo(),$this->status_id);
     }
+    public function attributeLabels()
+    {
+        return [
 
+            'criminal_records' => Module::t('labels', 'PRISONER_CRIMINAL_RECORDS_LABEL'),
+
+        ];
+    }
 
 
 }

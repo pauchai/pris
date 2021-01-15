@@ -370,6 +370,8 @@ class Prisoner extends  OwnableItem
             'fullTitle' => Module::t('labels', 'FULL_TITLE_LABEL'),
             'status' => Module::t('labels', 'PRISONER_STATUS_LABEL'),
             'criminal_records' => Module::t('labels', 'PRISONER_CRIMINAL_RECORDS_LABEL'),
+            'takenSpeciality' => Module::t('labels', 'PRISONER_TAKEN_SPECIALITY_LABEL'),
+
             'term' => Module::t('labels', 'PRISONER_TERM_LABEL'),
 
 

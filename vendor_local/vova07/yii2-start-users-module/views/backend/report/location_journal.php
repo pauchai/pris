@@ -57,9 +57,16 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
         'prisoner.person.address',
         'prisoner.criminal_records',
         'prisoner.article',
-        'prisoner.term_finish_origin',
-        'prisoner.term_finish',
-        'prisoner.term_udo',
+        //'prisoner.term_finish_origin',
+        [
+            'attribute' => 'prisoner.term_finish',
+            'content' => function($model){return
+                    \yii\helpers\ArrayHelper::getValue($model, 'prisoner.termFinishJui')
+                . ' (' . \yii\helpers\ArrayHelper::getValue($model, 'prisoner.term').')'
+                ;}
+        ]
+        ,
+        'prisoner.termUdoJui',
         'prisoner.takenSpeciality',
         'at:date',
         'status',
@@ -116,9 +123,14 @@ $this->params['subtitle'] = Module::t("default","PRISONERS_LOCATION_JOURNAL {0}"
         'person.address',
         'criminal_records',
         'article',
-        'term_finish_origin',
-        'term_finish',
-        'term_udo',
+        [
+          'attribute' =>   'termFinishJui',
+            'content' => function($model){
+                return \yii\helpers\ArrayHelper::getValue($model, 'termFinishJui')
+                    . ' (' . \yii\helpers\ArrayHelper::getValue($model, 'term'). ')';
+            }
+        ],
+        'termUdoJui',
         'takenSpeciality',
 
 
