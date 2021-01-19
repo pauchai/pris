@@ -260,7 +260,7 @@ use vova07\site\Module;
 
 
 
-
+//
 //                    ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
 //                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
 //                        'items' => [
@@ -290,34 +290,33 @@ use vova07\site\Module;
 //                        ]
 //                    ],
 
-//                    [
-//                        'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
-//                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
-//                        'items' => [
-//                            ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-//
-//                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-//                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-//
-//                            ['label' => Module::t('menu','OFFICER_POSTS_EXTENDED_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/officer-posts'],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-//
-//
-//                            ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
-//
-//
-//                            ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
-//                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
-//                            ]
-//
-//
-//
-//                        ]
-//                    ],
+                    [
+                        'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
+                        'items' => [
+                            ['label' => Module::t('menu','POST_ISOS_LIST'),'icon' => 'circle','url'=>['/prisons/post-isos/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+                            ['label' => Module::t('menu','POST_DICT_LIST'),'icon' => 'circle','url'=>['/prisons/post-dicts/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+                            ['label' => Module::t('menu','OFFICER_POSTS_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+                            ['label' => Module::t('menu','OFFICER_POSTS_EXTENDED_LIST'),'icon' => 'circle','url'=>['/prisons/officer-posts/officer-posts'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
+                            ['label' => Module::t('menu','RANKS_LIST'),'icon' => 'circle','url'=>['/prisons/ranks/index'],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)],
+
+
+                            ['label' => Module::t('menu','DIVISIONS_AND_POSS'),'icon' => 'circle','url'=>['/prisons/divisions/index', 'DivisionSearch' => ['company_id' => Yii::$app->base->company->primaryKey]],
+                                'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_ADMINISTRATE_RBAC)
+                            ]
+
+
+                        ]
+                    ],
 
 
 
