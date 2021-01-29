@@ -290,6 +290,7 @@ use vova07\site\Module;
 //                        ]
 //                    ],
 
+
                     [
                         'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),

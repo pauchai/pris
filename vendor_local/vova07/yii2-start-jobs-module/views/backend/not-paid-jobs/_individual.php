@@ -30,6 +30,17 @@ CSS
 
         </td>
         <td width="50%">
+            <table><tr>
+                    <td width="40%">
+
+                    </td>
+                    <td width="60%">
+                        <p >
+                            Anexă la Programul informativ privind modul şi condiţiile de încadrare în câmpul muncii a persoanelor private de libertate
+                        </p>
+                    </td></tr></table>
+
+            <br><br>
             <p style="text-align: center;font-size:120%">
                 "APROB"
             </p>
@@ -45,18 +56,16 @@ CSS
     </tr>
 </table>
 <br/>
-<br/>
 
 
-<p  style="text-align:center;" ><u><b>TABELUL</b></u></p>
-<p style="text-align:center;line-height:50%" >de evidenţa a orelor neremunerate a condamnatului</p>
+<p  style="text-align:center;" ><b>Certificat</b></p>
+<p style="text-align:center;line-height:50%" >privind evidenţa orelor de muncă neremunerată a persoanei private de libertate ce se deţine în Penitenciarul nr.1 - Taraclia</p>
+
 <p style="text-align:center;line-height:50%" >
-    <span ><b> <?=$model->prisoner->fullTitle?></b></span>
-</p>
-<p style="text-align:center;line-height:50%" >
-    pe luna <i><u><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . $model->month_no)?></u></i>
+    pentru luna <i><u><?php echo \vova07\site\Module::t('calendar', 'MONTH_' . $model->month_no)?></u></i>
     <?=$model->year?>
 </p>
+<p style="text-align:center;line-height:50%" ><b><?=$model->prisoner->fullTitle?></b></p>
 
 <?php
 
@@ -84,8 +93,9 @@ CSS
             'showSyncButton' => false,
             'enableControlls' => false,
             'summary' => false,
+
             'columns' => [
-            //    'prisoner.person.fio',
+                //'prisoner.fullTitle',
             ]
 
         ])
@@ -105,31 +115,13 @@ CSS
 </table>-->
 
 
-<p ><b><?=$officer->post->title?></b></p>
+<p ><b><u>Întocmit</u></b>:<?=$officer->post->title?> <?=$officer->rank->title?> _________________  <?=$officer->person->fio?></p>
 
-<table>
-    <tr>
-        <td style="text-align:right"><?=$officer->rank->title?> /</td>
-        <td>_________________</td>
-        <td style="text-align:left">/ <?=$officer->person->fio?></td>
-    </tr>
-</table>
-<p >«___»____________<?=date('Y')?>
-</p>
-
-<br/>
-<p >
-    Cu tabelul am luat cunoştinţă la data de «___» ___________<?=date('Y')?>
-</p>
-<br/>
-<div style="width:50%" ">
-
-<span class="field" style="width:100%"></span>
-<p style="text-align: center">(semnătura condamnatului)</p>
-</div>
-
-<p>
-  <span style=" font-weight: bolder"> Notă:</span>  <span class="field" style="width:100%; "> <i> <?=$model->type->title?></i></span>
-</p>
+<p><b><u>Coordonat</u></b>:</p>
+<p><b>Şef al SRS</b> _______________________________________________________________________________________</p>
+<p><b>Şef al SL</b> ________________________________________________________________________________________</p>
+<p><b>Şef al SSRP</b> ______________________________________________________________________________________</p>
+<br>
+<p><b>Am făcut cunoştinţă</b>:______________________________________________________________________________</p>
 
 <div style="page-break-after: always"></div>
