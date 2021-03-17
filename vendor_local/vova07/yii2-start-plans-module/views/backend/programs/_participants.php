@@ -112,11 +112,16 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 $gridColumns[] = [
         'visible' => !$this->context->isPrintVersion,
         'class' => \yii\grid\ActionColumn::class,
-        'template' => '{visits}{view}{delete}',
+        'template' => '{visits}{update}{view}{delete}',
         'buttons' => [
             'view' => function ($url, $model, $key) {
                 $url1 = ['/plans/program-prisoners/view', 'id' => $model->primaryKey];
                 return Html::a('', $url1, ['class' => 'fa fa-eye']);
+                //return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
+            },
+            'update' => function ($url, $model, $key) {
+                $url1 = ['/plans/program-prisoners/update', 'id' => $model->primaryKey];
+                return Html::a('', $url1, ['class' => 'glyphicon glyphicon-pencil']);
                 //return  Html::a('', ['/plans/program-prisoners/delete','id'=>$model->primaryKey], ['class' => 'fa fa-trash']);
             },
             'visits' => function ($url, $model, $key) {
