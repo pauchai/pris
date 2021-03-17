@@ -118,15 +118,16 @@ $this->params['breadcrumbs'] = [
              ],
 
             [
+                    'attribute' => 'price',
                 'hAlign' => GridView::ALIGN_CENTER,
                 'header' => Module::t('labels','PRICE_ACCOUNTING_VALUE'),
                 'pageSummary' => true,
                 'pageSummaryFunc' => GridView::F_SUM,
-                'value' => function($model){
-                    $ret = $model->getPrice();
-                    //return  Yii::$app->formatter->asDecimal($ret,2);
-                    return round($ret, 2);
-                }
+                //'value' => function($model){
+                //    $ret = $model->getPrice();
+                //    //return  Yii::$app->formatter->asDecimal($ret,2);
+                //    return round($ret, 2);
+               // }
             ],
             [
                 'hAlign' => GridView::ALIGN_CENTER,
@@ -231,6 +232,7 @@ $this->params['breadcrumbs'] = [
     ?>
     <?=Html::dropDownList('status_id',null, \vova07\electricity\models\DeviceAccounting::getStatusesForCombo(), ['prompt' => Module::t('default','SELECT_STATUS_PROMPT'),'class' => 'no-print'])?>
     <?= Html::submitButton(Module::t('default', Module::t('default','CHANGE_STATUS')), ['name' => 'change_status','class' => 'btn btn-primary no-print']) ?>
+    <?= Html::submitButton(Module::t('default', Module::t('default','CALCULATE_PRICES')), ['name' => 'calculate_prices','class' => 'btn btn-primary no-print']) ?>
     <?= Html::submitButton(Module::t('default', Module::t('default','DELETE')), ['name' => 'mass_delete','class' => 'btn btn-danger no-print']) ?>
     <?php ActiveForm::end()?>
 

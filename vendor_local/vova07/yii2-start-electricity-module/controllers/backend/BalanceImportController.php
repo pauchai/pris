@@ -181,7 +181,7 @@ class BalanceImportController extends BackendController
 
             $this->redirect(['view', 'id' => $model->primaryKey]);
         }
-        if ($model->getBalances()->sum('amount') >= $model->getPrice())
+        if ($model->getBalances()->sum('amount') >= $model->price)
         {
             $model->status_id = DeviceAccounting::STATUS_PROCESSED;
             $model->save();

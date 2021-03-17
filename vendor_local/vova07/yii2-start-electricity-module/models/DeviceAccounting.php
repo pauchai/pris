@@ -92,6 +92,7 @@ class DeviceAccounting extends  Ownableitem
                 'from_date' => $migration->bigInteger()->notNull(),
                 'to_date' => $migration->bigInteger()->notNull(),
                 'value' => $migration->double('4,2')->notNull(),
+                'price' => $migration->double('4,2'),
                 'status_id' => $migration->tinyInteger()->notNull(),
                // 'balance_id' => $migration->integer(),
 
@@ -135,6 +136,17 @@ class DeviceAccounting extends  Ownableitem
                     ],
                     'value' => function ($event) {
                         return $event->sender->autoCalculation();
+
+                    },
+                ],
+                'savePrice' => [
+                    'class' => AttributeBehavior::class,
+                    'attributes' => [
+                         \yii\db\ActiveRecord::EVENT_AFTER_VALIDATE => 'price',
+                         //\yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'price',
+                    ],
+                    'value' => function ($event) {
+                        return $event->sender->calculatePrice();
 
                     },
                 ],
@@ -203,7 +215,7 @@ class DeviceAccounting extends  Ownableitem
     }
     public function getUnPaid()
     {
-        return $this->getPrice() - $this->getBalances()->sum('amount');
+        return $this->price - $this->getBalances()->sum('amount');
     }
     public function getDeviceAccountingBalances()
     {
@@ -278,7 +290,7 @@ class DeviceAccounting extends  Ownableitem
         }
     }
 
-    public function getPrice()
+    public function calculatePrice()
     {
         return $this->value * \vova07\site\models\Setting::getValue(\vova07\site\models\Setting::SETTING_FIELD_ELECTRICITY_KILO_WATT_PRICE);
     }

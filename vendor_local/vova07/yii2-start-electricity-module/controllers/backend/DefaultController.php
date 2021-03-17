@@ -196,6 +196,16 @@ class DefaultController extends BackendController
                     $deviceAccounting->delete();
 
                 }            }
+            elseif (!is_null(\Yii::$app->request->post('calculate_prices'))) {
+                $selectedIds = \Yii::$app->request->post('selection');
+                $query = DeviceAccounting::find()->andWhere(['in', DeviceAccounting::primaryKey(), $selectedIds]);
+                $models = $query->all();
+                foreach ($models as $deviceAccounting)
+                {
+                    $deviceAccounting->save();
+
+                }
+            }
 
 
 
