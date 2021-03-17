@@ -176,7 +176,7 @@ class Prisoner extends  OwnableItem
                 'class' => DateConvertJuiBehavior::className(),
                 'attribute' => 'term_start',
                 'juiAttribute' => 'termStartJui',
-                'preserveNonEmptyValues' => true
+              //  'preserveNonEmptyValues' => true
             ],
             'termFinishJui' => [
                 'class' => DateConvertJuiBehavior::className(),
