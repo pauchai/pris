@@ -20,7 +20,8 @@ use vova07\electricity\models\DeviceAccounting;
             <b><?=Module::t('default','KWT_LABEL')?>: </b><?=Html::tag('span', $deviceAccounting->value )?>
         </td>
         <td style="padding:5px;">
-            <b><?=Module::t('default','SUM_LABEL')?>:</b> <?=Html::tag('span', $deviceAccounting->price , $sumHtmlOptions )?>
+            <b><?=Module::t('default','SUM_LABEL')?>:</b> <?=Html::a( $deviceAccounting->price , ['/electricity/balance-import/view', 'id' => $deviceAccounting->primaryKey], $sumHtmlOptions )?>
+
         </td>
     </tr>
 </table>
