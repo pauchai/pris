@@ -101,7 +101,7 @@ class BalanceImportController extends BackendController
             {
                 $groupedSum = 0;
                 foreach ($prisonerDeviceAccountings as $deviceAccounting){
-                    $groupedSum += $deviceAccounting->getPrice();
+                    $groupedSum += $deviceAccounting->price;
                 }
                 $balance = new Balance();
                 $balance->type_id = Balance::TYPE_CREDIT;

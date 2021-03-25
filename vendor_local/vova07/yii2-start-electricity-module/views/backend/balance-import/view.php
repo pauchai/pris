@@ -33,7 +33,7 @@ $this->params['breadcrumbs'] = [
         [
             'label' =>  Module::t('default','TO_PAY_LABEL'),
             'value' => function($model){
-                return $model->getPrice();
+                return $model->price;
             }
         ],
         [
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'] = [
         [
             'label' => Module::t('default','REMAIN_LABEL'),
             'value' => function($model){
-                return $model->getPrice() - $model->getBalances()->sum('amount');
+                return $model->price - $model->getBalances()->sum('amount');
             }
         ],
         [

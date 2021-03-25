@@ -9,8 +9,8 @@ use vova07\electricity\models\DeviceAccounting;
 class m210316_085136_dbAddDeviceAccountingPriceColumn extends Migration
 {
 
-    const PRICE_KILOWATT_HOUR_OLD = 1.7;
-    const PRICE_KILOWATT_HOUR_NEW = 1.75;
+    const PRICE_KILOWATT_HOUR_OLD = 1.92;
+    const PRICE_KILOWATT_HOUR_NEW = 1.70;
     const DATE_LIMIT = '2020-08-01';
     /**
      * {@inheritdoc}
