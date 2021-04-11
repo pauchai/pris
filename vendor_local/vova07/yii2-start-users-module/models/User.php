@@ -154,9 +154,10 @@ class User extends  Ownableitem implements IdentityInterface
     }
     public function getPerson()
     {
-        $column = self::primaryKey()[0];
-        $refColumn = Person::primaryKey()[0];
-        return $this->hasOne(Person::class,[$column => $refColumn]);
+        //$column = self::primaryKey()[0];
+        //$refColumn = Person::primaryKey()[0];
+        return $this->getIdent()->one()->getPerson();
+        //return $this->hasOne(Person::class,[$column => $refColumn]);
     }
     public static function getStatusesForCombo()
     {

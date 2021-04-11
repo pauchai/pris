@@ -306,7 +306,7 @@ class ReportSummarizedSearch extends Model
         $query = (new Query())
             ->from(JobNormalizedViewDays::tableName() . ' j')
             ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = j.prisoner_id')
-            ->leftJoin(Person::tableName() .' p', 'pr.__person_id = p.__ident_id');
+            ->leftJoin(Person::tableName() .' p', 'pr.__person_id = p.__ownableitem_id');
 
 
         if ($this->from)

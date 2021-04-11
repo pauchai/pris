@@ -13,6 +13,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Item;
 use yii\base\NotSupportedException;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\web\IdentityInterface;
 
@@ -30,9 +31,11 @@ class Ident extends Item implements IdentityInterface
     }
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(Item::class) => Schema::TYPE_PK . ' ',
+                'person_id' => $migration->integer(),
                 'status_id' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT ' . self::STATUS_ACTIVE ,
 
             ],
@@ -40,7 +43,9 @@ class Ident extends Item implements IdentityInterface
                 [self::class, 'status_id'],
             ],
 
-
+            'foreignKeys' => [
+                [get_called_class(), 'person_id',Person::class,Person::primaryKey()[0]]
+            ],
         ];
         return $metadata;
 
@@ -111,7 +116,7 @@ class Ident extends Item implements IdentityInterface
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class,['__ident_id'=>'__item_id']);
+        return $this->hasOne(Person::class,['__ownableitem_id'=>'person_id']);
     }
     public function getUser()
     {

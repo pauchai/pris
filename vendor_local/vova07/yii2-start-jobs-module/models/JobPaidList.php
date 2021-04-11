@@ -136,7 +136,7 @@ class JobPaidList extends  Ownableitem
     }
     public function getPerson()
     {
-        return $this->hasOne(Person::class,['__ident_id' => 'assigned_to']);
+        return $this->hasOne(Person::class,['__ownableitem_id' => 'assigned_to']);
     }
     public function getAssignedTo()
     {

@@ -56,7 +56,7 @@ class ReportHelper
             "__person_id" => Document::find()->select("person_id")->distinct()->andWhere(
                 [
                     'type_id'=>$availableDocuments,
-                    'person_id' => $localsPeopleQuery->select(['__ident_id']),
+                    'person_id' => $localsPeopleQuery->select(['__ownableitem_id']),
                 ]
 
 
@@ -68,9 +68,9 @@ class ReportHelper
     static public function getPrisonersWithForeignersAndStatLessQuery()
     {
         return Prisoner::find()->orWhere([
-            '__person_id' => Person::find()->select('__ident_id')->stateless()
+            '__person_id' => Person::find()->select('__ownableitem_id')->stateless()
         ])->orWhere([
-            '__person_id' => Person::find()->select('__ident_id')->foreigners()
+            '__person_id' => Person::find()->select('__ownableitem_id')->foreigners()
 
         ]);
     }

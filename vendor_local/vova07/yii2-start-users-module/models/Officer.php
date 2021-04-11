@@ -135,7 +135,7 @@ class Officer extends  OwnableItem
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class, ['__ident_id' => '__person_id']);
+        return $this->hasOne(Person::class, ['__ownableitem_id' => '__person_id']);
     }
 
     public function getOwnableitem()
@@ -160,7 +160,7 @@ class Officer extends  OwnableItem
 
     public function getUser()
     {
-        return $this->hasOne(User::class, ['__ident_id' => '__person_id']);
+       return $this->ident->getUser();
     }
 
     public static function getListForCombo()

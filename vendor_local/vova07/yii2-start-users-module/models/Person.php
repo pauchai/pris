@@ -59,7 +59,7 @@ class Person extends  Ownableitem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                Helper::getRelatedModelIdFieldName(Ident::class) => Schema::TYPE_PK . ' ',
+                Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'first_name' => Schema::TYPE_STRING . ' NOT NULL',
                 'second_name' => Schema::TYPE_STRING . ' NOT NULL',
                 'patronymic' => Schema::TYPE_STRING . ' ',
@@ -82,7 +82,7 @@ class Person extends  Ownableitem
                 [get_called_class(), 'citizen_id',Country::className(),'id']
             ],
             'dependsOn' => [
-                Ident::class
+
             ]
 
 
@@ -96,7 +96,6 @@ class Person extends  Ownableitem
                 'class' => SaveRelationsBehavior::class,
                 'relations' => [
                     'ownableitem',
-                    'ident',
                     'country'
                 ],
             ]
@@ -111,7 +110,7 @@ class Person extends  Ownableitem
 
     public function getIdent()
     {
-        return $this->hasOne(Ident::class,['__item_id' => "__ident_id" ]);
+        return $this->hasOne(Ident::class,['person_id' => "__ownableitem_id" ]);
     }
     public function getOwnableitem()
     {
@@ -141,7 +140,7 @@ class Person extends  Ownableitem
     public static function getListForCombo()
     {
         //return ArrayHelper::map(self::find()->asArray()->all(),'__ident_id','first_name');
-        return ArrayHelper::map(self::find()->select(['__ident_id','fio'=>'CONCAT(second_name, " ", first_name," " , patronymic)' ])->asArray()->all(),'__ident_id','fio');
+        return ArrayHelper::map(self::find()->select(['__ownableitem_id','fio'=>'CONCAT(second_name, " ", first_name," " , patronymic)' ])->asArray()->all(),'__ownableitem_id','fio');
     }
 
     /**
@@ -149,7 +148,7 @@ class Person extends  Ownableitem
      */
     public function getDocuments()
     {
-        return $this->hasMany(Document::class,['person_id' => '__ident_id']);
+        return $this->hasMany(Document::class,['person_id' => '__ownableitem_id']);
     }
     public function getIdentDoc()
     {
@@ -163,11 +162,11 @@ class Person extends  Ownableitem
 
     public function getOfficer()
     {
-        return $this->hasOne(Officer::class,['__person_id'=>'__ident_id']);
+        return $this->hasOne(Officer::class,['__person_id'=>'__ownableitem_id']);
     }
     public function getPrisoner()
     {
-        return $this->hasOne(Prisoner::class,['__person_id'=>'__ident_id']);
+        return $this->hasOne(Prisoner::class,['__person_id'=>'__ownableitem_id']);
     }
     public function attributeLabels()
     {

@@ -228,7 +228,7 @@ class Document extends  Ownableitem
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class, ['__ident_id'=>'person_id']);
+        return $this->hasOne(Person::class, ['__ownableitem_id'=>'person_id']);
     }
 
     public function getPrisoner()

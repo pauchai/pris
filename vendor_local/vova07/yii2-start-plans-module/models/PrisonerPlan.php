@@ -142,7 +142,7 @@ class PrisonerPlan extends  Ownableitem
     }
     public function getPerson()
     {
-        return $this->hasOne(Person::class,['__ident_id' => '__prisoner_id']);
+        return $this->hasOne(Person::class,['__ownableitem_id' => '__prisoner_id']);
     }
 
     /**

@@ -56,7 +56,7 @@ class JobsGeneralListView extends  ActiveRecord
     }
     public function getPerson()
     {
-        return $this->hasOne(Person::class, ['__ident_id'=>'prisoner_id']);
+        return $this->hasOne(Person::class, ['__ownableitem_id'=>'prisoner_id']);
     }
     public function getPrisoner()
     {
