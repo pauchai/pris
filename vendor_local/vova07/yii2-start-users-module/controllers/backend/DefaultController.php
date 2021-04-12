@@ -4,6 +4,7 @@ use vova07\base\components\BackendController;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
+use vova07\users\models\Person;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -23,7 +24,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update','change-password'],
+                'actions' => ['index','create', 'create-for-person', 'view','delete','update','change-password'],
                 'roles' => ['@']
             ]
         ];
@@ -38,12 +39,42 @@ class DefaultController extends BackendController
         return $this->render("index", ['dataProvider'=>$dataProvider]);
     }
 
-    public function actionCreate($__ident_id)
+    public function actionCreate()
     {
 
         $model = new User();
+
         $model->setScenario(User::SCENARIO_BACKEND_CREATE);
-        $model->ident = Ident::findOne($__ident_id);
+
+        $model->ident = new Ident();
+
+
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate() && $model->save()){
+                return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+            }
+        }
+
+        return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+
+    public function actionCreateForPerson($person_id)
+    {
+
+        $model = new User();
+
+
+       $person = Person::findOne($person_id);
+         if ($ident=Ident::findOne($person_id))
+             $model->ident = $ident;
+         else
+             $model->ident = new Ident(['person_id' => $person->primaryKey]);
+
+
+
+        $model->setScenario(User::SCENARIO_BACKEND_CREATE);
+
         //$model->ident = new Ident();
 
 
@@ -56,6 +87,8 @@ class DefaultController extends BackendController
 
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
     }
+
+
 
     public function actionView($id)
     {

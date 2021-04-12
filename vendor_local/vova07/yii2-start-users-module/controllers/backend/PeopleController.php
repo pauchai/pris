@@ -64,7 +64,7 @@ class PeopleController extends BackendController
     public function actionCreate()
     {
         $model = new Person();
-        $model->ident = new Ident();
+        //$model->ident = new Ident();
 
 
         if (\Yii::$app->request->post()){

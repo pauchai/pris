@@ -91,6 +91,6 @@ $urlParams['OfficerPostSearch'] = [
 
 
 <?php else:?>
-    <a href="<?=\yii\helpers\Url::to(['default/create','__ident_id'=>$model->getPrimaryKey()])?>" type="button" class="btn btn-default btn-block"><?=Module::t('default','CREATE_AUTH_USER')?></a>
+    <a href="<?=\yii\helpers\Url::to(['default/create-for-person','person_id'=>$model->getPrimaryKey()])?>" type="button" class="btn btn-default btn-block"><?=Module::t('default','CREATE_AUTH_USER')?></a>
 <?php endif;?>
 <?php Box::end();?>

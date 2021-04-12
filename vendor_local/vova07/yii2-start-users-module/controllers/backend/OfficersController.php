@@ -60,7 +60,7 @@ class OfficersController extends BackendController
 
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
-            $model->person->ident = new Ident();
+          //  $model->person->ident = new Ident();
            // $model->loadRelations(\Yii::$app->request->post());
          //   $validatedModel = $model->validate();
             if ( $model->save()){
@@ -73,7 +73,7 @@ class OfficersController extends BackendController
             }
         } else {
             $model->person = new Person;
-            $model->person->ident = new Ident();
+           // $model->person->ident = new Ident();
         }
 
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);

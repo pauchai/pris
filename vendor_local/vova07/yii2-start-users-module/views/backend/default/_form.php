@@ -13,6 +13,8 @@ use vova07\users\Module;
 
 <?php $form = ActiveForm::begin()?>
 
+
+
 <?=$form->field($model,'username')?>
 <?=$form->field($model,'email')?>
 <?php if ($model->isNewRecord === true):?>

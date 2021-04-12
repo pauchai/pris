@@ -158,9 +158,17 @@ class Officer extends  OwnableItem
         return $this->hasOne(Division::class, ['company_id' => 'company_id', 'division_id' => 'division_id']);
     }
 
+    public function getIdent()
+    {
+        return $this->hasOne(Ident::class,['person_id' => "__person_id" ]);
+
+    }
     public function getUser()
     {
-       return $this->ident->getUser();
+        if ($this->ident)
+            return $this->ident->user;
+        else
+            return null;
     }
 
     public static function getListForCombo()
