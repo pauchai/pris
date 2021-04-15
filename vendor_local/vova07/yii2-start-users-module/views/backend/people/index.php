@@ -31,6 +31,9 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'fio',
+        'birth_year',
+        'country.iso',
+
         ['class' => yii\grid\ActionColumn::class]
     ]
 ])?>
