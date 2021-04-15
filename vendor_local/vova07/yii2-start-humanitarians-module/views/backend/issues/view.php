@@ -55,6 +55,7 @@ $this->params['breadcrumbs'] = [
     'model' => $model,
     'attributes' => [
         'dateIssueJui',
+        'company.title'
 
 
     ]

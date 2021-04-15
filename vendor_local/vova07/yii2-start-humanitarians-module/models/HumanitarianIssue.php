@@ -14,6 +14,7 @@ use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Ownableitem;
 use vova07\humanitarians\Module;
+use vova07\prisons\models\Company;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -31,7 +32,7 @@ class HumanitarianIssue extends  Ownableitem
     {
         return [
             [['dateIssueJui'], 'date','format'=>Module::getInstance()->dateFormat],
-            [['items'],'safe'],
+            [['items', 'company_id'],'safe'],
         ];
 
 
@@ -49,10 +50,13 @@ class HumanitarianIssue extends  Ownableitem
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'date_issue' => $migration->bigInteger()->notNull(),
                 'items' => $migration->json(),
+                'company_id' => $migration->integer(),
             ],
-            'indexes' => [
-                [self::class, 'date_issue'],
+            'foreignKeys' => [
+                [self::class, 'company_id', Company::class, Company::primaryKey()],
+
             ],
+
 
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging());
@@ -94,6 +98,10 @@ class HumanitarianIssue extends  Ownableitem
     public function getOwnableitem()
     {
         return $this->hasOne(Ownableitem::class, ['__item_id' => '__ownableitem_id']);
+    }
+    public function getCompany()
+    {
+        return $this->hasOne(Company::class, ['__ownableitem_id' => 'company_id']);
     }
 
     public function getItems()

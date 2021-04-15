@@ -7,11 +7,12 @@
  * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
-use vova07\humanitarians\Module;
-use vova07\themes\adminlte2\widgets\Box;
+use vova07\socio\Module;
+use kartik\grid\GridView;
+use kartik\grid\ActionColumn;
 
-$this->title = Module::t("default","HUMANITARIAN_ISSUES");
-$this->params['subtitle'] = 'LIST';
+//$this->title = Module::t("default","EVENTS_TITLE");
+$this->params['subtitle'] = Module::t("default","DISABILITY_TITLE");
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -21,7 +22,8 @@ $this->params['breadcrumbs'] = [
 ];
 ?>
 
-<?php $box = Box::begin(
+
+<?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
         'buttonsTemplate' => '{create}'
@@ -29,17 +31,23 @@ $this->params['breadcrumbs'] = [
 
 );?>
 
-<?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+<?php echo GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
-        'dateIssueJui',
-        'company.title',
+        'person.fio',
+        'group.title',
+        
+
+
+
         [
-            'class' => yii\grid\ActionColumn::class,
+            'class' => ActionColumn::class,
 
         ]
     ]
 ])?>
 
 
-<?php  Box::end()?>
+<?php  \vova07\themes\adminlte2\widgets\Box::end()?>
