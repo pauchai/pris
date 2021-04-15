@@ -96,6 +96,9 @@ return [
         'reports' => [
             'appContext' => 'backend'
         ],
+        'socio' => [
+            'appContext' => 'backend'
+        ],
 
 
 

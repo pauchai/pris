@@ -289,7 +289,25 @@ use vova07\site\Module;
 //
 //                        ]
 //                    ],
+                    ['label' =>  Module::t('menu', 'SOCIO_MENU'),'icon' => 'cube','url' => '#',
+                        //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+                        'items' => [
 
+                            ['label' => Module::t('menu','SOCIO_DASHBOARD'),'icon' => 'circle','url'=>['/socio/default/index'],
+                                //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+
+                            ],
+                            ['label' => Module::t('menu','SOCIO_RELATIONS'),'icon' => 'circle','url'=>['/socio/relation/index'],
+                                //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+
+                            ],
+                            ['label' => Module::t('menu','SOCIO_MARITAL_STATUS'),'icon' => 'circle','url'=>['/socio/marital-status/index'],
+                                //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+
+                            ],
+
+                        ]
+                    ],
 
                     [
                         'label' =>  Yii::$app->base->company->title,'icon' => 'calendar-check','url' => '#',

@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
+use yii\helpers\ArrayHelper;
 
 class Item extends ActiveRecordMetaModel
 {
@@ -63,16 +64,21 @@ class Item extends ActiveRecordMetaModel
     public function delete()
     {
 
+        //TODO некорректное удаление , например когда ключевое поле совподает с ключевым для Person
 
-        if (get_called_class() == Item::class){
-            return parent::delete();
+        if (ArrayHelper::keyExists('__item_id', $this))
+            $itemId = $this->__item_id;
+        else if (ArrayHelper::keyExists('__ownableitem_id', $this))
+            $itemId = $this->__ownableitem_id;
+        else
+            $itemId = null;
+
+        if (!is_null($itemId))
+        {
+            $item = Item::findOne($itemId);
+            return $item->delete();
         } else {
-            if (is_array($this->primaryKey))
-                return parent::delete();
-            else {
-                $item = Item::findOne($this->primaryKey);
-                return $item->delete();
-            }
+            return parent::delete();
         }
 
     }

@@ -27,6 +27,7 @@ $this->params['breadcrumbs'] = [
 );?>
 
 <?php echo \yii\grid\GridView::widget(['dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'fio',

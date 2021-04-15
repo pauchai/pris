@@ -6,12 +6,12 @@
  * Time: 6:35 PM
  */
 
-namespace vova07\users\models;
+namespace vova07\socio\models;
 
 
 use yii\db\ActiveQuery;
 
-class FamilyStatusQuery extends ActiveQuery
+class MaritalStatusQuery extends ActiveQuery
 {
 
 

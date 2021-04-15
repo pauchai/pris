@@ -163,7 +163,7 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_SALARY_ACCEPT = 'BPERMISSION_SALARY_ACCEPT';
     public const PERMISSION_SALARY_CHARGE_SALARY_LIST = 'BPERMISSION_SALARY_CHARGE_SALARY_LIST';
 
-
+    public const PERMISSION_SOCIO_LIST = 'BPERMISSION_SOCIO_LIST';
 
     /**
      * @inheritdoc

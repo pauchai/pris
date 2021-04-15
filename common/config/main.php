@@ -181,6 +181,10 @@ return [
             'class' => \vova07\reports\Module::class,
 
         ],
+        'socio' => [
+            'class' => \vova07\socio\Module::class,
+
+        ],
     ],
 
     'extensions' => array_merge(

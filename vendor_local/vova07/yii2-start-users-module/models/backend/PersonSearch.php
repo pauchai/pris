@@ -18,6 +18,8 @@ class PersonSearch extends \vova07\users\models\Person
         $dataProvider = new \yii\data\ActiveDataProvider([
             'query' => self::find()
         ]);
+      //  $dataProvider->sort->defaultOrder = ['second_name' => SORT_ASC];
+
         return $dataProvider;
 
     }

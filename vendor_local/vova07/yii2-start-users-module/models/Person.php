@@ -18,6 +18,7 @@ use vova07\countries\models\Country;
 use vova07\documents\models\Document;
 use vova07\documents\models\DocumentQuery;
 use vova07\users\Module;
+use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
@@ -140,7 +141,7 @@ class Person extends  Ownableitem
     public static function getListForCombo()
     {
         //return ArrayHelper::map(self::find()->asArray()->all(),'__ident_id','first_name');
-        return ArrayHelper::map(self::find()->select(['__ownableitem_id','fio'=>'CONCAT(second_name, " ", first_name," " , patronymic)' ])->asArray()->all(),'__ownableitem_id','fio');
+        return ArrayHelper::map(self::find()->select(['__ownableitem_id','fio'=>'CONCAT(second_name, " ", first_name," " , patronymic)' ])->orderBy(new Expression('CONCAT(second_name, " ", first_name," " , patronymic)'))->asArray()->all(),'__ownableitem_id','fio');
     }
 
     /**

@@ -46,7 +46,7 @@ echo Menu::widget(
                         'visible' => true,
                     ],
                     [
-                        'label' => Yii::t('vova07/themes/admin', 'FamilyStatus'),
+                        'label' => Yii::t('vova07/themes/admin', 'MaritalStatus'),
                         'url' => ['/prisons/family-status/index'],
                         'visible' => true,
                     ],

@@ -3,7 +3,7 @@ namespace vova07\users\controllers\backend;
 use budyaga\cropper\actions\UploadAction;
 use http\Url;
 use vova07\base\components\BackendController;
-use vova07\users\models\backend\PersonSearch;
+use vova07\users\models\backend\PersonViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\backend\UserSearch;
 use vova07\users\models\Ident;
@@ -55,10 +55,10 @@ class PeopleController extends BackendController
     {
         \Yii::$app->user->setReturnUrl(\yii\helpers\Url::current());
 
-        $searchModel = new PersonSearch();
+        $searchModel = new PersonViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
-        return $this->render("index", ['dataProvider'=>$dataProvider]);
+        return $this->render("index", ['dataProvider'=>$dataProvider, 'searchModel' =>  $searchModel]);
     }
 
     public function actionCreate()

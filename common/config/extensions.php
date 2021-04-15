@@ -134,4 +134,10 @@ return [
         'bootstrap' => \vova07\reports\Bootstrap::class,
         'alias' => ['@vova07/reports' => '@vendor_local/vova07/yii2-start-reports-module']
     ],
+    'vova07/socio' => [
+        'name' => 'Socio Module',
+        'version' => '1.0.0',
+        'bootstrap' => \vova07\socio\Bootstrap::class,
+        'alias' => ['@vova07/socio' => '@vendor_local/vova07/yii2-start-socio-module']
+    ],
 ];

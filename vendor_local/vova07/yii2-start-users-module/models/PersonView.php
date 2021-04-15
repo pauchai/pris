@@ -10,23 +10,21 @@ namespace vova07\users\models;
 
 
 
-use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use vova07\base\ModelGenerator\Helper;
-use vova07\base\models\Item;
-use vova07\base\models\Ownableitem;
-use vova07\countries\models\Country;
-use vova07\documents\models\Document;
-use vova07\documents\models\DocumentQuery;
-use vova07\users\Module;
-use yii\db\Migration;
-use yii\db\Schema;
+use vova07\users\models\PersonViewQuery;
 use yii\helpers\ArrayHelper;
-use yii\validators\DefaultValueValidator;
-use yii\validators\FilterValidator;
 
 
 class PersonView extends  Person
 {
+    public function rules()
+    {
+        $rules = ArrayHelper::merge(
+            [
+            [['fio'], 'string'],
+            ],
+            parent::rules() );
+        return $rules;
+    }
 
     public static function tableName()
     {
@@ -35,12 +33,12 @@ class PersonView extends  Person
 
     public static function primaryKey()
     {
-        return ['__ident_id'];
+        return ['__ownableitem_id'];
     }
 
     public static function find()
     {
-        return new PersonQuery(get_called_class());
+        return new PersonViewQuery(get_called_class());
     }
 
 }
