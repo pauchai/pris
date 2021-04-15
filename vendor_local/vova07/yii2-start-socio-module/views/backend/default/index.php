@@ -34,5 +34,8 @@ $this->params['breadcrumbs'] = [
 <p>
     <?=Html::a(Module::t('default','MARITAL_STATUS_LABEL'),['/socio/marital-status/index'])?>
 </p>
+<p>
+    <?=Html::a(Module::t('default','DISABILITY_LABEL'),['/socio/disability/index'])?>
+</p>
 <?php  Box::end()?>
 

@@ -33,6 +33,14 @@ $this->params['breadcrumbs'] = [
         'fio',
         'birth_year',
         'country.iso',
+        'isPrisoner',
+        'isOfficer',
+        [
+            'header' => 'relations',
+            'content' => function($model){
+                return $model->getRelations()->count();
+            }
+        ],
 
         ['class' => yii\grid\ActionColumn::class]
     ]

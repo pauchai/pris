@@ -305,6 +305,10 @@ use vova07\site\Module;
                                 //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
 
                             ],
+                            ['label' => Module::t('menu','SOCIO_DISABILITY'),'icon' => 'circle','url'=>['/socio/disability/index'],
+                                //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+
+                            ],
 
                         ]
                     ],
