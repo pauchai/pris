@@ -33,6 +33,7 @@ class HumanitarianIssue extends  Ownableitem
         return [
             [['dateIssueJui'], 'date','format'=>Module::getInstance()->dateFormat],
             [['items', 'company_id'],'safe'],
+            [['company_id'], 'default','value' => \Yii::$app->base->company->primaryKey]
         ];
 
 

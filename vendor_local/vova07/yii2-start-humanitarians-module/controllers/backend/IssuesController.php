@@ -83,7 +83,7 @@ class IssuesController extends BackendController
     {
 
         $model = new HumanitarianIssue();
-
+        $model->validate();
 
         if (\Yii::$app->request->post()) {
             $model->load(\Yii::$app->request->post());

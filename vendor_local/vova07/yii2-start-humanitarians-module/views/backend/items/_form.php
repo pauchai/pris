@@ -14,6 +14,7 @@ use vova07\prisons\Module;
 <?php $form = ActiveForm::begin()?>
 
 <?=$form->field($model,'title')?>
+<?=$form->field($model,'sort_weight')?>
 
 
 

@@ -13,6 +13,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\Ownableitem;
 use vova07\humanitarians\Module;
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -28,6 +29,7 @@ class HumanitarianItem extends  Ownableitem
     {
         return [
             [['title'], 'required'],
+            [['sort_weight'], 'integer']
         ];
 
     }
@@ -37,13 +39,16 @@ class HumanitarianItem extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'title' => Schema::TYPE_STRING . ' NOT NULL',
+                'sort_weight' => $migration->integer()
             ],
             'indexes' => [
                 [self::class, 'title'],
+                [self::class, 'weight']
             ],
 
         ];
@@ -74,7 +79,8 @@ class HumanitarianItem extends  Ownableitem
 
     public static function find()
     {
-        return new HumanitarianItemQuery(get_called_class());
+
+        return (new HumanitarianItemQuery(get_called_class()))->orderBy(['sort_weight' => SORT_ASC]);
 
     }
 

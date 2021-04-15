@@ -17,7 +17,18 @@ use vova07\humanitarians\models\HumanitarianItem;
 
 <?=$form->field($model,'dateIssueJui')->widget(\yii\jui\DatePicker::class)?>
 <?=$form->field($model,'items')->dropDownList(HumanitarianItem::getListForCombo(),['multiple'=>'on']) ?>
-<?=$form->field($model,'company_id')->dropDownList(Company::getListForCombo(),['prompt'=>Module::t('default','SELECT_COMPANY_LABEL')]) ?>
+<?=$form->field($model,'company_id')->widget(\kartik\select2\Select2::class,
+    [
+
+        'data' => Company::getListForCombo(),
+        'options' => [
+            'placeholder' => Module::t('default','SELECT_COMPANY_LABEL'),
+        ],
+        'pluginOptions' => [
+            'allowClear' => 'true'
+        ]
+    ]
+)?>
 
 
 

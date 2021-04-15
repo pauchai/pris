@@ -33,6 +33,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'title',
+        'sort_weight',
         [
             'class' => yii\grid\ActionColumn::class,
 
