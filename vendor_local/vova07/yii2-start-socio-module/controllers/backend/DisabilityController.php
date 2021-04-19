@@ -29,7 +29,7 @@ class DisabilityController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'create', 'delete'],
+                'actions' => ['index', 'create', 'delete', 'update'],
                 //'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
             ],
 
@@ -64,6 +64,27 @@ class DisabilityController extends BackendController
         }
 
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);
+    }
+
+    public function actionUpdate($id)
+    {
+
+        if (is_null($model = Disability::findOne($id)))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        if (\Yii::$app->request->post()){
+            $model->load(\Yii::$app->request->post());
+            if ($model->validate() && $model->save()){
+                //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
+                return $this->redirect(['index']);
+            } else {
+                \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
+            }
+        }
+
+        return $this->render("update", ['model' => $model,'cancelUrl' => ['index']]);
+
     }
 
     public function actionDelete($id)
