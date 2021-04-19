@@ -35,8 +35,6 @@ class DocumentQuery extends ActiveQuery
         $this->andWhere( new Expression('NOT isnull(date_expiration)'));
         $this->andWhere(new Expression('NOW() < FROM_UNIXTIME(date_expiration)'));
         return $this->andWhere(new Expression('DateDiff( FROM_UNIXTIME(date_expiration), NOW()) <= :EXPIRATION_ABOUT_DAYS',[':EXPIRATION_ABOUT_DAYS' => Document::EXPIRATION_ABOUT_DAYS]));
-
-
     }
 
     public function byPerson($personId)

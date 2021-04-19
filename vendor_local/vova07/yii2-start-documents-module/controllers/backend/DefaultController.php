@@ -14,9 +14,7 @@ use vova07\base\components\BackendController;
 use vova07\documents\models\backend\DocumentSearch;
 use vova07\documents\models\Document;
 use vova07\documents\Module;
-use vova07\prisons\models\Company;
-use vova07\prisons\models\Prison;
-use yii\base\DynamicModel;
+use vova07\users\models\Person;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 class DefaultController extends BackendController
@@ -52,10 +50,27 @@ class DefaultController extends BackendController
                 'actions' => ['view'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_DOCUMENT_VIEW]
             ],
+            [
+                'allow' => true,
+                'actions' => ['person-documents'],
+
+            ],
         ];
         return $behaviors;
     }
 
+    public function actions()
+    {
+        return [
+            'person-documents' => [
+                'class' => \kartik\depdrop\DepDropAction::class,
+                'outputCallback' => function ($selectedId, $params) {
+                    return Document::getDocumentsArray(Person::findOne($selectedId)->getDocuments());
+
+                }
+            ]
+        ];
+    }
     public function actionIndex()
     {
         \Yii::$app->user->returnUrl = Url::current();

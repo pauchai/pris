@@ -11,20 +11,13 @@ namespace vova07\socio\models;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use lhs\Yii2SaveRelationsBehavior\SaveRelationsTrait;
-use vova07\base\ModelGenerator\Helper;
-use vova07\base\models\ActiveRecordMetaModel;
-use vova07\base\models\Item;
+
 use vova07\base\models\Ownableitem;
-use vova07\countries\models\Country;
+
 use vova07\documents\models\Document;
-use vova07\prisons\models\Prison;
-use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
-use vova07\users\Module;
-use yii\behaviors\SluggableBehavior;
-use yii\db\BaseActiveRecord;
-use yii\db\Expression;
+
+use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -43,7 +36,8 @@ class Relation extends  Ownableitem
     public function rules()
     {
         return [
-            [['person_id','ref_person_id','type_id'],'required']
+            [['person_id','ref_person_id','type_id'],'required'],
+            [['document_id'], 'integer']
         ];
     }
     /**
@@ -51,10 +45,12 @@ class Relation extends  Ownableitem
      */
     public static function getMetadata()
     {
+        $migration = new Migration();
         $metadata = [
             'fields' => [
                 'person_id' => Schema::TYPE_INTEGER,
                 'ref_person_id' => Schema::TYPE_INTEGER,
+                'document_id' => $migration->integer(),
                 'type_id' => Schema::TYPE_TINYINT,
 
             ],
@@ -63,7 +59,8 @@ class Relation extends  Ownableitem
             ],
             'foreignKeys' => [
                 [get_called_class(), 'person_id',Person::class,Person::primaryKey()],
-                [get_called_class(), 'ref_person_id',Person::class,Person::primaryKey()]
+                [get_called_class(), 'ref_person_id',Person::class,Person::primaryKey()],
+                [get_called_class(), 'document_id',Document::class,Document::primaryKey()]
             ],
 
         ];

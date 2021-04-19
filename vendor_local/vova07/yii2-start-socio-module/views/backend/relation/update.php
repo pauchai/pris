@@ -4,10 +4,10 @@ use yii\bootstrap\Html;
 use vova07\events\Module;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\prisons\models\Prison
+ * @var $model \vova07\socio\models\Relation
   */
-$this->title = Module::t("default","EVENTS_TITLE");
-$this->params['subtitle'] = $model->title;
+$this->title = Module::t("default","RELATION_TITLE");
+$this->params['subtitle'] = $model->person->fio;
 ?>
 
 

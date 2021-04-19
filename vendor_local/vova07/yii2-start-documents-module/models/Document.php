@@ -26,6 +26,7 @@ use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Migration;
+use yii\db\Query;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
@@ -240,9 +241,20 @@ class Document extends  Ownableitem
         return $this->hasOne(Officer::class, ['__person_id'=>'assigned_to']);
 
     }
+    public static function getDocumentsArray(DocumentQuery $query)
+    {
+        $ret = [];
+        foreach ($query->all() as $document){
+            $ret[] = ['id' => $document->primaryKey , 'name' => $document->type . "(" . $document->seria .")" . ' ' . $document->status];
+        }
+        return $ret;
+    }
 
+    public static function getDocumentsForCombo(DocumentQuery $query)
+    {
+        return ArrayHelper::map(self::getDocumentsArray($query), 'id', 'name');
 
-
+    }
     public static function getTypesForCombo()
     {
         return [
@@ -341,6 +353,8 @@ class Document extends  Ownableitem
 
         ];
     }
+
+
 
 
 

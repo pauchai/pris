@@ -161,6 +161,11 @@ class Person extends  Ownableitem
         return  $this->getDocuments()->identification();
     }
 
+    public function getDocumentsForCombo()
+    {
+        //return ArrayHelper::map(self::find()->asArray()->all(),'__ident_id','first_name');
+        return ArrayHelper::map(Document::find()->select([Document::primaryKey()[0],'title' ])->asArray()->all(),Document::primaryKey()[0],'title');
+    }
 
     public function getOfficer()
     {
