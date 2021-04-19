@@ -20,7 +20,7 @@ use vova07\documents\models\Document;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
-use vova07\users\Module;
+use vova07\socio\Module;
 use yii\behaviors\SluggableBehavior;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
@@ -34,8 +34,14 @@ class MaritalStatus extends  OwnableItem
 
     //use SaveRelationsTrait;
 
-    const STATUS_MARRIAGE = 0;
-    const STATUS_DIVORCE = 10;
+    const STATUS_MARRIAGE = 1;
+    const STATUS_DIVORCE = 2;
+    const STATUS_COHABITER = 3;
+    const STATUS_NEVER_MARRIAGE = 4;
+    const STATUS_WIDOWER = 5;
+
+
+
 
 
     public static function tableName()
@@ -118,8 +124,11 @@ class MaritalStatus extends  OwnableItem
     public static function getListForCombo()
     {
         return [
-            self::STATUS_DIVORCE => Module::t('programs', 'STATUS_DIVORCE'),
-            self::STATUS_MARRIAGE => Module::t('programs', 'STATUS_MARRIAGE'),
+            self::STATUS_DIVORCE => Module::t('default', 'STATUS_DIVORCE'),
+            self::STATUS_MARRIAGE => Module::t('default', 'STATUS_MARRIAGE'),
+            self::STATUS_COHABITER => Module::t('default', 'STATUS_COHABITER'),
+            self::STATUS_NEVER_MARRIAGE => Module::t('default', 'STATUS_NEVER_MARRIAGE'),
+            self::STATUS_WIDOWER => Module::t('default', 'STATUS_WIDOWER'),
         ];
     }
 
