@@ -1,13 +1,13 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
-use vova07\events\Module;
+use vova07\socio\Module;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\prisons\models\Prison
+ * @var $model \vova07\socio\models\MaritalStatus
   */
 $this->title = Module::t("default","EVENTS_TITLE");
-$this->params['subtitle'] = $model->title;
+$this->params['subtitle'] = $model->person->fio;
 ?>
 
 

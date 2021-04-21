@@ -30,7 +30,7 @@ use vova07\users\models\Officer;
 
 <?php if (!$model->isNewRecord):?>
 
-   <?=$form->field($model->person,'__ident_id')->hiddenInput()?>
+   <?=$form->field($model->person,'__ownableitem_id')->hiddenInput()?>
 <?php endif;?>
 <?=$form->field($model->person,'second_name')?>
 <?=$form->field($model->person,'first_name')?>

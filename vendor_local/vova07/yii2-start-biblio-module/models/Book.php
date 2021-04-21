@@ -119,7 +119,7 @@ class Book extends  Ownableitem
     }
     public function getPerson()
     {
-        return $this->hasOne(Person::class,['__ident_id'=>'officer_id']);
+        return $this->hasOne(Person::class,['__ownableitem_id'=>'officer_id']);
     }
 
     public function getOfficerPost()

@@ -92,7 +92,7 @@ class BalanceController extends BackendController
 
 
             ]
-        )->leftJoin('person','person.__ident_id = b1.prisoner_id')
+        )->leftJoin('person','person.__ownableitem_id = b1.prisoner_id')
             ->leftJoin('prisoner','prisoner.__person_id = b1.prisoner_id')
         ->from(['b1' => Balance::tableName()])
             ->orderBy('person.second_name, person.first_name, person.patronymic, person.birth_year, b1.at')

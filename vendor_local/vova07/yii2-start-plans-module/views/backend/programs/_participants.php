@@ -27,14 +27,7 @@ use yii\helpers\Html;
     ];
 $gridColumns[] = [
 
-    'header' =>Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
-        \yii\jui\DatePicker::widget([
-            'id' => 'newDateColumnDatePicker',
-            'dateFormat' => 'yyyy-MM-dd',
-            'options' => [
-                'placeholder'=>Module::t('programs','NEW_DATE')
-            ]
-        ]),
+
     'content' => function($model){
         return Module::t('programs','{one}_FROM_{from}',[
             'one'=>$model->getVisits()->presented()->count(),
@@ -139,54 +132,22 @@ $gridColumns[] = [
 ]
 ?>
 
+
 <?php
-$css =  <<<CSS
+$participantsGridId = 'participants';
 
-         .grid-view {
-            overflow-x: scroll;
-           }
+echo Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
+\yii\jui\DatePicker::widget([
+    'id' => 'newDateColumnDatePicker',
+    'dateFormat' => 'yyyy-MM-dd',
+    'options' => [
+        'placeholder'=>Module::t('programs','NEW_DATE')
+    ]
+]);
 
-
-.grid-view table {
-  
-  width: 1900px;
-  
-}
-.grid-view table thead tr th:nth-child(1),
-.grid-view  table tbody tr td:nth-child(1) {
-  background:#eff1f7;
-  top: auto;
-   left:0;
-  position: absolute;
-  width: 3em;
-}
-
-
-.grid-view table thead tr th:nth-child(2),
-.grid-view  table tbody tr td:nth-child(2) {
-  background:#eff1f7;
-   
-  top: auto;
-    left:3em;
-  position: absolute;
-  width: 16em;
-}
-
-.grid-view  table thead tr th:nth-child(3),
-.grid-view  table tbody tr td:nth-child(3) {
-  padding-left: 23em;
-  /*to show second column behind the first*/
-}
-
-CSS;
-
-//$this->registerCss($css);
-
-?>
-<?php echo \yii\grid\GridView::widget(['id' => 'participants','dataProvider' => $dataProvider,
+echo \yii\grid\GridView::widget(['id' => $participantsGridId,'dataProvider' => $dataProvider,
     'columns' => $gridColumns,
 ])?>
-
 
 <?php echo \common\widgets\Alert::widget()?>
 
@@ -284,11 +245,12 @@ CSS;
            return;
            
        };
-      var currentThEl = $(this).parent('th');
+      //var currentThEl = $(this).parent('th');
+      var currentThEl =  $('#participants>table>thead>tr th:nth-child(4)');
       var currIndex = currentThEl.index();
             
             var td = $('<th></th>').insertBefore(currentThEl);
-            newInput = $('<input/>').val(PARTICIPANTS_GRID.selectedDate);
+            newInput = $('<input/>').val(PARTICIPANTS_GRID.selectedDate).addClass('new-input');
             td.append(newInput);
             $('#participants>table>tbody>tr td:nth-child('+(currIndex+1)+')').each(function(){
                 
@@ -309,5 +271,54 @@ CSS;
     
 
 JS
-)
+);
+
+$css =  <<<CSS
+
+#participants {
+       overflow-x: auto;
+       
+}
+.new-input {width: 7em;}
+
+
+
+
+.grid-view table {
+  
+  width: 1900px;
+  
+}
+.grid-view table thead tr th:nth-child(1),
+.grid-view  table tbody tr td:nth-child(1) {
+  background:#eff1f7;
+  top: auto;
+   left:0;
+  position: absolute;
+  width: 3em;
+}
+
+
+.grid-view table thead tr th:nth-child(2),
+.grid-view  table tbody tr td:nth-child(2) {
+  background:#eff1f7;
+   
+  top: auto;
+    left:3em;
+  position: absolute;
+  width: 16em;
+}
+
+.grid-view  table thead tr th:nth-child(3),
+.grid-view  table tbody tr td:nth-child(3) {
+  padding-left: 23em;
+  
+}
+
+
+CSS;
+
+$this->registerCss($css);
+
+
 ?>

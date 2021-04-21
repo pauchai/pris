@@ -231,11 +231,11 @@ class Salary extends  Ownableitem
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class,['__ident_id'=>'officer_id']);
+        return $this->hasOne(Person::class,['__ownableitem_id'=>'officer_id']);
     }
     public function getPersonView()
     {
-        return $this->hasOne(PersonView::class,['__ident_id'=>'officer_id']);
+        return $this->hasOne(PersonView::class,['__ownableitem_id'=>'officer_id']);
     }
 
     public function getOfficerPost()

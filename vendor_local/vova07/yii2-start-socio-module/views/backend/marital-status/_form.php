@@ -4,7 +4,9 @@ use yii\bootstrap\Html;
 use vova07\socio\Module;
 use vova07\socio\models\MaritalStatus;
 use vova07\users\models\Prisoner;
-
+use kartik\depdrop\DepDrop;
+use yii\helpers\Url;
+use vova07\documents\models\Document;
 
 /**
  * @var $this \yii\web\View
@@ -17,9 +19,21 @@ use vova07\users\models\Prisoner;
 
 <?php $form = ActiveForm::begin()?>
 
-<?=$form->field($model,'__person_id')->dropDownList(Prisoner::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
+<?=$form->field($model,'__person_id')->dropDownList(Prisoner::getListForCombo(),['id' => 'person-id', 'prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
 <?=$form->field($model,'ref_person_id')->dropDownList(Prisoner::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
 <?=$form->field($model,'status_id')->dropDownList(MaritalStatus::getListForCombo(),['prompt'=>Module::t('default','SELECT_REF_PERSON_LABEL')])?>
+<?=$form->field($model,'document_id')->widget(DepDrop::class, [
+    'options' => ['id'=>'document-id'],
+    'type' => DepDrop::TYPE_SELECT2,
+
+    'data' =>  isset($model->person)?Document::getDocumentsForCombo($model->person->getDocuments()):[],
+
+    'pluginOptions'=>[
+        'depends'=>['person-id'],
+        'placeholder' => Module::t('default','SELECT_DOCUMENT_LABEL'),
+        'url' => Url::to(['/documents/default/person-documents'])
+    ]
+]);?>
 
 <?php $box->beginFooter();?>
 <div class="form-group">

@@ -52,7 +52,8 @@ class MaritalStatus extends  OwnableItem
     public function rules()
     {
         return [
-            [['__person_id', 'ref_person_id','status_id'],'required']
+            [['__person_id', 'ref_person_id','status_id'],'required'],
+            [['document_id'], 'integer']
         ];
     }
     /**

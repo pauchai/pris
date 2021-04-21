@@ -2,6 +2,7 @@
 
 use vova07\concepts\Module;
 use yii\grid\GridView;
+//use kartik\grid\GridView;
 
 use yii\helpers\Html;
 use vova07\concepts\models\ConceptVisit;
@@ -116,9 +117,11 @@ $this->params['breadcrumbs'] = [
 ]
 ?>
 
-<?php echo GridView::widget(
+<?php
+    $participantsViewId = 'participants';
+    echo GridView::widget(
     [
-        'id' => 'participants',
+        'id' => $participantsViewId,
         'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getConceptParticipants()->orderByFio()]),
         'columns' => $gridColumns,
 
@@ -204,5 +207,14 @@ $this->registerJs(
     
 
 JS
-)
+);
+
+$this->registerCss(
+    <<<CSS
+
+    #$participantsViewId {overflow-x:auto}
+
+CSS
+);
+
 ?>
