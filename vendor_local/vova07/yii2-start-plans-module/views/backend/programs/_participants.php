@@ -311,7 +311,7 @@ $css =  <<<CSS
 
 .grid-view  table thead tr th:nth-child(3),
 .grid-view  table tbody tr td:nth-child(3) {
-  padding-left: 23em;
+  padding-left: 20em;
   
 }
 

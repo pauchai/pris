@@ -193,7 +193,10 @@ class User extends  Ownableitem implements IdentityInterface
 
     public function getOfficer()
     {
-        return $this->hasOne(Officer::class,[ '__person_id'  => '__ident_id']);
+//        return $this->hasOne(Officer::class,[ '__person_id'  => '__ident_id']);
+        //return $this->getPerson()->one()->officer;
+        return $this->hasOne(Officer::class,['__person_id' => 'person_id'])->viaTable(Ident::tableName(), ['__item_id' => '__ident_id']);
+
     }
 
     public function getPlanGroup()

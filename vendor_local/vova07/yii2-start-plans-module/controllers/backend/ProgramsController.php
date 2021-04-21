@@ -123,7 +123,7 @@ class ProgramsController extends BackendController
         $dataProvider->pagination = false;
         $dataProvider->query->forPrisonersActiveAndEtapped();
 
-        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
+        $officer = \Yii::$app->user->identity->officer;
 
         return $this->render('view_print', [
             'model'=>$model,'dataProvider' => $dataProvider,
