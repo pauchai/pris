@@ -44,7 +44,8 @@ class Disability extends  Ownableitem
     public function rules()
     {
         return [
-          [['person_id','group_id'], 'required']
+          [['person_id','group_id'], 'required'],
+            [['document_id'], 'integer']
         ];
     }
 
@@ -59,6 +60,7 @@ class Disability extends  Ownableitem
             'fields' => [
                 'person_id' => Schema::TYPE_INTEGER,
                 'group_id' => Schema::TYPE_TINYINT,
+                'document_id' => $migration->integer(),
 
             ],
             'primaries' => [
@@ -66,6 +68,8 @@ class Disability extends  Ownableitem
             ],
             'foreignKeys' => [
                 [get_called_class(), 'person_id',Person::class,Person::primaryKey()],
+                [get_called_class(), 'document_id',Document::class,Document::primaryKey()]
+
             ],
 
         ];
