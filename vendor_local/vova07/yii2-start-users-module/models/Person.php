@@ -214,7 +214,14 @@ class Person extends  Ownableitem
         return $this->isOfficer();
     }
 
-
+    public function getRelations()
+    {
+        return $this->hasMany(Relation::class, ['person_id' => '__ownableitem_id']);
+    }
+    public function getMaritals()
+    {
+        return $this->hasMany(MaritalState::class, ['__person_id' => '__ownableitem_id']);
+    }
 
 
 
