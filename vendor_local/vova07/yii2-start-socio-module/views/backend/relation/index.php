@@ -39,6 +39,7 @@ $this->params['breadcrumbs'] = [
         'person.fio',
         'refPerson.fio',
         'type.title',
+        'document.type',
 
 
 

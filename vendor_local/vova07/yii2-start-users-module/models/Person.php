@@ -17,6 +17,7 @@ use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
 use vova07\documents\models\Document;
 use vova07\documents\models\DocumentQuery;
+use vova07\socio\models\MaritalState;
 use vova07\socio\models\Relation;
 use vova07\users\Module;
 use yii\db\Expression;
@@ -212,10 +213,7 @@ class Person extends  Ownableitem
     {
         return $this->isOfficer();
     }
-    public function getRelations()
-    {
-        return $this->hasMany(Relation::class, ['person_id' => '__ownableitem_id']);
-    }
+
 
 
 

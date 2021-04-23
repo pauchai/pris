@@ -301,7 +301,7 @@ use vova07\site\Module;
                                 //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
 
                             ],
-                            ['label' => Module::t('menu','SOCIO_MARITAL_STATUS'),'icon' => 'circle','url'=>['/socio/marital-status/index'],
+                            ['label' => Module::t('menu','SOCIO_MARITAL_STATUS'),'icon' => 'circle','url'=>['/socio/marital-state/index'],
                                 //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
 
                             ],

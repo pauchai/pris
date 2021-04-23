@@ -34,6 +34,8 @@ class RbacController extends Controller
        \vova07\psycho\helpers\Rbac::Add();
        \vova07\concepts\helpers\Rbac::Add();
        \vova07\salary\helpers\Rbac::Add();
+       \vova07\socio\helpers\Rbac::Add();
+
 
     }
 

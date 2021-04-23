@@ -12,9 +12,9 @@ namespace vova07\socio\controllers\backend;
 
 use vova07\base\components\BackendController;
 use vova07\socio\models\backend\DisabilitySearch;
-use vova07\socio\models\backend\MaritalStatusSearch;
+use vova07\socio\models\backend\MaritalStateSearch;
 use vova07\socio\models\Disability;
-use vova07\socio\models\MaritalStatus;
+use vova07\socio\models\MaritalState;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use vova07\socio\Module;

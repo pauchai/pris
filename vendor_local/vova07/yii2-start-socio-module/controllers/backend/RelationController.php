@@ -28,7 +28,7 @@ class RelationController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index', 'create', 'delete', 'update'],
-                //'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
+                'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
             ],
 
         ];

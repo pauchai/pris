@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use vova07\socio\Module;
 /**
  * @var $this \yii\web\View
- * @var $model \vova07\socio\models\MaritalStatus
+ * @var $model \vova07\socio\models\MaritalState
   */
 $this->title = Module::t("default","EVENTS_TITLE");
 $this->params['subtitle'] = $model->person->fio;

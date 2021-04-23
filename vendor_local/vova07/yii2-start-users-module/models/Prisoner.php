@@ -39,6 +39,8 @@ use vova07\prisons\models\PrisonerSecurity;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\models\PsyRisk;
 use vova07\psycho\models\PsyTest;
+use vova07\socio\models\MaritalState;
+use vova07\socio\models\Relation;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\PrisonerLocationJournal;
 use vova07\prisons\models\Sector;
@@ -492,6 +494,13 @@ class Prisoner extends  OwnableItem
 
     }
 
-
+    public function getRelations()
+    {
+        return $this->hasMany(Relation::class, ['person_id' => '__person_id']);
+    }
+    public function getMaritals()
+    {
+        return $this->hasMany(MaritalState::class, ['__person_id' => '__person_id']);
+    }
 
 }

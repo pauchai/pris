@@ -14,6 +14,7 @@ use vova07\base\components\BackendController;
 use vova07\psycho\models\backend\PrisonerCharacteristicSearch;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\Module;
+use vova07\socio\models\backend\RelationMaritalViewSearch;
 use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\Officer;
 use vova07\users\models\User;
@@ -27,20 +28,22 @@ class DefaultController extends BackendController
     {
         $behaviors = parent::behaviors();
 
-        $behaviors['access']['rules'] = [
+        $behaviors['access']['rules'][] =
             [
                 'allow' => true,
                 'actions' => ['index' ],
-               // 'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
-            ],
+                'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
+            ]
 
-        ];
+        ;
         return $behaviors;
     }
 
     public function actionIndex()
     {
-        return $this->render("index", []);
+        $searchModel = new RelationMaritalViewSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->get());
+        return $this->render("index", compact('dataProvider', 'searchModel'));
     }
 
 

@@ -11,32 +11,35 @@ namespace vova07\socio\models;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsTrait;
+use vova07\base\ModelGenerator\Helper;
+use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
-
+use vova07\countries\models\Country;
 use vova07\documents\models\Document;
+use vova07\prisons\models\Prison;
+use vova07\prisons\models\Sector;
 use vova07\users\models\Person;
-
+use vova07\socio\Module;
+use yii\behaviors\SluggableBehavior;
+use yii\db\BaseActiveRecord;
+use yii\db\Expression;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
-class Relation extends  Ownableitem
+class MaritalState extends  OwnableItem
 {
-
-
-
-
     public static function tableName()
     {
-        return 'relation';
+        return 'marital_state';
     }
 
     public function rules()
     {
         return [
-            [['person_id','ref_person_id','type_id'],'required'],
+            [['__person_id', 'ref_person_id','status_id'],'required'],
             [['document_id'], 'integer']
         ];
     }
@@ -48,20 +51,22 @@ class Relation extends  Ownableitem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                'person_id' => Schema::TYPE_INTEGER,
+                Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
                 'ref_person_id' => Schema::TYPE_INTEGER,
                 'document_id' => $migration->integer(),
-                'type_id' => Schema::TYPE_TINYINT,
+                'status_id' => Schema::TYPE_TINYINT,
 
             ],
-            'primaries' => [
-                [self::class, ['person_id','ref_person_id']]
+
+            'dependsOn' => [
+                Person::class
             ],
             'foreignKeys' => [
-                [get_called_class(), 'person_id',Person::class,Person::primaryKey()],
+              //  [get_called_class(), '__person_id',Person::class,Person::primaryKey()],
                 [get_called_class(), 'ref_person_id',Person::class,Person::primaryKey()],
                 [get_called_class(), 'document_id',Document::class,Document::primaryKey()]
-            ],
+
+        ],
 
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
@@ -82,31 +87,35 @@ class Relation extends  Ownableitem
 
     public static function find()
     {
-        return new RelationQuery(get_called_class());
+        return new MaritalStateQuery(get_called_class());
     }
+
 
     public function getPerson()
     {
-        return $this->hasOne(Person::class,[ '__ownableitem_id'  => 'person_id']);
+        return $this->hasOne(Person::class,[ '__ownableitem_id'  => '__person_id']);
     }
+
     public function getRefPerson()
     {
         return $this->hasOne(Person::class,[ '__ownableitem_id'  => 'ref_person_id']);
-    }
-    public function getType()
-    {
-        return $this->hasOne(RelationType::class,[ 'id'  => 'type_id']);
     }
     public function getOwnableitem()
     {
         return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
     }
-
     public function getDocument()
     {
         return $this->hasOne(Document::class,['__ownableitem_id' => 'document_id']);
     }
 
+
+
+
+    public function getStatus()
+    {
+        return $this->hasOne(MaritalStatus::class, ['id' => 'status_id']);
+    }
 
 
 }

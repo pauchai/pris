@@ -13,6 +13,7 @@ namespace vova07\socio\models;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsTrait;
 use vova07\base\ModelGenerator\Helper;
+use vova07\base\models\ActiveRecordMetaModel;
 use vova07\base\models\Item;
 use vova07\base\models\Ownableitem;
 use vova07\countries\models\Country;
@@ -29,7 +30,7 @@ use yii\db\Schema;
 use yii\helpers\ArrayHelper;
 
 
-class MaritalStatus extends  OwnableItem
+class MaritalStatus extends  ActiveRecordMetaModel
 {
 
     //use SaveRelationsTrait;
@@ -52,8 +53,8 @@ class MaritalStatus extends  OwnableItem
     public function rules()
     {
         return [
-            [['__person_id', 'ref_person_id','status_id'],'required'],
-            [['document_id'], 'integer']
+            [['id', 'title'],'required'],
+
         ];
     }
     /**
@@ -64,79 +65,35 @@ class MaritalStatus extends  OwnableItem
         $migration = new Migration();
         $metadata = [
             'fields' => [
-                Helper::getRelatedModelIdFieldName(Person::class) => Schema::TYPE_PK . ' ',
-                'ref_person_id' => Schema::TYPE_INTEGER,
-                'document_id' => $migration->integer(),
-                'status_id' => Schema::TYPE_TINYINT,
+                'id' => $migration->integer()->notNull(),
+                'title' => $migration->string(),
+
 
             ],
-
-            'dependsOn' => [
-                Person::class
+            'primaries' => [
+                [self::class, ['id']]
             ],
-            'foreignKeys' => [
-              //  [get_called_class(), '__person_id',Person::class,Person::primaryKey()],
-                [get_called_class(), 'ref_person_id',Person::class,Person::primaryKey()],
-                [get_called_class(), 'document_id',Document::class,Document::primaryKey()]
 
-        ],
 
         ];
         return ArrayHelper::merge($metadata, parent::getMetaDataForMerging() );
     }
 
-    public function behaviors()
-    {
-        return [
-            'saveRelations' => [
-                'class' => SaveRelationsBehavior::class,
-                'relations' => [
-                    'ownableitem',
-                ],
-            ]
-        ];
 
-    }
 
     public static function find()
     {
-        return new MaritalStatusQuery(get_called_class());
+        return new MaritalStateQuery(get_called_class());
     }
 
 
-    public function getPerson()
-    {
-        return $this->hasOne(Person::class,[ '__ownableitem_id'  => '__person_id']);
-    }
 
-    public function getRefPerson()
-    {
-        return $this->hasOne(Person::class,[ '__ownableitem_id'  => 'ref_person_id']);
-    }
-    public function getOwnableitem()
-    {
-        return $this->hasOne(Ownableitem::class,['__item_id' => '__ownableitem_id']);
-    }
-    public function getDocument()
-    {
-        return $this->hasOne(Document::class,['__ownableitem_id' => 'document_id']);
-    }
 
     public static function getListForCombo()
     {
-        return [
-            self::STATUS_DIVORCE => Module::t('default', 'STATUS_DIVORCE'),
-            self::STATUS_MARRIAGE => Module::t('default', 'STATUS_MARRIAGE'),
-            self::STATUS_COHABITER => Module::t('default', 'STATUS_COHABITER'),
-            self::STATUS_NEVER_MARRIAGE => Module::t('default', 'STATUS_NEVER_MARRIAGE'),
-            self::STATUS_WIDOWER => Module::t('default', 'STATUS_WIDOWER'),
-        ];
+        return ArrayHelper::map(self::find()->asArray()->all(), 'id', 'title');
     }
 
-    public function getStatus()
-    {
-        return self::getListForCombo()[$this->status_id];
-    }
 
 
 }

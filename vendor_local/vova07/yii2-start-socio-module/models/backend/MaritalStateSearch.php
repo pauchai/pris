@@ -7,7 +7,7 @@ namespace vova07\socio\models\backend;
  * Time: 11:05 AM
  */
 
-class MaritalStatusSearch extends \vova07\socio\models\MaritalStatus
+class MaritalStateSearch extends \vova07\socio\models\MaritalState
 {
 
     public function rules()

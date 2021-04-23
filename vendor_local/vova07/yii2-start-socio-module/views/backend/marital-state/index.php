@@ -38,7 +38,7 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         'person.fio',
         'refPerson.fio',
-        'status',
+        'status.title',
 
 
 

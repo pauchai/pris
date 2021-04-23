@@ -26,6 +26,12 @@ $this->params['subtitle'] = Module::t("default","SUBTITLE_LIST");
 
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
+    'layout' =>"{toolbar}{summary}\n{items}\n{pager}",
+    'toolbar' =>  [
+        [ ],
+        '{export}',
+        '{toggleData}'
+    ],
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
 

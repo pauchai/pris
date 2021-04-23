@@ -1,7 +1,7 @@
 <?php
 
 
-use vova07\socio\models\MaritalStatus;
+use vova07\socio\models\MaritalState;
 use vova07\base\components\MigrationWithModelGenerator;
 
 /**
@@ -10,7 +10,7 @@ use vova07\base\components\MigrationWithModelGenerator;
 class m210414_101435_dbMaritalStatus extends MigrationWithModelGenerator
 {
     public $models = [
-        MaritalStatus::class,
+        MaritalState::class,
 
     ];
 

@@ -13,7 +13,7 @@ use vova07\prisons\Module;
 
 <?php $form = ActiveForm::begin()?>
 <?php if (!$model->isNewRecord):?>
-    <?php echo $form->field($model->person,'__ident_id')->hiddenInput()?>
+    <?php echo $form->field($model->person,'__ownableitem_id')->hiddenInput()?>
 <?php endif;?>
 <div class="row">
     <div class = 'col-md-3'>

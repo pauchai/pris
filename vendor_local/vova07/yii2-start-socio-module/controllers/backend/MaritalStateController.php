@@ -11,13 +11,13 @@ namespace vova07\socio\controllers\backend;
 
 
 use vova07\base\components\BackendController;
-use vova07\socio\models\backend\MaritalStatusSearch;
-use vova07\socio\models\MaritalStatus;
+use vova07\socio\models\backend\MaritalStateSearch;
+use vova07\socio\models\MaritalState;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use vova07\socio\Module;
 
-class MaritalStatusController extends BackendController
+class MaritalStateController extends BackendController
 {
 
     public function behaviors()
@@ -28,7 +28,7 @@ class MaritalStatusController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index', 'create', 'delete','update'],
-                //'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
+                'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
             ],
 
         ];
@@ -38,7 +38,7 @@ class MaritalStatusController extends BackendController
     public function actionIndex()
     {
         \Yii::$app->user->setReturnUrl(Url::current());
-        $searchModel = new MaritalStatusSearch();
+        $searchModel = new MaritalStateSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         if ($this->isPrintVersion)
                 $dataProvider->pagination = false;
@@ -48,7 +48,7 @@ class MaritalStatusController extends BackendController
     public function actionCreate()
     {
 
-        $model = new MaritalStatus();
+        $model = new MaritalState();
 
 
         if (\Yii::$app->request->post()){
@@ -66,7 +66,7 @@ class MaritalStatusController extends BackendController
     public function actionUpdate($id)
     {
 
-        if (is_null($model = MaritalStatus::findOne($id)))
+        if (is_null($model = MaritalState::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
@@ -87,7 +87,7 @@ class MaritalStatusController extends BackendController
     public function actionDelete($id)
     {
 
-        if (is_null($model = MaritalStatus::findOne($id)))
+        if (is_null($model = MaritalState::findOne($id)))
         {
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };

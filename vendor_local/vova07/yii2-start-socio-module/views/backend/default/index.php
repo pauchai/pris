@@ -11,7 +11,8 @@
 use vova07\themes\adminlte2\widgets\Box;
 use vova07\socio\Module;
 use yii\helpers\Html;
-
+use kartik\grid\GridView;
+use  \yii\helpers\ArrayHelper;
 
 
 
@@ -32,10 +33,57 @@ $this->params['breadcrumbs'] = [
     <?=Html::a(Module::t('default','RELATIONS_LABEL'),['/socio/relation/index'])?>
 </p>
 <p>
-    <?=Html::a(Module::t('default','MARITAL_STATUS_LABEL'),['/socio/marital-status/index'])?>
+    <?=Html::a(Module::t('default','MARITAL_STATUS_LABEL'),['/socio/marital-state/index'])?>
 </p>
 <p>
     <?=Html::a(Module::t('default','DISABILITY_LABEL'),['/socio/disability/index'])?>
 </p>
 <?php  Box::end()?>
 
+
+
+<?=GridView::widget([
+        'dataProvider' => $dataProvider,
+    'filterModel' => 'searchModel',
+    'columns' => [
+
+        [
+                'attribute' => 'id',
+
+            'value' => function($model){
+                return $model->fio;
+            },
+            'group' => true,
+            //'groupedRow' => true,
+            'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
+            'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
+
+        ],
+
+        'refPerson.fio',
+       // 'relationType.title',
+      //  'maritalStatus.title',
+        [
+                'header' => '',
+            'content' => function($model){
+                    $res = ArrayHelper::getValue($model, 'maritalState.status.title');
+                    if (ArrayHelper::getValue($model, 'maritalState.document')){
+                        $res .= "document";
+                    }
+                    return $res;
+            }
+        ],
+        [
+            'header' => '',
+            'content' => function($model){
+                $res = ArrayHelper::getValue($model, 'personRelation.type.title');
+                if (ArrayHelper::getValue($model, 'personRelation.document')){
+                    $res .= "document";
+                }
+                return $res;
+
+            }
+        ],
+    ]
+])
+?>
