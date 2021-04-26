@@ -318,7 +318,6 @@ class Document extends  Ownableitem
             $seconds =  $this->date_expiration - time();
             $dateTime = new \DateTime();
             $dateTime->setTimestamp($this->date_expiration);
-
             $dateDiff = $dateTime->diff(new \DateTime());
             return $dateDiff->days < self::EXPIRATION_ABOUT_DAYS;
 

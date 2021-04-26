@@ -13,6 +13,7 @@ use vova07\socio\Module;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use  \yii\helpers\ArrayHelper;
+use vova07\base\helpers\HtmlExtra;
 
 
 
@@ -66,21 +67,37 @@ $this->params['breadcrumbs'] = [
         [
                 'header' => '',
             'content' => function($model){
-                    $res = ArrayHelper::getValue($model, 'maritalState.status.title');
-                    if (ArrayHelper::getValue($model, 'maritalState.document')){
-                        $res .= "document";
-                    }
-                    return $res;
+                $maritalState = ArrayHelper::getValue($model, 'maritalState');
+                if ($maritalState) {
+                    return  HtmlExtra::getLabelStatusAndDocument(
+                    $maritalState->status->title,
+                        ['/socio/marital-state/view', 'id' => $maritalState->primaryKey],
+                    $maritalState->document
+                    );
+                }
+
+
+
             }
         ],
         [
             'header' => '',
             'content' => function($model){
-                $res = ArrayHelper::getValue($model, 'personRelation.type.title');
-                if (ArrayHelper::getValue($model, 'personRelation.document')){
-                    $res .= "document";
+
+                $relation = ArrayHelper::getValue($model, 'personRelation');
+                /**
+                 * @var $relation \vova07\socio\models\Relation
+                 */
+                if ($relation){
+                    $relUrl = $relation->getAttributes(['person_id', 'ref_person_id']);
+                    $relUrl[0] = '/socio/relation/view';
+
+                    return  HtmlExtra::getLabelStatusAndDocument(
+                        $relation->type->title,
+                        $relUrl,
+                        $relation->document
+                    );
                 }
-                return $res;
 
             }
         ],

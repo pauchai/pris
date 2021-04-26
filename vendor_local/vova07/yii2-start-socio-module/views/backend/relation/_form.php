@@ -21,8 +21,10 @@ use yii\helpers\Url;
 
 
 <?php $form = ActiveForm::begin()?>
-
+<?php if ($model->isNewRecord):?>
 <?=$form->field($model,'person_id')->dropDownList(Prisoner::getListForCombo(),['id' => 'person-id', 'prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
+<?php endif;?>
+
 <?=$form->field($model,'ref_person_id')->dropDownList(Person::getListForCombo(),['prompt'=>Module::t('default','SELECT_REF_PERSON_LABEL')])?>
 <?=$form->field($model,'type_id')->dropDownList(RelationType::getListForCombo(),['prompt'=>Module::t('default','SELECT_RELATION_TYPE_LABEL')])?>
 <?=$form->field($model,'document_id')->widget(DepDrop::class, [
@@ -31,9 +33,16 @@ use yii\helpers\Url;
 
       'data' =>  isset($model->person)?Document::getDocumentsForCombo($model->person->getDocuments()):[],
 
+    'select2Options' => [
+      'pluginOptions' => [
+          'placeholder' => Module::t('default','SELECT_DOCUMENT_LABEL'),
+              'allowClear' => true,
+      ]
+    ],
     'pluginOptions'=>[
+
         'depends'=>['person-id'],
-        'placeholder' => Module::t('default','SELECT_DOCUMENT_LABEL'),
+
         'url' => Url::to(['/documents/default/person-documents'])
     ]
 ]);?>

@@ -27,7 +27,7 @@ class RelationController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'create', 'delete', 'update'],
+                'actions' => ['index', 'create', 'delete', 'update', 'view'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_SOCIO_LIST],
             ],
 
@@ -55,7 +55,7 @@ class RelationController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
                 //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
-                return $this->redirect(['index']);
+                return $this->goBack(['index']);;
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
@@ -75,7 +75,7 @@ class RelationController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
                 //return $this->redirect(['view', 'id'=>$model->getPrimaryKey()]);
-                return $this->redirect(['index']);
+                return $this->goBack(['index']);;
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
@@ -92,9 +92,16 @@ class RelationController extends BackendController
             throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
         };
         if ($model->delete()){
-            return $this->redirect(['index']);
+            return $this->goBack(['index']);
         };
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
-
+    public function actionView($person_id, $ref_person_id)
+    {
+        if (is_null($model = Relation::findOne(compact('person_id', 'ref_person_id'))))
+        {
+            throw new NotFoundHttpException(Module::t('default',"ITEM_NOT_FOUND"));
+        };
+        return $this->render('view', ['model'=>$model]);
+    }
 }

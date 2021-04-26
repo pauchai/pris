@@ -41,6 +41,8 @@ class DefaultController extends BackendController
 
     public function actionIndex()
     {
+        \Yii::$app->user->setReturnUrl(Url::current());
+
         $searchModel = new RelationMaritalViewSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         return $this->render("index", compact('dataProvider', 'searchModel'));

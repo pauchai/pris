@@ -19,8 +19,9 @@ use vova07\documents\models\Document;
 
 
 <?php $form = ActiveForm::begin()?>
-
+<?php if ($model->isNewRecord):?>
 <?=$form->field($model,'__person_id')->dropDownList(Prisoner::getListForCombo(),['id' => 'person-id', 'prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
+<?php endif;?>
 <?=$form->field($model,'ref_person_id')->dropDownList(Person::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
 <?=$form->field($model,'status_id')->dropDownList(MaritalStatus::getListForCombo(),['prompt'=>Module::t('default','SELECT_REF_PERSON_LABEL')])?>
 <?=$form->field($model,'document_id')->widget(DepDrop::class, [
@@ -28,11 +29,15 @@ use vova07\documents\models\Document;
     'type' => DepDrop::TYPE_SELECT2,
 
     'data' =>  isset($model->person)?Document::getDocumentsForCombo($model->person->getDocuments()):[],
-
+    'select2Options' => [
+        'pluginOptions' => [
+            'placeholder' => Module::t('default','SELECT_DOCUMENT_LABEL'),
+            'allowClear' => true,
+        ]
+    ],
     'pluginOptions'=>[
         'depends'=>['person-id'],
-        'placeholder' => Module::t('default','SELECT_DOCUMENT_LABEL'),
-        'url' => Url::to(['/documents/default/person-documents'])
+             'url' => Url::to(['/documents/default/person-documents'])
     ]
 ]);?>
 
