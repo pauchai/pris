@@ -59,6 +59,36 @@ $this->params['breadcrumbs'] = [
             'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
             'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
 
+            'groupFooter' => function ($model){
+
+                $addButton = Html::a(Module::t('labels','CREATE_RELATION'), ['create-relation', 'person_id' => $model->__person_id],
+                    ['class' => "btn btn-default btn_post_new btn-xs"]);
+
+                return [
+                    //'mergeColumns' => [[2,3]], // columns to merge in summary
+
+                    'content' => [             // content to show in each summary cell
+
+                        3 => $addButton,
+                        //   3 => GridView::F_SUM,
+
+
+                    ],
+                    'contentFormats' => [      // content reformatting for each summary cell
+                        //  2 => ['format' => 'number', 'decimals' => 2],//   5 => ['format' => 'number', 'decimals' => 0],
+                        //    3 => ['format' => 'number', 'decimals' => 2],
+                        //3 => ['format' => 'number', 'decimals' => 2],
+                        //4 => ['format' => 'number', 'decimals' => 2]
+                    ],
+                    'contentOptions' => [      // content html attributes for each summary cell
+                        // 2 => ['style' => 'text-align:right'],
+                        //3 => ['style' => 'text-align:center'],
+
+                    ],
+                    // html attributes for group summary row
+                    'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
+                ];},
+
         ],
 
         'refPerson.fio',

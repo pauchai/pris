@@ -50,7 +50,6 @@ class RelationController extends BackendController
 
         $model = new Relation();
 
-
         if (\Yii::$app->request->post()){
             $model->load(\Yii::$app->request->post());
             if ($model->validate() && $model->save()){
