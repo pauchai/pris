@@ -94,6 +94,14 @@ class MaritalStatus extends  ActiveRecordMetaModel
         return ArrayHelper::map(self::find()->asArray()->all(), 'id', 'title');
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'title' => Module::t('labels', "MARITAL_STATUS_LABEL"),
+
+
+        ];
+    }
 
 
 }

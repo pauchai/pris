@@ -17,12 +17,12 @@ use vova07\socio\models\RelationMaritalViewQuery;
 
 class RelationMaritalViewSearch   extends  RelationMaritalView
 {
-    public $metaStatusId;
+//    public $metaStatusId;
     public function rules()
     {
         return [
            [['fio'], 'safe'],
-            [['metaStatusId'], 'safe'],
+            [['marital_status_id'], 'safe'],
 
         ];
     }
@@ -38,7 +38,7 @@ class RelationMaritalViewSearch   extends  RelationMaritalView
         if ($this->validate() && $this->load($params)){
 
 
-            if ($this->metaStatusId) {
+           /* if ($this->metaStatusId) {
 
 
                 if ($this->metaStatusId == Document::META_STATUS_ABOUT_EXPIRATION)
@@ -55,8 +55,9 @@ class RelationMaritalViewSearch   extends  RelationMaritalView
 
 
 
-            }
+            }*/
 
+            $query->andFilterWhere(['marital_status_id' => $this->marital_status_id]);
 
             $query->andFilterWhere(['like', 'fio', $this->fio]);
         };

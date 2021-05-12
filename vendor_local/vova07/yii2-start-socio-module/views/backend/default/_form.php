@@ -23,7 +23,13 @@ use vova07\base\components\widgets\Select2WithAdd;
 
 <?php $form = ActiveForm::begin()?>
 <?php if ($model->isNewRecord):?>
-<?=$form->field($model,'person_id')->dropDownList(Prisoner::getListForCombo(),['id' => 'person-id', 'prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
+<?=$form->field($model,'person_id')->widget(\kartik\widgets\Select2::class,[
+        'data' => Prisoner::getListForCombo(),
+        'pluginOptions' => [
+                'placeholder' => Module::t('default','SELECT_PRISONER_LABEL'),
+                'allowClear' => true,
+        ]
+    ])?>
 <?php endif;?>
 
 <?=$form->field($model,'ref_person_id')->widget(Select2WithAdd::class,

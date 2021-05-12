@@ -62,6 +62,7 @@ class Document extends  Ownableitem
     const TYPE_TRAVEL_DOCUMENT = 18;
     const TYPE_APPATRIDE_DOCUMENT = 19;
     const TYPE_USSR_PASSPORT = 20;
+    const TYPE_INVALIDITY = 21;
 
 
 
@@ -277,6 +278,7 @@ class Document extends  Ownableitem
             self::TYPE_TRAVEL_DOCUMENT => Module::t('documents', "TYPE_TRAVEL_DOCUMENT"),
             self::TYPE_APPATRIDE_DOCUMENT => Module::t('documents', "TYPE_APPATRIDE_DOCUMENT"),
             self::TYPE_USSR_PASSPORT => Module::t('documents', "TYPE_USSR_PASSPORT"),
+            self::TYPE_INVALIDITY => Module::t('documents', "TYPE_INVALIDITY"),
         ];
 
 

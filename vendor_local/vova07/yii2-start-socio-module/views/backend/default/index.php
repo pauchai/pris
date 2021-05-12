@@ -92,28 +92,7 @@ $this->params['breadcrumbs'] = [
         'refPerson.fio',
        // 'relationType.title',
       //  'maritalStatus.title',
-        [
-             'attribute' => 'metaStatusId',
-            'filter' => \vova07\documents\models\Document::getMetaStatusesForCombo(),
 
-            //'header' => '',
-            'content' => function($model){
-                $maritalState = ArrayHelper::getValue($model, 'maritalState');
-                if ($maritalState) {
-                    return  HtmlExtra::getLabelStatusAndDocument(
-                    $maritalState->status->title,
-                        ['/socio/marital-state/view', 'id' => $maritalState->primaryKey],
-                    $maritalState->document
-                    );
-                } else {
-
-                    return  \yii\bootstrap\Html::a(Module::t('default', 'CREATE_STATE'), ['/socio/marital-state/create', 'person_id' => $model->__person_id, 'ref_person_id' => $model->ref_person_id]);
-                }
-
-
-
-            }
-        ],
         [
             'header' => '',
             'content' => function($model){
@@ -132,6 +111,28 @@ $this->params['breadcrumbs'] = [
                         $relation->document
                     );
                 }
+
+            }
+        ],
+        [
+            'attribute' => 'marital_status_id',
+            'filter' => \vova07\socio\models\MaritalStatus::getListForCombo(),
+
+            //'header' => '',
+            'content' => function($model){
+                $maritalState = ArrayHelper::getValue($model, 'maritalState');
+                if ($maritalState) {
+                    return  HtmlExtra::getLabelStatusAndDocument(
+                        $maritalState->status->title,
+                        ['/socio/marital-state/view', 'id' => $maritalState->primaryKey],
+                        $maritalState->document
+                    );
+                } else {
+
+                    return  \yii\bootstrap\Html::a(Module::t('default', 'CREATE_STATE'), ['/socio/marital-state/create', 'person_id' => $model->__person_id, 'ref_person_id' => $model->ref_person_id]);
+                }
+
+
 
             }
         ],

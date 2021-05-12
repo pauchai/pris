@@ -19,7 +19,14 @@ use yii\helpers\Url;
 
 <?php $form = ActiveForm::begin()?>
 
-<?=$form->field($model,'person_id')->dropDownList(Prisoner::getListForCombo(),['id' => 'person-id', 'prompt'=>Module::t('default','SELECT_PRISONER_LABEL')])?>
+<?=$form->field($model,'person_id')->widget(\kartik\widgets\Select2::class,[
+    'data' => Prisoner::getListForCombo(),
+    'options' => ['id' => 'person-id'],
+    'pluginOptions' => [
+        'placeholder' => Module::t('default','SELECT_PRISONER_LABEL'),
+        'allowClear' => true,
+    ]
+])?>
 <?=$form->field($model,'group_id')->dropDownList(DisabilityGroup::getListForCombo(),['prompt'=>Module::t('default','SELECT_REF_PERSON_LABEL')])?>
 <?=$form->field($model,'document_id')->widget(DepDrop::class, [
     'options' => ['id'=>'document-id'],

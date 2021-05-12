@@ -11,7 +11,7 @@ namespace vova07\socio\models;
 
 
 use vova07\documents\models\Document;
-use vova07\prisons\Module;
+use vova07\socio\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
 use yii\db\ActiveRecord;
@@ -69,6 +69,15 @@ class RelationMaritalView   extends  ActiveRecord
         return $this->hasOne(Document::class,['__ownableitem_id' => 'document_id'])->via('maritalState');
 
     }
+
+    public function attributeLabels()
+    {
+        return [
+            'fio' => Module::t('labels', "PERSON_FIO_LABEL"),
+            'marital_status_id' => Module::t('labels', "MARITAL_STATUS_LABEL")
+        ];
+    }
+
 
 
 

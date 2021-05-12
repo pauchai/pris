@@ -38,6 +38,7 @@ class RelationType extends  ActiveRecordMetaModel
     const ID_PARTNER= 3;
     const ID_BROTHER_SISTER = 4;
     const ID_FRIEND =5;
+    #
 
 
 
@@ -107,6 +108,12 @@ class RelationType extends  ActiveRecordMetaModel
         return ArrayHelper::map(self::find()->select(['id', 'title' ])->asArray()->all(),'id','title');
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'title' => Module::t('labels', "RELATION_TYPE_TITLE_LABEL"),
 
+        ];
+    }
 
 }

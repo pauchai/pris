@@ -15,6 +15,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use vova07\base\models\Ownableitem;
 
 use vova07\documents\models\Document;
+use vova07\socio\Module;
 use vova07\users\models\Person;
 
 use yii\db\Migration;
@@ -106,7 +107,16 @@ class Relation extends  Ownableitem
     {
         return $this->hasOne(Document::class,['__ownableitem_id' => 'document_id']);
     }
+    public function attributeLabels()
+    {
+        return [
+            'person_id' => Module::t('labels', "PERSON_FIO_LABEL"),
+            'ref_person_id' => Module::t('labels', "REF_PERSON_LABEL"),
+            'type_id' => Module::t('labels', "RELATION_TYPE_TITLE_LABEL"),
+            'document_id' => Module::t('labels', "RELATION_DOCUMENT_LABEL"),
 
+        ];
+    }
 
 
 }

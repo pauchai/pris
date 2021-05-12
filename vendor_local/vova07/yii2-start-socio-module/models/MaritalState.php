@@ -116,6 +116,18 @@ class MaritalState extends  OwnableItem
     {
         return $this->hasOne(MaritalStatus::class, ['id' => 'status_id']);
     }
+    public function attributeLabels()
+    {
+        return [
+            '__person_id' => Module::t('labels', "PERSON_FIO_LABEL"),
+            'ref_person_id' => Module::t('labels', "REF_PERSON_LABEL"),
+            'status_id' => Module::t('labels', "MARITAL_STATUS_LABEL"),
+            'document_id' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
+
+
+        ];
+    }
+
 
 
 }

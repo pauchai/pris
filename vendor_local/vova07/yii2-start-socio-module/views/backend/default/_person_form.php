@@ -14,8 +14,8 @@ use vova07\countries\models\Country;
 
 <?php $form = ActiveForm::begin()?>
 
-<?=$form->field($model,'first_name')?>
 <?=$form->field($model,'second_name')?>
+<?=$form->field($model,'first_name')?>
 <?=$form->field($model,'patronymic')?>
 <?=$form->field($model,'birth_year')?>
 <?=$form->field($model,'citizen_id')->dropDownList(Country::getListForCombo(),['prompt' => \vova07\site\Module::t('default','SELECT')])?>

@@ -108,6 +108,16 @@ class Disability extends  Ownableitem
     }
 
 
+    public function attributeLabels()
+    {
+        return [
+            'group.title' => Module::t('labels', "DISABILITY_GROUP_TITLE_LABEL"),
+            'group_id' => Module::t('labels', "DISABILITY_GROUP_TITLE_LABEL"),
+            'person_id' => Module::t('labels', "PERSON_FIO_LABEL"),
+            'ref_person_id' => Module::t('labels', "REF_PERSON_LABEL"),
+            'document_id' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
 
+        ];
+    }
 
 }
