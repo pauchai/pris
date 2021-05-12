@@ -19,18 +19,31 @@ $this->params['breadcrumbs'] = [
 <?php
     $updateUrl = $model->getAttributes(['person_id', 'ref_person_id']);
     $updateUrl[0] = 'update';
+    $deleteUrl = $model->getAttributes(['person_id', 'ref_person_id']);
+    $deleteUrl[0] = 'delete';
 ?>
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
         'buttonsTemplate' => '{update}{delete}',
-        'buttons' => ['update' =>
+        'buttons' => [
+            'update' =>
             [
                 'url' => $updateUrl,
                 'icon' => 'fa-edit',
                 'options' => [
                     'class' => 'btn-default no-print',
                     'title' => Yii::t('vova07/themes/admin/widgets/box', 'update')
+                ]
+            ],
+            'delete' => [
+                'url' => $deleteUrl,
+                'icon' => 'fa-remove',
+                'options' => [
+                    'class' => 'btn-default no-print',
+                    'title' => Yii::t('vova07/themes/admin/widgets/box', 'delete'),
+                       'data-confirm' => Yii::t('vova07/themes/admin/widgets/box', 'Are you sure you want to delete this item?'),
+                    'data-method' => 'delete'
                 ]
             ]
         ]

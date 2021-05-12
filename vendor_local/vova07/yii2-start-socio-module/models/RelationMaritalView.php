@@ -10,6 +10,7 @@ namespace vova07\socio\models;
 
 
 
+use vova07\documents\models\Document;
 use vova07\prisons\Module;
 use vova07\users\models\Officer;
 use vova07\users\models\Person;
@@ -63,4 +64,12 @@ class RelationMaritalView   extends  ActiveRecord
     {
         return $this->hasOne(MaritalState::class, ['__person_id' => '__person_id', 'ref_person_id' => 'ref_person_id']);
     }
+    public function getMaritalDocument()
+    {
+        return $this->hasOne(Document::class,['__ownableitem_id' => 'document_id'])->via('maritalState');
+
+    }
+
+
+
 }

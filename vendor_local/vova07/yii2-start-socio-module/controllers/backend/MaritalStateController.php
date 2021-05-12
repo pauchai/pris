@@ -59,6 +59,12 @@ class MaritalStateController extends BackendController
             } else {
                 \Yii::$app->session->setFlash('error',join("<br/>" ,$model->getFirstErrors()));
             }
+        } else {
+
+            $model->setAttributes([
+                '__person_id' => \Yii::$app->request->get('person_id'),
+                'ref_person_id' => \Yii::$app->request->get('ref_person_id'),
+            ]);
         }
 
         return $this->render("create", ['model' => $model,'cancelUrl' => ['index']]);

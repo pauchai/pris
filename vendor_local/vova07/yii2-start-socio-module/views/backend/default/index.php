@@ -18,7 +18,7 @@ use vova07\base\helpers\HtmlExtra;
 
 
 $this->title = Module::t("default","SOCIO_TITLE");
-$this->params['subtitle'] = 'PSYCHO_DASHBOARD_TITLE';
+$this->params['subtitle'] = 'SOCIO_DASHBOARD_TITLE';
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -45,15 +45,13 @@ $this->params['breadcrumbs'] = [
 
 <?=GridView::widget([
         'dataProvider' => $dataProvider,
-    'filterModel' => 'searchModel',
+    'filterModel' => $searchModel,
     'columns' => [
 
         [
-                'attribute' => 'id',
+                'attribute' => 'fio',
 
-            'value' => function($model){
-                return $model->fio;
-            },
+
             'group' => true,
             //'groupedRow' => true,
             'groupOddCssClass' => 'kv-grouped-row',  // configure odd group cell css class
@@ -95,7 +93,10 @@ $this->params['breadcrumbs'] = [
        // 'relationType.title',
       //  'maritalStatus.title',
         [
-                'header' => '',
+             'attribute' => 'metaStatusId',
+            'filter' => \vova07\documents\models\Document::getMetaStatusesForCombo(),
+
+            //'header' => '',
             'content' => function($model){
                 $maritalState = ArrayHelper::getValue($model, 'maritalState');
                 if ($maritalState) {
@@ -104,6 +105,9 @@ $this->params['breadcrumbs'] = [
                         ['/socio/marital-state/view', 'id' => $maritalState->primaryKey],
                     $maritalState->document
                     );
+                } else {
+
+                    return  \yii\bootstrap\Html::a(Module::t('default', 'CREATE_STATE'), ['/socio/marital-state/create', 'person_id' => $model->__person_id, 'ref_person_id' => $model->ref_person_id]);
                 }
 
 

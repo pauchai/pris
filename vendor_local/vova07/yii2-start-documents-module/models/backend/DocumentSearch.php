@@ -1,6 +1,7 @@
 <?php
 namespace vova07\documents\models\backend;
 use vova07\base\components\DateJuiBehavior;
+use vova07\documents\models\DocumentQuery;
 use vova07\documents\Module;
 use vova07\prisons\models\Company;
 use yii\validators\DateValidator;
@@ -105,18 +106,22 @@ class DocumentSearch extends \vova07\documents\models\Document
             'status_id' => $this->status_id,
 
         ]);
+        $query = $dataProvider->query;
+        /**
+         * @var $query DocumentQuery
+         */
         if ($this->metaStatusId == self::META_STATUS_ABOUT_EXPIRATION)
-                $dataProvider->query->aboutExpiration();
+            $query->aboutExpiration();
         elseif ($this->metaStatusId == self::META_STATUS_EXPIRATED)
-                $dataProvider->query->expired();
+                $query->expired();
         elseif ($this->metaStatusId == self::META_STATUS_NOT_EXPIRED)
-                     $dataProvider->query->active()->notExpired();
+                     $query->active()->notExpired();
 
 
-        $dataProvider->query
+            $dataProvider->query
             ->andFilterWhere(['>=','date_issue',$this->issuedFrom])
             ->andFilterWhere(['<=','date_issue',$this->issuedTo]);
-        $dataProvider->query
+            $dataProvider->query
             ->andFilterWhere(['>=','date_expiration',$this->expiredFrom])
             ->andFilterWhere(['<=','date_expiration',$this->expiredTo]);
         if ($this->companyId && ($company = Company::findOne($this->companyId))){
