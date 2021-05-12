@@ -42,9 +42,9 @@ class m210407_115130_personDecoupleIdentReassignRelations extends Migration
         'fx_document_assigned_to' => [
             'table' => 'document', 'column' => 'assigned_to', 'ref_table' => 'officer', 'ref_column' => '__person_id'
         ],
-        'fk_biblio_journalperson_id_person___ident_id' => [
-            'table' => 'biblio_journal', 'column' => 'person_id', 'ref_table' => 'person', 'ref_column' => '__ident_id'
-        ],
+        //'fk_biblio_journalperson_id_person___ident_id' => [
+        //    'table' => 'biblio_journal', 'column' => 'person_id', 'ref_table' => 'person', 'ref_column' => '__ident_id'
+       // ],
         'fk_prisoner1424250747' => [
             'table' => 'prisoner', 'column' => '__person_id', 'ref_table' => 'person', 'ref_column' => '__ident_id'
         ],
