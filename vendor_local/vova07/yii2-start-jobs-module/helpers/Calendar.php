@@ -13,6 +13,7 @@ use vova07\jobs\models\Holiday;
 use vova07\jobs\models\WorkDay;
 use vova07\prisons\models\Penalty;
 use vova07\users\models\Prisoner;
+use yii\db\Expression;
 
 class Calendar
 {
@@ -110,13 +111,15 @@ class Calendar
 
     public static function checkDateInPenaltyForPrisoner(Prisoner $prisoner, \DateTime $date)
     {
+
         $query = $prisoner->getPenalties()
             ->andWhere(
-            ['<=', 'date_start', $date->getTimestamp() ]
-        )
-            ->andWhere(
-            ['>=', 'date_finish', $date->getTimestamp() ]
-        );
+            //['<', 'date_start', $date->getTimestamp() ]
+            ['<=', new Expression('DATE(FROM_UNIXTIME(date_start))'), $date->format('Y-m-d') ]
+
+            )->andWhere(
+            ['>=', new Expression('DATE(FROM_UNIXTIME(date_finish))'), $date->format('Y-m-d') ]
+             );
         return $query->count()>0;
     }
 }
