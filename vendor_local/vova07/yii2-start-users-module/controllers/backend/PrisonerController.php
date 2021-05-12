@@ -157,7 +157,7 @@ class PrisonerController extends BackendController
 
         if (\Yii::$app->request->post()){
             $prisoner->load(\Yii::$app->request->post());
-            $prisoner->person->ident = new Ident();
+          // $prisoner->person->ident = new Ident();
             if ($prisoner->save()){
                 return $this->redirect(['view', 'id'=>$prisoner->getPrimaryKey()]);
             }else {
