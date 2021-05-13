@@ -61,13 +61,15 @@ $this->params['breadcrumbs'] = [
 
                 $addButton = Html::a(Module::t('labels','CREATE_RELATION'), ['create-relation', 'person_id' => $model->__person_id],
                     ['class' => "btn btn-default btn_post_new btn-xs"]);
+                $addMaritalStateButton = \yii\bootstrap\Html::a(Module::t('default', 'CREATE_STATE'), ['/socio/marital-state/create', 'person_id' => $model->__person_id]);
 
                 return [
                     //'mergeColumns' => [[2,3]], // columns to merge in summary
 
                     'content' => [             // content to show in each summary cell
 
-                        3 => $addButton,
+                        2 => $addButton,
+                        3 => $addMaritalStateButton,
                         //   3 => GridView::F_SUM,
 
 
