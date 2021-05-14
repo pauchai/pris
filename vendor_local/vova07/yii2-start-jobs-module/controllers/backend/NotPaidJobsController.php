@@ -148,7 +148,7 @@ class NotPaidJobsController extends BackendController
 
         $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
 
-        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
+        $officer = \Yii::$app->user->identity->officer;
 
 
         return $this->render("table-individual-report", [
