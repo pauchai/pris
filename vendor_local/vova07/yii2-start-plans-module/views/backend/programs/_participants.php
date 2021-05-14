@@ -104,7 +104,8 @@ foreach($model->getProgramVisits()->distinctDates() as $dateValue){
 
 $gridColumns[] = [
         'visible' => !$this->context->isPrintVersion,
-        'class' => \yii\grid\ActionColumn::class,
+        'header' => '__Actions__',
+         'class' => \yii\grid\ActionColumn::class,
         'template' => '{visits}{update}{view}{delete}',
         'buttons' => [
             'view' => function ($url, $model, $key) {
@@ -134,6 +135,7 @@ $gridColumns[] = [
 
 
 <?php
+$countGridColumns = count($gridColumns);
 $participantsGridId = 'participants';
 
 echo Html::a(Html::tag('i', '' ,['class'=>'fa fa-plus']), "#",['id'=>"newDateColumnButton"]).
@@ -279,14 +281,14 @@ $css =  <<<CSS
        overflow-x: auto;
        
 }
-.new-input {width: 7em;}
+.new-input {width: 8em;}
 
 
 
 
 .grid-view table {
   
-  width: 1900px;
+/*  width: 2300px;*/
   
 }
 .grid-view table thead tr th:nth-child(1),
@@ -306,14 +308,26 @@ $css =  <<<CSS
   top: auto;
     left:3em;
   position: absolute;
-  width: 16em;
+  width: 18em;
 }
 
 .grid-view  table thead tr th:nth-child(3),
 .grid-view  table tbody tr td:nth-child(3) {
-  padding-left: 20em;
+    background:#eff1f7;
+
+  top:auto;
+  left:20em;
+  width:7em;
+  position:absolute;
+ 
   
 }
+.grid-view  table thead tr th:nth-child(4),
+.grid-view  table tbody tr td:nth-child(4) {
+  padding-left: 28em; 
+  
+}
+
 
 
 CSS;
