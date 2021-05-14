@@ -153,7 +153,7 @@ class ProgramPrisoner extends  Ownableitem
                 'value' => function($event){
                     if ($event->sender->date_plan)
                     {
-                        return \Yii::$app->user->id;
+                        return \Yii::$app->user->identity->officer->primaryKey;
                     }
                 }
 
