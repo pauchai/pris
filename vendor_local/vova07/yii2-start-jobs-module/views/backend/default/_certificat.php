@@ -88,13 +88,13 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
         </td>
 
         <td width="50%"  style="padding-left:10px;" >
-            <p style="margin:0px"><b><?=$educator->post->title?></b></p>
-            <p style="margin:0px"><?=$educator->rank->title?></p>
+            <p style="margin:0px"><b><?=Yii::$app->user->identity->officer->post->title?></b></p>
+            <p style="margin:0px"><?=Yii::$app->user->identity->officer->rank->title?></p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
-            <p style="margin:0px"><?=$educator->person->fio?></p>
+            <p style="margin:0px"><?=Yii::$app->user->identity->officer->person->fio?></p>
             <p style="margin:0px"><?=date('d.m.Y')?></p>
 
         </td>
