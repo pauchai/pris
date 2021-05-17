@@ -95,7 +95,10 @@ $balanceRemain  = $model->getBalances()->debit()->sum('amount') - $model->getBal
                   Html::tag('span',
                       Html::tag('span',$model->getCommities()->count(), ['class' => "label label-primary pull-right"] ),
                       ['class' => 'pull-right-container']),
-              'url' => ['/tasks/committee'],
+              'url' => ['/tasks/committee',
+                      'CommitteeNotFinishedSearch[prisoner_id]' => $model->primaryKey,
+                        'CommitteeFinishedSearch[prisoner_id]' => $model->primaryKey,
+              ],
 
           ],
 
