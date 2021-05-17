@@ -34,6 +34,7 @@ class Event extends  Ownableitem
     const STATUS_PLANING = 9;
     const STATUS_ACTIVE = 10;
     const STATUS_FINISHED = 11;
+    const STATUS_CANCELED = 12;
 
     const CATEGORY_ARTA_PLASTICA = 1;
     const CATEGORY_MASURA_CULTURAL_EDUCATIVE = 2;
@@ -155,6 +156,8 @@ class Event extends  Ownableitem
             self::STATUS_PLANING => Module::t('default', 'STATUS_PLANING'),
         //    self::STATUS_ACTIVE => Module::t('default', 'STATUS_ACTIVE'),
             self::STATUS_FINISHED => Module::t('default', 'STATUS_FINISHED'),
+            self::STATUS_CANCELED => Module::t('default', 'STATUS_CANCELED'),
+
         ];
     }
 

@@ -290,7 +290,7 @@ use vova07\site\Module;
 //                        ]
 //                    ],
                     ['label' =>  Module::t('menu', 'SOCIO_MENU'),'icon' => 'cube','url' => '#',
-                        //'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
                         'items' => [
 
                             ['label' => Module::t('menu','SOCIO_DASHBOARD'),'icon' => 'circle','url'=>['/socio/default/index'],
