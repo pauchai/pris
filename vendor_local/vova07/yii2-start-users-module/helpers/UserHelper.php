@@ -24,4 +24,16 @@ class UserHelper
         }*/
         return $query;
     }
+
+    public static function getPersonIdsByRolesQuery($roles)
+    {
+        $query = User::find()->select(['person_id']);
+        $query->andWhere(['role' => $roles])->joinWith('ident');
+        /*foreach ($roles as $role ){
+            $query->orWhere([
+                'role' => $role,
+            ]);
+        }*/
+        return $query;
+    }
 }

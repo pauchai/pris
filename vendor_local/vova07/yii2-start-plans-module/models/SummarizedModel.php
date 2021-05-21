@@ -94,7 +94,7 @@ class SummarizedModel extends  Model
         $dateStartFrom = \DateTime::createFromFormat($this->format,$this->at)->setTime(0,0,0);
         $dateStartTo = (clone $dateStartFrom)->add(new \DateInterval('PT24H'));
         return Event::find()->andWhere([
-            'assigned_to' => $this->getUserIdsByRolesQuery($roles),
+            'assigned_to' => $this->gePersonIdsByRolesQuery($roles),
           ]
         )->andWhere(
              ['>=', 'date_start', $dateStartFrom->getTimestamp()  ]
@@ -133,7 +133,7 @@ class SummarizedModel extends  Model
     public function getProgramVisitsByRoles($roles)
     {
         return ProgramVisit::find()->joinWith('programPrisoner')->joinWith('programPrisoner.program')->andWhere([
-                'programs.assigned_to' => $this->getUserIdsByRolesQuery($roles),
+                'programs.assigned_to' => $this->gePersonIdsByRolesQuery($roles),
             ]
         )->presented()->andWhere(['program_visits.date_visit' => $this->at]);
     }
@@ -146,7 +146,7 @@ class SummarizedModel extends  Model
 
         return ConceptClass::find()->joinWith('concept')->
             andWhere([
-           'concepts.assigned_to' => $this->getUserIdsByRolesQuery($roles)
+           'concepts.assigned_to' => $this->gePersonIdsByRolesQuery($roles)
         ])->andWhere(
             ['>=', 'at', $dateStartFrom->getTimestamp()  ]
         )->andWhere(
@@ -174,5 +174,8 @@ class SummarizedModel extends  Model
         return UserHelper::getUserIdsByRolesQuery($roles);
     }
 
-
+    private function gePersonIdsByRolesQuery($roles)
+    {
+        return UserHelper::getPersonIdsByRolesQuery($roles);
+    }
 }
