@@ -10,9 +10,10 @@ use vova07\finances\models\backend\BalanceSearch;
 use vova07\finances\models\BalanceCategory;
 use yii\bootstrap\Button;
 use yii\bootstrap\ButtonDropdown;
+use yii\grid\DataColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-class DataColumnWithButtonActionRemain extends \yii\grid\DataColumn
+class DataColumnWithButtonActionRemain extends \kartik\grid\DataColumn
 {
     public $headerActionUrl = ['/finances/balance/index'];
     public $dataCellActionUrl = ['/finances/default/view'];

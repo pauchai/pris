@@ -53,6 +53,8 @@ class DeviceAccounting extends  Ownableitem
     const STATUS_READY_FOR_PROCESSING = 2;
     const STATUS_PROCESSED = 3;
 
+    public $skip_auto_calculation = false;
+
     // public $fromDateJui;
     // public $toDateJui;
 
@@ -67,9 +69,11 @@ class DeviceAccounting extends  Ownableitem
             [['device_id', 'dateRange'], 'required'],
             //   [['from_date'],'default', 'value' => Calendar::getRangeForDate(time())[0]->getTimeStamp()],
             //   [['to_date'],'default', 'value' => Calendar::getRangeForDate(time())[1]->getTimeStamp()],
-            [['value','prisoner_id'], 'number'],
+            [['value','prisoner_id','price'], 'number'],
            // [['fromDateJui','toDateJui'],'string'],
-            [['status_id'], 'default', 'value' => DeviceAccounting::STATUS_INIT]
+            [['status_id'], 'default', 'value' => DeviceAccounting::STATUS_INIT],
+            [['skip_auto_calculation'], 'boolean'],
+
             //DefaultValueValidator::
 
 
@@ -135,21 +139,25 @@ class DeviceAccounting extends  Ownableitem
                         //\yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'value',
                     ],
                     'value' => function ($event) {
-                        return $event->sender->autoCalculation();
+                        $value = $event->sender->autoCalculation();
+                        if (!$event->sender->skip_auto_calculation)
+                            $event->sender->price = $event->sender->calculatePrice();
+                        return $value;
 
                     },
                 ],
-                'savePrice' => [
+               /* 'savePrice' => [
                     'class' => AttributeBehavior::class,
                     'attributes' => [
                          \yii\db\ActiveRecord::EVENT_AFTER_VALIDATE => 'price',
                          //\yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'price',
                     ],
                     'value' => function ($event) {
-                        return $event->sender->calculatePrice();
+                       // if (!$this->skipAutocalculation)
+                         return $event->sender->calculatePrice();
 
                     },
-                ],
+                ],*/
 
             ];
         } else {

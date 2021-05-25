@@ -34,6 +34,8 @@ use vova07\electricity\Module;
 ])?>
 
 <?=$form->field($model, 'value')?>
+<?=$form->field($model, 'price')?>
+<?=$form->field($model, 'skip_auto_calculation')->checkbox()?>
 <?=$form->field($model,'status_id')->dropDownList(\vova07\electricity\models\DeviceAccounting::getStatusesForCombo(),['prompt'=>Module::t('default','SELECT_STATUS_PROMPT')])?>
 <?php $box->beginFooter();?>
 <div class="form-group">
