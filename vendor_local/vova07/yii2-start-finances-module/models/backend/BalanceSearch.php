@@ -31,7 +31,7 @@ class BalanceSearch extends Balance
             'query' => $query,
             'sort' => false,
         ]);
-        $query->orderBy('at DESC');
+        $query->orderBy('__ownableitem_id DESC');
 
 
         if (!($this->load($params) && $this->validate())) {
