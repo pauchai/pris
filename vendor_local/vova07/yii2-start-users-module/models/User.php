@@ -168,6 +168,10 @@ class User extends  Ownableitem implements IdentityInterface
 
     public static function getRolesForCombo()
     {
+
+        $roles = \Yii::$app->authManager->getRoles();
+        return ArrayHelper::map($roles,'name', 'name');
+        /*
         return [
             \vova07\rbac\Module::ROLE_SUPERADMIN => \vova07\rbac\Module::ROLE_SUPERADMIN,
             \vova07\rbac\Module::ROLE_ADMIN => \vova07\rbac\Module::ROLE_ADMIN,
@@ -184,6 +188,7 @@ class User extends  Ownableitem implements IdentityInterface
 
 
         ];
+        */
     }
 
     public static function getListForCombo()
