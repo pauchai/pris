@@ -260,35 +260,36 @@ use vova07\site\Module;
 
 
 
-//
-//                    ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
-//                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
-//                        'items' => [
-//                            [
-//                                'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
-//                                'items' => [
-//                                        [
-//                                            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default'],
-//                                        ],
-//                                    [
-//                                        'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge'],
-//                                    ],
-//                                    [
-//                                        'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold'],
-//                                    ],
-//
-//                                ],
-//
-//                                'visible' => true,
-//                            ],
-//
-//                            [
-//                                'label' => Module::t('menu','SALARY_CLASSES_LIST'),'icon' => 'circle','url'=>['/salary/salary-classes'],
-//                                'visible' => true,
-//                            ],
-//
-//                        ]
-//                    ],
+/*
+                    ['label' =>  Module::t('menu', 'SALARY_MENU'),'icon' => 'calendar-check','url' => '#',
+                        'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SALARY_ACCEPT),
+                        'items' => [
+                            [
+                               'label' => Module::t('menu','SALARY_LIST'),'icon' => 'circle','url'=>['/salary/default'],
+                                'items' => [
+                                        [
+                                            'label' => Module::t('menu','SALARY'),'icon' => 'circle','url'=>['/salary/default'],
+                                        ],
+                                    [
+                                        'label' => Module::t('menu','SALARY_CHARGE'),'icon' => 'circle','url'=>['/salary/default/charge'],
+                                    ],
+                                    [
+                                       'label' => Module::t('menu','SALARY_WITHHOLD'),'icon' => 'circle','url'=>['/salary/default/withhold'],
+                                    ],
+
+                                ],
+
+                                'visible' => true,
+                            ],
+
+                            [
+                                'label' => Module::t('menu','SALARY_CLASSES_LIST'),'icon' => 'circle','url'=>['/salary/salary-classes'],
+                                'visible' => true,
+                            ],
+
+                        ]
+                    ],
+                    */
                     ['label' =>  Module::t('menu', 'SOCIO_MENU'),'icon' => 'cube','url' => '#',
                         'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_SOCIO_LIST),
                         'items' => [
