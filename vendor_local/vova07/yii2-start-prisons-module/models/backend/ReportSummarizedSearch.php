@@ -368,7 +368,7 @@ EXPRESSION
         //  ]);
         $query->andFilterWhere(
             [
-                'assigned_to' => \Yii::$app->user->getId()
+                'assigned_to' => \Yii::$app->user->identity->person->primaryKey
             ]
         );
         return $query;

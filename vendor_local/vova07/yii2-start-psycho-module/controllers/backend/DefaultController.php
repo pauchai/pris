@@ -59,7 +59,7 @@ class DefaultController extends BackendController
             $dataProvider->pagination = false;
 
         $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
-        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->id]);
+        $officer = Officer::findOne(['__person_id' => \Yii::$app->user->identity->person->primaryKey]);
 
         return $this->render("index_print", [
             'searchModel'=>$searchModel,'dataProvider'=>$dataProvider,
