@@ -84,7 +84,7 @@ class Committee extends  Ownableitem
                 'subject_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'mark_id' => Schema::TYPE_STRING,
-                'assigned_to' => Schema::TYPE_STRING . ' NOT NULL',
+                'assigned_to' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'date_start' => $migration->bigInteger(),
                 'date_finish' => $migration->bigInteger(),
                 'status_id' => Schema::TYPE_TINYINT . ' NOT NULL'
