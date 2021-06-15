@@ -18,6 +18,9 @@ use kartik\grid\GridView;
         ],
 
         'person.birth_year',
-        'sector.title'
+        'sector.title',
+        [
+            'value' => 'termDateFromJournal'
+        ]
     ]
 ])?>

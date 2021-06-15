@@ -502,5 +502,10 @@ class Prisoner extends  OwnableItem
     {
         return $this->hasMany(MaritalState::class, ['__person_id' => '__person_id']);
     }
+    public function getTermDateFromJournal()
+    {
+        $journal = PrisonerLocationJournal::find()->andWhere(['prisoner_id' => $this->primaryKey])->andWhere(['in','status_id', [self::STATUS_TERM,self::STATUS_TERM_91, self::STATUS_TERM_92, self::STATUS_TERM_473]])->one();
+        return ArrayHelper::getValue($journal,'atJui');
+    }
 
 }

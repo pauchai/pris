@@ -12,6 +12,7 @@ namespace vova07\users\models;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsTrait;
+use vova07\base\components\DateJuiBehavior;
 use vova07\base\ModelGenerator\Helper;
 use vova07\base\models\ActiveRecordMetaModel;
 use vova07\base\models\Item;
@@ -28,7 +29,7 @@ use yii\db\BaseActiveRecord;
 use yii\db\Migration;
 use yii\db\Schema;
 use yii\helpers\ArrayHelper;
-
+use vova07\base\components\DateConvertJuiBehavior;
 
 class PrisonerLocationJournal extends  ActiveRecordMetaModel
 {
@@ -90,6 +91,11 @@ class PrisonerLocationJournal extends  ActiveRecordMetaModel
                     'class' => TimestampBehavior::class,
                     'createdAtAttribute' => 'at',
                     'updatedAtAttribute' => false,
+                ],
+                'atJui' => [
+                    'class' => DateJuiBehavior::className(),
+                    'attribute' => 'at',
+                    'juiAttribute' => 'atJui'
                 ],
             ];
         } else {
