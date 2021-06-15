@@ -39,12 +39,16 @@ class Committee extends  Ownableitem
     const MARK_REALIZED = 10;
     const MARK_NOT_REALIZED = 11;
 
+    const MARK_BEHAVIOUR_POSITIVE = 1;
+    const MARK_BEHAVIOUR_NEGATIVE = 2;
+
     const SUBJECT_91 = 1;
     const SUBJECT_92 = 2;
     const SUBJECT_248_2 = 3;
     const SUBJECT_251 = 4;
     const SUBJECT_AMNISTIA = 5;
     const SUBJECT_POMILOVANIE = 6;
+
 
 
     const STATUS_INIT = 1;
@@ -61,7 +65,7 @@ class Committee extends  Ownableitem
         return [
             [['subject_id', 'prisoner_id', 'assigned_to','status_id'], 'required'],
 
-            [['mark_id'],'integer'],
+            [['mark_id', 'mark_behaviour_id'],'integer'],
             [['dateStartJui', 'dateFinishJui'],'date'],
             ['dateFinishJui', 'required', 'when' => function($model){ return $model->status_id == self::STATUS_FINISHED;}
                 , 'whenClient' => "function (attribute, value) {
@@ -84,6 +88,7 @@ class Committee extends  Ownableitem
                 'subject_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'prisoner_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'mark_id' => Schema::TYPE_STRING,
+                'mark_behaviour_id' => Schema::TYPE_STRING,
                 'assigned_to' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'date_start' => $migration->bigInteger(),
                 'date_finish' => $migration->bigInteger(),
@@ -231,6 +236,23 @@ class Committee extends  Ownableitem
             return self::getMarksForCombo()[$this->mark_id];
     }
 
+
+    public static function getMarksBehaviourForCombo()
+    {
+        return [
+            self::MARK_BEHAVIOUR_POSITIVE => Module::t('default','MARK_BEHAVIOUR_POSITIVE'),
+            self::MARK_BEHAVIOUR_NEGATIVE => Module::t('default','MARK_BEHAVIOUR_NEGATIVE'),
+
+        ];
+    }
+    public function getMarkBehaviour()
+    {
+        if (is_null($this->mark_behaviour_id) || $this->mark_behaviour_id=="")
+            return null;
+        else
+            return self::getMarksBehaviourForCombo()[$this->mark_behaviour_id];
+    }
+
     public function getPrisoner()
     {
         return $this->hasOne(Prisoner::class,['__person_id'=>'prisoner_id']);
@@ -251,6 +273,8 @@ class Committee extends  Ownableitem
             'dateFinishJui' => Module::t('labels','DATE_FINISH_LABEL'),
             'mark_id' => Module::t('labels','MARK_LABEL'),
             'mark' => Module::t('labels','MARK_LABEL'),
+            'mark_behaviour_id' => Module::t('labels','MARK_BEHAVIOUR_LABEL'),
+            'markBehaviour' => Module::t('labels','MARK_BEHAVOUR_LABEL'),
             'status_id' => Module::t('labels','STATUS_LABEL'),
 
 

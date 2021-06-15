@@ -27,6 +27,7 @@ use vova07\users\models\Officer;
 <?= $form->field($model,'dateStartJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?= $form->field($model,'dateFinishJui')->widget(\kartik\widgets\DatePicker::class)?>
 <?= $form->field($model,'mark_id')->dropDownList(Committee::getMarksForCombo(),['prompt' => Module::t('default','SELECT_MARK_PROMPT')])?>
+<?= $form->field($model,'mark_behaviour_id')->dropDownList(Committee::getMarksBehaviourForCombo(),['prompt' => Module::t('default','SELECT_MARK_BEHAVIOUR_PROMPT')])?>
 <?= $form->field($model,'status_id')->dropDownList(Committee::getStatusesForCombo(),['prompt' => Module::t('default','SELECT_STATUS_PROMPT')])?>
 
 

@@ -221,6 +221,17 @@ $this->params['breadcrumbs'] = [
             'filterInputOptions' => ['prompt' => Module::t('default','SELECT_MARK_FILTER'), 'class'=> 'form-control', 'id' => null],
         ],
 
+        [
+            'attribute' => 'mark_behaviour_id',
+            'value' => 'markBehaviour',
+            'filter' => Committee::getMarksForCombo(),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['prompt' => Module::t('default','SELECT_MARK_BEHAVOUR_FILTER'), 'class'=> 'form-control', 'id' => null],
+        ],
+
 
         [
             'attribute' => 'status_id',
