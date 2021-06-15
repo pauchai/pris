@@ -146,7 +146,7 @@ class Document extends  Ownableitem
 
             ],
             'indexes' => [
-                [self::class, ['type_id','country_id','person_id'], true],
+                //[self::class, ['type_id','country_id','person_id'], true],
                 [self::class, ['status_id']],
                 [self::class, ['date_issue']],
                 [self::class, ['date_expiration']],
