@@ -4,6 +4,7 @@ use yii\bootstrap\Html;
 use vova07\humanitarians\Module;
 use vova07\prisons\models\Company;
 use vova07\humanitarians\models\HumanitarianItem;
+use vova07\humanitarians\models\HumanitarianIssue;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\humanitarians\models\HumanitarianIssue
@@ -23,6 +24,18 @@ use vova07\humanitarians\models\HumanitarianItem;
         'data' => Company::getListForCombo(),
         'options' => [
             'placeholder' => Module::t('default','SELECT_COMPANY_LABEL'),
+        ],
+        'pluginOptions' => [
+            'allowClear' => 'true'
+        ]
+    ]
+)?>
+<?=$form->field($model,'status_id')->widget(\kartik\select2\Select2::class,
+    [
+
+        'data' => HumanitarianIssue::getStatusesForCombo(),
+        'options' => [
+            'placeholder' => Module::t('default','SELECT_HUMANITARIAN_ISSUE_STATUS'),
         ],
         'pluginOptions' => [
             'allowClear' => 'true'

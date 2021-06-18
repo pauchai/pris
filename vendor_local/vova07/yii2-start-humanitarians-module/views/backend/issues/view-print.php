@@ -93,23 +93,8 @@ $gridColumns = [
 ?>
 
 <?php
-    $humanitarianItems = $model->getItems();
+    $gridColumns=require('_grid_columns.php');
 
-    $issueModel = $model;
-    foreach ($humanitarianItems as $humanitarianItem)
-    {
-        $gridColumns[] = [
-
-            'class' => \vova07\humanitarians\components\HumanitarianColumn::class,
-            'template' => '{toggle-item}',
-            'humanitarianItem' => $humanitarianItem,
-            'humanitarianIssue' => $model,
-            'header' => $humanitarianItem->title,
-            'massAction' => \yii\helpers\Url::to(['mass-add', 'issue_id'=>$issueModel->primaryKey, 'item_id' => $humanitarianItem->primaryKey, 'sector_id' => $searchModel['sector_id']])
-            //'header'=> $humanitarianItem->title,
-            //'content' => function($model){return 'test';}
-        ];
-    }
     $gridColumns[] = [
         'header' => Html::tag('div', Module::t('default','SEMNATURA_LABEL'),['style'=>'text-align:center']) ,
         'content' => function($model){return '';},

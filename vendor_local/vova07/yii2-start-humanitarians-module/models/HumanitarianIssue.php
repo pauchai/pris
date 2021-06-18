@@ -22,6 +22,8 @@ use yii\validators\DefaultValueValidator;
 
 class HumanitarianIssue extends  Ownableitem
 {
+    const STATUS_PROCESSING = 1;
+    const STATUS_PROCESSED = 2;
 
     public static function tableName()
     {
@@ -32,7 +34,7 @@ class HumanitarianIssue extends  Ownableitem
     {
         return [
             [['dateIssueJui'], 'date','format'=>Module::getInstance()->dateFormat],
-            [['items', 'company_id'],'safe'],
+            [['items', 'company_id', 'status_id'],'safe'],
             [['company_id'], 'default','value' => \Yii::$app->base->company->primaryKey]
         ];
 
@@ -52,6 +54,7 @@ class HumanitarianIssue extends  Ownableitem
                 'date_issue' => $migration->bigInteger()->notNull(),
                 'items' => $migration->json(),
                 'company_id' => $migration->integer(),
+                'status_id' => $migration->tinyInteger()->notNull(),
             ],
             'foreignKeys' => [
                 [self::class, 'company_id', Company::class, Company::primaryKey()],
@@ -92,8 +95,21 @@ class HumanitarianIssue extends  Ownableitem
 
     public static function find()
     {
-        return new HumanitarianItemQuery(get_called_class());
+        return new HumanitarianIssueQuery(get_called_class());
 
+    }
+
+    public static function getStatusesForCombo()
+    {
+        return [
+          self::STATUS_PROCESSING => Module::t('default','STATUS_PROCESSING'),
+          self::STATUS_PROCESSED => Module::t('default','STATUS_PROCESSED'),
+        ];
+    }
+
+    public function getStatus()
+    {
+        return self::getStatusesForCombo()[$this->status_id];
     }
 
     public function getOwnableitem()

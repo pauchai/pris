@@ -3,9 +3,11 @@ namespace vova07\humanitarians\controllers\backend;
 use vova07\base\components\BackendController;
 use vova07\events\models\Event;
 use vova07\events\Module;
+use vova07\humanitarians\models\backend\HumanitarianByPrisonerPivotSearch;
 use vova07\humanitarians\models\backend\HumanitarianIssueSearch;
 use vova07\humanitarians\models\backend\HumanitarianPrisonerSearch;
 use vova07\humanitarians\models\HumanitarianIssue;
+use vova07\humanitarians\models\HumanitarianItem;
 use vova07\humanitarians\models\HumanitarianPrisoner;
 use vova07\tasks\models\backend\CommitteeSearch;
 use vova07\tasks\models\Committee;
@@ -13,6 +15,7 @@ use vova07\users\models\backend\PrisonerViewSearch;
 use vova07\users\models\backend\User;
 use vova07\users\models\Officer;
 use vova07\users\models\Prisoner;
+use yii\base\Exception;
 use yii\db\Query;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -54,7 +57,7 @@ class IssuesController extends BackendController
             ],
             [
                 'allow' => true,
-                'actions' => ['view', 'view-print'],
+                'actions' => ['view', 'view-print', 'view-for-managment'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_HUMANITARIAN_VIEW]
             ],
             [
@@ -90,7 +93,7 @@ class IssuesController extends BackendController
             if ($model->validate() && $model->save()) {
                 $redirectUrl = ['id' => $model->primaryKey];
                 $redirectUrl[0] = 'view';
-                return $this->redirect($redirectUrl);
+                return $this->goBack();
             } else {
                 \Yii::$app->session->setFlash('error', join("<br/>", $model->getFirstErrors()));
             }
@@ -103,48 +106,58 @@ class IssuesController extends BackendController
         if (is_null($model = HumanitarianIssue::findOne($id))) {
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
-        $prisonerSearch = new PrisonerViewSearch();
-        $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
-        $dataProvider->pagination->setPageSize(100);
-        //$dataProvider->pagination=false;
 
-        if ($this->isPrintVersion) {
-            return $this->render('view_PRINT', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
-        } else {
-            return $this->render('view', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
+            if ($model->status_id == HumanitarianIssue::STATUS_PROCESSING)
+                $this->redirect(['view-for-managment', 'id'=>$id]);
+
+
+            $searchModel = new HumanitarianByPrisonerPivotSearch();
+            $searchModel->issue_id = $id;
+            $dataProvider =  $searchModel->search(\Yii::$app->request->get());
+
+
+
+            $dataProvider->pagination->setPageSize(100);
+
+
+            //$dataProvider->pagination=false;
+
+        if ($this->isPrintVersion){
+            $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
+            $officer = \Yii::$app->user->identity->officer;
+            $dataProvider->pagination = false;
+
+            if (!$officer){
+                throw new Exception('Only for officers');
+            }
+            return $this->render('view-print', compact('model', 'searchModel', 'dataProvider', 'officer', 'director'));
+        } else{
+            return $this->render('view', compact('model', 'searchModel', 'dataProvider'));
         }
 
 
+
+
+
     }
-    public function actionViewPrint($id)
+
+    public function actionViewForManagment($id)
     {
-        $this->isPrintVersion = true;
-        $this->layout = '@vova07/themes/adminlte2/views/layouts/print.php';
         if (is_null($model = HumanitarianIssue::findOne($id))) {
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
         $prisonerSearch = new PrisonerViewSearch();
         $dataProvider = $prisonerSearch->search(\Yii::$app->request->get());
-        if ($this->isPrintVersion)
-            $dataProvider->pagination=false;
-        else
-            $dataProvider->pagination->setPageSize(100);
-
-        //
-        $director = User::findOne(['role' => \vova07\rbac\Module::ROLE_COMPANY_HEAD])->officer;
-        $officer = \Yii::$app->user->identity->officer;
+        $dataProvider->pagination->setPageSize(100);
+        //$dataProvider->pagination=false;
 
 
-
-        return $this->render('view-print', [
-                'model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch,
-                'director' => $director,
-                'officer' => $officer,
-            ]);
+        return $this->render('view-for-managment', ['model' => $model, 'dataProvider' => $dataProvider, 'searchModel' => $prisonerSearch]);
 
 
 
     }
+
 
     public function actionDelete($id)
     {
@@ -152,7 +165,7 @@ class IssuesController extends BackendController
             throw new NotFoundHttpException(Module::t('default', "ITEM_NOT_FOUND"));
         };
         if ($model->delete()) {
-            return $this->redirect(['index']);
+            return $this->goBack();
         };
         throw new \LogicException(Module::t('default', "CANT_DELETE"));
     }
@@ -167,7 +180,7 @@ class IssuesController extends BackendController
             $model->load(\Yii::$app->request->post());
             if ($model->validate()) {
                 if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->getPrimaryKey()]);
+                    return $this->goBack();
                 };
             };
         }

@@ -34,10 +34,12 @@ $this->params['breadcrumbs'] = [
         ['class' => yii\grid\SerialColumn::class],
         'dateIssueJui',
         'company.title',
+        'status',
         [
             'class' => yii\grid\ActionColumn::class,
 
-        ]
+        ],
+
     ]
 ])?>
 
