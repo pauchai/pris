@@ -208,4 +208,9 @@ class User extends  Ownableitem implements IdentityInterface
     {
         return PlanItemGroup::findOne(['role' => $this->role]);
     }
+
+    public function getStatus()
+    {
+       return self::getStatusesForCombo()[$this->status_id];
+    }
 }
