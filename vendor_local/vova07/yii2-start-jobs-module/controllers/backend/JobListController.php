@@ -30,11 +30,7 @@ class JobListController extends BackendController
         $behaviors = parent::behaviors();
 
         $behaviors['access']['rules'] = [
-            [
-                'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
-                'roles' => ['@']
-            ],
+
             [
                 'allow' => true,
                 'actions' => ['index'],

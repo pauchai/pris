@@ -28,11 +28,7 @@ class DefaultController extends BackendController
         $behaviors = parent::behaviors();
 
         $behaviors['access']['rules'] = [
-            [
-                'allow' => true,
-                'actions' => ['index' ,'index-print','create', 'update'],
-                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_LIST],
-            ],
+
             [
                 'allow' => true,
                 'actions' => ['index' ,'index-print'],
