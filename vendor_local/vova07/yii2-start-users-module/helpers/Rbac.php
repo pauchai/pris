@@ -64,7 +64,19 @@ class Rbac
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR, $permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
 
+
         }
+
+        $permissions = [
+            Module::PERMISSION_PRISONERS_LIST,
+        ];
+        foreach($permissions as $permissionName) {
+
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_PRISONER_ACCOUNTING_HEAD,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_PRISONER_ACCOUNTING_EXPERT,$permissionName);
+
+        }
+
 
         \vova07\rbac\helpers\Rbac::addPermission(Module::PERMISSION_QUICK_SWITCH_USER);
         \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SUPERADMIN,Module::PERMISSION_QUICK_SWITCH_USER);

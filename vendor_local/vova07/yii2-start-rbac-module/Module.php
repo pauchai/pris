@@ -22,6 +22,8 @@ class Module extends \vova07\base\components\Module
     const ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD = 'LogisticAndAdministrationDepartmentHead';
     const ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT = 'LogisticAndAdministrationDepartmentExpert';
     const ROLE_COMPANY_HEAD = 'CompanyHead';
+    const ROLE_PRISONER_ACCOUNTING_HEAD = 'BROLE_PRISONER_ACCOUNTING_HEAD';
+    const ROLE_PRISONER_ACCOUNTING_EXPERT = 'BROLE_PRISONER_ACCOUNTING_EXPERT';
 
     const PERMISSION_ACCESS_BACKEND = 'accessBackend';
     const PERMISSION_ADMINISTRATE_RBAC = 'administrateRbac';

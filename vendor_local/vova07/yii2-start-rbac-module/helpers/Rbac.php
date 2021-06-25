@@ -119,7 +119,11 @@ class Rbac
         $logisticAndAdministrationDepartmentExpert = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT);
         $auth->add($logisticAndAdministrationDepartmentExpert);
 
-         $auth->addChild($logisticAndAdministrationDepartmentExpert,$logisticAndAdministrationDepartmentHead );
+        $prisonerAccountingHead = $auth->createRole(Module::ROLE_PRISONER_ACCOUNTING_HEAD);
+        $auth->add($prisonerAccountingHead);
+        $prisonerAccountingExpert = $auth->createRole(Module::ROLE_PRISONER_ACCOUNTING_EXPERT);
+        $auth->add($prisonerAccountingExpert);
+
 
         $companyHead = $auth->createRole(Module::ROLE_COMPANY_HEAD);
         $companyHead->description = 'Company Head';

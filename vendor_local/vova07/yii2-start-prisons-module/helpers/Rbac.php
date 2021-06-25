@@ -42,6 +42,18 @@ class Rbac
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
        }
 
+       $permissions = [
+           Module::PERMISSION_PRISONERS_SECURITY_LIST,
+           Module::PERMISSION_PRISONERS_SECURITY_VIEW,
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_PRISONER_ACCOUNTING_HEAD,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_PRISONER_ACCOUNTING_EXPERT,$permissionName);
+       }
+
 
        // Permissions
        $permissions = [
