@@ -39,16 +39,46 @@ class PrisonerController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['create','view','delete','update','upload-preview-photo','upload-photo','prison-sectors','sector-cells','edit-sector'],
+                'actions' => ['upload-preview-photo','upload-photo','prison-sectors','sector-cells','edit-sector'],
                 'roles' => ['@'],
 
             ],
             [
                 'allow' => true,
-                'actions' => ['index','cells'],
+                'actions' => ['create'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_CREATE],
+
+            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_UPDATE],
+
+            ],
+            [
+                'allow' => true,
+                'actions' => ['delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_DELETE],
+
+            ],
+            [
+                'allow' => true,
+                'actions' => ['view'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_VIEW],
+
+            ],
+            [
+                'allow' => true,
+                'actions' => ['index'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_LIST],
 
-            ]
+            ],
+            [
+            'allow' => true,
+            'actions' => ['cells'],
+            'roles' => [\vova07\rbac\Module::PERMISSION_PRISONERS_CELLS],
+
+        ]
         ];
         return $behaviors;
     }

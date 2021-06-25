@@ -29,17 +29,23 @@ class Rbac
 
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
-            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
-            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
-            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
-
-
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
         }
 
         $permissions = [
-
+            Module::PERMISSION_EVENT_PLANING_LIST,
+            Module::PERMISSION_EVENT_PLANING_UPDATE,
+            Module::PERMISSION_EVENT_PLANING_VIEW,
 
         ];
+
+        foreach($permissions as $permissionName){
+            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
+        }
 
     }
 }

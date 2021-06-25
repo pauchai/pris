@@ -1,6 +1,7 @@
 <?php
 namespace vova07\plans\models\backend;
 use vova07\plans\models\Program;
+use yii\helpers\ArrayHelper;
 
 /**
  * Created by PhpStorm.
@@ -28,10 +29,14 @@ class ProgramSearch extends Program
 
         $query = self::find();
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => $query
+            'query' => $query->joinWith('programDict')
         ]);
         $this->load($params);
         $this->validate();
+
+        if (\Yii::$app->user->can(\vova07\rbac\Module::PERMISSION_PRISONER_PLAN_PROGRAMS_PLANING) == false)
+            $query->where(['program_dicts.group_id' => ArrayHelper::getValue(\Yii::$app->user->identity->getPlanGroup(),'id')]);
+
 
         $query->andFilterWhere(
             [

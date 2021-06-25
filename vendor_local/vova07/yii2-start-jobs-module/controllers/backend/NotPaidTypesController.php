@@ -28,7 +28,7 @@ class NotPaidTypesController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index','create','view','delete','update'],
-                'roles' => ['@']
+                'roles' => [\vova07\rbac\Module::PERMISSION_NOT_PAID_TYPE_LIST]
             ]
         ];
         return $behaviors;

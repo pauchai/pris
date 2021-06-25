@@ -18,6 +18,21 @@ class Rbac
        $auth =    $auth = \Yii::$app->authManager;
 
        // Permissions
+
+       $permissions = [
+           Module::PERMISSION_PROGRAM_DICT_LIST,
+           Module::PERMISSION_PROGRAM_DICT_CREATE,
+           Module::PERMISSION_PROGRAM_DICT_UPDATE,
+           Module::PERMISSION_PROGRAM_DICT_DELETE,
+           Module::PERMISSION_PROGRAM_DICT_VIEW,
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+       }
+
        $permissions = [
            Module::PERMISSION_PRISONER_PLAN_VIEW,
            Module::PERMISSION_PROGRAMS_SUMMARIZED_LIST
@@ -28,6 +43,7 @@ class Rbac
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
         }
@@ -42,8 +58,7 @@ class Rbac
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
-
-       }
+           }
 
        $permissions = [
 
@@ -74,30 +89,51 @@ class Rbac
        }
 
        $permissions = [
-           Module::PERMISSION_PROGRAM_DELETE,
-
-
-
+           Module::PERMISSION_PROGRAM_LIST,
+           Module::PERMISSION_PROGRAM_VIEW,
 
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+        //   \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+
        }
 
        $permissions = [
+           Module::PERMISSION_PROGRAM_LIST,
+           Module::PERMISSION_PROGRAM_VIEW,
            Module::PERMISSION_PROGRAM_CREATE,
            Module::PERMISSION_PROGRAM_UPDATE,
-           Module::PERMISSION_PROGRAM_LIST,
-
-
 
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
-           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+       }
+       $permissions = [
+           Module::PERMISSION_PROGRAM_PRISONERS_ACCESS,
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+       }
+       $permissions = [
+           Module::PERMISSION_REQUIRENMENTS_PRISONER_MANAGMENT,
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
        }

@@ -25,13 +25,32 @@ class ProgramDictsController extends BackendController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
-                'roles' => ['@']
+                'actions' => ['index'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DICT_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['create'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DICT_CREATE]            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DICT_UPDATE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DICT_DELETE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['view'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_DICT_VIEW]
             ]
+
         ];
         return $behaviors;
     }

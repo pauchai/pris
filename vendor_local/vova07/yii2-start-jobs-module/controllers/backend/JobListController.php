@@ -34,7 +34,33 @@ class JobListController extends BackendController
                 'allow' => true,
                 'actions' => ['index','create','view','delete','update'],
                 'roles' => ['@']
+            ],
+            [
+                'allow' => true,
+                'actions' => ['index'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_JOBS_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['create'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_JOB_CREATE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_JOB_UPDATE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_JOB_DELETE]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['view'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_JOB_VIEW]
             ]
+
         ];
         return $behaviors;
     }

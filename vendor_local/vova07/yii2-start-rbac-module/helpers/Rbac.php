@@ -98,22 +98,28 @@ class Rbac
         $socReintagrationDepartmentExpert = $auth->createRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT);
         $auth->add($socReintagrationDepartmentExpert);
 
-        $auth->addChild($socReintagrationDepartmentEducator,$socReintagrationDepartmentExpert );
-        $auth->addChild($socReintagrationDepartmentHead, $socReintagrationDepartmentEducator);
+       // $auth->addChild($socReintagrationDepartmentEducator,$socReintagrationDepartmentExpert );
+      //  $auth->addChild($socReintagrationDepartmentHead, $socReintagrationDepartmentEducator);
 
         $socReintagrationDepartmentSociologist = $auth->createRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST);
         $auth->add($socReintagrationDepartmentSociologist);
         $socReintagrationDepartmentPsycologist = $auth->createRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST);
         $auth->add($socReintagrationDepartmentPsycologist);
+
         $financeDepartmentHead = $auth->createRole(Module::ROLE_FINANCE_DEPARTMENT_HEAD);
         $auth->add($financeDepartmentHead);
         $financeDepartmentExpert = $auth->createRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT);
         $auth->add($financeDepartmentExpert);
 
+       // $auth->addChild($financeDepartmentExpert,$financeDepartmentHead );
+
+
         $logisticAndAdministrationDepartmentHead = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_HEAD);
         $auth->add($logisticAndAdministrationDepartmentHead);
         $logisticAndAdministrationDepartmentExpert = $auth->createRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT);
         $auth->add($logisticAndAdministrationDepartmentExpert);
+
+         $auth->addChild($logisticAndAdministrationDepartmentExpert,$logisticAndAdministrationDepartmentHead );
 
         $companyHead = $auth->createRole(Module::ROLE_COMPANY_HEAD);
         $companyHead->description = 'Company Head';
@@ -152,7 +158,8 @@ class Rbac
         foreach ($users as $user)
         {
             $role = $authManager->getRole($user->role);
-            $authManager->assign($role,$user->primaryKey);
+            if ($role)
+                $authManager->assign($role,$user->primaryKey);
 
         }
     }

@@ -20,16 +20,26 @@ class Rbac
        // Permissions
        $permissions = [
            Module::PERMISSION_DOCUMENTS_LIST,
-           Module::PERMISSION_DOCUMENT_CREATE,
-           Module::PERMISSION_DOCUMENT_UPDATE,
-           Module::PERMISSION_DOCUMENT_DELETE,
            Module::PERMISSION_DOCUMENT_VIEW,
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+
+       }
+
+       $permissions = [
+           Module::PERMISSION_DOCUMENTS_LIST,
+           Module::PERMISSION_DOCUMENT_VIEW,
+           Module::PERMISSION_DOCUMENT_CREATE,
+           Module::PERMISSION_DOCUMENT_UPDATE,
+           Module::PERMISSION_DOCUMENT_DELETE,
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
-           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
 
        }
 

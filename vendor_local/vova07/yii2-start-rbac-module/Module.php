@@ -41,7 +41,10 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PRISONERS_LIST = "BPrisonerListRules";
     public const PERMISSION_PRISONERS_DELETE = "BPrisonerDelete";
     public const PERMISSION_PRISONERS_UPDATE = "BPrisonerUpdate";
+    public const PERMISSION_PRISONERS_CREATE = "BPrisonerCreate";
     public const PERMISSION_PRISONERS_VIEW = "BPrisonerVeiw";
+
+    public const PERMISSION_PRISONERS_CELLS = "BPrisonerCells";
 
     public const PERMISSION_PROGRAM_PLANING_CREATE = 'ProgramPlaningCreate';
     public const PERMISSION_PROGRAM_PLANING_DELETE = 'ProgramPlaningDelete';
@@ -53,6 +56,13 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_PROGRAM_DELETE = 'ProgramDelete';
     public const PERMISSION_PROGRAM_UPDATE = 'ProgramUpdate';
     public const PERMISSION_PROGRAM_CREATE = 'ProgramCreate';
+    public const PERMISSION_PROGRAM_VIEW = 'ProgramView';
+
+    public const PERMISSION_PROGRAM_DICT_LIST = 'ProgramDictList';
+    public const PERMISSION_PROGRAM_DICT_DELETE = 'ProgramDictDelete';
+    public const PERMISSION_PROGRAM_DICT_UPDATE = 'ProgramDictUpdate';
+    public const PERMISSION_PROGRAM_DICT_CREATE = 'ProgramDictCreate';
+    public const PERMISSION_PROGRAM_DICT_VIEW = 'ProgramDictView';
 
 
     public const PERMISSION_PRISONER_PLAN_VIEW = 'PrisonerPlanView';
@@ -107,6 +117,9 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_NOT_PAID_JOB_DELETE = 'BPermissionNotPaidJobDelete';
     public const PERMISSION_NOT_PAID_JOB_VIEW = 'BPermissionNotPaidJobView';
 
+    public const PERMISSION_NOT_PAID_TYPE_LIST = 'BPermissionNotPaidTypeList';
+    public const PERMISSION_PAID_TYPE_LIST = 'BPermissionPaidTypeList';
+
 
 
     public const PERMISSION_FINANCES_ACCESS = 'BPermissionFinancesAccess';
@@ -126,8 +139,15 @@ class Module extends \vova07\base\components\Module
     public const PERMISSION_ELECTRICITY_SUMMARIZED_LIST = 'BPermissionElectricitySummarizedList';
 
     public const PERMISSION_PROGRAM_PRISONERS_COMMENT_CREATE = "BPermissionProgramPrisonersCommentCreate";
+    public const PERMISSION_PROGRAM_PRISONERS_ACCESS = "BPERMISSION_PROGRAM_PRISONERS_ACCESS";
+
+    public const PERMISSION_REQUIRENMENTS_PRISONER_MANAGMENT = "BPERMISSION_REQUIRENMENTS_PRISONER_MANAGMENT";
 
     public const PERMISSION_PSYCHO_LIST = "BPermissionPsychoList";
+    public const PERMISSION_PSYCHO_CREATE = "BPermissionPsychoCreate";
+    public const PERMISSION_PSYCHO_UPDATE = "BPermissionPsychoUpdate";
+    public const PERMISSION_PSYCHO_DELETE = "BPermissionPsychoDelete";
+
     public const PERMISSION_PSYCHO_TESTS = "BPermissionPsychoTests";
 
 

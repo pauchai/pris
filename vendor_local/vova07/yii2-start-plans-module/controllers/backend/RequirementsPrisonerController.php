@@ -34,7 +34,7 @@ class RequirementsPrisonerController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['create', 'delete'],
-                'roles' => ['@']
+                'roles' => [\vova07\rbac\Module::PERMISSION_REQUIRENMENTS_PRISONER_MANAGMENT]
             ]
         ];
         return $behaviors;

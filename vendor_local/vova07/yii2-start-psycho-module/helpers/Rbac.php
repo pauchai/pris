@@ -20,15 +20,36 @@ class Rbac
        // Permissions
        $permissions = [
            Module::PERMISSION_PSYCHO_LIST,
-           Module::PERMISSION_PSYCHO_TESTS,
+
+
+         //  Module::PERMISSION_PSYCHO_TESTS,
+
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+
+        }
+
+       $permissions = [
+           Module::PERMISSION_PSYCHO_LIST,
+            Module::PERMISSION_PSYCHO_CREATE,
+           Module::PERMISSION_PSYCHO_UPDATE,
+           Module::PERMISSION_PSYCHO_DELETE,
+
+             Module::PERMISSION_PSYCHO_TESTS,
 
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
-        }
+       }
 
 
-}
+   }
 }

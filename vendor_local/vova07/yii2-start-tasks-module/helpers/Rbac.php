@@ -28,7 +28,32 @@ class Rbac
 
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+
+        }
+
+        $permissions = [
+            Module::PERMISSION_COMMITTIEE_LIST,
+            Module::PERMISSION_COMMITTIEE_VIEW,
+            Module::PERMISSION_COMMITTIEE_UPDATE,
+
+        ];
+
+        foreach($permissions as $permissionName){
+            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+        }
+
+        $permissions = [
+            Module::PERMISSION_COMMITTIEE_LIST,
+            Module::PERMISSION_COMMITTIEE_VIEW,
+        ];
+
+        foreach($permissions as $permissionName){
+            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_PSYCHOLOGIST,$permissionName);
         }
     }
 }

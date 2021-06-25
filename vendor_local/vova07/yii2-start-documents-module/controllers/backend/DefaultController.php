@@ -27,7 +27,7 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index','create','view','delete','update'],
+                'actions' => ['index'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_DOCUMENTS_LIST]
             ],
             [

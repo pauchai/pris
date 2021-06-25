@@ -72,7 +72,7 @@ use vova07\site\Module;
 
                           ],
                           ['label' => Module::t('menu','CELLS_PRISONERS_LIST'),'icon' => 'circle','url'=>['/users/prisoner/cells'],
-                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_LIST),
+                              'visible' => \vova07\rbac\helpers\Rbac::checkAccess(\vova07\rbac\Module::PERMISSION_PRISONERS_CELLS),
 
                           ],
 

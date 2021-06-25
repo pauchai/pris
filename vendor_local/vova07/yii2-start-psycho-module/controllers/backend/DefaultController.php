@@ -33,6 +33,26 @@ class DefaultController extends BackendController
                 'actions' => ['index' ,'index-print','create', 'update'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_LIST],
             ],
+            [
+                'allow' => true,
+                'actions' => ['index' ,'index-print'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_LIST],
+            ],
+            [
+                'allow' => true,
+                'actions' => ['create'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_CREATE],
+            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_UPDATE],
+            ],
+            [
+                'allow' => true,
+                'actions' => ['update'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_PSYCHO_DELETE],
+            ],
 
         ];
         return $behaviors;

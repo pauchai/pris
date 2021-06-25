@@ -25,9 +25,9 @@ class Rbac
 
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
-            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT,$permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_HEAD,$permissionName);
         }
 
         $permissions = [
@@ -41,7 +41,7 @@ class Rbac
 
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
-            \vova07\rbac\helpers\Rbac::addChildToPermission(Module::PERMISSION_ELECTRICITY_ACCESS,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT,$permissionName);
         }
 
         $permissions = [
@@ -52,6 +52,9 @@ class Rbac
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_HEAD,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT,$permissionName);
+
 
         }
 
@@ -63,6 +66,7 @@ class Rbac
         foreach($permissions as $permissionName){
             \vova07\rbac\helpers\Rbac::addPermission($permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_EXPERT,$permissionName);
+            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_FINANCE_DEPARTMENT_HEAD,$permissionName);
             \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_LOGISTIC_AND_ADMINISTRATION_DEPARTMENT_EXPERT,$permissionName);
 
         }

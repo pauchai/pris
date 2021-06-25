@@ -28,8 +28,19 @@ class Rbac
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
-           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
         }
+       $permissions = [
+           Module::PERMISSION_PRISONERS_SECURITY_LIST,
+           Module::PERMISSION_PRISONERS_SECURITY_VIEW,
+           Module::PERMISSION_PRISONERS_SECURITY_CREATE,
+           Module::PERMISSION_PRISONERS_SECURITY_UPDATE,
+       ];
+
+       foreach($permissions as $permissionName){
+           \vova07\rbac\helpers\Rbac::addPermission($permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+       }
 
 
        // Permissions
@@ -38,12 +49,15 @@ class Rbac
            Module::PERMISSION_PENALTY_CREATE,
            Module::PERMISSION_PENALTY_VIEW,
            Module::PERMISSION_PENALTY_UPDATE,
-           Module::PERMISSION_PENALTY_DELETE,
+
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addPermission($permissionName);
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EDUCATOR,$permissionName);
+
        }
    }
 }

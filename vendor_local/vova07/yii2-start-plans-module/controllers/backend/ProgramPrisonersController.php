@@ -35,8 +35,9 @@ class ProgramPrisonersController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['create', 'delete', 'participants', 'add-participant', 'view', 'update', 'index'],
-                'roles' => ['@']
+                'roles' => [\vova07\rbac\Module::PERMISSION_PROGRAM_PRISONERS_ACCESS]
             ],
+
             [
                 'allow' => true,
                 'actions' => ['createComment'],

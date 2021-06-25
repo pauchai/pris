@@ -31,7 +31,7 @@ class PaidTypesController extends BackendController
             [
                 'allow' => true,
                 'actions' => ['index','create','view','delete','update'],
-                'roles' => ['@']
+                'roles' => [\vova07\rbac\Module::PERMISSION_PAID_TYPE_LIST]
             ]
         ];
         return $behaviors;
