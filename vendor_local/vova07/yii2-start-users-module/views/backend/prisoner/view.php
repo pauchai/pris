@@ -31,6 +31,10 @@ $this->params['breadcrumbs'] = [
 CSS
 
 )?>
+<div><?=Html::a(
+        \vova07\reports\Module::t('default','PRISONER_FULL_REPORT_TITLE'),
+        \yii\helpers\Url::to(['/reports/prisoner/full-view', 'id' => $model->primaryKey],
+            ['class' => 'btn btn-info']))?></div>
 <?php
 $balanceRemain  = $model->getBalances()->debit()->sum('amount') - $model->getBalances()->credit()->sum('amount');
   \yii\bootstrap\NavBar::begin();

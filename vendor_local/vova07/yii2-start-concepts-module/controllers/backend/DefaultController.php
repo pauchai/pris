@@ -51,7 +51,11 @@ class DefaultController extends BackendController
                 'actions' => ['view'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_VIEW],
             ],
-
+            [
+                'allow' => true,
+                'actions' => ['delete'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_DELETE],
+            ],
 
         ];
         return $behaviors;

@@ -464,6 +464,19 @@ class Prisoner extends  OwnableItem
             return null;
     }
 
+    public function getTermRemain()
+    {
+        if ($this->term_start && $this->term_finish){
+            $termStart = new \DateTime;
+            $termFinish = ( new \DateTime( $this->term_finish))->modify('+1 day');
+
+            $interval = date_diff($termStart, $termFinish);
+
+            return $interval->format('%y years %m months %d days');
+        }
+        return null;
+    }
+
     public function getCalculatedUDO()
     {
         $termStart = new \DateTime( $this->term_start);

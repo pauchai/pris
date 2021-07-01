@@ -123,7 +123,7 @@ class MaritalState extends  OwnableItem
             'ref_person_id' => Module::t('labels', "REF_PERSON_LABEL"),
             'status_id' => Module::t('labels', "MARITAL_STATUS_LABEL"),
             'document_id' => Module::t('labels', "DOCUMENT_TITLE_LABEL"),
-
+            'title' => Module::t('labels','MARITAL_STATE_TITLE_LABEL'),
 
         ];
     }

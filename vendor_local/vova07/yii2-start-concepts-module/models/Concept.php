@@ -195,4 +195,30 @@ class Concept extends  Ownableitem
             'year'
         );
     }
+
+    public function delete()
+    {
+        if (!$this->isTransactional(self::OP_DELETE)) {
+            return $this->deleteInternal();
+        }
+
+        $transaction = static::getDb()->beginTransaction();
+        try {
+            $result = $this->deleteInternal();
+            if ($result === false) {
+                $transaction->rollBack();
+            } else {
+                $transaction->commit();
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+    }
+
 }

@@ -191,6 +191,8 @@ class Person extends  Ownableitem
             'nationality' => Module::t('labels','PERSON_NATIONALITY_LABEL'),
             'education' => Module::t('labels','PERSON_EDUCATION_LABEL'),
             'speciality' => Module::t('labels','PERSON_SPECIALITY_LABEL'),
+            'person.maritalState.status.title' => Module::t('labels','PERSON_MARITAL_STATE_STATUS_LABEL'),
+
 
 
         ];
@@ -223,6 +225,10 @@ class Person extends  Ownableitem
         return $this->hasMany(MaritalState::class, ['__person_id' => '__ownableitem_id']);
     }
 
+    public function getMaritalState()
+    {
+        return self::getMaritals()->orderBy('__ownableitem_id desc')->one();
+    }
 
 
 }

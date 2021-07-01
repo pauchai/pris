@@ -116,9 +116,13 @@ class DateJuiBehavior extends AttributeBehavior
                             //return Yii::$app->formatter->asDate($dateTime,$this->dateConvertFormat);
                             return $dateTime->format($this->dateConvertFormat);
                         }
+                    } elseif (!is_null($this->_juiValue) ) {
+                           return null;
                     } else {
-                        $attr = $this->attribute;
-                        return $this->owner->$attr;
+
+                            $attr = $this->attribute;
+                            return $this->owner->$attr;
+
                     }
 
                 }
