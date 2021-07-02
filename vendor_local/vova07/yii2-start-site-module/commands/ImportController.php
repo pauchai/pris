@@ -101,6 +101,13 @@ class ImportController extends \yii\console\Controller
         return ExitCode::OK;
     }
 
+    public function actionNotPaidJobTimeTable()
+    {
+        $this->doLogin();
+        ImportHelper::ImportNotPaidJobTimeTable();
+        return ExitCode::OK;
+    }
+
 
     public function actionUserJobs()
     {

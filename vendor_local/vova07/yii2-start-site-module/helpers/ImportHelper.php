@@ -12,6 +12,7 @@ namespace vova07\site\helpers;
 use vova07\countries\models\Country;
 use vova07\finances\models\Balance;
 use vova07\finances\models\BalanceCategory;
+use vova07\jobs\models\JobNotPaid;
 use vova07\jobs\models\JobNotPaidType;
 use vova07\jobs\models\JobPaid;
 use vova07\jobs\models\JobPaidType;
@@ -22,6 +23,7 @@ use vova07\documents\models\Document;
 use vova07\prisons\models\Prison;
 use vova07\prisons\models\Sector;
 use vova07\prisons\Module;
+use vova07\tasks\models\Committee;
 use vova07\users\models\Ident;
 use vova07\users\models\Person;
 use vova07\users\models\Prisoner;
@@ -344,6 +346,46 @@ public static function ImportUserJobs()
 
     }
 
+    public static function ImportNotPaidJobTimeTable()
+    {
+        Yii::$app->db->transaction(function ($db) {
+            $dataDir = Yii::getAlias(self::MATERIALS_DIR);
+            $csvFile = $dataDir . 'JobTimeTable.tsv';
+            $fileHandler = fopen($csvFile, 'r');
+            $csv = new CsvFile(['fileName' => $csvFile, 'cellDelimiter' => "\t"]);
+
+            while ($csv->eof === false) {
+                $csv->read();
+                $prisoner = Prisoner::findOne(['origin_id' => $csv->getField('userId')]);
+                if (!$prisoner)
+                    continue;
+                $sum = 0;
+                for ($i = 1; $i <= 12; $i++) {
+                    $sum += (integer)$csv->getField($i . 'np');
+                };
+                if (!$sum)
+                    continue;
+
+                $jobNotPaid = new JobNotPaid();
+                $jobNotPaid->prison_id = (integer)Company::ID_PRISON_PU1;
+                $jobNotPaid->prisoner_id = $prisoner->primaryKey;
+                $jobNotPaid->month_no = 1;
+                $jobNotPaid->year = (integer)$csv->getField('rYear');
+                $jobNotPaid->type_id = 1;//Amenajarea teritoriului penitenciarului
+
+                $oldValue = $jobNotPaid->getAttribute('1d');
+                $jobNotPaid->setAttribute('1d', $oldValue + $sum);
+                if (!$jobNotPaid->save()) {
+                    throw new \Exception();
+                };
+                unset($jobNotPaid);
+
+
+            }
+        });
+
+    }
+
     public static function ImportBalanceCategories()
     {
         $dataDir =  Yii::getAlias(self::MATERIALS_DIR);
@@ -362,6 +404,8 @@ public static function ImportUserJobs()
             $balanceCategory->save();
         }
     }
+
+
 
     public static function ImportBalance()
     {
