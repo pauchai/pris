@@ -123,7 +123,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     <tr>
         <td style="width:20%; vertical-align:top"><b> Nota: </b></td>
         <td style="width:80%">Sancţiunea disciplinară activă în perioada <?=date('d.m.Y',$penalty->date_start)?> - <?=date('d.m.Y', $penalty->date_finish)?>
-            <p><?=$educator->rank->title?>  ___________________ <?=$educator->person->getFio(true,false)?></p>
+            <p><?php echo Yii::$app->user->identity->officer->rank->title;//$educator->rank->title?>  ___________________ <?php  echo Yii::$app->user->identity->officer->person->fio;//$educator->person->getFio(true,false)?></p>
 
         </td>
     </tr>
