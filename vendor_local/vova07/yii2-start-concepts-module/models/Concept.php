@@ -40,7 +40,7 @@ class Concept extends  Ownableitem
     public function rules()
     {
         return [
-            [['prison_id','assigned_to', 'title', 'slug', 'status_id'], 'required'],
+            [['prison_id','assigned_to', 'dict_id', 'status_id'], 'required'],
 
             [['dateStartJui', 'dateFinishJui'], 'date'],
         ];
@@ -54,8 +54,9 @@ class Concept extends  Ownableitem
             'fields' => [
                 Helper::getRelatedModelIdFieldName(OwnableItem::class) => Schema::TYPE_PK . ' ',
                 'prison_id' => Schema::TYPE_INTEGER . ' NOT NULL',
-                'title' => Schema::TYPE_STRING . ' NOT NULL',
-                'slug' => Schema::TYPE_STRING . " NOT NULL",
+                //'title' => Schema::TYPE_STRING . ' NOT NULL',
+               // 'slug' => Schema::TYPE_STRING . " NOT NULL",
+                'dict_id' => $migration->integer()->notNull(),
                 'date_start' => Schema::TYPE_INTEGER . " NOT NULL",
                 'date_finish' => Schema::TYPE_INTEGER . " ",
                 'assigned_to' => Schema::TYPE_INTEGER . " NOT NULL",
@@ -71,6 +72,7 @@ class Concept extends  Ownableitem
             'foreignKeys' => [
                 [self::class, 'prison_id', Prison::class, Prison::primaryKey()],
                 [self::class, 'assigned_to', Officer::class, Officer::primaryKey()],
+                [self::class, 'dict_id', ConceptDict::class, ConceptDict::primaryKey()],
             ],
 
         ];
@@ -83,13 +85,7 @@ class Concept extends  Ownableitem
 
         if (get_called_class() == self::class) {
             $behaviors = [
-                [
-                    'class' => SluggableBehavior::class,
-                    'attribute' => 'title',
-                    'slugAttribute' => 'slug',
 
-                    'ensureUnique' => true,
-                ],
                 'saveRelations' => [
                     'class' => SaveRelationsBehavior::class,
                     'relations' => [
@@ -194,6 +190,11 @@ class Concept extends  Ownableitem
             'year',
             'year'
         );
+    }
+
+    public function getDict()
+    {
+        return $this->hasOne(ConceptDict::class, ['id'=>'dict_id']);
     }
 
     public function delete()

@@ -10,6 +10,8 @@ namespace vova07\concepts\models\backend;
 
 use vova07\base\components\DateJuiBehavior;
 use vova07\concepts\models\Concept;
+use vova07\concepts\models\ConceptDict;
+use yii\helpers\ArrayHelper;
 
 class ConceptSearch extends Concept
 {
@@ -35,7 +37,8 @@ class ConceptSearch extends Concept
     {
         return [
             [['dateStartFromJui', 'dateStartToJui'],'string'],
-            [['title'],'string'],
+            //[['title'],'string'],
+            [['dict.title'], 'string'],
             [['status_id'] , 'integer'],
             [['status_id'], 'default', 'value' => self::STATUS_ACTIVE]
 
@@ -49,6 +52,7 @@ class ConceptSearch extends Concept
             'query' => $query
         ]);
 
+        $query->joinWith(['dict' => function($query) { $query->from(['dict' => ConceptDict::tableName()]); }]);
 
         $dataProvider->sort = [
             'defaultOrder' => [
@@ -64,7 +68,7 @@ class ConceptSearch extends Concept
 
             ]);
             $dataProvider->query->andFilterWhere(
-                ['like', 'title', $this->title  ]
+                ['like', 'dict.title', $this->getAttribute('dict.title')  ]
             );
             $dataProvider->query->andFilterWhere(
                 ['>=', 'date_start', $this->dateStartFrom  ]
@@ -79,4 +83,9 @@ class ConceptSearch extends Concept
 
     }
 
+    public function attributes()
+    {
+// делаем поле зависимости доступным для поиска
+        return array_merge(parent::attributes(), ['dict.title']);
+    }
 }

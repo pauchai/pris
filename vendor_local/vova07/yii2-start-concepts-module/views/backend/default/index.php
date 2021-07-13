@@ -39,7 +39,7 @@ $this->params['breadcrumbs'] = [
     'columns' => [
         ['class' => yii\grid\SerialColumn::class],
         'date_start:date',
-        'title',
+        'dict.title',
 
         [
             'attribute'=>'status_id',

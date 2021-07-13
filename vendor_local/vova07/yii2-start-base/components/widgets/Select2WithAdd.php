@@ -14,12 +14,17 @@ use Mpdf\Tag\Select;
 use yii\bootstrap\InputWidget;
 use yii\helpers\ArrayHelper;
 use lo\widgets\modal\ModalAjax;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 
 class Select2WithAdd extends Select2
 {
     public $newUrl;
+    public $modalTitle = 'Create Person';
+    public $keyAttribute = '__ownableitem_id';
+    public $resultAttributes = ['second_name', 'first_name', 'patronymic'];
+
 
 
 
@@ -28,6 +33,9 @@ class Select2WithAdd extends Select2
     {
         $modalId = 'person_modal';
         $modalBeforeShow = ModalAjax::EVENT_BEFORE_SHOW;
+
+        $newIdString = 'data.model.'. $this->keyAttribute;
+        $newValString =join('+ " " +',array_map(function($item){return 'data.model.' . $item;}, $this->resultAttributes));
         echo ModalAjax::widget([
     'id' => $modalId,
     //'url' => $this->newUrl,
@@ -35,9 +43,10 @@ class Select2WithAdd extends Select2
     'events' => [
         ModalAjax::EVENT_MODAL_SUBMIT => new JsExpression(<<<JS
                 function(event, data, status, xhr) {
+         
                     if(status){
-                        window.select2with_add.new_id = data.model.__ownableitem_id;
-                        window.select2with_add.new_val = data.model.second_name +  ' ' + data.model.first_name + ' ' + data.model.patronymic;
+                        window.select2with_add.new_id = $newIdString;
+                        window.select2with_add.new_val = $newValString;
                         $(this).modal('toggle');
                     }
                 }
@@ -63,7 +72,7 @@ JS
 JS
 )
     ],
-    'header' => 'Create Person',
+    'header' => $this->modalTitle,
     'url' => $this->newUrl,
     'ajaxSubmit' => true, // Submit the contained form as ajax, true by default
     'size' => ModalAjax::SIZE_LARGE,

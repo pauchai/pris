@@ -5,6 +5,8 @@ use vova07\concepts\Module;
 use vova07\events\models\Event;
 use vova07\prisons\models\Prison;
 use vova07\users\models\Officer;
+use vova07\concepts\models\ConceptDict;
+use vova07\base\components\widgets\Select2WithAdd;
 /**
  * @var $this \yii\web\View
  * @var $model \vova07\events\models\Event
@@ -16,7 +18,24 @@ use vova07\users\models\Officer;
 
 <?php $form = ActiveForm::begin()?>
 
-<?=$form->field($model,'title')?>
+<?=$form->field($model,'dict_id')->widget(Select2WithAdd::class,
+    [
+        'data' => ConceptDict::getListForCombo(),
+        'newUrl' => ['create-dict-ajax'],
+        'modalTitle' => 'Create Dict',
+        'keyAttribute' => 'id',
+        'resultAttributes' => ['title'],
+
+        'pluginOptions' => [
+
+            'placeholder' =>Module::t('default','SELECT_CONCEPT_DICT'),
+
+            'allowClear' => true,
+        ]
+    ]
+
+)
+?>
 
 <?=$form->field($model,'prison_id')->dropDownList(Prison::getListForCombo(),['prompt'=>Module::t('default','SELECT_PRISON')])?>
 <?=$form->field($model,'dateStartJui')->widget(\kartik\widgets\DatePicker::class)?>

@@ -5,7 +5,7 @@ use vova07\concepts\Module;
  * @var $model \vova07\concepts\models\Concept
   */
 $this->title = Module::t("default","CONCEPTS_TITLE");
-$this->params['subtitle'] = $model->title;
+$this->params['subtitle'] = $model->dict->title;
 ?>
 
 
