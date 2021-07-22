@@ -192,6 +192,11 @@ class Concept extends  Ownableitem
         );
     }
 
+    public function getTitle()
+    {
+        return $this->dict->title;
+    }
+
     public function getDict()
     {
         return $this->hasOne(ConceptDict::class, ['id'=>'dict_id']);
