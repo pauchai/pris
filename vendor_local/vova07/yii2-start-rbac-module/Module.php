@@ -126,6 +126,7 @@ class Module extends \vova07\base\components\Module
 
     public const PERMISSION_FINANCES_ACCESS = 'BPermissionFinancesAccess';
     public const PERMISSION_FINANCES_LIST = 'BPermissionFinancesList';
+    public const PERMISSION_FINANCES_VIEW = 'BPermissionFinancesView';
     public const PERMISSION_FINANCES_LIST_REMAIN_ONLY = 'BPermissionFinancesListRemainOnly';
     public const PERMISSION_FINANCES_LIST_DEPS_BY_RANG = 'BPermissionFinancesListDepsByRang';
 

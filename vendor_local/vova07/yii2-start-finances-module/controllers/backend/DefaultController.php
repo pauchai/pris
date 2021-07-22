@@ -31,8 +31,13 @@ class DefaultController extends BackendController
         $behaviors['access']['rules'] = [
             [
                 'allow' => true,
-                'actions' => ['index', 'view'],
+                'actions' => ['index'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_LIST]
+            ],
+            [
+                'allow' => true,
+                'actions' => ['view'],
+                'roles' => [\vova07\rbac\Module::PERMISSION_FINANCES_VIEW]
             ],
             [
                 'allow' => true,
