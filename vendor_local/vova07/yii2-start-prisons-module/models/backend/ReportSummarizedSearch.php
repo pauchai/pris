@@ -11,6 +11,7 @@ namespace vova07\prisons\models\backend;
 
 use vova07\concepts\models\Concept;
 use vova07\concepts\models\ConceptClass;
+use vova07\concepts\models\ConceptDict;
 use vova07\concepts\models\ConceptParticipant;
 use vova07\concepts\models\ConceptVisit;
 use vova07\events\models\Event;
@@ -223,6 +224,7 @@ class ReportSummarizedSearch extends Model
             ->leftJoin(ConceptClass::tableName() . ' cc', 'cv.class_id = cc.__ownableitem_id')
             ->leftJoin(ConceptParticipant::tableName() . ' cp', 'cv.participant_id = cp.__ownableitem_id')
             ->leftJoin(Concept::tableName() . ' c', 'cp.concept_id = c.__ownableitem_id')
+            ->leftJoin(ConceptDict::tableName() . ' cd', 'c.dict_id = cd.id')
             ->leftJoin(Prisoner::tableName() .' pr', 'pr.__person_id = cp.prisoner_id');
 
 
@@ -247,7 +249,7 @@ class ReportSummarizedSearch extends Model
             ->groupBy(['cp.concept_id'])
             ->select([
                 'cp.concept_id',
-                'c.title',
+                'cd.title',
                 'participants_count' => 'count(DISTINCT cp.prisoner_id)'
             ]);
 
