@@ -13,6 +13,7 @@ namespace vova07\concepts\controllers\backend;
 use vova07\base\components\BackendController;
 use vova07\concepts\models\backend\ConceptSearch;
 use vova07\concepts\models\Concept;
+use vova07\concepts\models\ConceptDict;
 use vova07\psycho\models\backend\PrisonerCharacteristicSearch;
 use vova07\psycho\models\PsyCharacteristic;
 use vova07\psycho\Module;
@@ -36,7 +37,7 @@ class DefaultController extends BackendController
 
             [
                 'allow' => true,
-                'actions' => ['create'],
+                'actions' => ['create', 'create-dict-ajax'],
                 'roles' => [\vova07\rbac\Module::PERMISSION_CONCEPT_CREATE],
             ],
 
@@ -138,4 +139,39 @@ class DefaultController extends BackendController
         throw new \LogicException(Module::t('default',"CANT_DELETE"));
     }
 
+    public function actionCreateDictAjax()
+    {
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+
+
+        $model = new ConceptDict();
+        //$model->scenario = Officer::SCENARIO_LITE;
+
+
+        if ($model->load(\Yii::$app->request->post())){
+            if ($model->validate() && $model->save()) {
+
+                // JSON response is expected in case of successful save
+                return ['success' => true, 'model' => $model->attributes];
+
+            } else {
+                return ['success' => false, 'error' => $model->getErrorSummary(true)];
+
+
+            }
+        } else {
+
+            if ($suggestion = \Yii::$app->request->get('suggestion'))
+                $model->title = $suggestion;
+        }
+
+
+
+
+        return $this->renderAjax("create_dict", ['model' => $model, 'cancelUrl' => ['index']]);
+
+
+    }
 }

@@ -11,7 +11,7 @@ use vova07\concepts\models\ConceptVisit;
  * @var $model \vova07\concepts\models\Concept
  */
 $this->title = Module::t("default","CONCEPT_TITLE");
-$this->params['subtitle'] = $model->title;
+$this->params['subtitle'] = $model->dict->title;
 $this->params['breadcrumbs'] = [
     [
         'label' => $this->title,
@@ -30,8 +30,8 @@ $this->params['breadcrumbs'] = [
 <?php echo \yii\widgets\DetailView::widget([
     'model' => $model,
     'attributes' => [
-        'title',
-        'slug',
+        'dict.title',
+        'dict.slug',
 
     ]
 ])?>
