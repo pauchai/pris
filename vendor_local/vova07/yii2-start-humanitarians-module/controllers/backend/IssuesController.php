@@ -114,6 +114,7 @@ class IssuesController extends BackendController
             $searchModel = new HumanitarianByPrisonerPivotSearch();
             $searchModel->issue_id = $id;
             $dataProvider =  $searchModel->search(\Yii::$app->request->get());
+            $dataProvider->query->andWhere(['pr.status_id' => Prisoner::STATUS_ACTIVE]);
 
 
 
