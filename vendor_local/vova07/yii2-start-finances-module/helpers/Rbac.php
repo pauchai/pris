@@ -59,17 +59,17 @@ class Rbac
 
 
        }
-       $permissions = [
-           Module::PERMISSION_FINANCES_ACCESS,
-           Module::PERMISSION_FINANCES_VIEW,
-           Module::PERMISSION_FINANCES_LIST_DEPS_BY_RANG,
-           // Module::PERMISSION_FINANCES_LIST_REMAIN_ONLY,
 
+       $permissions = [
+           Module::PERMISSION_FINANCES_VIEW,
 
        ];
 
        foreach($permissions as $permissionName){
            \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_HEAD,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_SOCIOLOGIST,$permissionName);
+           \vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,$permissionName);
+
        }
 
        //\vova07\rbac\helpers\Rbac::addChildToRole(Module::ROLE_SOC_REINTEGRATION_DEPARTMENT_EXPERT,Module::PERMISSION_FINANCES_LIST_REMAIN_ONLY);
