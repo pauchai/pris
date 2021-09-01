@@ -19,7 +19,7 @@ $this->params['breadcrumbs'] = [
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
         'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{update}{delete}'
+        'buttonsTemplate' => '{update}'
     ]
 );?>
 
