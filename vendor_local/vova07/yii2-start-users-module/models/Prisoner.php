@@ -49,6 +49,7 @@ use vova07\users\Module;
 use yii\base\Event;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\db\Expression;
@@ -424,7 +425,11 @@ class Prisoner extends  OwnableItem
     }
     public function getConcepts()
     {
-        return $this->hasMany(Concept::class, ['__ownableitem_id' => 'concept_id'])->via('conceptParticipants');
+        return $this->hasMany(Concept::class, ['__ownableitem_id' => 'concept_id'])->via('conceptParticipants')->joinWith([
+            'dict' => function(ActiveQuery $query){
+
+            }
+        ]);
     }
 
     public function getTests()

@@ -111,7 +111,7 @@ class PrisonerFullViewPresenter extends \yii\base\Model
     {
         $res = [];
 
-            foreach ($this->prisoner->getConcepts()->orderBy('title')->all() as $concept){
+            foreach ($this->prisoner->getConcepts()->orderBy('concept_dicts.title')->all() as $concept){
                 //$years = (new Query())->from(ConceptClass::tableName())->select(['year' => new Expression('YEAR(DATE(FROM_UNIXTIME(at)))')])->distinct()->column();
                 $res[] = [
                     'conceptId' => $concept->primaryKey,
