@@ -14,7 +14,7 @@ $this->params['subtitle'] = $model->device->title;
 <?php $box = \vova07\themes\adminlte2\widgets\Box::begin(
     [
        'title' => $this->params['subtitle'],
-        'buttonsTemplate' => '{cancel}'
+        'buttonsTemplate' => '{cancel}{delete}'
     ]
 );?>
 
