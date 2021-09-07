@@ -88,13 +88,13 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
         </td>
 
         <td width="50%"  style="padding-left:10px;" >
-            <p style="margin:0px"><b><?=Yii::$app->user->identity->officer->post->title?></b></p>
-            <p style="margin:0px"><?=Yii::$app->user->identity->officer->rank->title?></p>
+            <p style="margin:0px"><b>Secţia Reintegrare Socială</b></p>
+            <p style="margin:0px">_____________________________________________</p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
-            <p style="margin:0px"><?=Yii::$app->user->identity->officer->person->fio?></p>
+            <p style="margin:0px">_____________________________________________</p>
             <p style="margin:0px"><?=date('d.m.Y')?></p>
 
         </td>
@@ -123,7 +123,7 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
     <tr>
         <td style="width:20%; vertical-align:top"><b> Nota: </b></td>
         <td style="width:80%">Sancţiunea disciplinară activă în perioada <?=date('d.m.Y',$penalty->date_start)?> - <?=date('d.m.Y', $penalty->date_finish)?>
-            <p><?php echo Yii::$app->user->identity->officer->rank->title;//$educator->rank->title?>  ___________________ <?php  echo Yii::$app->user->identity->officer->person->fio;//$educator->person->getFio(true,false)?></p>
+            <p>_________________________________________________________</p>
 
         </td>
     </tr>
