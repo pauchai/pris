@@ -3,8 +3,8 @@
  * @var $this \yii\web\View
  */
 
-$pageWidth = \vova07\base\helpers\Printer::FORMAT_A5_WIDTH_INCH;
-$pageHeight = \vova07\base\helpers\Printer::FORMAT_A5_HEIGHT_INCH;
+$pageWidth = \vova07\base\helpers\Printer::FORMAT_A4_WIDTH_INCH;
+$pageHeight = \vova07\base\helpers\Printer::FORMAT_A4_HEIGHT_INCH;
 
 $this->registerCss(<<<CSS
         @page {
