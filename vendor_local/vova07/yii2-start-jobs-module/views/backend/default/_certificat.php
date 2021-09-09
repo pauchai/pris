@@ -89,12 +89,12 @@ La instrucţiunea cu privire la procedura compensării privilegiată a zilelor d
 
         <td width="50%"  style="padding-left:10px;" >
             <p style="margin:0px"><b>Secţia Reintegrare Socială</b></p>
-            <p style="margin:0px">_____________________________________________</p>
+            <p style="margin:0px">____________________________________</p>
             <br/>
             <p >
                 <span class="field" style="width:100%" value="" ></span>
             </p>
-            <p style="margin:0px">_____________________________________________</p>
+            <p style="margin:0px">____________________________________</p>
             <p style="margin:0px"><?=date('d.m.Y')?></p>
 
         </td>
