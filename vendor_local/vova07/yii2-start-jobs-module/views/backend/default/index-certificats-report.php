@@ -7,21 +7,15 @@ $pageWidth = \vova07\base\helpers\Printer::FORMAT_A5_WIDTH_INCH;
 $pageHeight = \vova07\base\helpers\Printer::FORMAT_A5_HEIGHT_INCH;
 
 $this->registerCss(<<<CSS
-@media print {
-    @page{
-        size: A5 portrait;
+        @page {
+        size: ${pageWidth}in ${pageHeight}in;
+        margin: 6mm
+        }
+    body{
+    font-size:12px
     }
-    body {
-    
-    margin: 6mm;
-    font-size:12px;
-    }
-    
-    
-}
-
 CSS
-);
+        );
 ?>
 
 <?php
