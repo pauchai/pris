@@ -29,6 +29,7 @@ $this->params['breadcrumbs'] = [
 );?>
 <?php echo $this->render('_search',['model' => $searchModel])?>
 
+<?php $template = (\Yii::$app->authManager->checkAccess(\Yii::$app->user->id, vova07\rbac\Module::ROLE_SUPERADMIN))?"{view} {update} {delete}":"{view} {update}"?>
 <?php echo GridView::widget(['dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'striped' => true,
@@ -68,7 +69,7 @@ $this->params['breadcrumbs'] = [
         ],
         [
             'class' => \yii\grid\ActionColumn::class,
-            'template' => '{view} {update} '
+            'template' => $template
         ]
 
     ]

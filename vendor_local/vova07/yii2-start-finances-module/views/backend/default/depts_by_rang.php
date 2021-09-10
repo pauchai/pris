@@ -260,7 +260,7 @@ $gridColumns[] = [
     'filterInputOptions' => ['class'=>''],
     'content' => function($model){
 
-        return Html::a($model->prisoner->getDevices()->count(),['/electricity/devices/index', 'DeviceSearch[prisoner_id]' => $model->prisoner_id],['label label-default']);
+        return Html::a($model->prisoner->getDevices()->active_or_inactive()->count(),['/electricity/devices/index', 'DeviceSearch[prisoner_id]' => $model->prisoner_id],['label label-default']);
     }
 
 

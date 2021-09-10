@@ -50,9 +50,29 @@ class DeviceQuery extends ActiveQuery
         );
 
     }
-
     public function active()
     {
         return $this->andWhere(['status_id' => Device::STATUS_ID_ACTIVE]);
+    }
+
+    public function deleted()
+    {
+        return $this->andWhere(['status_id' => Device::STATUS_ID_DELETED]);
+    }
+
+    public function inactive()
+    {
+        return $this->andWhere(['status_id' => Device::STATUS_ID_INACTIVE]);
+    }
+    public function active_or_inactive()
+    {
+        return $this->andWhere(
+            new Expression("status_id = :active_status OR status_id = :inactive_status",
+                [
+                    ':active_status'  => Device::STATUS_ID_ACTIVE,
+                    ':inactive_status'  => Device::STATUS_ID_INACTIVE,
+                ])
+
+        );
     }
 }

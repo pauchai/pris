@@ -41,6 +41,7 @@ class Device extends  Ownableitem
     const CALCULATION_METHOD_HOURS0_5 = 5;
 
     const STATUS_ID_ACTIVE = 1;
+    const STATUS_ID_INACTIVE = 2;
 
 
     public static function tableName()
@@ -223,7 +224,9 @@ class Device extends  Ownableitem
     {
         return [
             self::STATUS_ID_ACTIVE => Module::t('default', 'STATUS_ACTIVE_LABEL'),
+            self::STATUS_ID_INACTIVE => Module::t('default', 'STATUS_INACTIVE_LABEL'),
             self::STATUS_ID_DELETED => Module::t('default', 'STATUS_DELETED_LABEL')
+
         ];
     }
     public function getStatus()

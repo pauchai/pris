@@ -106,7 +106,7 @@ class BalanceByPrisonerWithCategoryViewSearch extends BalanceByPrisonerWithCateg
         if ($this->hasDevices == true)
         {
             $query->andFilterWhere(
-                ['in', 'prisoner_id', Device::find()->select('prisoner_id')->distinct()]
+                ['in', 'prisoner_id', Device::find()->active_or_inactive()->select('prisoner_id')->distinct()]
             );
         }
         if ($this->withoutJobs == true)
