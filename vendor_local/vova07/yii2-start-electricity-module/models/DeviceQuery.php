@@ -35,11 +35,17 @@ class DeviceQuery extends ActiveQuery
           new Expression('not isnull(prisoner_id)')
         );
     }
-    public function withoutPrisoner()
+    public function withoutPrisoner($isOr = false)
     {
-        return $this->andWhere(
-            new Expression('isnull(prisoner_id)')
-        );
+        $expression = new Expression('isnull(prisoner_id)');
+        if ($isOr)
+            return $this->orWhere(
+                $expression
+            );
+        else
+            return $this->andWhere(
+                $expression
+            );
     }
 
     public function activePrisoners()

@@ -32,12 +32,15 @@ class DeviceSearch extends \vova07\electricity\models\Device
      */
     public function search($params)
     {
+        $query =  self::find()->joinWith([
+            'person' => function($query){
+                return $query->from(['person' => 'person']);
+            }
+        ]);
+        $query->activePrisoners();
+        $query->withoutPrisoner(true);
         $dataProvider = new \yii\data\ActiveDataProvider([
-            'query' => self::find()->joinWith([
-                'person' => function($query){
-                    return $query->from(['person' => 'person']);
-                }
-            ])
+            'query' => $query
         ]);
         $dataProvider->query->orderBy([
             'person.second_name' => SORT_ASC,
@@ -53,6 +56,8 @@ class DeviceSearch extends \vova07\electricity\models\Device
             $dataProvider->query->andFilterWhere(
                 ['like', 'title', $this->title]);
         }
+
+
 
         return $dataProvider;
 
